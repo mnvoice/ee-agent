@@ -1,0 +1,202 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix ee:   <http://ee-agent.kr/ontology#> .
+
+# ---------------------------------------------------------------------------
+# Ontology declaration
+# ---------------------------------------------------------------------------
+
+<http://ee-agent.kr/ontology>
+    a owl:Ontology ;
+    rdfs:label "Korean Electrical Engineer Exam Ontology"@en ;
+    rdfs:comment "OWL-DL ontology for representing concepts, formulas, regulations, and exam problems in the Korean Electrical Engineer certification exam."@en .
+
+# ---------------------------------------------------------------------------
+# Classes
+# ---------------------------------------------------------------------------
+
+ee:Problem
+    a owl:Class ;
+    rdfs:label "Problem"@en ;
+    rdfs:label "문제"@ko ;
+    rdfs:comment "A single exam problem from the Korean Electrical Engineer exam."@en .
+
+ee:Concept
+    a owl:Class ;
+    rdfs:label "Concept"@en ;
+    rdfs:label "개념"@ko ;
+    rdfs:comment "A theoretical concept or knowledge unit in electrical engineering."@en .
+
+ee:Formula
+    a owl:Class ;
+    rdfs:label "Formula"@en ;
+    rdfs:label "공식"@ko ;
+    rdfs:comment "A mathematical or physical formula applicable to electrical engineering problems."@en .
+
+ee:Regulation
+    a owl:Class ;
+    rdfs:label "Regulation"@en ;
+    rdfs:label "법규"@ko ;
+    rdfs:comment "An electrical safety regulation or code article."@en .
+
+ee:Subject
+    a owl:Class ;
+    rdfs:label "Subject"@en ;
+    rdfs:label "과목"@ko ;
+    rdfs:comment "An exam subject area grouping related problems and concepts."@en .
+
+ee:DiagramTopology
+    a owl:Class ;
+    rdfs:label "DiagramTopology"@en ;
+    rdfs:label "도면위상"@ko ;
+    rdfs:comment "A circuit or system topology diagram associated with exam problems."@en .
+
+# ---------------------------------------------------------------------------
+# Subject individuals
+# ---------------------------------------------------------------------------
+
+ee:ElectricalTheory
+    a ee:Subject ;
+    rdfs:label "전기이론"@ko ;
+    rdfs:label "Electrical Theory"@en .
+
+ee:ElectricalMachines
+    a ee:Subject ;
+    rdfs:label "전기기기"@ko ;
+    rdfs:label "Electrical Machines"@en .
+
+ee:PowerSystems
+    a ee:Subject ;
+    rdfs:label "전력공학"@ko ;
+    rdfs:label "Power Systems"@en .
+
+ee:ControlEngineering
+    a ee:Subject ;
+    rdfs:label "제어공학"@ko ;
+    rdfs:label "Control Engineering"@en .
+
+ee:ElectricalSafety
+    a ee:Subject ;
+    rdfs:label "전기설비기술기준"@ko ;
+    rdfs:label "Electrical Safety Regulations"@en .
+
+ee:CircuitTheory
+    a ee:Subject ;
+    rdfs:label "회로이론"@ko ;
+    rdfs:label "Circuit Theory"@en .
+
+# ---------------------------------------------------------------------------
+# Object Properties
+# ---------------------------------------------------------------------------
+
+ee:requires
+    a owl:ObjectProperty ;
+    rdfs:label "requires"@en ;
+    rdfs:comment "A problem or concept requires knowledge of a concept to be solved or understood."@en ;
+    rdfs:domain ee:Problem ;
+    rdfs:range ee:Concept .
+
+ee:applies
+    a owl:ObjectProperty ;
+    rdfs:label "applies"@en ;
+    rdfs:comment "A problem applies (uses) a specific formula in its solution."@en ;
+    rdfs:domain ee:Problem ;
+    rdfs:range ee:Formula .
+
+ee:references
+    a owl:ObjectProperty ;
+    rdfs:label "references"@en ;
+    rdfs:comment "A problem references a legal regulation article."@en ;
+    rdfs:domain ee:Problem ;
+    rdfs:range ee:Regulation .
+
+ee:belongsTo
+    a owl:ObjectProperty ;
+    a owl:FunctionalProperty ;
+    rdfs:label "belongsTo"@en ;
+    rdfs:comment "A problem belongs to exactly one subject area (Functional property)."@en ;
+    rdfs:domain ee:Problem ;
+    rdfs:range ee:Subject .
+
+ee:dependsOn
+    a owl:ObjectProperty ;
+    a owl:TransitiveProperty ;
+    rdfs:label "dependsOn"@en ;
+    rdfs:comment "A concept depends on another concept as a prerequisite (Transitive property)."@en ;
+    rdfs:domain ee:Concept ;
+    rdfs:range ee:Concept .
+
+ee:hasTopology
+    a owl:ObjectProperty ;
+    rdfs:label "hasTopology"@en ;
+    rdfs:comment "A problem has an associated circuit or system diagram topology."@en ;
+    rdfs:domain ee:Problem ;
+    rdfs:range ee:DiagramTopology .
+
+# ---------------------------------------------------------------------------
+# Datatype Properties
+# ---------------------------------------------------------------------------
+
+ee:questionText
+    a owl:DatatypeProperty ;
+    rdfs:label "questionText"@en ;
+    rdfs:comment "The full text of the exam question stem."@en ;
+    rdfs:domain ee:Problem ;
+    rdfs:range xsd:string .
+
+ee:correctAnswer
+    a owl:DatatypeProperty ;
+    rdfs:label "correctAnswer"@en ;
+    rdfs:comment "The integer index (1-4) of the correct answer choice."@en ;
+    rdfs:domain ee:Problem ;
+    rdfs:range xsd:integer .
+
+ee:year
+    a owl:DatatypeProperty ;
+    rdfs:label "year"@en ;
+    rdfs:comment "The examination year in which this problem appeared."@en ;
+    rdfs:domain ee:Problem ;
+    rdfs:range xsd:integer .
+
+ee:latexExpression
+    a owl:DatatypeProperty ;
+    rdfs:label "latexExpression"@en ;
+    rdfs:comment "The LaTeX source string representing a formula."@en ;
+    rdfs:domain ee:Formula ;
+    rdfs:range xsd:string .
+
+ee:articleNumber
+    a owl:DatatypeProperty ;
+    rdfs:label "articleNumber"@en ;
+    rdfs:comment "The regulation article number (e.g., '제175조')."@en ;
+    rdfs:domain ee:Regulation ;
+    rdfs:range xsd:string .
+
+ee:difficultyScore
+    a owl:DatatypeProperty ;
+    rdfs:label "difficultyScore"@en ;
+    rdfs:comment "Numeric difficulty score: 1 (easy), 2 (medium), 3 (hard)."@en ;
+    rdfs:domain ee:Problem ;
+    rdfs:range xsd:integer .
+
+# ---------------------------------------------------------------------------
+# OWL-DL Restrictions
+# ---------------------------------------------------------------------------
+
+# Problem must belong to exactly one Subject
+ee:Problem
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty ee:belongsTo ;
+        owl:cardinality 1
+    ] .
+
+# Problem must require at least one Concept
+ee:Problem
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty ee:requires ;
+        owl:minCardinality 1
+    ] .

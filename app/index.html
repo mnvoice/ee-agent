@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>전기기사 학습</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="css/style.css">
+<style>#debug-log{position:fixed;top:0;left:0;right:0;background:#1a1a2e;color:#0f0;font-family:monospace;font-size:11px;padding:6px;z-index:99999;max-height:150px;overflow:auto;white-space:pre-wrap}</style>
+</head>
+<body>
+<div id="debug-log">boot...</div>
+
+<div id="loading-screen" role="status">
+  <h1>전기기사 학습</h1>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill"></div></div>
+  <div class="loading-text">초기화 중...</div>
+</div>
+
+<div id="app" role="application">
+  <header class="app-header"><h1>⚡ 전기기사</h1></header>
+  <main class="app-content" id="app-content">
+    <div id="view-all" class="view active"></div>
+    <div id="view-subject" class="view"></div>
+    <div id="view-tag" class="view"></div>
+    <div id="view-wrong" class="view"></div>
+    <div id="view-settings" class="view"></div>
+    <div id="view-question" class="view"><div id="question-container"></div></div>
+  </main>
+  <nav id="q-nav-bar" class="q-nav-bar" style="display:none">
+    <button id="nav-prev" class="nav-btn">◀ 이전</button>
+    <button id="pencil-btn" class="nav-btn pencil-btn">✏️ 필기</button>
+    <div id="nav-counter" class="nav-counter">1 / 1</div>
+    <button id="nav-next" class="nav-btn">다음 ▶</button>
+  </nav>
+  <nav class="tab-bar">
+    <button class="tab-btn active" data-tab="all"><span class="tab-icon">📚</span><span>전체</span></button>
+    <button class="tab-btn" data-tab="subject"><span class="tab-icon">📖</span><span>과목별</span></button>
+    <button class="tab-btn" data-tab="tag"><span class="tab-icon">🔍</span><span>태그별</span></button>
+    <button class="tab-btn" data-tab="wrong"><span class="tab-icon">✗</span><span>오답노트</span></button>
+    <button class="tab-btn" data-tab="settings"><span class="tab-icon">⚙️</span><span>설정</span></button>
+  </nav>
+</div>
+
+<div id="pen-toolbar" class="pen-toolbar">
+  <button class="pen-tool-btn black" data-tool="black">●</button>
+  <button class="pen-tool-btn red" data-tool="red">●</button>
+  <button class="pen-tool-btn yellow" data-tool="yellow">■</button>
+  <div class="pen-toolbar-divider"></div>
+  <button class="pen-tool-btn eraser" data-tool="eraser">⊘</button>
+  <button class="pen-tool-btn clear-all" id="clear-annotation-btn">전체 삭제</button>
+  <div class="pen-toolbar-divider"></div>
+  <button class="pen-tool-btn close-pen" id="close-pen-btn">✕</button>
+</div>
+
+<canvas id="annotation-canvas"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+<script>
+// Debug logger
+var dlog = document.getElementById('debug-log');
+function log(m) { console.log(m); dlog.textContent += '\n' + m; dlog.scrollTop = dlog.scrollHeight; }
+window.onerror = function(msg, src, line) { log('ERR: ' + msg + ' @' + (src||'').split('/').pop() + ':' + line); };
+window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' + (e.reason && e.reason.message || e.reason)); });
+
+(function() {
+  'use strict';
+  log('1. IIFE start');
+
+  var S = function(sel) { return document.querySelector(sel); };
+  var SS = function(sel) { return document.querySelectorAll(sel); };
+
+  // ======== IndexedDB ========
+  var DB_NAME = 'ee-study-db';
+  var DB_VERSION = 2;
+  var _db = null;
+
+  function openDB() {
+    if (_db) return Promise.resolve(_db);
+    return new Promise(function(resolve, reject) {
+      var req = indexedDB.open(DB_NAME, DB_VERSION);
+      req.onupgradeneeded = function(e) {
+        var db = e.target.result;
+        if (!db.objectStoreNames.contains('annotations'))
+          db.createObjectStore('annotations', { keyPath: 'id' });
+        if (!db.objectStoreNames.contains('progress')) {
+          var s = db.createObjectStore('progress', { keyPath: 'id' });
+          s.createIndex('by_wrong', 'wrongCount', { unique: false });
+        }
+        if (!db.objectStoreNames.contains('questions_cache'))
+          db.createObjectStore('questions_cache', { keyPath: 'key' });
+      };
+      req.onsuccess = function(e) { _db = e.target.result; resolve(_db); };
+      req.onerror = function() { reject(req.error); };
+    });
+  }
+
+  function tx(store, mode) {
+    return _db.transaction(store, mode || 'readonly').objectStore(store);
+  }
+
+  function pr(req) {
+    return new Promise(function(resolve, reject) {
+      req.onsuccess = function() { resolve(req.result); };
+      req.onerror = function() { reject(req.error); };
+    });
+  }
+
+  function saveAnnotation(qId, strokes) {
+    return pr(tx('annotations', 'readwrite').put({ id: qId, strokes: strokes, updatedAt: Date.now() }));
+  }
+
+  function loadAnnotation(qId) {
+    return pr(tx('annotations', 'readonly').get(qId)).then(function(r) { return r ? r.strokes : []; });
+  }
+
+  function getAllAnnotations() { return pr(tx('annotations').getAll()); }
+
+  function saveProgress(qId, opts) {
+    return pr(tx('progress', 'readonly').get(qId)).then(function(existing) {
+      existing = existing || { id: qId, wrongCount: 0 };
+      var updated = {
+        id: existing.id, answeredAt: Date.now(),
+        isCorrect: opts.isCorrect, userAnswer: opts.userAnswer,
+        wrongCount: opts.isCorrect ? existing.wrongCount : (existing.wrongCount || 0) + 1
+      };
+      return pr(tx('progress', 'readwrite').put(updated)).then(function() { return updated; });
+    });
+  }
+
+  function getAllProgress() { return pr(tx('progress').getAll()); }
+
+  function getWrongIds() {
+    return getAllProgress().then(function(all) {
+      return all.filter(function(p) { return p.wrongCount > 0; })
+        .sort(function(a, b) { return b.wrongCount - a.wrongCount; })
+        .map(function(p) { return p.id; });
+    });
+  }
+
+  function clearAllProgress() { return pr(tx('progress', 'readwrite').clear()); }
+
+  function exportData() {
+    return Promise.all([getAllAnnotations(), getAllProgress()]).then(function(r) {
+      return { annotations: r[0], progress: r[1], exportedAt: new Date().toISOString(), version: 1 };
+    });
+  }
+
+  function importData(data) {
+    var anns = data.annotations || [], prog = data.progress || [];
+    var p = Promise.resolve();
+    if (anns.length > 0) {
+      p = p.then(function() {
+        var t = _db.transaction('annotations', 'readwrite');
+        var s = t.objectStore('annotations');
+        anns.forEach(function(i) { s.put(i); });
+        return new Promise(function(ok, fail) { t.oncomplete = ok; t.onerror = function() { fail(t.error); }; });
+      });
+    }
+    if (prog.length > 0) {
+      p = p.then(function() {
+        var t = _db.transaction('progress', 'readwrite');
+        var s = t.objectStore('progress');
+        prog.forEach(function(i) { s.put(i); });
+        return new Promise(function(ok, fail) { t.oncomplete = ok; t.onerror = function() { fail(t.error); }; });
+      });
+    }
+    return p;
+  }
+
+  // ======== Data Store ========
+  var _questions = [];
+
+  function loadQuestions(onProgress) {
+    if (_questions.length > 0) return Promise.resolve(_questions);
+    if (onProgress) onProgress(10, '데이터 로딩 중...');
+    return fetch('./data/questions.json').then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      if (onProgress) onProgress(50, '파싱 중...');
+      return r.json();
+    }).then(function(data) {
+      _questions = data;
+      _questions.forEach(function(q) { q._id = q.year + '_' + q.session + '_' + q.q_no; });
+      if (onProgress) onProgress(100, '완료');
+      return _questions;
+    });
+  }
+
+  function filterBySubject(subj) { return _questions.filter(function(q) { return q.subject === subj; }); }
+  function filterByTag(tag) { return _questions.filter(function(q) { return q.tag === tag; }); }
+  function filterByYearSession(year, session) {
+    return _questions.filter(function(q) { return q.year === parseInt(year) && q.session === session; });
+  }
+  function filterByIds(ids) {
+    var m = {}; _questions.forEach(function(q) { m[q._id] = q; });
+    return ids.map(function(id) { return m[id]; }).filter(Boolean);
+  }
+  function getSubjects() {
+    var s = {}; _questions.forEach(function(q) { if (q.subject) s[q.subject] = 1; });
+    return Object.keys(s).sort();
+  }
+  function getTagsBySubject() {
+    var m = {};
+    _questions.forEach(function(q) {
+      if (!q.subject || !q.tag) return;
+      if (!m[q.subject]) m[q.subject] = {};
+      m[q.subject][q.tag] = 1;
+    });
+    var r = {};
+    Object.keys(m).sort().forEach(function(s) { r[s] = Object.keys(m[s]).sort(); });
+    return r;
+  }
+  function getYearSessions() {
+    var m = {};
+    _questions.forEach(function(q) {
+      if (!q.year || !q.session) return;
+      var k = String(q.year);
+      if (!m[k]) m[k] = {};
+      m[k][q.session] = 1;
+    });
+    var entries = Object.keys(m).sort(function(a, b) { return parseInt(b) - parseInt(a); });
+    var r = {};
+    entries.forEach(function(y) { r[y] = Object.keys(m[y]).sort(); });
+    return r;
+  }
+  function countBySubject() {
+    var c = {}; _questions.forEach(function(q) { c[q.subject] = (c[q.subject] || 0) + 1; }); return c;
+  }
+  function countByTag() {
+    var c = {}; _questions.forEach(function(q) { if (q.tag) c[q.tag] = (c[q.tag] || 0) + 1; }); return c;
+  }
+  function countByYearSession() {
+    var c = {}; _questions.forEach(function(q) { c[q.year + '_' + q.session] = (c[q.year + '_' + q.session] || 0) + 1; }); return c;
+  }
+  function searchQ(query, limit) {
+    limit = limit || 50;
+    if (!query || query.trim().length < 1) return [];
+    var q = query.trim().toLowerCase(), results = [];
+    for (var i = 0; i < _questions.length && results.length < limit; i++) {
+      var x = _questions[i];
+      if ((x.text || '').toLowerCase().indexOf(q) >= 0 || (x.tag || '').toLowerCase().indexOf(q) >= 0 || (x.subject || '').toLowerCase().indexOf(q) >= 0)
+        results.push(x);
+    }
+    return results;
+  }
+
+  // ======== Renderer ========
+  var _katexReady = false, _katexQueue = [];
+
+  function setKatexReady() {
+    _katexReady = true;
+    _katexQueue.forEach(function(fn) { fn(); });
+    _katexQueue.length = 0;
+  }
+
+  function renderMath(el) {
+    function doRender() {
+      if (!window.renderMathInElement) return;
+      try {
+        window.renderMathInElement(el, {
+          delimiters: [
+            { left: '\\[', right: '\\]', display: true },
+            { left: '\\(', right: '\\)', display: false },
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false, errorColor: '#f85149'
+        });
+      } catch (e) { console.warn('KaTeX err:', e); }
+    }
+    if (_katexReady) doRender();
+    else _katexQueue.push(doRender);
+  }
+
+  function esc(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  var SC = {
+    '전기자기학': '#58a6ff', '전기기기': '#3fb950', '전력공학': '#f0883e',
+    '회로이론': '#bc8cff', '전기설비기술기준': '#e3b341', '제어공학': '#79c0ff'
+  };
+  function sc(subj) { return SC[subj] || '#8b949e'; }
+
+  function renderChoices(choices, answered, correctAns, userAns) {
+    return choices.map(function(text, idx) {
+      var num = idx + 1, cls = 'choice-btn';
+      if (answered) {
+        if (num === correctAns) cls += ' correct';
+        else if (num === userAns && num !== correctAns) cls += ' wrong';
+      }
+      return '<li><button class="' + cls + '" data-choice="' + num + '" ' +
+        (answered ? 'disabled' : '') + '>' + esc(text) + '</button></li>';
+    }).join('');
+  }
+
+  function renderQCard(q, opts) {
+    opts = opts || {};
+    var answered = opts.answered, userAns = opts.userAnswer, progress = opts.progress;
+    var isCorrect = answered && userAns === q.answer;
+    var isWrong = answered && userAns !== null && userAns !== q.answer;
+    var c = sc(q.subject);
+
+    var h = '<div class="question-view fade-in" data-q-id="' + esc(q._id) + '"><div class="question-scroll-area">';
+    // Meta
+    h += '<div class="q-meta">';
+    h += '<span class="q-badge subject" style="color:' + c + ';border-color:' + c + '40;background:' + c + '14">' + esc(q.subject) + '</span>';
+    h += '<span class="q-badge tag">' + esc(q.tag || '') + '</span>';
+    h += '<span class="q-badge year-session">' + q.year + '년 ' + esc(q.session) + ' Q' + q.q_no + '</span>';
+    h += '</div>';
+    // Text
+    h += '<div class="q-text">' + (q.text || '') + '</div>';
+    // Figure
+    if (q.figure_svg) h += '<div class="q-figure">' + q.figure_svg + '</div>';
+    // Choices
+    h += '<ul class="choices-list">' + renderChoices(q.choices || [], answered, q.answer, userAns) + '</ul>';
+    // Result
+    if (answered) {
+      if (isCorrect) h += '<div class="result-indicator correct show" role="alert"><span>\u2713</span> 정답입니다!</div>';
+      else if (isWrong) h += '<div class="result-indicator wrong show" role="alert"><span>\u2717</span> 오답입니다. 정답: ' + q.answer + '번</div>';
+    }
+    // Solution
+    if (answered) {
+      var stepsH = '';
+      if (q.steps) {
+        [['인식','recognize'],['변환','transform'],['계산','calculate']].forEach(function(pair) {
+          if (q.steps[pair[0]]) {
+            stepsH += '<div class="step-block"><div class="step-label ' + pair[1] + '">' + pair[0] + '</div><div class="step-content">' + q.steps[pair[0]] + '</div></div>';
+          }
+        });
+      }
+      h += '<div class="solution-section"><button class="solution-toggle" aria-expanded="false">풀이 보기 <span class="chevron">\u25BC</span></button>';
+      h += '<div class="solution-body">' + stepsH;
+      if (q.solution) h += '<div class="solution-text">' + esc(q.solution) + '</div>';
+      if (q.solution_svg) h += '<div class="sol-figure">' + q.solution_svg + '</div>';
+      h += '</div></div>';
+    }
+    h += '</div></div>';
+    return h;
+  }
+
+  function renderQListItem(q, progress) {
+    var has = progress && progress.answeredAt;
+    var icon = has ? (progress.isCorrect ? '\u2713' : '\u2717') : '';
+    var col = has ? (progress.isCorrect ? 'var(--green)' : 'var(--red)') : '';
+    var c = sc(q.subject);
+    return '<div class="wrong-item" data-q-id="' + esc(q._id) + '" role="button" tabindex="0">' +
+      '<div class="wrong-item-header">' +
+      '<span class="q-badge subject" style="font-size:0.75rem;padding:2px 8px;color:' + c + ';border-color:' + c + '40;background:' + c + '14">' + esc(q.subject) + '</span>' +
+      '<span style="font-size:0.8rem;color:var(--muted)">' + q.year + '년 ' + esc(q.session) + ' Q' + q.q_no + '</span>' +
+      (has ? '<span style="color:' + col + ';margin-left:auto;font-size:1rem">' + icon + '</span>' : '') +
+      '</div><div class="wrong-item-text">' + esc(q.text || '') + '</div>' +
+      (progress && progress.wrongCount ? '<div class="wrong-count-badge">오답 ' + progress.wrongCount + '회</div>' : '') +
+      '</div>';
+  }
+
+  // ======== Annotation ========
+  var TOOLS = {
+    black: { color: '#000000', lineWidth: 2.5, opacity: 1.0 },
+    red: { color: '#f85149', lineWidth: 2.5, opacity: 1.0 },
+    yellow: { color: '#ffe600', lineWidth: 18, opacity: 0.4 },
+    eraser: { color: null, lineWidth: 24, opacity: 1.0 }
+  };
+  var _canvas = null, _ctx = null, _curTool = 'black', _drawing = false;
+  var _activeStroke = null, _strokes = [], _dirty = false, _saveTimer = null, _onSave = null;
+
+  function initAnnotation(canvas, onSave) {
+    _canvas = canvas; _ctx = canvas.getContext('2d'); _onSave = onSave;
+    _ctx.lineCap = 'round'; _ctx.lineJoin = 'round';
+    canvas.addEventListener('pointerdown', onPD);
+    canvas.addEventListener('pointermove', onPM);
+    canvas.addEventListener('pointerup', onPU);
+    canvas.addEventListener('pointercancel', onPU);
+    canvas.addEventListener('touchstart', function(e) { if (_drawing) e.preventDefault(); }, { passive: false });
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+  }
+
+  function resizeCanvas() {
+    if (!_canvas) return;
+    var r = _canvas.getBoundingClientRect();
+    _canvas.width = r.width; _canvas.height = r.height;
+    redrawAll();
+  }
+
+  function setDrawingMode(on) {
+    _drawing = on;
+    if (on) _canvas.classList.add('drawing-mode');
+    else _canvas.classList.remove('drawing-mode');
+  }
+  function isDrawingMode() { return _drawing; }
+  function setTool(t) { if (TOOLS[t]) _curTool = t; }
+
+  function loadStrokesData(s) {
+    _strokes = s ? JSON.parse(JSON.stringify(s)) : [];
+    _dirty = false; redrawAll();
+  }
+  function clearStrokesData() { _strokes = []; _dirty = true; redrawAll(); schedSave(); }
+  function flushSave() {
+    if (_saveTimer) { clearTimeout(_saveTimer); _saveTimer = null; }
+    if (_dirty && _onSave) { _onSave(_strokes); _dirty = false; }
+  }
+
+  function onPD(e) {
+    if (!_drawing || e.pointerType === 'touch') return;
+    e.preventDefault(); _canvas.setPointerCapture(e.pointerId);
+    var c = cCoords(e), t = TOOLS[_curTool];
+    _activeStroke = { tool: _curTool, color: t.color, lineWidth: t.lineWidth, opacity: t.opacity, points: [{ x: c.x, y: c.y, p: e.pressure || 1 }] };
+  }
+  function onPM(e) {
+    if (!_drawing || !_activeStroke || e.pointerType === 'touch') return;
+    e.preventDefault();
+    var evts = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+    evts.forEach(function(ev) { var c = cCoords(ev); _activeStroke.points.push({ x: c.x, y: c.y, p: ev.pressure || 1 }); });
+    redrawAll(); drawStroke(_activeStroke);
+  }
+  function onPU() {
+    if (!_activeStroke) return;
+    if (_activeStroke.points.length > 1) {
+      if (_curTool === 'eraser') applyEraser(_activeStroke);
+      else _strokes.push(_activeStroke);
+      _dirty = true; schedSave();
+    }
+    _activeStroke = null; redrawAll();
+  }
+  function cCoords(e) { var r = _canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+  function drawStroke(s) {
+    var p = s.points;
+    if (p.length < 2) { _ctx.save(); _ctx.globalAlpha = s.opacity; _ctx.fillStyle = s.color; _ctx.beginPath(); _ctx.arc(p[0].x, p[0].y, s.lineWidth / 2, 0, Math.PI * 2); _ctx.fill(); _ctx.restore(); return; }
+    _ctx.save(); _ctx.globalAlpha = s.opacity; _ctx.strokeStyle = s.color; _ctx.lineWidth = s.lineWidth;
+    _ctx.beginPath(); _ctx.moveTo(p[0].x, p[0].y);
+    for (var i = 1; i < p.length - 1; i++) { _ctx.quadraticCurveTo(p[i].x, p[i].y, (p[i].x + p[i+1].x)/2, (p[i].y + p[i+1].y)/2); }
+    var last = p[p.length-1], sl = p[p.length-2];
+    _ctx.quadraticCurveTo(sl.x, sl.y, last.x, last.y);
+    _ctx.stroke(); _ctx.restore();
+  }
+  function redrawAll() { if (!_ctx || !_canvas) return; _ctx.clearRect(0, 0, _canvas.width, _canvas.height); _strokes.forEach(drawStroke); }
+  function applyEraser(es) {
+    var r = es.lineWidth;
+    _strokes = _strokes.filter(function(s) {
+      for (var i = 0; i < es.points.length; i++) for (var j = 0; j < s.points.length; j++) {
+        var dx = es.points[i].x - s.points[j].x, dy = es.points[i].y - s.points[j].y;
+        if (Math.sqrt(dx*dx + dy*dy) < r) return false;
+      }
+      return true;
+    });
+  }
+  function schedSave() {
+    if (_saveTimer) clearTimeout(_saveTimer);
+    _saveTimer = setTimeout(function() { if (_dirty && _onSave) { _onSave(_strokes); _dirty = false; } }, 800);
+  }
+
+  // ======== App State ========
+  var state = { activeTab: 'all', currentQueue: [], currentIndex: 0, answered: false, userAnswer: null, progressMap: {}, filterContext: null };
+
+  function curQ() { return state.currentQueue[state.currentIndex] || null; }
+
+  // ======== Init ========
+  function init() {
+    log('2. init()');
+    var progressBar = S('.progress-bar-fill'), loadingText = S('.loading-text');
+    function setProg(pct, msg) {
+      if (progressBar) progressBar.style.width = pct + '%';
+      if (loadingText) loadingText.textContent = msg;
+    }
+    setProg(5, 'DB 초기화...');
+
+    openDB().then(function() {
+      log('3. DB opened');
+      return loadQuestions(function(pct, msg) { setProg(5 + pct * 0.9, msg); });
+    }).then(function() {
+      log('4. Questions loaded: ' + _questions.length);
+      return getAllProgress();
+    }).then(function(allP) {
+      allP.forEach(function(p) { state.progressMap[p.id] = p; });
+      log('5. Progress loaded: ' + allP.length);
+      setProg(100, '완료');
+
+      S('#loading-screen').style.display = 'none';
+      S('#app').classList.add('visible');
+      log('6. App visible');
+
+      try {
+        initAnnotation(S('#annotation-canvas'), function(strokes) {
+          var q = curQ(); if (q) saveAnnotation(q._id, strokes);
+        });
+      } catch (e) { log('Annotation err: ' + e.message); }
+
+      try { bindEvents(); } catch (e) { log('Bind err: ' + e.message); }
+
+      if (window.renderMathInElement) setKatexReady();
+      window.addEventListener('load', function() {
+        if (window.renderMathInElement && !_katexReady) setKatexReady();
+      });
+
+      showTab('all');
+      log('7. DONE');
+      setTimeout(function() { dlog.style.display = 'none'; }, 3000);
+
+    }).catch(function(err) {
+      log('FATAL: ' + err.message + '\n' + (err.stack || ''));
+      S('#loading-screen').style.display = 'none';
+      var app = S('#app');
+      if (app) { app.classList.add('visible'); var v = S('#view-all'); if (v) { v.innerHTML = '<div style="padding:24px;color:var(--red)">로드 실패: ' + esc(err.message) + '<br><br><button onclick="location.reload()" style="padding:8px 16px;background:var(--blue);color:white;border:none;border-radius:6px">새로고침</button></div>'; v.classList.add('active'); } }
+    });
+  }
+
+  // ======== Tab Navigation ========
+  function showTab(tabName) {
+    state.activeTab = tabName;
+    SS('.tab-btn').forEach(function(b) { b.classList.toggle('active', b.dataset.tab === tabName); });
+    SS('.view').forEach(function(v) { v.classList.remove('active'); });
+    var qNav = S('#q-nav-bar');
+    if (tabName === 'question') {
+      S('#view-question').classList.add('active');
+      qNav.style.display = 'flex';
+      resizeCanvas();
+    } else {
+      qNav.style.display = 'none';
+      if (isDrawingMode()) { setDrawingMode(false); S('#pen-toolbar').classList.remove('visible'); S('#pencil-btn').classList.remove('drawing'); }
+      var el = S('#view-' + tabName);
+      if (el) el.classList.add('active');
+      if (tabName === 'all') renderAllView();
+      else if (tabName === 'subject') renderSubjectView();
+      else if (tabName === 'tag') renderTagView();
+      else if (tabName === 'wrong') renderWrongView();
+      else if (tabName === 'settings') renderSettingsView();
+    }
+  }
+
+  // ======== All View ========
+  function renderAllView() {
+    var view = S('#view-all'), subjects = getSubjects(), counts = countBySubject();
+    var total = 0; Object.keys(counts).forEach(function(k) { total += counts[k]; });
+    var h = '<div class="section-header"><h2>전체 문제</h2><span class="counter-badge">' + total.toLocaleString() + '문제</span></div>';
+    h += '<div class="grid-list">';
+    h += '<div class="grid-card" id="all-q-btn" role="button" tabindex="0" style="border-color:rgba(88,166,255,0.3);background:rgba(88,166,255,0.06)"><div class="card-title" style="color:var(--blue)">전체 문제</div><div class="card-count">' + total.toLocaleString() + '문제</div></div>';
+    subjects.forEach(function(s) {
+      h += '<div class="grid-card" data-subject="' + esc(s) + '" role="button" tabindex="0"><div class="card-title">' + esc(s) + '</div><div class="card-count">' + (counts[s]||0).toLocaleString() + '문제</div></div>';
+    });
+    h += '</div>';
+    view.innerHTML = h;
+
+    view.querySelector('#all-q-btn').addEventListener('click', function() { startSession(null, '전체 문제'); });
+    view.querySelectorAll('.grid-card[data-subject]').forEach(function(card) {
+      card.addEventListener('click', function() { startSession({ type: 'subject', value: card.dataset.subject }, card.dataset.subject); });
+    });
+  }
+
+  // ======== Subject View ========
+  function renderSubjectView() {
+    var view = S('#view-subject'), subjects = getSubjects(), counts = countBySubject(), tagsBySubj = getTagsBySubject();
+    var h = '<div class="section-header"><h2>과목별</h2></div>';
+    subjects.forEach(function(subj, idx) {
+      var tags = tagsBySubj[subj] || [], cnt = counts[subj] || 0;
+      h += '<div class="year-section"><div class="year-header" data-idx="' + idx + '" data-subject="' + esc(subj) + '" role="button" tabindex="0"><span>' + esc(subj) + '</span><span style="font-size:0.8rem;color:var(--muted)">' + cnt + '문제</span><span class="chevron">\u25BC</span></div>';
+      h += '<div class="year-sessions" id="subj-' + idx + '">';
+      h += '<div class="session-btn" data-subject="' + esc(subj) + '" data-all="1"><span>전체 ' + esc(subj) + '</span><span class="session-count">' + cnt + '문제</span></div>';
+      tags.forEach(function(tag) {
+        var tc = filterByTag(tag).filter(function(q) { return q.subject === subj; }).length;
+        h += '<div class="session-btn" data-subject="' + esc(subj) + '" data-tag="' + esc(tag) + '"><span>' + esc(tag) + '</span><span class="session-count">' + tc + '문제</span></div>';
+      });
+      h += '</div></div>';
+    });
+    view.innerHTML = h;
+
+    view.querySelectorAll('.year-header').forEach(function(hdr) {
+      hdr.addEventListener('click', function() {
+        var panel = view.querySelector('#subj-' + hdr.dataset.idx);
+        var open = hdr.classList.toggle('open');
+        panel.classList.toggle('open', open);
+      });
+    });
+    view.querySelectorAll('.session-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        if (btn.dataset.all) startSession({ type: 'subject', value: btn.dataset.subject }, btn.dataset.subject);
+        else startSession({ type: 'tag', value: btn.dataset.tag, subject: btn.dataset.subject }, btn.dataset.tag);
+      });
+    });
+  }
+
+  // ======== Tag View ========
+  function renderTagView() {
+    var view = S('#view-tag'), tagsBySubj = getTagsBySubject(), allCounts = countByTag();
+    var yearSess = getYearSessions(), ysCounts = countByYearSession(), searchTO = null;
+    view.innerHTML = '<div class="section-header"><h2>연도별 / 태그별</h2></div><div class="search-wrap"><input type="search" class="search-input" id="tag-search" placeholder="태그, 과목, 문제 검색..." autocomplete="off"></div><div id="tag-content"></div>';
+    var contentEl = view.querySelector('#tag-content'), searchInput = view.querySelector('#tag-search');
+
+    function renderDefault() {
+      var h = '<div class="section-header" style="padding-top:8px"><h2 style="font-size:0.95rem">연도별</h2></div>';
+      Object.keys(yearSess).forEach(function(year) {
+        var sessions = yearSess[year];
+        h += '<div class="year-section"><div class="year-header" data-year="' + year + '" role="button" tabindex="0"><span>' + year + '년</span><span style="font-size:0.8rem;color:var(--muted)">' + sessions.length + '회차</span><span class="chevron">\u25BC</span></div>';
+        h += '<div class="year-sessions" id="year-' + year + '">';
+        sessions.forEach(function(sess) {
+          h += '<div class="session-btn" data-year="' + year + '" data-session="' + esc(sess) + '"><span>' + year + '년 ' + esc(sess) + '</span><span class="session-count">' + (ysCounts[year + '_' + sess] || 0) + '문제</span></div>';
+        });
+        h += '</div></div>';
+      });
+      h += '<div class="section-header" style="padding-top:12px"><h2 style="font-size:0.95rem">태그별</h2></div>';
+      Object.keys(tagsBySubj).forEach(function(subj) {
+        h += '<div class="section-header" style="padding-top:4px;padding-bottom:4px"><span style="font-size:0.85rem;color:var(--muted)">' + esc(subj) + '</span></div><div class="grid-list" style="padding-top:0">';
+        tagsBySubj[subj].forEach(function(tag) {
+          h += '<div class="grid-card" data-tag="' + esc(tag) + '" role="button" tabindex="0"><div class="card-title">' + esc(tag) + '</div><div class="card-count">' + (allCounts[tag]||0).toLocaleString() + '문제</div></div>';
+        });
+        h += '</div>';
+      });
+      contentEl.innerHTML = h;
+
+      contentEl.querySelectorAll('.year-header').forEach(function(hdr) {
+        hdr.addEventListener('click', function() {
+          var p = contentEl.querySelector('#year-' + hdr.dataset.year);
+          var o = hdr.classList.toggle('open'); p.classList.toggle('open', o);
+        });
+      });
+      contentEl.querySelectorAll('.session-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          startSession({ type: 'year', value: btn.dataset.year, session: btn.dataset.session }, btn.dataset.year + '년 ' + btn.dataset.session);
+        });
+      });
+      contentEl.querySelectorAll('.grid-card[data-tag]').forEach(function(card) {
+        card.addEventListener('click', function() { startSession({ type: 'tag', value: card.dataset.tag }, card.dataset.tag); });
+      });
+    }
+
+    function renderSearch(query) {
+      var results = searchQ(query, 60);
+      if (results.length === 0) { contentEl.innerHTML = '<div class="empty-state">검색 결과가 없습니다.</div>'; return; }
+      contentEl.innerHTML = '<div class="section-header"><span style="font-size:0.9rem;color:var(--muted)">"' + esc(query) + '" 검색 결과 ' + results.length + '건</span></div><div class="wrong-list">' +
+        results.map(function(q) { return renderQListItem(q, state.progressMap[q._id]); }).join('') + '</div>';
+      contentEl.querySelectorAll('.wrong-item').forEach(function(item) {
+        item.addEventListener('click', function() {
+          var idx = 0;
+          for (var i = 0; i < results.length; i++) { if (results[i]._id === item.dataset.qId) { idx = i; break; } }
+          startSession({ type: 'search', results: results }, '"' + query + '"', idx);
+        });
+      });
+    }
+
+    searchInput.addEventListener('input', function() {
+      clearTimeout(searchTO);
+      var q = searchInput.value.trim();
+      if (!q) { renderDefault(); return; }
+      searchTO = setTimeout(function() { renderSearch(q); }, 300);
+    });
+    renderDefault();
+  }
+
+  // ======== Wrong View ========
+  function renderWrongView() {
+    var view = S('#view-wrong');
+    getWrongIds().then(function(ids) {
+      if (ids.length === 0) {
+        view.innerHTML = '<div class="section-header"><h2>오답노트</h2></div><div class="empty-state"><span class="empty-icon">📝</span>아직 오답이 없습니다.<br>문제를 풀고 틀린 문제가<br>여기에 쌓입니다.</div>';
+        return;
+      }
+      var wqs = filterByIds(ids);
+      view.innerHTML = '<div class="section-header"><h2>오답노트</h2><span class="counter-badge">' + ids.length + '문제</span></div>' +
+        '<div style="padding:0 16px 8px"><button id="review-wrong-btn" class="settings-btn" style="width:100%;min-height:44px;background:rgba(248,81,73,0.12);color:var(--red);border:1px solid rgba(248,81,73,0.3)">오답 문제 다시 풀기 (' + ids.length + '문제)</button></div>' +
+        '<div class="wrong-list">' + wqs.map(function(q) { return renderQListItem(q, state.progressMap[q._id]); }).join('') + '</div>';
+
+      view.querySelector('#review-wrong-btn').addEventListener('click', function() { startSession({ type: 'wrong', ids: ids }, '오답노트'); });
+      view.querySelectorAll('.wrong-item').forEach(function(item) {
+        item.addEventListener('click', function() {
+          var idx = 0;
+          for (var i = 0; i < wqs.length; i++) { if (wqs[i]._id === item.dataset.qId) { idx = i; break; } }
+          startSession({ type: 'wrong', ids: ids }, '오답노트', idx);
+        });
+      });
+    });
+  }
+
+  // ======== Settings View ========
+  function renderSettingsView() {
+    var view = S('#view-settings');
+    getAllProgress().then(function(allP) {
+      var answered = allP.length;
+      var correct = allP.filter(function(p) { return p.isCorrect; }).length;
+      var wrong = allP.filter(function(p) { return p.wrongCount > 0; }).length;
+      var totalQ = 0, c = countBySubject(); Object.keys(c).forEach(function(k) { totalQ += c[k]; });
+
+      view.innerHTML =
+        '<div class="section-header"><h2>설정</h2></div>' +
+        '<div class="stats-grid"><div class="stat-card"><div class="stat-value">' + answered + '</div><div class="stat-label">풀이 완료</div></div>' +
+        '<div class="stat-card"><div class="stat-value" style="color:var(--green)">' + correct + '</div><div class="stat-label">정답</div></div>' +
+        '<div class="stat-card"><div class="stat-value" style="color:var(--red)">' + wrong + '</div><div class="stat-label">오답</div></div></div>' +
+        '<div class="settings-section"><div class="settings-label">데이터</div>' +
+        '<div class="settings-row" id="export-btn" role="button" tabindex="0"><div class="settings-row-text"><div class="settings-row-title">학습 데이터 내보내기</div><div class="settings-row-sub">풀이 기록 및 필기 내용 JSON 저장</div></div><button class="settings-btn">내보내기</button></div>' +
+        '<div class="settings-row" id="import-btn" role="button" tabindex="0"><div class="settings-row-text"><div class="settings-row-title">학습 데이터 가져오기</div><div class="settings-row-sub">이전에 내보낸 JSON 파일 불러오기</div></div><button class="settings-btn">가져오기</button></div>' +
+        '<input type="file" id="import-file-input" accept=".json" style="display:none"></div>' +
+        '<div class="settings-section"><div class="settings-label">초기화</div>' +
+        '<div class="settings-row" id="clear-prog-btn" role="button" tabindex="0"><div class="settings-row-text"><div class="settings-row-title">풀이 기록 삭제</div><div class="settings-row-sub">모든 풀이 기록을 삭제합니다</div></div><button class="settings-btn danger">삭제</button></div></div>' +
+        '<div class="settings-section"><div class="settings-label">앱 정보</div><div class="settings-row" style="cursor:default"><div class="settings-row-text"><div class="settings-row-title">전기기사 학습 PWA</div><div class="settings-row-sub">기출문제 ' + totalQ.toLocaleString() + '문제 · Apple Pencil 지원</div></div></div></div>';
+
+      view.querySelector('#export-btn').addEventListener('click', function() {
+        exportData().then(function(d) {
+          var blob = new Blob([JSON.stringify(d, null, 2)], { type: 'application/json' });
+          var url = URL.createObjectURL(blob), a = document.createElement('a');
+          a.href = url; a.download = 'ee-study-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+          a.click(); URL.revokeObjectURL(url);
+        });
+      });
+      var fi = view.querySelector('#import-file-input');
+      view.querySelector('#import-btn').addEventListener('click', function() { fi.click(); });
+      fi.addEventListener('change', function() {
+        var f = fi.files[0]; if (!f) return;
+        f.text().then(function(t) {
+          var d = JSON.parse(t);
+          if (d.version !== 1) { alert('지원하지 않는 파일 형식입니다.'); return; }
+          return importData(d).then(function() { return getAllProgress(); }).then(function(ap) {
+            state.progressMap = {}; ap.forEach(function(p) { state.progressMap[p.id] = p; });
+            alert('데이터를 성공적으로 가져왔습니다.'); renderSettingsView();
+          });
+        }).catch(function(e) { alert('파일을 읽는데 실패했습니다: ' + e.message); });
+      });
+      view.querySelector('#clear-prog-btn').addEventListener('click', function() {
+        if (!confirm('모든 풀이 기록을 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) return;
+        clearAllProgress().then(function() { state.progressMap = {}; alert('풀이 기록이 삭제되었습니다.'); renderSettingsView(); });
+      });
+    });
+  }
+
+  // ======== Session ========
+  function startSession(filter, title, startIdx) {
+    startIdx = startIdx || 0;
+    var qs = [];
+    if (!filter) qs = _questions.slice();
+    else if (filter.type === 'subject') qs = filterBySubject(filter.value);
+    else if (filter.type === 'tag') { qs = filterByTag(filter.value); if (filter.subject) qs = qs.filter(function(q) { return q.subject === filter.subject; }); }
+    else if (filter.type === 'year') qs = filterByYearSession(filter.value, filter.session);
+    else if (filter.type === 'wrong') qs = filterByIds(filter.ids);
+    else if (filter.type === 'search') qs = filter.results;
+
+    if (qs.length === 0) { alert('해당 조건에 문제가 없습니다.'); return; }
+    state.filterContext = filter; state.currentQueue = qs;
+    state.currentIndex = Math.max(0, Math.min(startIdx, qs.length - 1));
+    state.answered = false; state.userAnswer = null;
+    showTab('question'); showQuestion();
+  }
+
+  // ======== Show Question ========
+  function showQuestion() {
+    var q = curQ(); if (!q) return;
+    flushSave();
+    var prog = state.progressMap[q._id];
+    var answered = prog && prog.answeredAt ? true : false;
+    state.answered = answered;
+    state.userAnswer = answered ? (prog.userAnswer || null) : null;
+
+    var container = S('#question-container');
+    container.innerHTML = renderQCard(q, { answered: state.answered, userAnswer: state.userAnswer, progress: prog });
+
+    container.querySelectorAll('.choice-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { handleChoice(parseInt(btn.dataset.choice)); });
+    });
+
+    var tog = container.querySelector('.solution-toggle');
+    if (tog) {
+      tog.addEventListener('click', function() {
+        var body = container.querySelector('.solution-body');
+        var open = tog.classList.toggle('open');
+        body.classList.toggle('open', open);
+        if (open) renderMath(body);
+      });
+    }
+    renderMath(container);
+    updateNav();
+
+    loadAnnotation(q._id).then(function(s) { loadStrokesData(s); });
+    var sa = S('#app-content'); if (sa) sa.scrollTop = 0;
+  }
+
+  function handleChoice(num) {
+    if (state.answered) return;
+    var q = curQ(); if (!q) return;
+    state.answered = true; state.userAnswer = num;
+
+    saveProgress(q._id, { isCorrect: num === q.answer, userAnswer: num }).then(function(rec) {
+      state.progressMap[q._id] = rec;
+      var container = S('#question-container');
+      container.innerHTML = renderQCard(q, { answered: true, userAnswer: num, progress: rec });
+      var tog = container.querySelector('.solution-toggle');
+      if (tog) {
+        tog.addEventListener('click', function() {
+          var body = container.querySelector('.solution-body');
+          var open = tog.classList.toggle('open');
+          body.classList.toggle('open', open);
+          if (open) renderMath(body);
+        });
+      }
+      renderMath(container); updateNav();
+    });
+  }
+
+  function updateNav() {
+    var total = state.currentQueue.length;
+    S('#nav-counter').textContent = (state.currentIndex + 1) + ' / ' + total;
+    S('#nav-prev').disabled = state.currentIndex === 0;
+    S('#nav-next').disabled = state.currentIndex === total - 1;
+    var pb = S('#pencil-btn');
+    if (isDrawingMode()) pb.classList.add('drawing');
+    else pb.classList.remove('drawing');
+  }
+
+  // ======== Events ========
+  function bindEvents() {
+    SS('.tab-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { showTab(btn.dataset.tab); });
+    });
+
+    S('#nav-prev').addEventListener('click', function() {
+      if (state.currentIndex > 0) { state.currentIndex--; state.answered = false; state.userAnswer = null; showQuestion(); }
+    });
+    S('#nav-next').addEventListener('click', function() {
+      if (state.currentIndex < state.currentQueue.length - 1) { state.currentIndex++; state.answered = false; state.userAnswer = null; showQuestion(); }
+    });
+
+    var touchSX = 0, touchSY = 0, content = S('#app-content');
+    content.addEventListener('touchstart', function(e) { if (isDrawingMode()) return; touchSX = e.touches[0].clientX; touchSY = e.touches[0].clientY; }, { passive: true });
+    content.addEventListener('touchend', function(e) {
+      if (isDrawingMode() || state.activeTab !== 'question') return;
+      var dx = e.changedTouches[0].clientX - touchSX, dy = e.changedTouches[0].clientY - touchSY;
+      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        if (dx < 0 && state.currentIndex < state.currentQueue.length - 1) S('#nav-next').click();
+        else if (dx > 0 && state.currentIndex > 0) S('#nav-prev').click();
+      }
+    }, { passive: true });
+
+    var pencilBtn = S('#pencil-btn'), penToolbar = S('#pen-toolbar');
+    pencilBtn.addEventListener('click', function() {
+      var on = !isDrawingMode(); setDrawingMode(on);
+      penToolbar.classList.toggle('visible', on); pencilBtn.classList.toggle('drawing', on);
+    });
+    penToolbar.querySelectorAll('.pen-tool-btn[data-tool]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        setTool(btn.dataset.tool);
+        penToolbar.querySelectorAll('.pen-tool-btn[data-tool]').forEach(function(b) { b.classList.toggle('active', b.dataset.tool === btn.dataset.tool); });
+      });
+    });
+    var bb = penToolbar.querySelector('[data-tool="black"]'); if (bb) bb.classList.add('active');
+    var cb = penToolbar.querySelector('#clear-annotation-btn');
+    if (cb) cb.addEventListener('click', function() {
+      if (!confirm('현재 문제의 필기를 모두 지우시겠습니까?')) return;
+      clearStrokesData(); var q = curQ(); if (q) saveAnnotation(q._id, []);
+    });
+    var clb = penToolbar.querySelector('#close-pen-btn');
+    if (clb) clb.addEventListener('click', function() {
+      setDrawingMode(false); penToolbar.classList.remove('visible'); pencilBtn.classList.remove('drawing');
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (state.activeTab !== 'question') return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); S('#nav-next').click(); }
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); S('#nav-prev').click(); }
+      else if (e.key === 'Escape' && isDrawingMode()) { setDrawingMode(false); penToolbar.classList.remove('visible'); pencilBtn.classList.remove('drawing'); }
+    });
+  }
+
+  // ======== Boot ========
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+</body>
+</html>

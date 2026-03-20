@@ -1,0 +1,207 @@
+{
+  "source_file": "sample_2023",
+  "year": 2023,
+  "total_count": 10,
+  "questions": [
+    {
+      "id": "q_2023_1_001",
+      "year": 2023,
+      "exam_session": 1,
+      "question_number": 1,
+      "subject": "전기이론",
+      "question_type": "계산형",
+      "difficulty": "하",
+      "stem": "저항 R=10Ω인 회로에 전압 V=100V를 인가할 때 전류 I는 몇 A인가?",
+      "choices": [
+        {"index": 1, "text": "5A", "is_correct": false},
+        {"index": 2, "text": "10A", "is_correct": true},
+        {"index": 3, "text": "15A", "is_correct": false},
+        {"index": 4, "text": "20A", "is_correct": false}
+      ],
+      "correct_answer": 2,
+      "explanation": "옴의 법칙: I = V/R = 100/10 = 10A",
+      "tags": ["옴의 법칙", "전류", "저항"],
+      "source_page": 1
+    },
+    {
+      "id": "q_2023_1_002",
+      "year": 2023,
+      "exam_session": 1,
+      "question_number": 2,
+      "subject": "전기이론",
+      "question_type": "계산형",
+      "difficulty": "중",
+      "stem": "소비전력 P=500W, 전압 V=220V인 전열기의 저항 R은 약 몇 Ω인가?",
+      "choices": [
+        {"index": 1, "text": "72.8Ω", "is_correct": false},
+        {"index": 2, "text": "96.8Ω", "is_correct": true},
+        {"index": 3, "text": "110Ω", "is_correct": false},
+        {"index": 4, "text": "44Ω", "is_correct": false}
+      ],
+      "correct_answer": 2,
+      "explanation": "P = V²/R이므로 R = V²/P = 220²/500 = 48400/500 = 96.8Ω",
+      "tags": ["소비전력", "저항", "전압"],
+      "source_page": 2
+    },
+    {
+      "id": "q_2023_1_003",
+      "year": 2023,
+      "exam_session": 1,
+      "question_number": 3,
+      "subject": "전기기기",
+      "question_type": "객관식",
+      "difficulty": "중",
+      "stem": "변압기에서 1차측 전압이 6600V이고 권수비(변압비)가 30:1일 때 2차측 전압은 몇 V인가?",
+      "choices": [
+        {"index": 1, "text": "110V", "is_correct": false},
+        {"index": 2, "text": "220V", "is_correct": true},
+        {"index": 3, "text": "380V", "is_correct": false},
+        {"index": 4, "text": "440V", "is_correct": false}
+      ],
+      "correct_answer": 2,
+      "explanation": "변압기 권수비 a = N1/N2 = V1/V2이므로 V2 = V1/a = 6600/30 = 220V",
+      "tags": ["변압기", "권수비", "전압변환"],
+      "source_page": 15
+    },
+    {
+      "id": "q_2023_1_004",
+      "year": 2023,
+      "exam_session": 1,
+      "question_number": 4,
+      "subject": "전기기기",
+      "question_type": "객관식",
+      "difficulty": "중",
+      "stem": "3상 유도전동기의 동기속도(Ns)를 구하는 식으로 옳은 것은? (단, f는 주파수[Hz], P는 극수이다)",
+      "choices": [
+        {"index": 1, "text": "Ns = 60f/P [rpm]", "is_correct": false},
+        {"index": 2, "text": "Ns = 120f/P [rpm]", "is_correct": true},
+        {"index": 3, "text": "Ns = P/120f [rpm]", "is_correct": false},
+        {"index": 4, "text": "Ns = 60P/f [rpm]", "is_correct": false}
+      ],
+      "correct_answer": 2,
+      "explanation": "동기속도 Ns = 120f/P [rpm]. 예를 들어 f=60Hz, P=4극이면 Ns = 120×60/4 = 1800rpm",
+      "tags": ["유도전동기", "동기속도", "극수", "주파수"],
+      "source_page": 28
+    },
+    {
+      "id": "q_2023_1_005",
+      "year": 2023,
+      "exam_session": 1,
+      "question_number": 5,
+      "subject": "전력공학",
+      "question_type": "계산형",
+      "difficulty": "상",
+      "stem": "3상 3선식 배전선로에서 선간전압 V=6600V, 부하전류 I=100A, 역률 cosθ=0.8일 때 3상 유효전력 P는 약 몇 kW인가?",
+      "choices": [
+        {"index": 1, "text": "528kW", "is_correct": false},
+        {"index": 2, "text": "914kW", "is_correct": true},
+        {"index": 3, "text": "1320kW", "is_correct": false},
+        {"index": 4, "text": "1143kW", "is_correct": false}
+      ],
+      "correct_answer": 2,
+      "explanation": "3상 유효전력 P = √3 × V × I × cosθ = 1.732 × 6600 × 100 × 0.8 ≈ 914.6kW",
+      "tags": ["3상전력", "유효전력", "역률", "선간전압"],
+      "source_page": 45
+    },
+    {
+      "id": "q_2023_1_006",
+      "year": 2023,
+      "exam_session": 1,
+      "question_number": 6,
+      "subject": "전력공학",
+      "question_type": "계산형",
+      "difficulty": "상",
+      "stem": "송전선로의 선간전압 E=154kV, 선로 임피던스 Z=j100Ω인 경우 선로의 충전전류가 무시될 때 최대 전송 가능 전력 Pmax는 약 몇 MW인가? (단, 양단 전압 크기는 같다고 가정)",
+      "choices": [
+        {"index": 1, "text": "118.6MW", "is_correct": false},
+        {"index": 2, "text": "237.2MW", "is_correct": true},
+        {"index": 3, "text": "356MW", "is_correct": false},
+        {"index": 4, "text": "474MW", "is_correct": false}
+      ],
+      "correct_answer": 2,
+      "explanation": "Pmax = E²/Z = (154×10³)²/(100) = 23716×10⁶/100 ≈ 237.2MW. 양단 전압이 같으면 Pmax = |E|²/|Z|",
+      "tags": ["전력전송", "최대전송전력", "임피던스", "송전선로"],
+      "source_page": 62
+    },
+    {
+      "id": "q_2023_1_007",
+      "year": 2023,
+      "exam_session": 1,
+      "question_number": 7,
+      "subject": "회로이론",
+      "question_type": "도면분석",
+      "difficulty": "중",
+      "stem": "R=4Ω, XL=3Ω이 직렬로 연결된 RL 직렬회로의 임피던스 |Z|는 몇 Ω인가?",
+      "choices": [
+        {"index": 1, "text": "3.5Ω", "is_correct": false},
+        {"index": 2, "text": "5Ω", "is_correct": true},
+        {"index": 3, "text": "7Ω", "is_correct": false},
+        {"index": 4, "text": "12Ω", "is_correct": false}
+      ],
+      "correct_answer": 2,
+      "explanation": "RL 직렬 임피던스 |Z| = √(R² + XL²) = √(4² + 3²) = √(16+9) = √25 = 5Ω",
+      "tags": ["임피던스", "RL회로", "직렬회로", "리액턴스"],
+      "source_page": 78
+    },
+    {
+      "id": "q_2023_1_008",
+      "year": 2023,
+      "exam_session": 1,
+      "question_number": 8,
+      "subject": "회로이론",
+      "question_type": "도면분석",
+      "difficulty": "중",
+      "stem": "RC 병렬회로에서 저항 R=100Ω, 용량성 리액턴스 XC=100Ω일 때 합성 임피던스의 크기 |Z|는 몇 Ω인가?",
+      "choices": [
+        {"index": 1, "text": "50Ω", "is_correct": false},
+        {"index": 2, "text": "70.7Ω", "is_correct": true},
+        {"index": 3, "text": "100Ω", "is_correct": false},
+        {"index": 4, "text": "141.4Ω", "is_correct": false}
+      ],
+      "correct_answer": 2,
+      "explanation": "병렬 RC: 1/Z = 1/R + 1/(jXC) = 1/100 - j/100, |1/Z| = √(1/100² + 1/100²) = √2/100, |Z| = 100/√2 ≈ 70.7Ω",
+      "tags": ["임피던스", "RC회로", "병렬회로", "커패시터"],
+      "source_page": 85
+    },
+    {
+      "id": "q_2023_1_009",
+      "year": 2023,
+      "exam_session": 1,
+      "question_number": 9,
+      "subject": "전기설비기술기준",
+      "question_type": "법규형",
+      "difficulty": "하",
+      "stem": "전기설비기술기준에서 저압 옥내배선의 사용전압이 몇 V 이하인 경우 전선으로 단면적 1.5mm² 이상의 연동선을 사용할 수 있는가?",
+      "choices": [
+        {"index": 1, "text": "110V 이하", "is_correct": false},
+        {"index": 2, "text": "220V 이하", "is_correct": false},
+        {"index": 3, "text": "300V 이하", "is_correct": true},
+        {"index": 4, "text": "380V 이하", "is_correct": false}
+      ],
+      "correct_answer": 3,
+      "explanation": "전기설비기술기준 제175조: 사용전압 300V 이하의 저압 옥내배선에 단면적 1.5mm² 이상의 연동선 사용 가능",
+      "tags": ["저압배선", "전선규격", "연동선", "전기설비기술기준"],
+      "source_page": 120
+    },
+    {
+      "id": "q_2023_1_010",
+      "year": 2023,
+      "exam_session": 1,
+      "question_number": 10,
+      "subject": "전기설비기술기준",
+      "question_type": "법규형",
+      "difficulty": "중",
+      "stem": "한국전기설비규정(KEC)에 따라 가공전선로의 지지물에 시설하는 지선의 안전율은 얼마 이상이어야 하는가?",
+      "choices": [
+        {"index": 1, "text": "1.5 이상", "is_correct": false},
+        {"index": 2, "text": "2.0 이상", "is_correct": false},
+        {"index": 3, "text": "2.5 이상", "is_correct": true},
+        {"index": 4, "text": "3.0 이상", "is_correct": false}
+      ],
+      "correct_answer": 3,
+      "explanation": "KEC 331.12(지선의 시설): 가공전선로 지지물 지선의 안전율은 2.5 이상. 다만, 목주의 경우에는 1.5 이상",
+      "tags": ["가공전선로", "지선", "안전율", "KEC"],
+      "source_page": 135
+    }
+  ]
+}
