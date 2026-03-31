@@ -1,5 +1,5 @@
 // Service Worker for 전기기사 학습 PWA
-const CACHE_NAME = 'ee-study-v5';
+const CACHE_NAME = 'ee-study-v6';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

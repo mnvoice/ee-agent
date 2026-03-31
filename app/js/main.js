@@ -616,6 +616,12 @@
     userAnswer: null,
     progressMap: {},
     filterContext: null,
+    // Mock exam state
+    mockMode: false,
+    mockTimeLeft: 0,
+    mockTimerInterval: null,
+    mockMarked: {},
+    mockAnswers: {},
   };
 
   // ================================================================
@@ -780,6 +786,11 @@
     view.innerHTML =
       '<div class="section-header"><h2>\uC804\uCCB4 \uBB38\uC81C</h2>' +
       '<span class="counter-badge">' + total.toLocaleString() + '\uBB38\uC81C</span></div>' +
+      '<div style="padding:0 16px 12px">' +
+      '<button id="start-mock-btn" class="mock-start-btn">' +
+      '<span class="mock-start-icon">CBT</span>' +
+      '<span class="mock-start-text"><strong>\uBAA8\uC758\uC2DC\uD5D8 \uC2DC\uC791</strong>' +
+      '<small>100\uBB38\uC81C \u00B7 150\uBD84 \u00B7 \uD569\uACA9\uD310\uC815</small></span></button></div>' +
       '<div class="grid-list">' +
       '<div class="grid-card" id="all-questions-btn" role="button" tabindex="0"' +
       ' style="border-color:rgba(88,166,255,0.3);background:rgba(88,166,255,0.06)">' +
@@ -787,6 +798,10 @@
       '<div class="card-count">' + total.toLocaleString() + '\uBB38\uC81C</div></div>' +
       subjects.map(function(s) { return renderSubjectCard(s, counts[s] || 0); }).join('') +
       '</div>';
+
+    view.querySelector('#start-mock-btn').addEventListener('click', function() {
+      startMockExam();
+    });
 
     view.querySelector('#all-questions-btn').addEventListener('click', function() {
       startSession(null, '\uC804\uCCB4 \uBB38\uC81C');
@@ -1150,6 +1165,221 @@
   }
 
   // ================================================================
+  // Mock Exam (CBT)
+  // ================================================================
+
+  var MOCK_SUBJECTS = ['\uC804\uAE30\uC790\uAE30\uD559', '\uC804\uB825\uACF5\uD559', '\uC804\uAE30\uAE30\uAE30', '\uD68C\uB85C\uC774\uB860', '\uC804\uAE30\uC124\uBE44\uAE30\uC220\uAE30\uC900'];
+  var MOCK_PER_SUBJECT = 20;
+  var MOCK_TIME = 150 * 60; // 150 minutes
+
+  function shuffleArray(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  function startMockExam() {
+    var mockQuestions = [];
+    var missing = [];
+
+    MOCK_SUBJECTS.forEach(function(subj) {
+      var pool = filterBySubject(subj);
+      if (pool.length < MOCK_PER_SUBJECT) {
+        missing.push(subj + '(' + pool.length + ')');
+        mockQuestions = mockQuestions.concat(shuffleArray(pool));
+      } else {
+        mockQuestions = mockQuestions.concat(shuffleArray(pool).slice(0, MOCK_PER_SUBJECT));
+      }
+    });
+
+    if (missing.length > 0) {
+      if (!confirm('\uBB38\uC81C \uBD80\uC871: ' + missing.join(', ') + '\n\uACC4\uC18D \uC9C4\uD589\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?')) return;
+    }
+
+    state.mockMode = true;
+    state.mockTimeLeft = MOCK_TIME;
+    state.mockMarked = {};
+    state.mockAnswers = {};
+    state.currentQueue = mockQuestions;
+    state.currentIndex = 0;
+    state.answered = false;
+    state.userAnswer = null;
+
+    // Show mock UI elements
+    $$('.mock-only').forEach(function(el) { el.style.display = ''; });
+    $('#mock-timer').style.display = 'flex';
+    $('.tab-bar').style.display = 'none';
+
+    // Start timer
+    updateMockTimer();
+    if (state.mockTimerInterval) clearInterval(state.mockTimerInterval);
+    state.mockTimerInterval = setInterval(function() {
+      state.mockTimeLeft--;
+      updateMockTimer();
+      if (state.mockTimeLeft <= 0) {
+        clearInterval(state.mockTimerInterval);
+        submitMockExam();
+      }
+    }, 1000);
+
+    showTab('question');
+    showQuestion();
+  }
+
+  function endMockMode() {
+    state.mockMode = false;
+    if (state.mockTimerInterval) clearInterval(state.mockTimerInterval);
+    state.mockTimerInterval = null;
+    $$('.mock-only').forEach(function(el) { el.style.display = 'none'; });
+    $('#mock-timer').style.display = 'none';
+    $('#mock-grid-overlay').style.display = 'none';
+    $('#mock-result-overlay').style.display = 'none';
+    $('.tab-bar').style.display = '';
+  }
+
+  function updateMockTimer() {
+    var t = state.mockTimeLeft;
+    var h = Math.floor(t / 3600);
+    var m = Math.floor((t % 3600) / 60);
+    var s = t % 60;
+    var timerEl = $('#mock-timer');
+    var timeStr = (h > 0 ? h + ':' : '') + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+    var answered = Object.keys(state.mockAnswers).length;
+    var total = state.currentQueue.length;
+    timerEl.innerHTML = '<span class="mock-timer-time' + (t < 300 ? ' urgent' : '') + '">' + timeStr + '</span>' +
+      '<span class="mock-timer-count">' + answered + '/' + total + ' \uD480\uC774</span>' +
+      '<button id="mock-quit-btn" class="mock-quit-btn">\uD3EC\uAE30</button>';
+    timerEl.querySelector('#mock-quit-btn').addEventListener('click', function() {
+      if (confirm('\uBAA8\uC758\uC2DC\uD5D8\uC744 \uD3EC\uAE30\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?')) endMockMode();
+    });
+  }
+
+  function renderMockGrid() {
+    var overlay = $('#mock-grid-overlay');
+    var body = $('#mock-grid-body');
+    var total = state.currentQueue.length;
+    var html = '';
+    var subjIdx = 0;
+    var prevSubj = '';
+
+    for (var i = 0; i < total; i++) {
+      var q = state.currentQueue[i];
+      if (q.subject !== prevSubj) {
+        if (prevSubj) html += '</div>';
+        html += '<div class="mock-grid-subj-label">' + escapeHtml(q.subject) + '</div><div class="mock-grid-cells">';
+        prevSubj = q.subject;
+        subjIdx++;
+      }
+      var cls = 'mock-cell';
+      if (state.mockAnswers[i] !== undefined) cls += ' answered';
+      if (state.mockMarked[i]) cls += ' marked';
+      if (i === state.currentIndex) cls += ' current';
+      html += '<button class="' + cls + '" data-idx="' + i + '">' + (i + 1) + '</button>';
+    }
+    if (prevSubj) html += '</div>';
+
+    body.innerHTML = html;
+    overlay.style.display = 'flex';
+
+    body.querySelectorAll('.mock-cell').forEach(function(cell) {
+      cell.addEventListener('click', function() {
+        state.currentIndex = parseInt(cell.dataset.idx);
+        state.answered = false;
+        state.userAnswer = null;
+        overlay.style.display = 'none';
+        showQuestion();
+      });
+    });
+
+    overlay.querySelector('#mock-grid-close').addEventListener('click', function() {
+      overlay.style.display = 'none';
+    });
+
+    overlay.querySelector('#mock-submit-btn').addEventListener('click', function() {
+      var unanswered = state.currentQueue.length - Object.keys(state.mockAnswers).length;
+      var msg = unanswered > 0
+        ? unanswered + '\uBB38\uC81C \uBBF8\uD480\uC774. \uC81C\uCD9C\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?'
+        : '\uC2DC\uD5D8\uC744 \uC81C\uCD9C\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?';
+      if (confirm(msg)) {
+        overlay.style.display = 'none';
+        submitMockExam();
+      }
+    });
+  }
+
+  function submitMockExam() {
+    clearInterval(state.mockTimerInterval);
+
+    var results = {};
+    MOCK_SUBJECTS.forEach(function(s) {
+      results[s] = { total: 0, correct: 0, score: 0 };
+    });
+
+    state.currentQueue.forEach(function(q, i) {
+      var subj = q.subject;
+      if (!results[subj]) results[subj] = { total: 0, correct: 0, score: 0 };
+      results[subj].total++;
+      if (state.mockAnswers[i] === q.answer) results[subj].correct++;
+    });
+
+    var totalCorrect = 0;
+    var totalQ = 0;
+    var allPass = true;
+    var subjectHtml = '';
+
+    MOCK_SUBJECTS.forEach(function(subj) {
+      var r = results[subj];
+      if (!r || r.total === 0) return;
+      r.score = Math.round(r.correct / r.total * 100);
+      totalCorrect += r.correct;
+      totalQ += r.total;
+      var pass = r.score >= 40;
+      if (!pass) allPass = false;
+      var sc = subjectColor(subj);
+      subjectHtml += '<div class="mock-result-row">' +
+        '<span class="mock-result-subj" style="color:' + sc + '">' + escapeHtml(subj) + '</span>' +
+        '<span class="mock-result-score">' + r.correct + '/' + r.total + '</span>' +
+        '<span class="mock-result-pct' + (pass ? '' : ' fail') + '">' + r.score + '\uC810</span></div>';
+    });
+
+    var avgScore = totalQ > 0 ? Math.round(totalCorrect / totalQ * 100) : 0;
+    var finalPass = allPass && avgScore >= 60;
+
+    var elapsed = MOCK_TIME - state.mockTimeLeft;
+    var eM = Math.floor(elapsed / 60);
+    var eS = elapsed % 60;
+
+    var contentEl = $('#mock-result-content');
+    contentEl.innerHTML =
+      '<div class="mock-result-header ' + (finalPass ? 'pass' : 'fail') + '">' +
+      '<div class="mock-result-verdict">' + (finalPass ? '\uD569\uACA9' : '\uBD88\uD569\uACA9') + '</div>' +
+      '<div class="mock-result-avg">\uD3C9\uADE0 ' + avgScore + '\uC810</div>' +
+      '<div class="mock-result-time">\uC18C\uC694\uC2DC\uAC04 ' + eM + '\uBD84 ' + eS + '\uCD08</div></div>' +
+      '<div class="mock-result-subjects">' + subjectHtml + '</div>' +
+      '<div class="mock-result-legend">' +
+      '<small>\uD569\uACA9\uAE30\uC900: \uACFC\uBAA9\uBCC4 40\uC810 \uC774\uC0C1 + \uD3C9\uADE0 60\uC810 \uC774\uC0C1</small></div>';
+
+    // Save all answers to progress
+    state.currentQueue.forEach(function(q, i) {
+      if (state.mockAnswers[i] !== undefined) {
+        var isCorrect = state.mockAnswers[i] === q.answer;
+        saveProgress(q._id, { isCorrect: isCorrect, userAnswer: state.mockAnswers[i] }).then(function(pr) {
+          state.progressMap[q._id] = pr;
+        });
+      }
+    });
+
+    $('#mock-result-overlay').style.display = 'flex';
+    $('#mock-result-close').addEventListener('click', function() {
+      endMockMode();
+      showTab('all');
+    });
+  }
+
+  // ================================================================
   // Session: Start Question View
   // ================================================================
 
@@ -1200,17 +1430,34 @@
     flushSave();
 
     var progress = state.progressMap[q._id];
-    var answered = progress && progress.answeredAt ? true : false;
 
-    state.answered = answered;
-    state.userAnswer = answered ? (progress.userAnswer || null) : null;
-
-    var container = $('#question-container');
-    container.innerHTML = renderQuestionCard(q, {
-      answered: state.answered,
-      userAnswer: state.userAnswer,
-      progress: progress,
-    });
+    if (state.mockMode) {
+      // Mock mode: never show answered state
+      state.answered = false;
+      state.userAnswer = state.mockAnswers[state.currentIndex] || null;
+      var container = $('#question-container');
+      container.innerHTML = renderQuestionCard(q, {
+        answered: false,
+        userAnswer: null,
+        progress: null,
+      });
+      // Restore selected choice highlight
+      if (state.userAnswer) {
+        container.querySelectorAll('.choice-btn').forEach(function(btn) {
+          if (parseInt(btn.dataset.choice) === state.userAnswer) btn.classList.add('selected');
+        });
+      }
+    } else {
+      var answered = progress && progress.answeredAt ? true : false;
+      state.answered = answered;
+      state.userAnswer = answered ? (progress.userAnswer || null) : null;
+      var container = $('#question-container');
+      container.innerHTML = renderQuestionCard(q, {
+        answered: state.answered,
+        userAnswer: state.userAnswer,
+        progress: progress,
+      });
+    }
 
     // Bind choice buttons
     container.querySelectorAll('.choice-btn').forEach(function(btn) {
@@ -1252,6 +1499,20 @@
     if (state.answered) return;
     var q = currentQuestion();
     if (!q) return;
+
+    // Mock mode: record answer without revealing
+    if (state.mockMode) {
+      state.mockAnswers[state.currentIndex] = choiceNum;
+      state.userAnswer = choiceNum;
+      // Highlight selected choice without showing correct/wrong
+      var container = $('#question-container');
+      container.querySelectorAll('.choice-btn').forEach(function(btn) {
+        btn.classList.remove('selected');
+        if (parseInt(btn.dataset.choice) === choiceNum) btn.classList.add('selected');
+      });
+      updateNavBar();
+      return;
+    }
 
     state.answered = true;
     state.userAnswer = choiceNum;
@@ -1300,6 +1561,12 @@
       pencilBtn.classList.add('drawing');
     } else {
       pencilBtn.classList.remove('drawing');
+    }
+
+    // Mock mode mark button state
+    if (state.mockMode) {
+      var markBtn = $('#mock-mark-btn');
+      markBtn.classList.toggle('active', !!state.mockMarked[state.currentIndex]);
     }
   }
 
@@ -1403,6 +1670,18 @@
         pencilBtn.classList.remove('drawing');
       });
     }
+
+    // Mock exam buttons
+    $('#mock-mark-btn').addEventListener('click', function() {
+      if (!state.mockMode) return;
+      state.mockMarked[state.currentIndex] = !state.mockMarked[state.currentIndex];
+      updateNavBar();
+    });
+
+    $('#mock-grid-btn').addEventListener('click', function() {
+      if (!state.mockMode) return;
+      renderMockGrid();
+    });
 
     // Keyboard navigation
     document.addEventListener('keydown', function(e) {
