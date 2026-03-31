@@ -38,7 +38,7 @@ def validate_question(q: dict) -> dict[str, bool]:
     }
 
 
-def build():
+def build(*, include_incomplete: bool = False):
     os.makedirs(APP_DATA_DIR, exist_ok=True)
 
     pattern = os.path.join(DATA_DIR, 'questions_기출_*.json')
@@ -49,6 +49,8 @@ def build():
         return
 
     logger.info("Found %d files...", len(files))
+    if not include_incomplete:
+        logger.info("Filtering: incomplete questions will be EXCLUDED")
 
     all_questions = []
     subjects = set()
@@ -106,7 +108,8 @@ def build():
             if year and session:
                 sessions_by_year[year].add(session)
 
-            all_questions.append(q)
+            if v['is_complete'] or include_incomplete:
+                all_questions.append(q)
 
         file_quality[fname] = {
             'total': len(questions),
@@ -203,4 +206,9 @@ def build():
 
 
 if __name__ == '__main__':
-    build()
+    import argparse
+    parser = argparse.ArgumentParser(description='Build app question data')
+    parser.add_argument('--include-incomplete', action='store_true',
+                        help='Include incomplete questions in output')
+    args = parser.parse_args()
+    build(include_incomplete=args.include_incomplete)
