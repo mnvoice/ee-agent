@@ -1068,6 +1068,103 @@ body {
    Print (hide unnecessary)
    =========================== */
 
+/* ===========================
+   T7: Tag Progress Indicators
+   =========================== */
+
+.tag-progress-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 6px;
+}
+
+.tag-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.tag-dot.dot-done { background: var(--green); }
+.tag-dot.dot-partial { background: var(--blue); }
+.tag-dot.dot-warn { background: var(--orange); }
+
+.tag-pct {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+/* ===========================
+   T8: Weakness Analysis
+   =========================== */
+
+.weakness-section {
+  padding: 0 16px 12px;
+}
+
+.weakness-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  background: var(--card);
+  border-radius: 8px;
+  border: 1px solid rgba(248, 81, 73, 0.15);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.weakness-item:hover,
+.weakness-item:focus-visible {
+  border-color: rgba(248, 81, 73, 0.4);
+}
+
+.weakness-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.weakness-tag {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.weakness-subj {
+  font-size: 0.7rem;
+}
+
+.weakness-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.weakness-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.weakness-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.weakness-rate {
+  font-size: 0.7rem;
+  color: var(--muted);
+  white-space: nowrap;
+  min-width: 90px;
+  text-align: right;
+}
+
 @media print {
   .tab-bar, .q-nav-bar, .pen-toolbar, #annotation-canvas { display: none !important; }
 }

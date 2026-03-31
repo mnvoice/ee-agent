@@ -693,6 +693,42 @@
   }
 
   // ================================================================
+  // Tag-level Stats (T7+T8)
+  // ================================================================
+
+  function computeTagStats() {
+    var stats = {};
+    for (var i = 0; i < _questions.length; i++) {
+      var q = _questions[i];
+      if (!q.tag) continue;
+      if (!stats[q.tag]) {
+        stats[q.tag] = { tag: q.tag, subject: q.subject, total: 0, answered: 0, correct: 0, wrong: 0 };
+      }
+      stats[q.tag].total++;
+      var p = state.progressMap[q._id];
+      if (p) {
+        stats[q.tag].answered++;
+        if (p.isCorrect) stats[q.tag].correct++;
+        if (p.wrongCount > 0) stats[q.tag].wrong++;
+      }
+    }
+    return stats;
+  }
+
+  function getWeakestTags(limit) {
+    var stats = computeTagStats();
+    return Object.values(stats)
+      .filter(function(s) { return s.wrong > 0; })
+      .sort(function(a, b) {
+        var rateA = a.wrong / a.answered;
+        var rateB = b.wrong / b.answered;
+        if (rateB !== rateA) return rateB - rateA;
+        return b.wrong - a.wrong;
+      })
+      .slice(0, limit || 10);
+  }
+
+  // ================================================================
   // Tab Navigation
   // ================================================================
 
@@ -790,11 +826,22 @@
         '<span>\uC804\uCCB4 ' + escapeHtml(subject) + '</span>' +
         '<span class="session-count">' + subjectCount + '\uBB38\uC81C</span></div>';
 
+      var tagStats = computeTagStats();
       tags.forEach(function(tag) {
         var tagCount = filterByTag(tag).filter(function(q) { return q.subject === subject; }).length;
+        var ts = tagStats[tag];
+        var progressHtml = '';
+        if (ts && ts.answered > 0) {
+          var pct = Math.round(ts.answered / ts.total * 100);
+          var correctPct = Math.round(ts.correct / ts.answered * 100);
+          var dotCls = ts.wrong > 0 ? 'dot-warn' : (ts.answered >= ts.total ? 'dot-done' : 'dot-partial');
+          progressHtml = '<span class="tag-progress-wrap">' +
+            '<span class="tag-dot ' + dotCls + '"></span>' +
+            '<span class="tag-pct">' + pct + '%</span></span>';
+        }
         html += '<div class="session-btn" data-subject="' + escapeHtml(subject) + '" data-tag="' + escapeHtml(tag) + '" role="listitem" tabindex="0">' +
           '<span>' + escapeHtml(tag) + '</span>' +
-          '<span class="session-count">' + tagCount + '\uBB38\uC81C</span></div>';
+          '<span class="session-count">' + progressHtml + tagCount + '\uBB38\uC81C</span></div>';
       });
 
       html += '</div></div>';
@@ -956,9 +1003,31 @@
 
       var wrongQuestions = filterByIds(wrongIds);
 
+      // T8: Weakness analysis section
+      var weakTags = getWeakestTags(10);
+      var weaknessHtml = '';
+      if (weakTags.length > 0) {
+        weaknessHtml = '<div class="weakness-section">' +
+          '<div class="section-header" style="padding-bottom:4px"><h2 style="font-size:0.95rem;color:var(--orange)">\uC57D\uC810 \uAC1C\uB150 TOP ' + weakTags.length + '</h2></div>';
+        weakTags.forEach(function(ts) {
+          var errRate = Math.round(ts.wrong / ts.answered * 100);
+          var sc = subjectColor(ts.subject);
+          weaknessHtml += '<div class="weakness-item" data-tag="' + escapeHtml(ts.tag) + '" role="button" tabindex="0">' +
+            '<div class="weakness-info">' +
+            '<span class="weakness-tag">' + escapeHtml(ts.tag) + '</span>' +
+            '<span class="weakness-subj" style="color:' + sc + '">' + escapeHtml(ts.subject) + '</span></div>' +
+            '<div class="weakness-bar-wrap">' +
+            '<div class="weakness-bar"><div class="weakness-bar-fill" style="width:' + errRate + '%;background:' +
+            (errRate >= 60 ? 'var(--red)' : errRate >= 30 ? 'var(--orange)' : 'var(--green)') + '"></div></div>' +
+            '<span class="weakness-rate">\uC624\uB2F5 ' + ts.wrong + '/' + ts.answered + ' (' + errRate + '%)</span></div></div>';
+        });
+        weaknessHtml += '</div>';
+      }
+
       view.innerHTML =
         '<div class="section-header"><h2>\uC624\uB2F5\uB178\uD2B8</h2>' +
         '<span class="counter-badge">' + wrongIds.length + '\uBB38\uC81C</span></div>' +
+        weaknessHtml +
         '<div style="padding:0 16px 8px">' +
         '<button id="review-wrong-btn" class="settings-btn" style="width:100%;min-height:44px;background:rgba(248,81,73,0.12);color:var(--red);border:1px solid rgba(248,81,73,0.3)">' +
         '\uC624\uB2F5 \uBB38\uC81C \uB2E4\uC2DC \uD480\uAE30 (' + wrongIds.length + '\uBB38\uC81C)</button></div>' +
@@ -968,6 +1037,13 @@
 
       view.querySelector('#review-wrong-btn').addEventListener('click', function() {
         startSession({ type: 'wrong', ids: wrongIds }, '\uC624\uB2F5\uB178\uD2B8');
+      });
+
+      // T8: Weakness item click -> study that tag
+      view.querySelectorAll('.weakness-item').forEach(function(item) {
+        item.addEventListener('click', function() {
+          startSession({ type: 'tag', value: item.dataset.tag }, item.dataset.tag);
+        });
       });
 
       view.querySelectorAll('.wrong-item').forEach(function(item) {
