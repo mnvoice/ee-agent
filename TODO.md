@@ -25,7 +25,11 @@ Updated: 2026-04-01
 - [x] T7: Concept-based group study (tag progress dots + percentage)
 - [x] T8: Weakness analysis (top 10 weak concepts, error rate ranking)
 
-## Phase 4: Future
+## Phase 4: iPad Deployment ($0)
+
+- [ ] T11: Deploy to GitHub Pages for iPad offline study (5min)
+
+## Phase 5: Future
 
 - [ ] T9: Acquire post-2022 CBT questions
 - [ ] T10: Improve EE-Agent accuracy (2020: 75% -> 85%)
