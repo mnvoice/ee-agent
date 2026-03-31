@@ -4,27 +4,26 @@ Updated: 2026-04-01
 
 ## Current Status
 
-- Total questions: 5,762
-- Complete: 4,834 (83.9%)
-- Incomplete: 928 (16.1%)
+- Total questions: 5,007 (complete, filtered)
+- Incomplete: 187 (excluded from app)
 - EE-Agent accuracy: 2020 75.0%, 2022 92.5%
 
-## Phase 1: Immediate ($0)
+## Phase 1: Data Recovery ($0) -- DONE
 
-- [ ] T1: Add validation filter to `scripts/build_app_data.py`
-- [ ] T2: Analyze 928 incomplete questions (year/subject distribution)
-- [ ] T3: Check Mathpix data (65 files) reusability
+- [x] T1: Add validation filter to `scripts/build_app_data.py`
+- [x] T2: Analyze 928 incomplete questions (year/subject distribution)
+- [x] T3: Check Mathpix data (65 files) -- 898/902 matched, Vision API unnecessary
 
-## Phase 2: Targeted Recovery (~$1)
+## Phase 2: Mathpix Recovery ($0) -- DONE
 
-- [ ] T4: Vision API re-extraction for selected incomplete questions
-- [ ] T5: Merge recovered data and verify quality
+- [x] T4: Mathpix parsing recovery (recover_from_mathpix.py)
+- [x] T5: Merge recovered data and verify quality (4,834 -> 5,007 complete)
 
-## Phase 3: CBT App Features ($0)
+## Phase 3: CBT App Features ($0) -- DONE
 
-- [ ] T6: CBT mock exam environment (timer, UI, marking)
-- [ ] T7: Concept-based group study (262 tags)
-- [ ] T8: Weakness analysis (per-concept accuracy tracking)
+- [x] T6: CBT mock exam (timer, 100Q random, marking, grid, pass/fail)
+- [x] T7: Concept-based group study (tag progress dots + percentage)
+- [x] T8: Weakness analysis (top 10 weak concepts, error rate ranking)
 
 ## Phase 4: Future
 
