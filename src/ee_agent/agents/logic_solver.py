@@ -1,4 +1,5 @@
 """Agent 2: Logic First-Principles Solver."""
+import asyncio
 import json
 import logging
 import re
@@ -141,8 +142,24 @@ class LogicFirstPrinciplesSolver(BaseAgent):
                 formulas_section=formulas_section,
                 choices=choices,
             )
+        max_retries = 3
+        last_error = None
+        for attempt in range(max_retries):
+            try:
+                response = await self.llm.complete(prompt, system=SYSTEM_PROMPT, max_tokens=1024)
+                break
+            except Exception as e:
+                last_error = e
+                if attempt < max_retries - 1:
+                    wait = 2 ** attempt
+                    logger.warning(f"API call failed (attempt {attempt + 1}/{max_retries}): {e}, retrying in {wait}s")
+                    trace.append(f"Retry {attempt + 1}: {e}")
+                    await asyncio.sleep(wait)
+                else:
+                    logger.error(f"API call failed after {max_retries} retries: {e}")
+                    trace.append(f"Solver error after {max_retries} retries: {e}")
+                    return {"final_answer": "unknown", "law_used": "unknown", "question_type": q_type, "confidence": 0.2}
         try:
-            response = await self.llm.complete(prompt, system=SYSTEM_PROMPT, max_tokens=1024)
             content = response.content.strip()
             if not content:
                 logger.warning("Empty LLM response received")
@@ -198,7 +215,7 @@ class LogicFirstPrinciplesSolver(BaseAgent):
         except Exception as e:
             logger.error(f"Logic solver error: {e}")
             trace.append(f"Solver error: {e}")
-            return {"final_answer": "unknown", "law_used": "unknown", "confidence": 0.2}
+            return {"final_answer": "unknown", "law_used": "unknown", "question_type": q_type, "confidence": 0.2}
 
     @staticmethod
     def _match_answer_to_choice(final_answer: str, choices_text: str) -> int | None:

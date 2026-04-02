@@ -43,18 +43,19 @@ def build_harness(config: PipelineConfig, solver_backend: str = "auto") -> EEAge
     elif solver_backend == "ollama":
         solver_llm = ollama
         logger.info("Solver: Ollama (local)")
-    else:  # auto
-        import asyncio as _asyncio
-        pro_ok = _asyncio.get_event_loop().run_until_complete(claude_code.is_available())
-        if pro_ok:
-            solver_llm = claude_code
-            logger.info("Solver: Claude Code CLI (Pro subscription) [auto]")
-        elif anthropic:
+    else:  # auto — prefer Anthropic API for stability over CLI subprocess
+        if anthropic:
             solver_llm = anthropic
             logger.info("Solver: Anthropic API [auto]")
         else:
-            solver_llm = router
-            logger.info("Solver: Ollama [auto]")
+            import asyncio as _asyncio
+            pro_ok = _asyncio.get_event_loop().run_until_complete(claude_code.is_available())
+            if pro_ok:
+                solver_llm = claude_code
+                logger.info("Solver: Claude Code CLI (Pro subscription) [auto]")
+            else:
+                solver_llm = router
+                logger.info("Solver: Ollama [auto]")
 
     retriever = TFIDFKnowledgeRetriever()
     store_path = "data/knowledge_store"
