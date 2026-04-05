@@ -1,5 +1,31 @@
 // Study Mode - Apple Pencil split-view study session
 import { openDB, saveAnnotation, loadAnnotation, saveProgress, loadProgress } from './db.js';
+
+// Scribble notes storage (reuse IndexedDB annotations store with prefix)
+const NOTES_PREFIX = 'note_';
+
+async function saveNote(questionId, text) {
+  const store = await getNotesStore('readwrite');
+  await promisifyReq(store.put({ id: NOTES_PREFIX + questionId, text, updatedAt: Date.now() }));
+}
+
+async function loadNote(questionId) {
+  const store = await getNotesStore('readonly');
+  const result = await promisifyReq(store.get(NOTES_PREFIX + questionId));
+  return result ? result.text : '';
+}
+
+async function getNotesStore(mode) {
+  const db = await openDB();
+  return db.transaction('annotations', mode).objectStore('annotations');
+}
+
+function promisifyReq(req) {
+  return new Promise((resolve, reject) => {
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
 import { loadQuestions, qId, getSubjects, getTagsBySubject, filterBySubject, filterByTag } from './store.js';
 import { renderQuestionCard, renderMath, setKatexReady } from './render.js';
 import {
@@ -113,6 +139,12 @@ async function showQuestion() {
   const savedStrokes = await loadAnnotation(qId(q));
   loadStrokes(savedStrokes || []);
 
+  // Load saved scribble note
+  const noteInput = document.getElementById('scribble-input');
+  if (noteInput) {
+    noteInput.value = await loadNote(qId(q));
+  }
+
   // Scroll to top
   panel.scrollTop = 0;
 }
@@ -135,17 +167,27 @@ async function handleChoice(choiceNum) {
 // Navigation
 // ===========================
 
-function goNext() {
+async function saveCurrentNote() {
+  const q = questions[currentIndex];
+  const noteInput = document.getElementById('scribble-input');
+  if (q && noteInput && noteInput.value.trim()) {
+    await saveNote(qId(q), noteInput.value);
+  }
+}
+
+async function goNext() {
   if (currentIndex < questions.length - 1) {
     flushSave();
+    await saveCurrentNote();
     currentIndex++;
     showQuestion();
   }
 }
 
-function goPrev() {
+async function goPrev() {
   if (currentIndex > 0) {
     flushSave();
+    await saveCurrentNote();
     currentIndex--;
     showQuestion();
   }
@@ -259,9 +301,25 @@ function bindEvents() {
   // Solution toggle
   document.getElementById('solution-toggle-btn').addEventListener('click', toggleSolution);
 
+  // Scribble note toggle
+  document.getElementById('btn-scribble-toggle').addEventListener('click', () => {
+    const area = document.getElementById('scribble-area');
+    const btn = document.getElementById('btn-scribble-toggle');
+    const visible = area.style.display !== 'none';
+    area.style.display = visible ? 'none' : 'block';
+    btn.textContent = visible ? '메모 \u25BC' : '메모 \u25B2';
+    btn.classList.toggle('active', !visible);
+    if (!visible) document.getElementById('scribble-input').focus();
+    resizeCanvas();
+  });
+
+  // Auto-save note on blur
+  document.getElementById('scribble-input').addEventListener('blur', saveCurrentNote);
+
   // Back button
-  document.getElementById('btn-back').addEventListener('click', () => {
+  document.getElementById('btn-back').addEventListener('click', async () => {
     flushSave();
+    await saveCurrentNote();
     window.location.href = 'index.html';
   });
 

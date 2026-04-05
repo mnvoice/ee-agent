@@ -33,6 +33,14 @@
     <!-- Question Panel (top) -->
     <div id="question-panel" class="question-panel"></div>
 
+    <!-- Scribble Note (Apple Pencil → text) -->
+    <div class="scribble-bar">
+      <button id="btn-scribble-toggle" class="scribble-toggle">메모 ▼</button>
+      <div id="scribble-area" class="scribble-area" style="display:none">
+        <textarea id="scribble-input" class="scribble-input" placeholder="Apple Pencil로 여기에 필기하면 텍스트로 변환됩니다" rows="3"></textarea>
+      </div>
+    </div>
+
     <!-- Resize Handle -->
     <div id="resize-handle" class="resize-handle" aria-label="패널 크기 조절"></div>
 
