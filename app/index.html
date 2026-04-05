@@ -709,6 +709,8 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
         '<div class="stats-grid"><div class="stat-card"><div class="stat-value">' + answered + '</div><div class="stat-label">풀이 완료</div></div>' +
         '<div class="stat-card"><div class="stat-value" style="color:var(--green)">' + correct + '</div><div class="stat-label">정답</div></div>' +
         '<div class="stat-card"><div class="stat-value" style="color:var(--red)">' + wrong + '</div><div class="stat-label">오답</div></div></div>' +
+        '<div class="settings-section"><div class="settings-label">학습 모드</div>' +
+        '<div class="settings-row" id="study-mode-btn" role="button" tabindex="0" onclick="window.location.href=\'study.html\'"><div class="settings-row-text"><div class="settings-row-title">필기 학습 모드</div><div class="settings-row-sub">Apple Pencil로 풀이 과정을 필기하며 학습</div></div><button class="settings-btn" style="background:rgba(88,166,255,0.12);color:var(--blue);border:1px solid rgba(88,166,255,0.3)">시작</button></div></div>' +
         '<div class="settings-section"><div class="settings-label">데이터</div>' +
         '<div class="settings-row" id="export-btn" role="button" tabindex="0"><div class="settings-row-text"><div class="settings-row-title">학습 데이터 내보내기</div><div class="settings-row-sub">풀이 기록 및 필기 내용 JSON 저장</div></div><button class="settings-btn">내보내기</button></div>' +
         '<div class="settings-row" id="import-btn" role="button" tabindex="0"><div class="settings-row-text"><div class="settings-row-title">학습 데이터 가져오기</div><div class="settings-row-sub">이전에 내보낸 JSON 파일 불러오기</div></div><button class="settings-btn">가져오기</button></div>' +
