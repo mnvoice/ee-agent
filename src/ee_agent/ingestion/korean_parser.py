@@ -143,13 +143,22 @@ class KoreanQuestionParser:
             return []
 
         questions: list[Question] = []
+        seen_numbers: set[int] = set()
         for i, match in enumerate(splits):
             start = match.start()
             end = splits[i + 1].start() if i + 1 < len(splits) else len(raw_text)
             block = raw_text[start:end].strip()
             q_num = int(match.group(1))
+            # Filter: valid range 1~100, skip duplicates
+            if q_num < 1 or q_num > 100:
+                logger.debug("Skipping out-of-range question number %d", q_num)
+                continue
+            if q_num in seen_numbers:
+                logger.debug("Skipping duplicate question number %d", q_num)
+                continue
             question = self.parse_question_block(block, year, session, q_num)
             if question is not None:
+                seen_numbers.add(q_num)
                 questions.append(question)
 
         return questions
