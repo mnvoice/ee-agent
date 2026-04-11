@@ -4,6 +4,7 @@ import asyncio
 import json
 import logging
 import sys
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -46,7 +47,7 @@ async def main() -> None:
     parser.add_argument("--json", help="Path to sample_questions.json", default=None)
     parser.add_argument("--pdf", help="Path to exam PDF file", default=None)
     parser.add_argument("--year", type=int, default=2023, help="Exam year (for PDF mode)")
-    parser.add_argument("--output", default="output/results.json", help="Output JSON path")
+    parser.add_argument("--output", default=None, help="Output JSON path (default: output/results_{year}_{timestamp}.json)")
     parser.add_argument(
         "--solver", default="auto",
         choices=["auto", "pro", "api", "ollama"],
@@ -55,7 +56,14 @@ async def main() -> None:
     args = parser.parse_args()
 
     config = PipelineConfig()
-    output = args.output
+
+    # Generate default output path: output/results_{year}_{timestamp}.json
+    if args.output:
+        output = args.output
+    else:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        output = f"output/results_{args.year}_{timestamp}.json"
+    Path(output).parent.mkdir(parents=True, exist_ok=True)
 
     if args.json:
         summary = await run_from_json(args.json, output, config, solver_backend=args.solver)
