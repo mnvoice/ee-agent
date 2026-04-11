@@ -79,29 +79,44 @@ class LogicFirstPrinciplesSolver(BaseAgent):
         )
 
     async def _retry_simple(self, stem: str, choices_text: str, trace: list[str]) -> dict:
-        """Ultra-simple retry: ask for just a choice number."""
+        """Ultra-simple retry with multiple attempts."""
         if self.llm is None:
             trace.append("Retry skipped: no LLM")
             return {"final_answer": "unknown", "law_used": "unknown", "confidence": 0.2}
-        prompt = (
-            f"Korean electrical engineering exam. Pick the best answer.\n\n"
-            f"Question: {stem}\n\n"
-            f"Choices:\n{choices_text}\n\n"
-            f'Reply with ONLY this JSON (no markdown): {{"selected_choice": 1}}\n'
-            f"selected_choice must be 1, 2, 3, or 4."
-        )
-        try:
-            response = await self.llm.complete(prompt, max_tokens=30)
-            content = response.content.strip()
-            sc = re.search(r'"selected_choice"\s*:\s*([1-4])', content)
-            if not sc:
-                sc = re.search(r'\b([1-4])\b', content)
-            if sc:
-                choice = int(sc.group(1))
-                trace.append(f"Retry succeeded: selected_choice={choice}")
-                return {"final_answer": "unknown", "law_used": "retry", "selected_choice": choice, "confidence": 0.5}
-        except Exception as exc:
-            trace.append(f"Retry failed: {exc}")
+
+        prompts = [
+            (
+                f"전기기사 시험 문제입니다. 정답 번호만 답하세요.\n\n"
+                f"문제: {stem}\n\n보기:\n{choices_text}\n\n"
+                f'JSON으로 답하세요: {{"selected_choice": 정답번호}}'
+            ),
+            (
+                f"Pick the correct answer (1, 2, 3, or 4).\n\n"
+                f"Q: {stem}\n{choices_text}\n\n"
+                f"Answer with ONLY a number (1-4):"
+            ),
+        ]
+
+        for i, prompt in enumerate(prompts):
+            try:
+                response = await self.llm.complete(prompt, max_tokens=64)
+                content = response.content.strip()
+                # Try JSON extraction
+                sc = re.search(r'"selected_choice"\s*:\s*([1-4])', content)
+                if not sc:
+                    sc = re.search(r'["\s]([1-4])["\s,}]', content)
+                if not sc:
+                    sc = re.search(r'^([1-4])$', content, re.MULTILINE)
+                if not sc:
+                    sc = re.search(r'\b([1-4])\b', content)
+                if sc:
+                    choice = int(sc.group(1))
+                    trace.append(f"Retry {i+1} succeeded: selected_choice={choice}")
+                    return {"final_answer": "unknown", "law_used": "retry", "selected_choice": choice, "confidence": 0.5}
+                trace.append(f"Retry {i+1}: no choice found in '{content[:60]}'")
+            except Exception as exc:
+                trace.append(f"Retry {i+1} failed: {exc}")
+
         trace.append("Retry failed — defaulting")
         return {"final_answer": "unknown", "law_used": "unknown", "confidence": 0.2}
 
