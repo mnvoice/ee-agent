@@ -46,17 +46,19 @@ class LogicFirstPrinciplesSolver(BaseAgent):
 
         trace.append("Solver: deriving answer and selecting from choices")
 
-        # JIT Reminder: fetch relevant formulas from RAG
+        # JIT Reminder: fetch relevant knowledge from RAG (formulas + regulations + concepts)
         formulas_text = ""
         if self.retriever:
             trace.append("JIT: retrieving relevant formulas from knowledge base")
-            formulas = self.retriever.retrieve_formulas(stem, k=3)
-            if formulas:
+            # Retrieve all types and merge by relevance score
+            all_results = self.retriever.retrieve(stem, max_k=5)
+            if all_results:
                 formulas_text = "\n".join(
-                    f"- {f['metadata']['name']}: {f['metadata']['latex']}"
-                    for f in formulas
+                    f"- {r['metadata']['name']}: {r['metadata'].get('latex', r['metadata'].get('definition', r.get('text', '')[:200]))}"
+                    for r in all_results[:3]
                 )
-                trace.append(f"JIT injected {len(formulas)} formula(s)")
+                types_found = set(r['metadata'].get('type', '?') for r in all_results[:3])
+                trace.append(f"JIT injected {min(len(all_results), 3)} formula(s) (types: {', '.join(types_found)})")
             else:
                 trace.append("JIT: no formulas in knowledge base yet")
         else:
@@ -135,7 +137,7 @@ class LogicFirstPrinciplesSolver(BaseAgent):
 
         formulas_section = f"\n관련 공식:\n{formulas}\n" if formulas else ""
         if q_type == "concept":
-            prompt = CONCEPT_PROMPT.format(stem=stem, choices=choices)
+            prompt = CONCEPT_PROMPT.format(stem=stem, formulas_section=formulas_section, choices=choices)
         else:
             prompt = CALC_PROMPT.format(
                 stem=stem,

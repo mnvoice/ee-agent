@@ -59,7 +59,8 @@ def build_harness(config: PipelineConfig, solver_backend: str = "auto") -> EEAge
 
     retriever = TFIDFKnowledgeRetriever()
     store_path = "data/knowledge_store"
-    if Path(store_path + ".json").exists():
+    chunk_files = sorted(Path(".").glob("data/knowledge_store_[0-9]*.json"))
+    if Path(store_path + ".json").exists() or chunk_files:
         retriever.load(store_path)
         logger.info(f"Loaded knowledge store: {retriever.size()} entries")
     else:
