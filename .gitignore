@@ -211,3 +211,9 @@ output/
 data/
 *.env
 .claude/
+
+# === Exceptions: 필수 데이터 파일은 Git 추적 ===
+!data/knowledge_store_*.json
+!output/results.json
+!output/results_2022.json
+!output/results_*_before_*.json
