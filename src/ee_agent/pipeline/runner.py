@@ -20,6 +20,47 @@ from ee_agent.rag.tfidf_retriever import TFIDFKnowledgeRetriever
 logger = logging.getLogger(__name__)
 
 
+# @MX:NOTE: [AUTO] Default location for Vision-OCR recovered choices, produced by
+# scripts/ocr_recover_choices.py and merged into parsed questions at runtime.
+_OCR_RECOVERED_PATH = Path("data/ocr_recovered.json")
+
+
+def _merge_ocr_recovered(questions: list, year: int) -> int:
+    """Replace placeholder choices on needs_ocr questions with OCR results.
+
+    Returns the number of questions updated in place.
+    """
+    from ee_agent.domain.models.question import Choice
+
+    if not _OCR_RECOVERED_PATH.exists():
+        return 0
+    try:
+        entries = json.loads(_OCR_RECOVERED_PATH.read_text(encoding="utf-8"))
+    except Exception as exc:
+        logger.warning("Failed to load OCR recovery file: %s", exc)
+        return 0
+
+    # Index by (year, question_number)
+    ocr_index = {
+        (e["year"], e["question_number"]): e
+        for e in entries
+        if e.get("needs_ocr_resolved")
+    }
+
+    updated = 0
+    for q in questions:
+        if not q.needs_ocr:
+            continue
+        key = (year, q.question_number)
+        entry = ocr_index.get(key)
+        if entry is None:
+            continue
+        q.choices = [Choice(index=c["index"], text=c["text"]) for c in entry["choices"]]
+        q.needs_ocr = False
+        updated += 1
+    return updated
+
+
 def build_harness(config: PipelineConfig, solver_backend: str = "auto") -> EEAgentHarness:
     """Assemble the 4-agent harness from configuration.
 
@@ -134,12 +175,17 @@ async def run_from_pdf(
     extractor = PDFExtractor()
     parser = KoreanQuestionParser()
 
-    full_text = extractor.extract_full_text(pdf_path)
-    questions = parser.parse_text(full_text, year=year)
+    full_text, page_offsets = extractor.extract_full_text_with_offsets(pdf_path)
+    questions = parser.parse_text(full_text, year=year, page_offsets=page_offsets)
 
     if not questions:
         logger.warning(f"No questions parsed from {pdf_path}")
         return {"total": 0, "correct": 0, "accuracy": 0.0}
+
+    # Merge OCR-recovered choices for needs_ocr questions.
+    ocr_applied = _merge_ocr_recovered(questions, year)
+    if ocr_applied:
+        logger.info(f"Applied OCR-recovered choices to {ocr_applied} questions")
 
     logger.info(f"Parsed {len(questions)} questions from PDF")
 

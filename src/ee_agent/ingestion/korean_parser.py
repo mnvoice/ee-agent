@@ -125,7 +125,13 @@ class KoreanQuestionParser:
     # Public API
     # ------------------------------------------------------------------
 
-    def parse_text(self, raw_text: str, year: int = 2023, session: int = 1) -> list[Question]:
+    def parse_text(
+        self,
+        raw_text: str,
+        year: int = 2023,
+        session: int = 1,
+        page_offsets: Optional[list[int]] = None,
+    ) -> list[Question]:
         """
         Parse multiple questions from raw exam text.
 
@@ -135,12 +141,28 @@ class KoreanQuestionParser:
         Note: circle-number markers (①②③④) are preserved here so that
         _extract_choices can detect them reliably inside each block.
         """
+        # Normalization can shift character offsets; we normalize first, then
+        # locate each question on the normalized string. Page offsets are
+        # derived from the pre-normalized text, so they remain approximate but
+        # sufficient for page-level mapping.
         raw_text = self._normalizer.normalize(raw_text)
 
         # Split text into blocks at each question-number boundary
         splits = list(self.QUESTION_START.finditer(raw_text))
         if not splits:
             return []
+
+        def position_to_page(pos: int) -> Optional[int]:
+            if not page_offsets:
+                return None
+            # Find largest offset <= pos; 1-indexed page number.
+            page = 0
+            for idx, off in enumerate(page_offsets):
+                if off <= pos:
+                    page = idx + 1
+                else:
+                    break
+            return page or 1
 
         questions: list[Question] = []
         seen_numbers: set[int] = set()
@@ -156,7 +178,10 @@ class KoreanQuestionParser:
             if q_num in seen_numbers:
                 logger.debug("Skipping duplicate question number %d", q_num)
                 continue
-            question = self.parse_question_block(block, year, session, q_num)
+            source_page = position_to_page(start)
+            question = self.parse_question_block(
+                block, year, session, q_num, source_page=source_page
+            )
             if question is not None:
                 seen_numbers.add(q_num)
                 questions.append(question)
@@ -169,6 +194,7 @@ class KoreanQuestionParser:
         year: int,
         session: int,
         q_num: int,
+        source_page: Optional[int] = None,
     ) -> Optional[Question]:
         """
         Parse a single question block into a Question domain object.
@@ -180,7 +206,7 @@ class KoreanQuestionParser:
             # Strip leading question number prefix
             block = self.QUESTION_START.sub("", block, count=1).strip()
 
-            choices, correct_answer = self._extract_choices(block)
+            choices, correct_answer, needs_ocr = self._extract_choices(block)
             if not choices:
                 logger.debug("No choices found for question %d — skipping", q_num)
                 return None
@@ -204,6 +230,8 @@ class KoreanQuestionParser:
                 choices=choices,
                 correct_answer=correct_answer,
                 tags=self.extract_technical_terms(stem),
+                needs_ocr=needs_ocr,
+                source_page=source_page,
             )
         except Exception as exc:
             logger.warning("Failed to parse question block %d: %s", q_num, exc)
@@ -213,54 +241,104 @@ class KoreanQuestionParser:
     # Internal helpers
     # ------------------------------------------------------------------
 
-    def _extract_choices(self, text: str) -> tuple[list[Choice], int]:
+    # Page-header noise patterns that appear between choice markers in CBT PDFs.
+    _NOISE_PATTERNS = [
+        re.compile(r"증\s*기출문제[^\n]*"),
+        re.compile(r"전자문제집\s*CBT\s*:\s*www\.comcbt\.com[^\n]*"),
+        re.compile(r"전기기사\s*[◐◑][^\n]*"),
+        re.compile(r"최강\s*자\s*[◐◑]?[^\n]*"),
+    ]
+
+    # Placeholder text injected when a choice marker has no extractable body.
+    _OCR_PLACEHOLDER = "[formula - OCR required]"
+
+    def _strip_noise(self, text: str) -> str:
+        """Remove PDF page-header artifacts that appear between choice markers."""
+        cleaned = text
+        for pattern in self._NOISE_PATTERNS:
+            cleaned = pattern.sub("", cleaned)
+        return cleaned
+
+    # @MX:ANCHOR: [AUTO] Position-based choice extraction; splits on marker positions
+    # so empty/formula-only choices can still be preserved for Vision OCR follow-up.
+    # @MX:REASON: Previous regex {1,200} rejected empty content, causing ~18 per PDF
+    # to be silently skipped despite having valid markers and correct-answer info.
+    def _extract_choices(self, text: str) -> tuple[list[Choice], int, bool]:
         """
         Extract four answer choices and the correct answer index.
 
-        Handles both hollow markers (①②③④) and filled markers (❶❷❸❹).
-        Filled markers in Korean exam PDFs indicate the correct answer.
-        Returns (choices, correct_answer_index) where index is 1-based.
-        """
-        # Build a unified pattern matching all 8 circle markers
-        all_circles_re = re.compile(
-            r"([①②③④❶❷❸❹])\s*([^①②③④❶❷❸❹\n]{1,200})"
-        )
-        raw_matches = all_circles_re.findall(text)
+        Splits the text on circle-marker positions so that even empty/
+        formula-only choices are preserved. Missing positions are padded with
+        an OCR placeholder.
 
-        if raw_matches:
-            # Deduplicate: keep first occurrence of each position (1-4)
+        Returns:
+            (choices, correct_answer_index, needs_ocr) where index is 1-based
+            and needs_ocr indicates at least one choice requires Vision OCR.
+        """
+        # Locate every circle marker (hollow or filled) and record its position.
+        marker_re = re.compile(r"[①②③④❶❷❸❹]")
+        found: list[tuple[int, str]] = [
+            (m.start(), m.group()) for m in marker_re.finditer(text)
+        ]
+
+        if found:
+            # Build (position 1-4, content, is_correct) tuples by slicing text
+            # between consecutive marker positions.
             seen: set[int] = set()
-            ordered: list[tuple[int, str, bool]] = []  # (position, text, is_correct)
-            for marker, content in raw_matches:
+            ordered: list[tuple[int, str, bool]] = []
+            for idx, (start, marker) in enumerate(found):
                 if marker in self._HOLLOW:
                     pos = self._HOLLOW.index(marker) + 1
                     is_correct = False
                 else:
                     pos = self._FILLED.index(marker) + 1
                     is_correct = True
-                if pos not in seen:
-                    seen.add(pos)
-                    ordered.append((pos, content.strip(), is_correct))
+                if pos in seen:
+                    continue
 
-            # Sort by position to handle out-of-order extraction
-            ordered.sort(key=lambda x: x[0])
+                content_start = start + len(marker)
+                content_end = (
+                    found[idx + 1][0] if idx + 1 < len(found) else len(text)
+                )
+                # Cap at 300 chars to avoid runaway capture when markers are missing.
+                content_end = min(content_end, content_start + 300)
+                raw = text[content_start:content_end]
+                cleaned = self._strip_noise(raw).strip()
 
-            if len(ordered) >= 2:
-                choices = [Choice(index=pos, text=txt) for pos, txt, _ in ordered[:4]]
-                # Correct answer = position of filled marker, default to 1
-                correct = next((pos for pos, _, ic in ordered if ic), 1)
-                return choices, correct
+                seen.add(pos)
+                ordered.append((pos, cleaned, is_correct))
+
+            if ordered:
+                ordered.sort(key=lambda x: x[0])
+                by_pos = {pos: (txt, ic) for pos, txt, ic in ordered}
+                correct = next(
+                    (pos for pos, (_, ic) in by_pos.items() if ic), 1
+                )
+
+                needs_ocr = False
+                choices: list[Choice] = []
+                for pos in range(1, 5):
+                    if pos in by_pos and by_pos[pos][0]:
+                        choices.append(Choice(index=pos, text=by_pos[pos][0]))
+                    else:
+                        needs_ocr = True
+                        choices.append(
+                            Choice(index=pos, text=self._OCR_PLACEHOLDER)
+                        )
+                return choices, correct, needs_ocr
 
         # Fallback: digit-style markers (1. 2. 3. 4.)
-        digit_matches = re.findall(r"(?:^|\n)\s*([1-4])[.)\s]\s*([^\n]{1,200})", text)
+        digit_matches = re.findall(
+            r"(?:^|\n)\s*([1-4])[.)\s]\s*([^\n]{1,200})", text
+        )
         if digit_matches:
             choices = [
                 Choice(index=int(idx), text=content.strip())
                 for idx, content in digit_matches[:4]
             ]
-            return choices, 1
+            return choices, 1, False
 
-        return [], 1
+        return [], 1, False
 
     def _find_first_choice_pos(self, text: str) -> int:
         """Return the character position where the first choice marker appears."""

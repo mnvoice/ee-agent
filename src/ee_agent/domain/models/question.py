@@ -61,6 +61,8 @@ class Question(BaseModel):
     images: List[QuestionImage] = Field(default_factory=list)
     tags: List[str] = Field(default_factory=list)
     source_page: Optional[int] = None
+    # @MX:NOTE: [AUTO] True when one or more choices lack extractable text and require Vision OCR.
+    needs_ocr: bool = False
 
     @field_validator("choices")
     @classmethod

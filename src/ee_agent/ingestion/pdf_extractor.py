@@ -87,6 +87,28 @@ class PDFExtractor:
         pages = self.extract_pages(pdf_path)
         return "\n".join(p.text for p in pages)
 
+    # @MX:NOTE: [AUTO] Returns concatenated text plus the character offset of each
+    # page's start. Consumers can binary-search offsets to map a text position
+    # back to the originating PDF page.
+    def extract_full_text_with_offsets(
+        self, pdf_path: str | Path
+    ) -> tuple[str, list[int]]:
+        """Return full text and a list of start-offsets for each page.
+
+        The i-th element of the returned list is the character offset at
+        which page (i+1)'s text begins within the concatenated string.
+        """
+        pages = self.extract_pages(pdf_path)
+        parts: list[str] = []
+        offsets: list[int] = []
+        cursor = 0
+        for p in pages:
+            offsets.append(cursor)
+            parts.append(p.text)
+            # Each page is joined by a newline (see extract_full_text).
+            cursor += len(p.text) + 1
+        return "\n".join(parts), offsets
+
     def extract_question_sections(self, pdf_path: str | Path) -> Generator[str, None, None]:
         """
         Yield text sections likely containing individual questions.
