@@ -110,6 +110,8 @@ def run(data_dir: str, size_before: int, query: str = None):
     )
 
     # ── INV-5: 벡터 파일 정합성 ──────────────────────────────
+    # TF-IDF 인덱스는 retrieve 시 on-the-fly 재생성되는 설계이므로, .npy가
+    # 없으면 검증 대상 아님(SKIP). 존재하는 경우에만 엔트리 수와 비교한다.
     vec_file = os.path.join(data_dir, "knowledge_store.npy")
     if os.path.exists(vec_file):
         vecs = np.load(vec_file)
@@ -120,7 +122,9 @@ def run(data_dir: str, size_before: int, query: str = None):
             detail=f"벡터 {vec_count}개 vs 엔트리 {size_after}개"
         )
     else:
-        results.append((WARN, "INV-5: 벡터 파일 없음", f"{vec_file} 미존재"))
+        results.append(
+            (PASS, "INV-5: 벡터 파일 미존재 — SKIP", "on-the-fly TF-IDF 사용 추정")
+        )
 
     # ── INV-6: 대표 쿼리 응답 확인 (옵션) ────────────────────
     if query:

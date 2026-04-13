@@ -70,6 +70,26 @@ class LogicFirstPrinciplesSolver(BaseAgent):
         trace.append(f"Question type: {q_type}")
         inference_result = await self._blind_inference(stem, topology_str, formulas_text, choices_text, trace, q_type)
 
+        # @MX:NOTE: [AUTO] Forced-retry guarantee — if blind inference produced
+        # no usable selected_choice (API failure, JSON drift, or unknown result),
+        # invoke _retry_simple to ensure the solver always returns a 1-4 choice.
+        # Verifier can then decide trust level based on confidence tier.
+        sc = inference_result.get("selected_choice")
+        needs_forced_retry = not (isinstance(sc, int) and 1 <= sc <= 4)
+        if needs_forced_retry:
+            trace.append(f"Forced retry: no valid selected_choice in primary result (got {sc!r})")
+            retry_result = await self._retry_simple(stem=stem, choices_text=choices_text, trace=trace)
+            retry_sc = retry_result.get("selected_choice")
+            if isinstance(retry_sc, int) and 1 <= retry_sc <= 4:
+                # Preserve original final_answer/law_used if present; only swap choice.
+                merged = {**inference_result, **retry_result}
+                merged["selected_choice"] = retry_sc
+                # Cap confidence at 0.5 (retry tier) since primary path failed.
+                merged["confidence"] = min(retry_result.get("confidence", 0.5), 0.5)
+                inference_result = merged
+            else:
+                trace.append("Forced retry also failed to produce a choice")
+
         return AgentOutput(
             agent_name=self.name,
             question_id=input_data.question_id,
