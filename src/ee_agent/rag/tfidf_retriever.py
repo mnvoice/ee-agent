@@ -42,10 +42,13 @@ class TFIDFKnowledgeRetriever:
         self._matrix = self._vectorizer.fit_transform(texts)
         logger.debug(f"TF-IDF index rebuilt: {len(self._docs)} docs, shape={self._matrix.shape}")
 
-    def add_formula(self, name: str, latex: str, description: str) -> None:
+    def add_formula(
+        self, name: str, latex: str, description: str, subject: str = ""
+    ) -> None:
         text = f"{name} {description} {latex}"
         self._docs.append({"text": text, "metadata": {
-            "type": "formula", "name": name, "latex": latex, "description": description
+            "type": "formula", "name": name, "latex": latex,
+            "description": description, "subject": subject,
         }})
         self._matrix = None  # invalidate index
 

@@ -99,6 +99,7 @@ def main() -> None:
                 name=s["name"],
                 latex=s["text"],
                 description=f"{args.subject} | {s['name']}",
+                subject=args.subject,
             )
         else:
             retriever.add_concept(

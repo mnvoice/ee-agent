@@ -93,8 +93,13 @@ def run(data_dir: str, size_before: int, query: str = None):
     )
 
     # ── INV-4: 과목 태깅 N/A 비율 ────────────────────────────
-    na_count = sum(1 for e in entries
-                   if e.get("subject", "N/A").strip() in ("N/A", "", "null", "None"))
+    # Subject lives in metadata for TFIDFKnowledgeRetriever entries;
+    # fall back to top-level field for alternate schemas.
+    def _subj(e: dict) -> str:
+        meta = e.get("metadata") or {}
+        return (meta.get("subject") or e.get("subject") or "").strip()
+
+    na_count = sum(1 for e in entries if _subj(e) in ("", "N/A", "null", "None"))
     na_rate = na_count / size_after if size_after else 0
     max_na = 0.05  # N/A 5% 이하
     check(

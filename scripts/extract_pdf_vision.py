@@ -200,6 +200,7 @@ def main():
                 name=section["name"],
                 latex=section["text"],
                 description=f"{subject} | {section['name']}",
+                subject=subject,
             )
         else:
             retriever.add_concept(
