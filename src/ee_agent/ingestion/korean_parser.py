@@ -361,14 +361,21 @@ class KoreanQuestionParser:
         Returns the subject whose keyword list has the most matches.
         Falls back to ELECTROMAGNETISM when no keywords are found.
         """
+        result = self.detect_subject_by_keyword(text)
+        return result if result is not None else Subject.ELECTROMAGNETISM
+
+    # @MX:NOTE: [AUTO] Public variant that returns None instead of defaulting to
+    # ELECTROMAGNETISM, so callers can decide their own fallback strategy
+    # (e.g., number-range mapping for calc-only questions with few keywords).
+    def detect_subject_by_keyword(self, text: str) -> Optional[Subject]:
+        """Return the highest-scoring subject by keyword, or None if no match."""
         scores: dict[Subject, int] = {s: 0 for s in Subject}
         for subject, keywords in self.SUBJECT_KEYWORDS.items():
             for kw in keywords:
                 if kw in text:
                     scores[subject] += 1
-
         best = max(scores, key=lambda s: scores[s])
-        return best if scores[best] > 0 else Subject.ELECTROMAGNETISM
+        return best if scores[best] > 0 else None
 
     def _detect_question_type(self, text: str) -> QuestionType:
         """

@@ -42,20 +42,51 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 
-# ── Subject map ───────────────────────────────────────────────────────────────
+# ── Subject map (fallback only) ───────────────────────────────────────────────
+# Used when keyword detection fails. Splits Q61~80 into 회로이론 + 제어공학 —
+# this is the canonical layout for the 전기기사 필기 exam. Previous map lumped
+# Q61~80 into 회로이론 and excluded 제어공학 entirely.
 SUBJECT_MAP: list[tuple[range, str]] = [
     (range(1, 21), "전기자기학"),
     (range(21, 41), "전력공학"),
     (range(41, 61), "전기기기"),
-    (range(61, 81), "회로이론"),
+    (range(61, 71), "회로이론"),
+    (range(71, 81), "제어공학"),
     (range(81, 101), "전기설비기술기준"),
 ]
 
 
-def get_subject(q_no: int) -> str:
-    for r, subj in SUBJECT_MAP:
+# Lazy-init parser; instantiating Komoran is expensive.
+_PARSER: "KoreanQuestionParser | None" = None
+
+
+def _get_parser() -> "KoreanQuestionParser":
+    global _PARSER
+    if _PARSER is None:
+        from ee_agent.ingestion.korean_parser import KoreanQuestionParser
+
+        _PARSER = KoreanQuestionParser()
+    return _PARSER
+
+
+def get_subject(q_no: int, text: str = "") -> str:
+    """Classify subject with keyword-first, number-range fallback.
+
+    1. Keyword match via KoreanQuestionParser.detect_subject_by_keyword
+    2. Fallback to SUBJECT_MAP number range when no keyword matches
+    3. "기타" when neither works
+    """
+    if text:
+        try:
+            subj = _get_parser().detect_subject_by_keyword(text)
+            if subj is not None:
+                return subj.value
+        except Exception as exc:  # pragma: no cover
+            log.debug("Keyword-based subject detection failed: %s", exc)
+
+    for r, subj_name in SUBJECT_MAP:
         if q_no in r:
-            return subj
+            return subj_name
     return "기타"
 
 
@@ -779,7 +810,10 @@ def run_task_a(
                     {
                         "year": year,
                         "session": session,
-                        "subject": get_subject(q["q_no"]),
+                        "subject": get_subject(
+                            q["q_no"],
+                            q.get("text", "") + " " + " ".join(q.get("choices", [])),
+                        ),
                         "q_no": q["q_no"],
                         "text": q["text"],
                         "choices": q["choices"],
