@@ -90,14 +90,26 @@ def needs_vision(question) -> bool:
         if re.search(pat, stem):
             return True
 
-    # 5. Stem references diagram/block but choices are all [diagram]
-    diagram_refs = ["신호흐름", "블록선도", "그림"]
+    # 5. Stem references diagram/block and choices are all [diagram]
+    diagram_refs = ["신호흐름", "블록선도"]
     has_diagram_ref = any(r in stem for r in diagram_refs)
     all_diagram_choices = all(
         c.text in ("[diagram]", "[formula - OCR required]") for c in choices
     )
     if has_diagram_ref and all_diagram_choices:
         return True
+
+    # 6. "그림과 같이" + formula choices → diagram needed for geometry
+    #    Even when choices are text formulas, the solver needs the diagram
+    #    to understand the physical configuration being described.
+    if "그림" in stem:
+        # Strong formula indicators only — exclude simple fractions like "1/2"
+        formula_symbols = ("π", "²", "√", "ε", "μ", "ω", "∂", "sin", "cos", "e^")
+        choices_have_formula = sum(
+            1 for c in choices if any(s in c.text for s in formula_symbols)
+        )
+        if choices_have_formula >= 2:
+            return True
 
     return False
 
