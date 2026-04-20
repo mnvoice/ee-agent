@@ -77,6 +77,12 @@ def needs_vision(question) -> bool:
     if getattr(question, "needs_ocr", False):
         return True
 
+    # 2b. Private Use Area characters (다산에듀 PDF garbled formulas)
+    all_text = stem + " ".join(c.text for c in choices)
+    pua_count = sum(1 for ch in all_text if "\ue000" <= ch <= "\uf8ff")
+    if pua_count > 0:
+        return True
+
     # 3. Placeholder or [diagram] in choices
     placeholder = "[formula - OCR required]"
     if any(c.text == placeholder or c.text == "[diagram]" for c in choices):

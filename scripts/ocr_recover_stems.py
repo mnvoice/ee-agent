@@ -111,8 +111,9 @@ def call_vision(client: anthropic.Anthropic, image_bytes: bytes, q_numbers: list
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--pdf", default="data/20200424_1회.pdf")
-    ap.add_argument("--questions", default="64,65,68,80",
-                    help="Comma-separated question numbers")
+    ap.add_argument("--questions", default="",
+                    help="Comma-separated Q numbers. If empty, auto-detect garbled.")
+    ap.add_argument("--year", type=int, default=2020)
     ap.add_argument("--output", default="output/stem_ocr_recovered.json")
     args = ap.parse_args()
 
@@ -122,16 +123,33 @@ def main() -> None:
         sys.exit(1)
 
     client = anthropic.Anthropic(api_key=api_key)
-    target_qs = [int(q.strip()) for q in args.questions.split(",")]
 
-    # Map questions to pages (hardcoded for 2020_1회 — extend as needed)
     from ee_agent.ingestion.pdf_extractor import PDFExtractor
     from ee_agent.ingestion.korean_parser import KoreanQuestionParser
+    from ee_agent.pipeline.runner import _apply_answer_key_from_explanations
 
     ext = PDFExtractor()
     parser = KoreanQuestionParser()
     text, offsets = ext.extract_full_text_with_offsets(args.pdf)
-    all_qs = parser.parse_text(text, year=2020, session=1, page_offsets=offsets)
+    all_qs = parser.parse_text(text, year=args.year, session=1, page_offsets=offsets)
+
+    # Apply answer key if needed (다산에듀 format)
+    if all(q.correct_answer == 1 for q in all_qs) and len(all_qs) >= 50:
+        _apply_answer_key_from_explanations(args.pdf, all_qs)
+        logger.info("Applied answer key from 해설 section")
+
+    # Auto-detect garbled questions if --questions not specified
+    if args.questions:
+        target_qs = [int(q.strip()) for q in args.questions.split(",")]
+    else:
+        target_qs = []
+        for q in all_qs:
+            all_text = q.stem + ' '.join(c.text for c in q.choices)
+            pua = sum(1 for ch in all_text if '\ue000' <= ch <= '\uf8ff')
+            choices_len = sum(len(c.text.strip()) for c in q.choices)
+            if pua > 0 or choices_len < 10:
+                target_qs.append(q.question_number)
+        logger.info("Auto-detected %d garbled questions", len(target_qs))
 
     from collections import defaultdict
     by_page: dict[int, list[int]] = defaultdict(list)
