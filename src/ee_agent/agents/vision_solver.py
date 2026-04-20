@@ -28,6 +28,9 @@ VISION_SOLVE_PROMPT = """이 이미지는 전기기사 필기 기출문제 PDF�
 - z변환: F(z)=z/(z-e^(-aT)), 그리스: ω, ζ, ε, μ, λ, δ
 - 벡터: (ax̂ + bŷ) 형태
 
+중요: selected_choice는 반드시 1, 2, 3, 4 중 하나의 정수여야 합니다.
+0이나 다른 값은 절대 안 됩니다.
+
 반드시 아래 JSON 형식으로만 응답 (다른 텍스트 금지):
 {{
   "stem": "문제 전체 텍스트 (수식 포함)",
@@ -40,7 +43,9 @@ VISION_SOLVE_PROMPT = """이 이미지는 전기기사 필기 기출문제 PDF�
   "selected_choice": 정답번호,
   "law_used": "사용한 공식/법칙",
   "final_answer": "계산 결과값"
-}}"""
+}}
+
+예시: {{"stem": "...", "choices": {{"1":"...","2":"...","3":"...","4":"..."}}, "selected_choice": 2, "law_used": "...", "final_answer": "..."}}"""
 
 
 CONF_VISION_SOLVE = 0.70
@@ -163,12 +168,12 @@ class VisionSolver(BaseAgent):
             result = json.loads(content)
             choice = result.get("selected_choice")
             if not isinstance(choice, int) or not (1 <= choice <= 4):
-                # Try extracting from string
-                sc = re.search(r'"selected_choice"\s*:\s*([1-4])', content)
-                if sc:
-                    result["selected_choice"] = int(sc.group(1))
+                # Multi-pattern extraction for robustness
+                choice = self._extract_choice(content, choice, trace)
+                if choice:
+                    result["selected_choice"] = choice
                 else:
-                    trace.append(f"Vision returned invalid choice: {choice}")
+                    trace.append(f"Vision returned invalid choice: {result.get('selected_choice')}")
                     return self._fallback(input_data.question_id, trace)
 
             result["confidence"] = CONF_VISION_SOLVE
@@ -194,6 +199,50 @@ class VisionSolver(BaseAgent):
         except Exception as e:
             trace.append(f"Vision API error: {e}")
             return self._fallback(input_data.question_id, trace)
+
+    @staticmethod
+    def _extract_choice(
+        content: str, raw_choice: object, trace: list[str]
+    ) -> int | None:
+        """Multi-pattern extraction for selected_choice from Vision response."""
+        # 1. String-quoted number: "selected_choice": "2"
+        if isinstance(raw_choice, str):
+            try:
+                val = int(raw_choice)
+                if 1 <= val <= 4:
+                    trace.append(f"Extracted choice from string: {val}")
+                    return val
+            except ValueError:
+                pass
+
+        # 2. Regex: "selected_choice": 2 or "selected_choice": "2"
+        patterns = [
+            r'"selected_choice"\s*:\s*"?([1-4])"?',
+            r"selected_choice['\"]?\s*:\s*['\"]?([1-4])",
+            r"정답[:\s]*([1-4])",
+            r"answer[:\s]*([1-4])",
+            r"[❶❷❸❹]",
+        ]
+        for pat in patterns:
+            m = re.search(pat, content)
+            if m:
+                if pat == r"[❶❷❸❹]":
+                    val = "❶❷❸❹".index(m.group()) + 1
+                else:
+                    val = int(m.group(1))
+                if 1 <= val <= 4:
+                    trace.append(f"Extracted choice via pattern '{pat[:30]}': {val}")
+                    return val
+
+        # 3. Last resort: find any standalone 1-4 near end of response
+        tail = content[-100:]
+        m = re.search(r'\b([1-4])\b', tail)
+        if m:
+            val = int(m.group(1))
+            trace.append(f"Extracted choice from response tail: {val}")
+            return val
+
+        return None
 
     def _fallback(self, question_id: str, trace: list[str]) -> AgentOutput:
         trace.append("Vision fallback: returning empty result")
