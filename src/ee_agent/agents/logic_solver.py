@@ -115,6 +115,11 @@ class LogicFirstPrinciplesSolver(BaseAgent):
                 f"Q: {stem}\n{choices_text}\n\n"
                 f"Answer with ONLY a number (1-4):"
             ),
+            (
+                f"다음 전기기사 문제의 정답 번호(1~4)를 하나만 답하세요.\n\n"
+                f"{stem}\n{choices_text}\n\n"
+                f"정답:"
+            ),
         ]
 
         for i, prompt in enumerate(prompts):
