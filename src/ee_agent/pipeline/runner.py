@@ -61,6 +61,49 @@ def _merge_ocr_recovered(questions: list, year: int) -> int:
     return updated
 
 
+def _apply_answer_key_from_explanations(pdf_path: str, questions: list) -> int:
+    """Extract correct answers from 해설 (explanation) pages in 다산에듀-format PDFs.
+
+    These PDFs use ①②③④ for all choices (no ❶❷❸❹ markers) and put
+    the answer key in later pages as "N. ①" format.
+    Returns number of answers updated.
+    """
+    import re
+
+    try:
+        import pdfplumber
+    except ImportError:
+        return 0
+
+    answer_map: dict[int, int] = {}
+    markers = "①②③④"
+    try:
+        with pdfplumber.open(pdf_path) as pdf:
+            # Scan latter half of pages for answer patterns
+            start_page = max(0, len(pdf.pages) // 2)
+            for pg in pdf.pages[start_page:]:
+                text = pg.extract_text() or ""
+                matches = re.findall(r"(\d{1,3})\s*[.．]\s*([①②③④])", text)
+                for qn_str, marker in matches:
+                    qn = int(qn_str)
+                    if 1 <= qn <= 100 and qn not in answer_map:
+                        answer_map[qn] = markers.index(marker) + 1
+    except Exception as exc:
+        logger.warning("Failed to extract answer key from explanations: %s", exc)
+        return 0
+
+    if len(answer_map) < 50:
+        logger.debug("Answer key too sparse (%d entries), skipping", len(answer_map))
+        return 0
+
+    updated = 0
+    for q in questions:
+        if q.question_number in answer_map:
+            q.correct_answer = answer_map[q.question_number]
+            updated += 1
+    return updated
+
+
 def build_harness(config: PipelineConfig, solver_backend: str = "auto") -> EEAgentHarness:
     """Assemble the 4-agent harness from configuration.
 
@@ -194,6 +237,14 @@ async def run_from_pdf(
     ocr_applied = _merge_ocr_recovered(questions, year)
     if ocr_applied:
         logger.info(f"Applied OCR-recovered choices to {ocr_applied} questions")
+
+    # If all correct_answer == 1, try extracting from 해설 section
+    # (다산에듀 format: answers in explanation pages, not inline markers)
+    all_ans_one = all(q.correct_answer == 1 for q in questions)
+    if all_ans_one and len(questions) >= 50:
+        applied = _apply_answer_key_from_explanations(pdf_path, questions)
+        if applied:
+            logger.info(f"Applied answer key from 해설 section: {applied} answers updated")
 
     logger.info(f"Parsed {len(questions)} questions from PDF")
 
