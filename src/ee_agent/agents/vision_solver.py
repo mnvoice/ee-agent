@@ -61,11 +61,11 @@ def needs_vision(question) -> bool:
     if len(stem) < 15:
         return True
     if len(stem) < 50:
-        valid_choices = sum(
+        broken_choices = sum(
             1 for c in choices
-            if len(c.text) > 3 and c.text not in (placeholder, "[diagram]")
+            if c.text in (placeholder, "[diagram]") or not c.text.strip()
         )
-        if valid_choices < 4:
+        if broken_choices >= 2:
             return True
 
     # 2. needs_ocr flag still set

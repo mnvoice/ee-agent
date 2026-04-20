@@ -107,11 +107,18 @@ def build_harness(config: PipelineConfig, solver_backend: str = "auto") -> EEAge
     else:
         logger.warning("No knowledge store found. Run scripts/seed_knowledge.py first.")
 
+    # Vision Solver for questions where pdfplumber lost the stem formula.
+    # Uses the same LLM as solver (must support vision for real API calls).
+    from ee_agent.agents.vision_solver import VisionSolver
+
+    vision_solver = VisionSolver(llm=solver_llm)
+
     return EEAgentHarness(
         vision=VisionTopologyAnalyst(llm_client=router),
         solver=LogicFirstPrinciplesSolver(llm_client=solver_llm, retriever=retriever),
         verifier=VerifierGatekeeper(),
         memory=MemoryKnowledgeSync(retriever=retriever),
+        vision_solver=vision_solver,
     )
 
 
@@ -168,6 +175,7 @@ async def run_from_pdf(
     Parse PDF exam file and run through the 4-agent harness.
     Returns summary statistics.
     """
+    from ee_agent.agents.vision_solver import needs_vision as needs_vision_check
     from ee_agent.ingestion.korean_parser import KoreanQuestionParser
     from ee_agent.ingestion.pdf_extractor import PDFExtractor
 
@@ -190,6 +198,18 @@ async def run_from_pdf(
     logger.info(f"Parsed {len(questions)} questions from PDF")
 
     harness = build_harness(config, solver_backend=solver_backend)
+
+    # Attach page cache so VisionSolver can render PDF pages on demand.
+    from ee_agent.agents.harness import PageCache
+
+    harness.page_cache = PageCache(pdf_path)
+
+    vision_count = sum(1 for q in questions if needs_vision_check(q))
+    if vision_count:
+        logger.info(
+            "Vision-Solve candidates: %d/%d questions", vision_count, len(questions)
+        )
+
     results = await harness.process_batch(questions, max_concurrent=config.max_concurrent)
 
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)

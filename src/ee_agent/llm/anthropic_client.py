@@ -65,6 +65,48 @@ class AnthropicClient(LLMClient):
             finish_reason=response.stop_reason or "stop",
         )
 
+    async def complete_vision(
+        self,
+        image_b64: str,
+        prompt: str,
+        max_tokens: int = 2048,
+        media_type: str = "image/jpeg",
+    ) -> LLMResponse:
+        """Send an image + text prompt to Claude Vision."""
+        if not ANTHROPIC_AVAILABLE or self._client is None:
+            raise RuntimeError("Anthropic client not available.")
+
+        messages = [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image",
+                        "source": {
+                            "type": "base64",
+                            "media_type": media_type,
+                            "data": image_b64,
+                        },
+                    },
+                    {"type": "text", "text": prompt},
+                ],
+            }
+        ]
+        response = await self._client.messages.create(
+            model=self._model,
+            max_tokens=max_tokens,
+            messages=messages,
+            temperature=0,
+        )
+        content = response.content[0].text if response.content else ""
+        return LLMResponse(
+            content=content,
+            model=self._model,
+            prompt_tokens=response.usage.input_tokens,
+            completion_tokens=response.usage.output_tokens,
+            finish_reason=response.stop_reason or "stop",
+        )
+
     async def is_available(self) -> bool:
         if not ANTHROPIC_AVAILABLE or self._client is None:
             return False
