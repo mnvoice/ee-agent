@@ -192,9 +192,10 @@ def cmd_submit() -> None:
     requests: list[dict] = []
 
     for q in targets:
+        # 회 → h 변환으로 "_2011_1회.json" vs "_2011_1.json" 충돌 방지
         safe_stem = re.sub(
             r"[^a-zA-Z0-9_-]", "",
-            q["file"].replace("questions_기출_", "sol_").replace("회", ""),
+            q["file"].replace("questions_기출_", "sol_").replace(".json", "").replace("회", "h"),
         )
         custom_id = f"{safe_stem}_{q['index']}"
 
