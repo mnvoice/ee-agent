@@ -183,6 +183,13 @@ secret-*.*
 .moai/worktrees/
 
 # ===========================================
+# Evolution Telemetry (local-only usage data)
+# Learnings and new-skills are git-tracked for team sharing.
+# ===========================================
+.moai/evolution/telemetry/*.jsonl
+!.moai/evolution/telemetry/.gitkeep
+
+# ===========================================
 # Node.js (for docs/Nextra)
 # ===========================================
 node_modules/
@@ -211,8 +218,6 @@ output/
 data/
 *.env
 .claude/
-
-# === Exceptions: 필수 데이터 파일은 Git 추적 ===
 !data/knowledge_store_*.json
 !output/results.json
 !output/results_2022.json
