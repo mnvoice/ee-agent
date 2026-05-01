@@ -336,7 +336,18 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
     // Text
     h += '<div class="q-text">' + (q.text || '') + '</div>';
     // Figure
-    if (q.figure_svg) h += '<div class="q-figure">' + q.figure_svg + '</div>';
+    if (q.figure_svg) {
+      h += '<div class="q-figure">' + q.figure_svg + '</div>';
+    } else {
+      var __key = q.year + '_' + q.session + '_' + q.q_no;
+      var __pages = (window.pdfPageIndex || {})[__key];
+      if (__pages && __pages.length > 0) {
+        var __imgs = __pages.map(function(p) {
+          return '<img src="data/' + p + '" alt="PDF 페이지" loading="lazy" style="max-width:100%;height:auto;display:block;margin-bottom:8px;border:1px solid #d1d5db;border-radius:4px;" />';
+        }).join('');
+        h += '<div class="q-figure-pdf" aria-label="PDF 페이지">' + __imgs + '</div>';
+      }
+    }
     // Choices
     h += '<ul class="choices-list">' + renderChoices(q.choices || [], answered, q.answer, userAns) + '</ul>';
     // Result
@@ -482,6 +493,11 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
 
   // ======== Init ========
   function init() {
+    window.pdfPageIndex = {};
+    fetch('data/pdf_pages/index.json')
+      .then(function(r) { return r.ok ? r.json() : {}; })
+      .then(function(d) { window.pdfPageIndex = d; })
+      .catch(function() {});
     log('2. init()');
     var progressBar = S('.progress-bar-fill'), loadingText = S('.loading-text');
     function setProg(pct, msg) {

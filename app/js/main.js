@@ -640,6 +640,13 @@
 
     setProgress(5, 'DB \uCD08\uAE30\uD654...');
 
+    // PDF page index \u2014 figure_svg fallback for recovery candidates (B \uD2B8\uB799)
+    window.pdfPageIndex = {};
+    fetch('./data/pdf_pages/index.json')
+      .then(function(r) { return r.ok ? r.json() : {}; })
+      .then(function(d) { window.pdfPageIndex = d; })
+      .catch(function() {});
+
     openDB().then(function() {
       return loadQuestions(function(pct, msg) { setProgress(5 + pct * 0.9, msg); });
     }).then(function() {

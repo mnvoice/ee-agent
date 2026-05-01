@@ -118,10 +118,19 @@ export function renderQuestionCard(question, { answered = false, userAnswer = nu
       <span class="q-badge year-session">${year}년 ${escapeHtml(session)} Q${q_no}</span>
     </div>`;
 
-  // Figure SVG (question figure)
-  const figureHtml = figure_svg
-    ? `<div class="q-figure" aria-label="문제 그림">${figure_svg}</div>`
-    : '';
+  // Figure SVG (question figure) with PDF page fallback (B 트랙 — 결정 1: A 통째 표시)
+  const figureHtml = (() => {
+    if (figure_svg) {
+      return `<div class="q-figure" aria-label="문제 그림">${figure_svg}</div>`;
+    }
+    const key = `${year}_${session}_${q_no}`;
+    const pages = (window.pdfPageIndex || {})[key];
+    if (!pages || pages.length === 0) return '';
+    const imgs = pages.map(p =>
+      `<img src="${p}" alt="PDF 페이지" loading="lazy" style="max-width:100%;height:auto;display:block;margin-bottom:8px;border:1px solid #d1d5db;border-radius:4px;" />`
+    ).join('');
+    return `<div class="q-figure-pdf" aria-label="PDF 페이지 (회차 통째)">${imgs}</div>`;
+  })();
 
   // Choices
   const choicesHtml = `
