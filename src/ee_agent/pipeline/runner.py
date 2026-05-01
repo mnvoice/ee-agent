@@ -61,6 +61,13 @@ def _merge_ocr_recovered(questions: list, year: int) -> int:
     return updated
 
 
+# @MX:NOTE: [AUTO] PDF filename substring → 0-indexed start page for answer-key scan.
+# Overrides the default len/2 heuristic for PDFs whose answer key starts before half.
+_ANSWER_KEY_START_PAGE_OVERRIDE: dict[str, int] = {
+    "2026년 1회 전기기사": 15,  # answer key begins on page 16 (0-indexed 15)
+}
+
+
 def _apply_answer_key_from_explanations(pdf_path: str, questions: list) -> int:
     """Extract correct answers from 해설 (explanation) pages in 다산에듀-format PDFs.
 
@@ -77,10 +84,18 @@ def _apply_answer_key_from_explanations(pdf_path: str, questions: list) -> int:
 
     answer_map: dict[int, int] = {}
     markers = "①②③④"
+    pdf_name = Path(pdf_path).name
     try:
         with pdfplumber.open(pdf_path) as pdf:
-            # Scan latter half of pages for answer patterns
-            start_page = max(0, len(pdf.pages) // 2)
+            # PDF-specific override; fall back to len/2 heuristic.
+            start_page = next(
+                (
+                    sp
+                    for key, sp in _ANSWER_KEY_START_PAGE_OVERRIDE.items()
+                    if key in pdf_name
+                ),
+                max(0, len(pdf.pages) // 2),
+            )
             for pg in pdf.pages[start_page:]:
                 text = pg.extract_text() or ""
                 matches = re.findall(r"(\d{1,3})\s*[.．]\s*([①②③④])", text)
