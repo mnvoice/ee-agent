@@ -277,3 +277,55 @@ PDF 페이지 직접 표시로 그림 있는 368건 해결.
 - feat/solution-svg-batch branch 27건 main 미반영 — 별 트랙 결정
 
 ---
+
+## 2026-05-02 — Layer 4 batch 종결 + Layer M 신설
+
+**진행**:
+- 추천시스템 측 Layer 4 (Track B, RAG 본문 grep 게이트) 진입
+- B 안 (Eager batch 선행) 채택 — 584 concept 일괄 grep
+- 첫 batch Index 300까지 정상, Index 301 KeyError → 스키마 이중성 발견
+- A 안 (Δ 3줄 fallback) 진행 → 584건 전수 처리 성공 (5.2초)
+- B 안 (백업 제외, 3건 commit) — bee40291 박음
+- gate 위치 식별 측정 (read-only) — web_ui.py:157/985 식별
+- gate 추가는 다음 세션 (별 트랙)
+- Layer M (분류 박음 protocol) 신설 + 첫 적용
+
+**5채널 박음 매트릭스 (5/2)**:
+- Git (추천시스템): bee40291 — L4 batch
+- DECISIONS (verify-agent): D55 (L4 batch), D56 (Layer M)
+- CONSTITUTION (verify-agent): 사례 0/7/9 보강
+- DEVLOG (ee-agent): 본 entry
+- Vault (Obsidian): 00_NAVIGATION.md + 4 entry
+- Memory (Claude): #5/#6 갱신, #7 신규
+
+**Layer 진행 매트릭스**:
+
+| Layer | 상태 |
+|---|---|
+| L1 카탈로그 | ✅ |
+| L2 작업 규약 | ✅ |
+| L3 사후 정리 | ✅ |
+| L4 자동 차단 | 🔄 80% (gate/Q 다음 세션) |
+| LM 분류 박음 | 🔄 적용 3건째 |
+| L5 멀티 채널 | ❌ |
+| L6 Self-Harness | ❌ |
+
+**사례 0 세 발현 정량화**:
+1. 메타 노이즈/오타 — 244건
+2. 스키마 이중성 — 58건
+3. 책 raw 자체 부재 — 128건
+
+**잔여 부채**:
+- L4 gate 추가 + Q1/Q2/Q3 평가 (다음 세션 1순위)
+- 244 fiction suspect 정리 (별 D-번호)
+- 128 unverifiable 처리 (별 D-번호)
+- 스키마 B 58건 마이그레이션
+- feat/solution-svg-batch 27건 main 미반영
+- 백업 정책 일관 결정
+
+**§1.5 / §1.7 / 사례 10 회피 작동**:
+- 진술 1·2 박음 (L4 batch 종결 + 저장소 명시)
+- 검증 통로 3 (4채널 매트릭스 + commit 단위 분리)
+- 4단계: 진술 → 측정 → plan → 박음
+
+---
