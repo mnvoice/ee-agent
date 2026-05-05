@@ -215,7 +215,10 @@ dist-ssr/
 # User Custom Patterns (preserved by moai update)
 *.py[cod]
 output/
-data/
+!app/data/
+app/data/*.bak_*
+app/data/*.tmp
+app/data/*.json.tmp
 *.env
 .claude/
 !data/knowledge_store_*.json
