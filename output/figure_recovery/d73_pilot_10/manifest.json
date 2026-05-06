@@ -1,11 +1,11 @@
 [
   {
     "year": 2011,
-    "session": 1,
+    "session": "1회",
     "q_no": 61,
     "subject": "회로이론",
     "text_preview": "그림의 신호 흐름 선도에서 \\( \\frac{y_{2}}{y_{1}} \\) 은？",
-    "page_dir": "data/pdf_pages/2011_1"
+    "page_dir": "data/pdf_pages/2011_1회"
   },
   {
     "year": 2011,
