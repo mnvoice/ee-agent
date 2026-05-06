@@ -1,0 +1,82 @@
+[
+  {
+    "year": 2011,
+    "session": 1,
+    "q_no": 61,
+    "subject": "회로이론",
+    "text_preview": "그림의 신호 흐름 선도에서 \\( \\frac{y_{2}}{y_{1}} \\) 은？",
+    "page_dir": "data/pdf_pages/2011_1"
+  },
+  {
+    "year": 2011,
+    "session": "2회",
+    "q_no": 70,
+    "subject": "회로이론",
+    "text_preview": "그림과 같은 보드 위상선도를 갖는 회로망은 어떤 보상기로 사용될 수 있는가？",
+    "page_dir": "data/pdf_pages/2011_2회"
+  },
+  {
+    "year": 2011,
+    "session": "2회",
+    "q_no": 77,
+    "subject": "회로이론",
+    "text_preview": "그림과 같은 파형의 라플라스 변환은?",
+    "page_dir": "data/pdf_pages/2011_2회"
+  },
+  {
+    "year": 2012,
+    "session": "1회",
+    "q_no": 68,
+    "subject": "회로이론",
+    "text_preview": "그림과 같은 \\(R C\\) 회로에서 \\(R C \\ll 1\\) 인 경우 어떤 요소의 회로인가?",
+    "page_dir": "data/pdf_pages/2012_1회"
+  },
+  {
+    "year": 2012,
+    "session": "2회",
+    "q_no": 64,
+    "subject": "회로이론",
+    "text_preview": "그림과 같은 4단자망에서 정수 행렬은?",
+    "page_dir": "data/pdf_pages/2012_2회"
+  },
+  {
+    "year": 2013,
+    "session": "2회",
+    "q_no": 63,
+    "subject": "회로이론",
+    "text_preview": "그림과 같은 논리회로에서 출력 F 의 값은?",
+    "page_dir": "data/pdf_pages/2013_2회"
+  },
+  {
+    "year": 2013,
+    "session": "2회",
+    "q_no": 79,
+    "subject": "회로이론",
+    "text_preview": "그림과 같은 \\(\\pi\\) 형 회로에 있어서 어드미턴스 파라미터 중 \\(Y_{21}\\) 은 어느 것인가?",
+    "page_dir": "data/pdf_pages/2013_2회"
+  },
+  {
+    "year": 2014,
+    "session": "1회",
+    "q_no": 62,
+    "subject": "회로이론",
+    "text_preview": "그림과 같은 \\(R C\\) 회로에 단위 계단전압을 가하면 출력전압은?",
+    "page_dir": "data/pdf_pages/2014_1회"
+  },
+  {
+    "year": 2014,
+    "session": "2회",
+    "q_no": 62,
+    "subject": "회로이론",
+    "text_preview": "그림의 회로와 동일한 논리 소자는？",
+    "page_dir": "data/pdf_pages/2014_2회"
+  },
+  {
+    "year": 2015,
+    "session": "2회",
+    "q_no": 61,
+    "subject": "회로이론",
+    "text_preview": "그림의 신호흐름선도에서 \\(\\frac{C}{R}\\) 를 구하면？",
+    "page_dir": "data/pdf_pages/2015_2회"
+  }
+]
