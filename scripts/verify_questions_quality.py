@@ -127,8 +127,13 @@ def check_content_empty(items: list) -> dict:
 
 
 def check_choices(items: list) -> dict:
+    """choice-level 측정 — 각 짧은 choice 카운트 (entry당 여러 choice 가능).
+    사용자 review용 entry-level 측정은 extract_dispatch_candidates.py 별 트랙."""
     counts = Counter()
-    strict_fail, warn_short = [], []
+    strict_fail_total = 0
+    strict_fail_samples = []
+    warn_short_total = 0
+    warn_short_samples = []
     numeric_unit = 0
     for it in items:
         ch = it.get('choices')
@@ -141,25 +146,26 @@ def check_choices(items: list) -> dict:
                 continue
             length = len(c.strip())
             if length <= CHOICE_LEN_STRICT:
-                if len(strict_fail) < 10:
-                    strict_fail.append({'id': _id(it), 'choice_idx': c_idx,
-                                        'value': c[:30], 'len': length})
+                strict_fail_total += 1
+                if len(strict_fail_samples) < 10:
+                    strict_fail_samples.append({'id': _id(it), 'choice_idx': c_idx,
+                                                'value': c[:30], 'len': length})
             elif length <= CHOICE_LEN_WARN:
                 if NUMERIC_UNIT_RE.match(c.strip()):
                     numeric_unit += 1
                 else:
-                    if len(warn_short) < 10:
-                        warn_short.append({'id': _id(it), 'choice_idx': c_idx,
-                                           'value': c[:30], 'len': length})
+                    warn_short_total += 1
+                    if len(warn_short_samples) < 10:
+                        warn_short_samples.append({'id': _id(it), 'choice_idx': c_idx,
+                                                   'value': c[:30], 'len': length})
     return {
         'choice_count_distribution': dict(counts),
-        'strict_fail_count': len(strict_fail),
-        'strict_fail_samples': strict_fail,
-        'warn_short_non_numeric_count': len(warn_short),
-        'warn_short_samples': warn_short,
+        'strict_fail_count': strict_fail_total,
+        'strict_fail_samples': strict_fail_samples,
+        'warn_short_non_numeric_count': warn_short_total,
+        'warn_short_samples': warn_short_samples,
         'numeric_unit_short_count': numeric_unit,
     }
-
 
 def check_subject_distribution(items: list) -> dict:
     dist = Counter(it.get('subject') for it in items)
