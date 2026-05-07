@@ -231,3 +231,6 @@ app/data/*.json.tmp
 
 # verify_questions_quality 산출물 (run-time, manifest와 별도)
 app/reports/quality_*.json
+
+# extract_dispatch_candidates 산출물 (run-time markdown report)
+app/reports/dispatch_*.md
