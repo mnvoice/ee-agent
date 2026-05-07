@@ -1,0 +1,14 @@
+{
+  "_comment": "D82 cycle dispatch report 박힌 8건 subject extra 매핑. #4=#7=회로이론 (사용자 결정 2026-05-08). session 박음 string ('2회' 형식).",
+  "_source": "app/reports/dispatch_20260507T150532Z.md (extract_dispatch_candidates.py)",
+  "matches": [
+    {"year": 1998, "session": "2회", "q_no": null, "current_subject": "기타", "new_subject": "회로이론", "_text_hint": "단자 임피던스 / 정 임피던스 회로"},
+    {"year": 2001, "session": "3회", "q_no": null, "current_subject": "기타", "new_subject": "전력공학", "_text_hint": "가로등 500m / 도전율 / 전압강하"},
+    {"year": 2002, "session": "1회", "q_no": null, "current_subject": "기타", "new_subject": "제어공학", "_text_hint": "신호-흐름 선도 / 전달 함수"},
+    {"year": 2005, "session": "2회", "q_no": null, "current_subject": "기타", "new_subject": "회로이론", "_text_hint": "3상 평형 / 선간전압 / 역률"},
+    {"year": 2007, "session": "1회", "q_no": null, "current_subject": "기타", "new_subject": "전기자기학", "_text_hint": "유전체 역률 tan δ"},
+    {"year": 2011, "session": "1회", "q_no": 642, "current_subject": "기타", "new_subject": "제어공학", "_text_hint": "2차 시스템 감쇠율 δ"},
+    {"year": 2015, "session": "3회", "q_no": null, "current_subject": "기타", "new_subject": "회로이론", "_text_hint": "평형 3상 / 변류기 / 전류계 (#7)"},
+    {"year": 2015, "session": "3회", "q_no": null, "current_subject": "기타", "new_subject": "전기기기", "_text_hint": "Scott 결선 (#8, FIFO 2번째)"}
+  ]
+}
