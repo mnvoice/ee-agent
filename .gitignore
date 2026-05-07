@@ -147,6 +147,9 @@ private-key*
 *.secret.*
 secret-*.*
 
+# Phase B MM1 — batch_manifest exceptions (D69 외부 게이트 박음, manifest 메타 박음 ≠ secret)
+!data/batch_manifest/batch_answer_key.json
+
 # Credential patterns in environment files
 *_secret=*
 *_token=*
