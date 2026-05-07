@@ -228,3 +228,6 @@ app/data/*.json.tmp
 !output/results.json
 !output/results_2022.json
 !output/results_*_before_*.json
+
+# verify_questions_quality 산출물 (run-time, manifest와 별도)
+app/reports/quality_*.json
