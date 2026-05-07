@@ -38,7 +38,7 @@ CHOICE_LEN_STRICT = 1   # ≤1자 = STRICT FAIL
 CHOICE_LEN_WARN = 4     # 2~4자 = 추가 검증 (숫자·단위면 정상)
 ANSWER_VALID = {1, 2, 3, 4}
 ANSWER_SENTINEL = {0}
-EXPECTED_SUBJECTS = {'전기자기학', '전력공학', '전기기기', '회로이론', '제어공학', '전기설비'}
+EXPECTED_SUBJECTS = {'전기자기학', '전력공학', '전기기기', '회로이론', '제어공학', '전기설비기술기준'}
 NUMERIC_UNIT_RE = re.compile(r'^[\d.\-+/×x*]+\s*[A-Za-zΩμ가-힣%°]*\s*$')
 PLACEHOLDER_RE = re.compile(r'(needs_ocr|<\s*ocr|TODO|placeholder|fill_me|XXX)', re.IGNORECASE)
 
