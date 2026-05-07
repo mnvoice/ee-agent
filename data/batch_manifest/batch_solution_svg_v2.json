@@ -1,0 +1,15 @@
+{
+  "batch_id": "batch_solution_svg_v2",
+  "model_inferred": "claude-sonnet-4-5",
+  "discovery_at": "2026-05-07T15:52:32.010779",
+  "directory_mtime": "2026-04-29T14:15:05.612561",
+  "file_count": 5,
+  "files": [
+    "batch_id.txt",
+    "failed_ids.json",
+    "id_mapping.json",
+    "id_mapping.json.bak_20260429_predown",
+    "requests.jsonl"
+  ],
+  "note_박음": "Phase B MM1 박음 — REQ-006 entries 박지 0 (별 트랙 박음). entries (각 q_no/year/session/field 박음) 박음 = 별 작업 박음."
+}

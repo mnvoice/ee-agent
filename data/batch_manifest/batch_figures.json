@@ -1,0 +1,14 @@
+{
+  "batch_id": "batch_figures",
+  "model_inferred": "claude-sonnet-4-5",
+  "discovery_at": "2026-05-07T15:52:32.008229",
+  "directory_mtime": "2026-03-18T19:42:36.263739",
+  "file_count": 4,
+  "files": [
+    "batch_id.txt",
+    "failed_ids.json",
+    "id_mapping.json",
+    "requests.jsonl"
+  ],
+  "note_박음": "Phase B MM1 박음 — REQ-006 entries 박지 0 (별 트랙 박음). entries (각 q_no/year/session/field 박음) 박음 = 별 작업 박음."
+}
