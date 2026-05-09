@@ -670,3 +670,18 @@ Language: English
 Core Rule: MoAI is an orchestrator; direct implementation is prohibited
 
 For detailed patterns on plugins, sandboxing, headless mode, and version management, see Skill("moai-foundation-cc").
+## 어휘 규칙 (필수 준수)
+
+한국어 표준 동사만 사용. 다음 비표준 결합 사용 금지:
+- "박음" / "박힘" / "박혀 있음" / "박지 X" / "박았다" / "박는다"
+- "측정 박음" / "데이터 박음" / "commit 박음" 등 명사+박음 결합
+- "박음 박지 X" / "박음 박음" 등 중첩
+
+대체 (필수):
+- "박음" → "있음" / "추가" / "완료" / "기록"
+- "박지 X" → "없음" / "안 함" / "미완"
+- "측정 박음" → "측정 완료"
+- "commit 박음" → "commit 완료"
+- "박혀 있음" → "기록되어 있음"
+
+위반 발견 시 응답 즉시 정정. 본 규칙은 한국어 응답 전체에 적용.
