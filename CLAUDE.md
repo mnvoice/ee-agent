@@ -685,3 +685,5 @@ For detailed patterns on plugins, sandboxing, headless mode, and version managem
 - "박혀 있음" → "기록되어 있음"
 
 위반 발견 시 응답 즉시 정정. 본 규칙은 한국어 응답 전체에 적용.
+
+@/Users/jeong-ujin_1/verify-agent/CONSTITUTION.md
