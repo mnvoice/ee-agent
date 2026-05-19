@@ -34,7 +34,10 @@
     <button id="nav-prev" class="nav-btn">◀ 이전</button>
     <button id="mock-mark-btn" class="nav-btn mock-only" style="display:none">🚩</button>
     <button id="pencil-btn" class="nav-btn pencil-btn">✏️ 필기</button>
-    <div id="nav-counter" class="nav-counter">1 / 1</div>
+    <form id="nav-jump-form" class="nav-jump-form" aria-label="문제 번호로 이동">
+      <input id="nav-jump-input" class="nav-jump-input" type="text" value="1" aria-label="문제 번호 또는 문항 코드">
+      <span id="nav-total" class="nav-total">/ 1</span>
+    </form>
     <button id="mock-grid-btn" class="nav-btn mock-only" style="display:none">▦</button>
     <button id="nav-next" class="nav-btn">다음 ▶</button>
   </nav>
@@ -837,12 +840,61 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
 
   function updateNav() {
     var total = state.currentQueue.length;
-    S('#nav-counter').textContent = (state.currentIndex + 1) + ' / ' + total;
+    var jumpInput = S('#nav-jump-input');
+    jumpInput.value = state.currentIndex + 1;
+    jumpInput.setAttribute('aria-valuemax', total);
+    S('#nav-total').textContent = '/ ' + total;
     S('#nav-prev').disabled = state.currentIndex === 0;
     S('#nav-next').disabled = state.currentIndex === total - 1;
     var pb = S('#pencil-btn');
     if (isDrawingMode()) pb.classList.add('drawing');
     else pb.classList.remove('drawing');
+  }
+
+  function jumpToIndexFromInput() {
+    var input = S('#nav-jump-input');
+    var total = state.currentQueue.length;
+    var raw = (input.value || '').trim();
+    var code = parseQCodeInput(raw);
+    if (code) {
+      var idx = findQCodeIndex(state.currentQueue, code);
+      if (idx >= 0) {
+        state.currentIndex = idx;
+      } else {
+        idx = findQCodeIndex(_questions, code);
+        if (idx < 0) { updateNav(); return; }
+        state.filterContext = null;
+        state.currentQueue = _questions.slice();
+        state.currentIndex = idx;
+      }
+      state.answered = false;
+      state.userAnswer = null;
+      showQuestion();
+      return;
+    }
+
+    var next = parseInt(raw, 10);
+    if (!isFinite(next)) { updateNav(); return; }
+    next = Math.max(1, Math.min(total, next));
+    if (next - 1 === state.currentIndex) { updateNav(); return; }
+    state.currentIndex = next - 1;
+    state.answered = false;
+    state.userAnswer = null;
+    showQuestion();
+  }
+
+  function parseQCodeInput(raw) {
+    var m = String(raw || '').match(/^\s*((?:19|20)\d{2})\s*(?:년)?[\s.-]*(\d+)\s*(?:회)?[\s.-]*(?:Q|q)?\s*(\d+)\s*$/);
+    if (!m) return null;
+    return { year: m[1], session: String(parseInt(m[2], 10)) + '회', q_no: parseInt(m[3], 10) };
+  }
+
+  function findQCodeIndex(list, code) {
+    for (var i = 0; i < list.length; i++) {
+      var q = list[i];
+      if (String(q.year) === code.year && String(q.session) === code.session && parseInt(q.q_no, 10) === code.q_no) return i;
+    }
+    return -1;
   }
 
   // ======== Events ========
@@ -857,7 +909,18 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
     S('#nav-next').addEventListener('click', function() {
       if (state.currentIndex < state.currentQueue.length - 1) { state.currentIndex++; state.answered = false; state.userAnswer = null; showQuestion(); }
     });
-
+    S('#nav-jump-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      jumpToIndexFromInput();
+      S('#nav-jump-input').blur();
+    });
+    S('#nav-jump-input').addEventListener('focus', function() { this.select(); });
+    S('#nav-jump-input').addEventListener('keydown', function(e) {
+      e.stopPropagation();
+      if (e.key === 'Enter') { e.preventDefault(); jumpToIndexFromInput(); this.blur(); }
+      if (e.key === 'Escape') { this.blur(); updateNav(); }
+    });
+    S('#nav-jump-input').addEventListener('change', jumpToIndexFromInput);
     var touchSX = 0, touchSY = 0, content = S('#app-content');
     content.addEventListener('touchstart', function(e) { if (isDrawingMode()) return; touchSX = e.touches[0].clientX; touchSY = e.touches[0].clientY; }, { passive: true });
     content.addEventListener('touchend', function(e) {
@@ -893,6 +956,8 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
 
     document.addEventListener('keydown', function(e) {
       if (state.activeTab !== 'question') return;
+      var tag = ((e.target && e.target.tagName) || '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); S('#nav-next').click(); }
       else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); S('#nav-prev').click(); }
       else if (e.key === 'Escape' && isDrawingMode()) { setDrawingMode(false); penToolbar.classList.remove('visible'); pencilBtn.classList.remove('drawing'); }
