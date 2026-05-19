@@ -336,23 +336,45 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
     h += '<span class="q-badge tag">' + esc(q.tag || '') + '</span>';
     h += '<span class="q-badge year-session">' + q.year + '년 ' + esc(q.session) + ' Q' + q.q_no + '</span>';
     h += '</div>';
-    // Text
-    h += '<div class="q-text">' + (q.text || '') + '</div>';
-    // Figure
-    if (q.figure_svg) {
-      h += '<div class="q-figure">' + q.figure_svg + '</div>';
+    // PUA crop fallback: when the app's text is PUA-corrupted (2026_1회 etc.),
+    //   render the original PDF crop image and replace text buttons with numbered ones (①②③④).
+    var __key_pua = q.year + '_' + q.session + '_' + q.q_no;
+    var __pua = (window.puaChoicesIndex || {})[__key_pua];
+    if (__pua && __pua.crop) {
+      h += '<div class="q-pua-crop" aria-label="원문 문제/선택지" style="margin-bottom:8px;">' +
+        '<img src="data/' + __pua.crop + '" alt="원문 문제/선택지" loading="lazy" style="max-width:100%;height:auto;display:block;border:1px solid #d1d5db;border-radius:4px;" />' +
+        '<div style="font-size:0.72rem;color:#6b7280;margin-top:4px">PDF 원문 문제/선택지 (앱 텍스트는 PUA 깨짐)</div>' +
+        '</div>';
+      var __nums = ['①','②','③','④'];
+      var __btnH = __nums.map(function(label, idx) {
+        var num = idx + 1, cls = 'choice-btn';
+        if (answered) {
+          if (num === q.answer) cls += ' correct';
+          else if (num === userAns && num !== q.answer) cls += ' wrong';
+        }
+        return '<li><button class="' + cls + '" data-choice="' + num + '" ' +
+          (answered ? 'disabled' : '') + '>' + label + '</button></li>';
+      }).join('');
+      h += '<ul class="choices-list">' + __btnH + '</ul>';
     } else {
-      var __key = q.year + '_' + q.session + '_' + q.q_no;
-      var __pages = (window.pdfPageIndex || {})[__key];
-      if (__pages && __pages.length > 0) {
-        var __imgs = __pages.map(function(p) {
-          return '<img src="data/' + p + '" alt="PDF 페이지" loading="lazy" style="max-width:100%;height:auto;display:block;margin-bottom:8px;border:1px solid #d1d5db;border-radius:4px;" />';
-        }).join('');
-        h += '<div class="q-figure-pdf" aria-label="PDF 페이지">' + __imgs + '</div>';
+      // Text
+      h += '<div class="q-text">' + (q.text || '') + '</div>';
+      // Figure
+      if (q.figure_svg) {
+        h += '<div class="q-figure">' + q.figure_svg + '</div>';
+      } else {
+        var __key = q.year + '_' + q.session + '_' + q.q_no;
+        var __pages = (window.pdfPageIndex || {})[__key];
+        if (__pages && __pages.length > 0) {
+          var __imgs = __pages.map(function(p) {
+            return '<img src="data/' + p + '" alt="PDF 페이지" loading="lazy" style="max-width:100%;height:auto;display:block;margin-bottom:8px;border:1px solid #d1d5db;border-radius:4px;" />';
+          }).join('');
+          h += '<div class="q-figure-pdf" aria-label="PDF 페이지">' + __imgs + '</div>';
+        }
       }
+      // Choices
+      h += '<ul class="choices-list">' + renderChoices(q.choices || [], answered, q.answer, userAns) + '</ul>';
     }
-    // Choices
-    h += '<ul class="choices-list">' + renderChoices(q.choices || [], answered, q.answer, userAns) + '</ul>';
     // Result
     if (answered) {
       if (isCorrect) h += '<div class="result-indicator correct show" role="alert"><span>\u2713</span> 정답입니다!</div>';
@@ -501,6 +523,16 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
       .then(function(r) { return r.ok ? r.json() : {}; })
       .then(function(d) { window.pdfPageIndex = d; })
       .catch(function() {});
+    window.puaChoicesIndex = {};
+    fetch('data/pdf_pages/pua_choices.index.json')
+      .then(function(r) { return r.ok ? r.json() : {}; })
+      .then(function(d) {
+        window.puaChoicesIndex = d;
+        log('pua_choices.index.json keys: ' + Object.keys(d).length);
+        var q = curQ();
+        if (q && d[q.year + '_' + q.session + '_' + q.q_no]) showQuestion();
+      })
+      .catch(function(e) { log('pua_choices fetch fail: ' + (e && e.message)); });
     log('2. init()');
     var progressBar = S('.progress-bar-fill'), loadingText = S('.loading-text');
     function setProg(pct, msg) {
