@@ -336,11 +336,10 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
     h += '<span class="q-badge tag">' + esc(q.tag || '') + '</span>';
     h += '<span class="q-badge year-session">' + q.year + '년 ' + esc(q.session) + ' Q' + q.q_no + '</span>';
     h += '</div>';
-    // PUA crop fallback: when the app's text is PUA-corrupted (2026_1회 etc.),
-    //   render the original PDF crop image and replace text buttons with numbered ones (①②③④).
-    var __key_pua = q.year + '_' + q.session + '_' + q.q_no;
-    var __pua = (window.puaChoicesIndex || {})[__key_pua];
+    var __key = q.year + '_' + q.session + '_' + q.q_no;
+    var __pua = (window.puaChoicesIndex || {})[__key];
     if (__pua && __pua.crop) {
+      // PUA override: crop covers stem + choices. Suppress q.text and pdfPageIndex figure to avoid PUA-corrupted duplicate.
       h += '<div class="q-pua-crop" aria-label="원문 문제/선택지" style="margin-bottom:8px;">' +
         '<img src="data/' + __pua.crop + '" alt="원문 문제/선택지" loading="lazy" style="max-width:100%;height:auto;display:block;border:1px solid #d1d5db;border-radius:4px;" />' +
         '<div style="font-size:0.72rem;color:#6b7280;margin-top:4px">PDF 원문 문제/선택지 (앱 텍스트는 PUA 깨짐)</div>' +
@@ -357,22 +356,15 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
       }).join('');
       h += '<ul class="choices-list">' + __btnH + '</ul>';
     } else {
-      // Text
+      // Standard render (no PUA crop)
       h += '<div class="q-text">' + (q.text || '') + '</div>';
-      // Figure
-      if (q.figure_svg) {
-        h += '<div class="q-figure">' + q.figure_svg + '</div>';
-      } else {
-        var __key = q.year + '_' + q.session + '_' + q.q_no;
-        var __pages = (window.pdfPageIndex || {})[__key];
-        if (__pages && __pages.length > 0) {
-          var __imgs = __pages.map(function(p) {
-            return '<img src="data/' + p + '" alt="PDF 페이지" loading="lazy" style="max-width:100%;height:auto;display:block;margin-bottom:8px;border:1px solid #d1d5db;border-radius:4px;" />';
-          }).join('');
-          h += '<div class="q-figure-pdf" aria-label="PDF 페이지">' + __imgs + '</div>';
-        }
+      var __pages = (window.pdfPageIndex || {})[__key];
+      if (__pages && __pages.length > 0) {
+        var __imgs = __pages.map(function(p) {
+          return '<img src="data/' + p + '" alt="원문 그림" loading="lazy" style="max-width:100%;height:auto;display:block;margin-bottom:8px;border:1px solid #d1d5db;border-radius:4px;" />';
+        }).join('');
+        h += '<div class="q-figure-pdf" aria-label="원문 그림">' + __imgs + '</div>';
       }
-      // Choices
       h += '<ul class="choices-list">' + renderChoices(q.choices || [], answered, q.answer, userAns) + '</ul>';
     }
     // Result
@@ -393,6 +385,7 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
       h += '<div class="solution-section"><button class="solution-toggle" aria-expanded="false">풀이 보기 <span class="chevron">\u25BC</span></button>';
       h += '<div class="solution-body">' + stepsH;
       if (q.solution) h += '<div class="solution-text">' + esc(q.solution) + '</div>';
+      if (q.figure_svg) h += '<div class="ai-figure" style="margin-top:12px;border:1px dashed #f59e0b;border-radius:4px;padding:8px;background:#fffbeb"><div style="font-size:0.75rem;color:#92400e;margin-bottom:6px;font-weight:600">AI 보조 그림 (원문 아님)</div>' + q.figure_svg + '</div>';
       if (q.solution_svg) h += '<div class="sol-figure">' + q.solution_svg + '</div>';
       h += '</div></div>';
     }
