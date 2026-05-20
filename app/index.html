@@ -325,6 +325,17 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
   // ======== Solution gating (UI-only, no data mutation) ========
   var SOLUTION_PLACEHOLDER_RE = /(문제\s*정보\s*부족|정보\s*부족|분석\s*불가능|분석\s*불가|전문\s*재제출|재제출|문제\s*내용\s*누락|문제\s*내용\s*부재|문제\s*및\s*선택지\s*정보\s*부재|문제\s*내용\s*및\s*보기\s*필요|인식\s*불가|모두\s*누락|모두\s*비어)/;
 
+  // Hold items whose solution is withheld pending rewrite (figure-dependent track).
+  var SOLUTION_REWRITE_HOLD = { '2025_3회_79': true };
+
+  // Hold items: original figure crops linked here as a pdfPageIndex fallback
+  // (crop PNGs committed in bd99bc8; avoids tracking the large pdf_pages/index.json).
+  var FIGURE_CROP_HOLD = {
+    '2025_2회_60': ['pdf_pages/figure_crops/2025_2회/2025_2회_Q060.png'],
+    '2025_3회_79': ['pdf_pages/figure_crops/2025_3회/2025_3회_Q079.png'],
+    '2026_1회_67': ['pdf_pages/figure_crops/2026_1회/2026_1회_Q067.png']
+  };
+
   function normSolutionText(v) {
     return (v == null ? '' : String(v)).trim();
   }
@@ -404,7 +415,7 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
     } else {
       // Standard render (no PUA crop)
       h += '<div class="q-text">' + (q.text || '') + '</div>';
-      var __pages = (window.pdfPageIndex || {})[__key];
+      var __pages = (window.pdfPageIndex || {})[__key] || FIGURE_CROP_HOLD[__key];
       if (__pages && __pages.length > 0) {
         var __imgs = __pages.map(function(p) {
           return '<img src="data/' + p + '" alt="원문 그림" loading="lazy" style="max-width:100%;height:auto;display:block;margin-bottom:8px;border:1px solid #d1d5db;border-radius:4px;" />';
@@ -420,6 +431,9 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
     }
     // Solution — UI gating: meaningful content가 있을 때만 풀이 토글 표시.
     if (answered) {
+      if (SOLUTION_REWRITE_HOLD[__key]) {
+        h += '<div class="solution-pending" style="margin-top:12px;padding:12px;border:1px solid #d1d5db;border-radius:6px;background:#f6f8fa;font-size:0.85rem;color:#57606a;text-align:center">이 문항의 풀이는 재작성 보류 상태입니다. 위 원문 그림을 참고하세요.</div>';
+      } else {
       var __solState = getSolutionRenderState(q);
       if (__solState !== 'meaningful') {
         var __pendMsg = (__solState === 'placeholder')
@@ -443,6 +457,7 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
       if (q.figure_svg) h += '<div class="ai-figure" style="margin-top:12px;border:1px dashed #f59e0b;border-radius:4px;padding:8px;background:#fffbeb"><div style="font-size:0.75rem;color:#92400e;margin-bottom:6px;font-weight:600">AI 보조 그림 (원문 아님)</div>' + q.figure_svg + '</div>';
       if (q.solution_svg) h += '<div class="ai-solution-svg" style="margin-top:12px;border:1px dashed #f59e0b;border-radius:4px;padding:8px;background:#fffbeb"><div style="font-size:0.75rem;color:#92400e;margin-bottom:6px;font-weight:600">AI 풀이 그림 (원문 아님)</div><div class="sol-figure">' + q.solution_svg + '</div></div>';
       h += '</div></div>';
+      }
       }
     }
     h += '</div></div>';
