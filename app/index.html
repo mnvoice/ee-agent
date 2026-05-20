@@ -386,7 +386,7 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
       h += '<div class="solution-body">' + stepsH;
       if (q.solution) h += '<div class="solution-text">' + esc(q.solution) + '</div>';
       if (q.figure_svg) h += '<div class="ai-figure" style="margin-top:12px;border:1px dashed #f59e0b;border-radius:4px;padding:8px;background:#fffbeb"><div style="font-size:0.75rem;color:#92400e;margin-bottom:6px;font-weight:600">AI 보조 그림 (원문 아님)</div>' + q.figure_svg + '</div>';
-      if (q.solution_svg) h += '<div class="sol-figure">' + q.solution_svg + '</div>';
+      if (q.solution_svg) h += '<div class="ai-solution-svg" style="margin-top:12px;border:1px dashed #f59e0b;border-radius:4px;padding:8px;background:#fffbeb"><div style="font-size:0.75rem;color:#92400e;margin-bottom:6px;font-weight:600">AI 풀이 그림 (원문 아님)</div><div class="sol-figure">' + q.solution_svg + '</div></div>';
       h += '</div></div>';
     }
     h += '</div></div>';
