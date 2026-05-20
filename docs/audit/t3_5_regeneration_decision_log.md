@@ -468,3 +468,78 @@ PUA (U+E000..U+F8FF) / U+FFFD 0-count check is added as a per-batch reporting it
 For Batch 2/3 this property was already covered by the T3.5-J static verification
 (no PUA / no U+FFFD across all 74 applied items) and by the replacement-char badge
 count of 0 in every browser check.
+
+### T3.5-J Batch 4 — 2026_1회 clean-Chrome G5 verification
+
+Continuation of G5: full browser verification of the 2026_1회 regenerated items —
+the final batch of the 74 applied items.
+
+Scope (13 items):
+`Q29 Q38 Q41 Q42 Q45 Q47 Q81 Q82 Q86 Q90 Q95 Q96 Q98`
+
+Method: identical to Batch 2/3 (clean Chrome via gstack; service worker `unregister()` +
+`caches` deleted + reload before verification; Codex in-app browser excluded from the
+verdict basis).
+
+Result — 13/13 PASS, 0 FAIL:
+
+| Item | Category | Conclusion |
+| --- | --- | --- |
+| Q29 | concept | 1번 (지락고장회선의 선택 차단) |
+| Q38 | concept | 3번 (전부하로 운전되는 동기전동기로 역률 개선 = 틀림) |
+| Q41 | concept | 3번 (위상제어 방식) |
+| Q42 | concept | 1번 (난조 방지 = 틀림) |
+| Q45 | concept | 3번 (1차 저항 기동방식) |
+| Q47 | calculation | 2번 (570) |
+| Q81 | regulation | 3번 (10) |
+| Q82 | regulation | 2번 (1) |
+| Q86 | concept | 1번 (아날로그 계전기 방식 원칙 = 틀림) |
+| Q90 | regulation | 2번 (4) |
+| Q95 | regulation | 1번 (상별표시) |
+| Q96 | regulation | 1번 (1.38) |
+| Q98 | regulation | 2번 (1.2) |
+
+Verification facts:
+- All 13: result indicator `정답입니다`, pending gating box 0/13 (every item rendered
+  as `meaningful`), step blocks 2-3; solution displayed correctly after the answer
+  choice was selected (13/13).
+- Data 5-layer agreement for all 13: `questions.json.answer` == `questions.v2.json.answer`
+  == staging `q_answer` == `new_conclusion` == browser conclusion `정답: N번`.
+- Console errors: 0 across the whole batch.
+- `.katex-error`: 0. KaTeX rendered correctly on Q47 (2); other items use plain-text
+  math notation (0 KaTeX elements) — a notation choice, not a render failure.
+- PUA (U+E000..U+F8FF): 0/13. U+FFFD: 0/13. Browser replacement-char badge: 0/13.
+  (PUA/U+FFFD confirmed by ord()-based static check on `solution` + `steps`.)
+- AI figure label renders correctly: Q90 ("AI 풀이 그림 (원문 아님)").
+- Hold item `2026_1회_67` confirmed excluded from the Batch 4 scope (not present).
+  Hold items `2025_2회_60`, `2025_3회_79` were not touched.
+
+Independent judgment:
+- Claude CLI execution verification: 13/13 PASS.
+- Web Claude independent judgment: 13/13 PASS.
+- Supervisor approval: Batch 4 fixed as final PASS on the clean Chrome / gstack basis.
+
+Batch 4 verdict: PASS — 13/13. No data, solution-content, or render-code changes were made.
+
+### T3.5-J G5 browser verification closure
+
+G5 browser verification of all 74 answer-locked regenerated solutions is complete.
+
+Cumulative result:
+- Spot-check 6 + Batch 1 (19) + Batch 2 (21) + Batch 3 (15) + Batch 4 (13) = 74/74 PASS.
+- Cumulative FAIL: 0. Cumulative HOLD: 0. Hold-policy violations: 0.
+- Hold items `2025_2회_60`, `2025_3회_79`, `2026_1회_67` remained untouched throughout —
+  excluded from every batch scope and from G5 entirely.
+- Data 5-layer agreement (`questions.json.answer` == `questions.v2.json.answer` ==
+  staging `q_answer` == `new_conclusion` == browser conclusion `정답: N번`): 74/74.
+- Cumulative console errors: 0. Cumulative `.katex-error`: 0. Cumulative hash drift: 0.
+- PUA / U+FFFD / replacement-char: no anomaly across all 74 (static ord()-based check
+  plus browser badge counts).
+- No paid Claude / OpenAI API calls were made; verification used local static checks
+  plus clean Chrome / gstack browser automation only.
+- No data, solution-content, or render-code changes were made.
+- The Codex in-app browser stale-display issue is excluded from the verdict basis;
+  G5 is closed on the clean Chrome / gstack result (service worker `unregister()` +
+  `caches` deletion + reload performed before each batch).
+
+G5 browser verification: CLOSED / PASS.
