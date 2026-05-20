@@ -543,3 +543,57 @@ Cumulative result:
   `caches` deletion + reload performed before each batch).
 
 G5 browser verification: CLOSED / PASS.
+
+## T3.5-K Hold-item figure-crop track (H1)
+
+The 3 hold items excluded from G5 (`2025_2회_60`, `2025_3회_79`, `2026_1회_67`) are
+figure-dependent: each requires the original diagram to write an answer-locked solution.
+H1 secured the source figure crops. No data, solution, or hold release was performed.
+
+Related commits:
+- `50f1908` — `chore: ignore gstack workspace` (gitignore for gstack browser runtime logs).
+- `bd99bc8` — `data: add source figure crops for hold items` (the 3 crop PNGs below).
+
+PDF page identification:
+
+| Item | Source PDF | Page (0-idx / printed) | Figure |
+| --- | --- | --- | --- |
+| 2025_2회_60 | 2025 CBT 기출문제(1-3회).pdf | p.35 / "34/85" | circular DC-machine armature winding diagram |
+| 2025_3회_79 | 2025 CBT 기출문제(1-3회).pdf | p.64 / "63/85" | 4 block diagrams ①②③④ |
+| 2026_1회_67 | 2026 1회 CBT 기출문제.pdf | p.9 / "8" | gate circuit diagram |
+
+Crop assets (committed in `bd99bc8`; path follows the existing
+`data/pdf_pages/pua_choices/{회차}/` convention):
+
+| Item | Crop path | Resolution | Quality |
+| --- | --- | --- | --- |
+| 2025_2회_60 | `data/pdf_pages/figure_crops/2025_2회/2025_2회_Q060.png` | 1044×492 | good — no recrop needed |
+| 2025_3회_79 | `data/pdf_pages/figure_crops/2025_3회/2025_3회_Q079.png` | 1036×1036 | good — no recrop needed |
+| 2026_1회_67 | `data/pdf_pages/figure_crops/2026_1회/2026_1회_Q067.png` | 1044×508 | good — no recrop needed |
+
+All 3 crops: figure fully contained, labels/lines legible, no question-number or choice
+text bleed; faint source-PDF watermark does not impair readability.
+
+Per-item policy classification (fixed with supervisor + Web Claude):
+
+| Item | Status | Classification |
+| --- | --- | --- |
+| 2025_2회_60 | figure asset secured; old solution's figure-identification rationale is weak | regeneration candidate |
+| 2025_3회_79 | figure asset secured; old solution is non-substantive (`블록선도 출력 × × × × ×`) | regeneration required |
+| 2026_1회_67 | figure asset secured; old solution has substantive NAND circuit logic | strong old-keep release candidate |
+
+H1 constraints honored:
+- No paid Claude / OpenAI API calls. No new solution generation.
+- No changes to data files, solution content, `questions.json`, `questions.v2.json`,
+  or render code.
+- The 3 hold items are NOT yet formally released — they remain held pending the next cycle.
+
+Next-cycle candidates (not yet decided):
+- A. `2026_1회_67` — apply the existing old solution with the crop shown as a figure overlay.
+- B. `2025_2회_60` — crop-based answer-locked regeneration.
+- C. `2025_3회_79` — crop-based multimodal answer-locked regeneration.
+- D. `2025_3회_79` — interim "solution withheld + figure reference" pattern as a fallback.
+
+Candidates B/C require a paid multimodal API call (figure analysis) and explicit budget
+approval; candidate A and the release of `2026_1회_67` still require clean-Chrome
+verification and a decision-log record before the hold is lifted.
