@@ -354,6 +354,20 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
     return hasPlaceholder ? 'placeholder' : 'empty';
   }
 
+  // ======== Replacement char (U+FFFD) UI handling — render-time only, no data mutation ========
+  function hasReplacementChar(t) {
+    return (t == null ? '' : String(t)).indexOf('�') >= 0;
+  }
+  // U+FFFD 문자만 의도된 표식으로 치환. 다른 HTML/LaTeX는 건드리지 않음.
+  // known 3건(2006_1회_30 / 2019_1회_30 / 2020_1회_99)은 모두 LaTeX 밖 일반 텍스트 손상.
+  function markReplacementChar(html) {
+    if (html == null) return '';
+    return String(html).split('�').join(
+      '<span title="풀이 텍스트 1자 손실" style="display:inline-block;min-width:0.9em;text-align:center;color:#bc4c00;background:#fff1e5;border:1px solid #f0a868;border-radius:3px;font-size:0.85em">□</span>'
+    );
+  }
+  var REPL_BADGE = '<span style="display:inline-block;margin-left:6px;padding:1px 6px;font-size:0.7rem;font-weight:600;color:#bc4c00;background:#fff1e5;border:1px solid #f0a868;border-radius:3px">일부 글자 손실</span>';
+
   function renderQCard(q, opts) {
     opts = opts || {};
     var answered = opts.answered, userAns = opts.userAnswer, progress = opts.progress;
@@ -418,14 +432,14 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
         [['인식','recognize'],['변환','transform'],['계산','calculate']].forEach(function(pair) {
           var __st = normSolutionText(q.steps[pair[0]]);
           if (__st && !isPlaceholderSolutionText(__st)) {
-            stepsH += '<div class="step-block"><div class="step-label ' + pair[1] + '">' + pair[0] + '</div><div class="step-content">' + q.steps[pair[0]] + '</div></div>';
+            stepsH += '<div class="step-block"><div class="step-label ' + pair[1] + '">' + pair[0] + (hasReplacementChar(q.steps[pair[0]]) ? REPL_BADGE : '') + '</div><div class="step-content">' + markReplacementChar(q.steps[pair[0]]) + '</div></div>';
           }
         });
       }
       h += '<div class="solution-section"><button class="solution-toggle" aria-expanded="false">풀이 보기 <span class="chevron">\u25BC</span></button>';
       h += '<div class="solution-body">' + stepsH;
       var __solTxt = normSolutionText(q.solution);
-      if (__solTxt && !isPlaceholderSolutionText(__solTxt)) h += '<div class="solution-text">' + esc(q.solution) + '</div>';
+      if (__solTxt && !isPlaceholderSolutionText(__solTxt)) h += '<div class="solution-text">' + (hasReplacementChar(__solTxt) ? REPL_BADGE : '') + markReplacementChar(esc(q.solution)) + '</div>';
       if (q.figure_svg) h += '<div class="ai-figure" style="margin-top:12px;border:1px dashed #f59e0b;border-radius:4px;padding:8px;background:#fffbeb"><div style="font-size:0.75rem;color:#92400e;margin-bottom:6px;font-weight:600">AI 보조 그림 (원문 아님)</div>' + q.figure_svg + '</div>';
       if (q.solution_svg) h += '<div class="ai-solution-svg" style="margin-top:12px;border:1px dashed #f59e0b;border-radius:4px;padding:8px;background:#fffbeb"><div style="font-size:0.75rem;color:#92400e;margin-bottom:6px;font-weight:600">AI 풀이 그림 (원문 아님)</div><div class="sol-figure">' + q.solution_svg + '</div></div>';
       h += '</div></div>';
