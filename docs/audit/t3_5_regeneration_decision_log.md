@@ -597,3 +597,27 @@ Next-cycle candidates (not yet decided):
 Candidates B/C require a paid multimodal API call (figure analysis) and explicit budget
 approval; candidate A and the release of `2026_1회_67` still require clean-Chrome
 verification and a decision-log record before the hold is lifted.
+
+### T3.5-K Hold release — 2026_1회_67, 2025_2회_60 (2026-05-20)
+
+After clean-Chrome/gstack re-verification, 2 of the 3 hold items are formally released;
+1 remains held.
+
+| Item | Status | Basis |
+| --- | --- | --- |
+| `2026_1회_67` | **released** | crop loads correctly; answer 3 unchanged; old solution (2020 chars) shown with substantive NAND-derivation logic; no pending box. |
+| `2025_2회_60` | **conditionally released** | crop loads correctly; answer 1 unchanged; old solution (1126 chars) shown with basic concept explanation; no pending box. The weak figure-identification rationale of the old solution is recorded as a future enhancement candidate. |
+| `2025_3회_79` | **still held** | old solution is non-substantive; the rewrite-pending box is retained. Fixed as an H2 multimodal-regeneration mandatory candidate. |
+
+Release basis and constraints:
+- Release is grounded on **old solution retained + original figure crop overlay**, not on
+  any newly generated solution.
+- No data or code changes were made for the release: `questions.json`, `questions.v2.json`,
+  and `app/index.html` are untouched. The 2 items already render in the released state
+  (crop + old solution) because they were never in `SOLUTION_REWRITE_HOLD`; `FIGURE_CROP_HOLD`
+  is a crop-linkage map and is kept as-is.
+- clean Chrome/gstack re-verification: PASS for all 3 (crop load OK, answer unchanged,
+  console error 0, `.katex-error` 0). Codex in-app browser excluded from the verdict basis.
+- No paid Claude / OpenAI API calls; no new solution generation.
+
+Hold list after this release: `2025_3회_79` only.
