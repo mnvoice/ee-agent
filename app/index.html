@@ -322,6 +322,38 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
     }).join('');
   }
 
+  // ======== Solution gating (UI-only, no data mutation) ========
+  var SOLUTION_PLACEHOLDER_RE = /(문제\s*정보\s*부족|정보\s*부족|분석\s*불가능|분석\s*불가|전문\s*재제출|재제출|문제\s*내용\s*누락|문제\s*내용\s*부재|문제\s*및\s*선택지\s*정보\s*부재|문제\s*내용\s*및\s*보기\s*필요|인식\s*불가|모두\s*누락|모두\s*비어)/;
+
+  function normSolutionText(v) {
+    return (v == null ? '' : String(v)).trim();
+  }
+  function isPlaceholderSolutionText(t) {
+    return SOLUTION_PLACEHOLDER_RE.test(t);
+  }
+  function hasMeaningfulStepText(q) {
+    if (!q.steps) return false;
+    return ['인식', '변환', '계산'].some(function(k) {
+      var v = normSolutionText(q.steps[k]);
+      return v && !isPlaceholderSolutionText(v);
+    });
+  }
+  // 'meaningful' | 'placeholder' | 'empty'
+  function getSolutionRenderState(q) {
+    var solTxt = normSolutionText(q.solution);
+    var solMeaningful = solTxt && !isPlaceholderSolutionText(solTxt);
+    if (solMeaningful || hasMeaningfulStepText(q)) return 'meaningful';
+    if (q.figure_svg || q.solution_svg) return 'meaningful';
+    var hasPlaceholder = !!(solTxt && isPlaceholderSolutionText(solTxt));
+    if (!hasPlaceholder && q.steps) {
+      hasPlaceholder = ['인식', '변환', '계산'].some(function(k) {
+        var v = normSolutionText(q.steps[k]);
+        return v && isPlaceholderSolutionText(v);
+      });
+    }
+    return hasPlaceholder ? 'placeholder' : 'empty';
+  }
+
   function renderQCard(q, opts) {
     opts = opts || {};
     var answered = opts.answered, userAns = opts.userAnswer, progress = opts.progress;
@@ -372,22 +404,32 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
       if (isCorrect) h += '<div class="result-indicator correct show" role="alert"><span>\u2713</span> 정답입니다!</div>';
       else if (isWrong) h += '<div class="result-indicator wrong show" role="alert"><span>\u2717</span> 오답입니다. 정답: ' + q.answer + '번</div>';
     }
-    // Solution
+    // Solution — UI gating: meaningful content가 있을 때만 풀이 토글 표시.
     if (answered) {
+      var __solState = getSolutionRenderState(q);
+      if (__solState !== 'meaningful') {
+        var __pendMsg = (__solState === 'placeholder')
+          ? '풀이 정보가 아직 충분하지 않습니다.'
+          : '정답 확인은 가능하지만, 이 문항의 상세 풀이는 보강 예정입니다.';
+        h += '<div class="solution-pending" style="margin-top:12px;padding:12px;border:1px solid #d1d5db;border-radius:6px;background:#f6f8fa;font-size:0.85rem;color:#57606a;text-align:center">' + __pendMsg + '</div>';
+      } else {
       var stepsH = '';
       if (q.steps) {
         [['인식','recognize'],['변환','transform'],['계산','calculate']].forEach(function(pair) {
-          if (q.steps[pair[0]]) {
+          var __st = normSolutionText(q.steps[pair[0]]);
+          if (__st && !isPlaceholderSolutionText(__st)) {
             stepsH += '<div class="step-block"><div class="step-label ' + pair[1] + '">' + pair[0] + '</div><div class="step-content">' + q.steps[pair[0]] + '</div></div>';
           }
         });
       }
       h += '<div class="solution-section"><button class="solution-toggle" aria-expanded="false">풀이 보기 <span class="chevron">\u25BC</span></button>';
       h += '<div class="solution-body">' + stepsH;
-      if (q.solution) h += '<div class="solution-text">' + esc(q.solution) + '</div>';
+      var __solTxt = normSolutionText(q.solution);
+      if (__solTxt && !isPlaceholderSolutionText(__solTxt)) h += '<div class="solution-text">' + esc(q.solution) + '</div>';
       if (q.figure_svg) h += '<div class="ai-figure" style="margin-top:12px;border:1px dashed #f59e0b;border-radius:4px;padding:8px;background:#fffbeb"><div style="font-size:0.75rem;color:#92400e;margin-bottom:6px;font-weight:600">AI 보조 그림 (원문 아님)</div>' + q.figure_svg + '</div>';
       if (q.solution_svg) h += '<div class="ai-solution-svg" style="margin-top:12px;border:1px dashed #f59e0b;border-radius:4px;padding:8px;background:#fffbeb"><div style="font-size:0.75rem;color:#92400e;margin-bottom:6px;font-weight:600">AI 풀이 그림 (원문 아님)</div><div class="sol-figure">' + q.solution_svg + '</div></div>';
       h += '</div></div>';
+      }
     }
     h += '</div></div>';
     return h;
