@@ -287,3 +287,56 @@ Environmental note — display cache vs data (two separate problems):
   or code change is warranted by the stale display.
 - Hold item `2025_3회_79` correctly retains its OLD solution because it was never
   applied — this is expected, not a cache artifact.
+
+### T3.5-J Batch 1 — 2025_1회 clean-Chrome G5 verification
+
+Continuation of G5: full browser verification of the 2025_1회 regenerated items.
+The 6 items in the spot-check table above plus the 3 hold items are excluded; Batch 1
+covers the remaining 19 regenerated items of 2025_1회.
+
+Scope (19 items):
+`Q23 Q28 Q29 Q33 Q39 Q43 Q44 Q45 Q46 Q58 Q84 Q85 Q87 Q90 Q91 Q92 Q93 Q94 Q100`
+
+Method:
+- Reference environment fixed to clean Chrome via gstack headless browser.
+- Before verification: service worker `unregister()` + `caches` keys all deleted + reload,
+  to eliminate stale-cache influence.
+- Per item: jump to question code, click the `q_answer` choice, expand the solution toggle,
+  read the result indicator, pending box, conclusion line, step blocks, replacement-char
+  badge, KaTeX element count, and `.katex-error` count.
+- Codex in-app browser results are excluded from the verdict basis (possible stale cache;
+  reference-only). clean Chrome / gstack is the fixed final basis.
+
+Result — 19/19 PASS, 0 FAIL:
+
+| Item | Category | Conclusion | Item | Category | Conclusion |
+| --- | --- | --- | --- | --- | --- |
+| Q23 | concept | 2번 (적산 유량 곡선) | Q85 | regulation | 1번 (1) |
+| Q28 | concept | 2번 (탑각 접지저항의 감소) | Q87 | concept | 3번 (합성수지관공사) |
+| Q29 | concept | 1번 (특별한 보호장치가 필요 없다) | Q90 | regulation | 1번 (50) |
+| Q33 | concept | 1번 (유도뢰) | Q91 | calculation | 3번 (6) |
+| Q39 | calculation | 3번 (80) | Q92 | calculation | 2번 (2.6) |
+| Q43 | concept | 3번 (교차 자화작용) | Q93 | concept | 2번 (태양전지 개폐기) |
+| Q44 | concept | 1번 (브흐홀쯔 계전기) | Q94 | calculation | 3번 (5.78) |
+| Q45 | concept | 3번 (기동 토크의 발생) | Q100 | regulation | 3번 (20) |
+| Q46 | concept | 1번 (기전력의 용량이 같을 것) | Q58 | calculation | 2번 (0.19) |
+| Q84 | regulation | 3번 (1) | | | |
+
+Verification facts:
+- All 19: result indicator `정답입니다`, pending box `none`, step blocks 2-3.
+- Conclusion answer number matches `questions.json.answer == questions.v2.json.answer
+  == staging q_answer == new_conclusion` for all 19 (4-way agreement; static cross-check 19/19).
+- Console errors: 0 across the whole batch.
+- `.katex-error`: 0. Q58 renders 5 KaTeX elements correctly; other items use plain-text
+  math notation (0 KaTeX elements) — a notation choice of the regenerated solution,
+  not a render failure.
+- Replacement-char badge: 0 on all 19.
+- Hold items (`2025_2회_60`, `2025_3회_79`, `2026_1회_67`) are 2025_2회/3회/2026_1회;
+  none belong to 2025_1회, so no hold item is present in Batch 1.
+
+Independent judgment:
+- Claude CLI execution verification: 19/19 PASS.
+- Web Claude independent judgment: 19/19 PASS.
+- Supervisor approval: Batch 1 fixed as final PASS on the clean Chrome / gstack basis.
+
+Batch 1 verdict: PASS — 19/19. No data, solution-content, or render-code changes were made.
