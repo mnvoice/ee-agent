@@ -340,3 +340,131 @@ Independent judgment:
 - Supervisor approval: Batch 1 fixed as final PASS on the clean Chrome / gstack basis.
 
 Batch 1 verdict: PASS — 19/19. No data, solution-content, or render-code changes were made.
+
+### T3.5-J Batch 2 — 2025_2회 clean-Chrome G5 verification
+
+Continuation of G5: full browser verification of the 2025_2회 regenerated items.
+
+Scope (21 items):
+`Q18 Q23 Q24 Q25 Q28 Q31 Q42 Q45 Q47 Q49 Q51 Q56 Q58 Q66 Q81 Q83 Q92 Q93 Q94 Q96 Q100`
+
+Method:
+- Reference environment fixed to clean Chrome via gstack headless browser.
+- Before verification: service worker `unregister()` + `caches` keys all deleted + reload,
+  to eliminate stale-cache influence.
+- Per item: jump to question code, click the `q_answer` choice, expand the solution toggle,
+  read the result indicator, pending box, conclusion line, step blocks, replacement-char
+  badge, KaTeX element count, and `.katex-error` count.
+- Codex in-app browser results are excluded from the verdict basis (possible stale cache;
+  reference-only). clean Chrome / gstack is the fixed final basis.
+
+Result — 21/21 PASS, 0 FAIL:
+
+| Item | Category | Conclusion |
+| --- | --- | --- |
+| Q18 | concept | 1번 (경계면 전계·전속밀도 불변 = 틀림) |
+| Q23 | calculation | 1번 (339) |
+| Q24 | calculation | 1번 (550) |
+| Q25 | concept | 1번 (선택접지 계전기) |
+| Q28 | concept | 2번 (역률개선용 콘덴서 개방) |
+| Q31 | concept | 2번 (발전기의 조속기) |
+| Q42 | calculation | 2번 (1200) |
+| Q45 | calculation | 3번 (300) |
+| Q47 | concept | 3번 (교류를 직류로 변환) |
+| Q49 | concept | 1번 (점도가 높을 것 = 틀림) |
+| Q51 | concept | 1번 (전절권 = 틀림) |
+| Q56 | calculation | 1번 (12) |
+| Q58 | concept | 2번 (감자작용) |
+| Q66 | concept | 1번 (정K형 전역) |
+| Q81 | concept | 2번 (3상 정류기용 변압기) |
+| Q83 | regulation | 1번 (15) |
+| Q92 | regulation | 2번 (10) |
+| Q93 | calculation | 2번 (150) |
+| Q94 | concept | 1번 (케이블트레이공사) |
+| Q96 | concept | 2번 (콤바인덕트 케이블) |
+| Q100 | concept | 3번 (소선 5가닥 이상 = 틀림) |
+
+Verification facts:
+- All 21: result indicator `정답입니다`, pending gating box 0/21 (every item rendered
+  as `meaningful`), step blocks 2-3; solution displayed correctly after the answer
+  choice was selected (21/21).
+- Data 5-layer agreement for all 21: `questions.json.answer` == `questions.v2.json.answer`
+  == staging `q_answer` == `new_conclusion` == browser conclusion `정답: N번`.
+- Console errors: 0 across the whole batch.
+- `.katex-error`: 0. KaTeX rendered correctly on Q23 (2), Q42 (3), Q56 (1); other items
+  use plain-text math notation (0 KaTeX elements) — a notation choice, not a render failure.
+- Replacement-char badge: 0 on all 21.
+- AI figure labels render correctly: Q45 ("AI 보조 그림 (원문 아님)"), Q66 ("AI 풀이 그림 (원문 아님)").
+- Hold item `2025_2회_60` confirmed excluded from the Batch 2 scope (not present).
+
+Independent judgment:
+- Claude CLI execution verification: 21/21 PASS.
+- Web Claude independent judgment: 21/21 PASS.
+- Supervisor approval: Batch 2 fixed as final PASS on the clean Chrome / gstack basis.
+
+Batch 2 verdict: PASS — 21/21. No data, solution-content, or render-code changes were made.
+
+### T3.5-J Batch 3 — 2025_3회 clean-Chrome G5 verification
+
+Continuation of G5: full browser verification of the 2025_3회 regenerated items.
+
+Scope (15 items):
+`Q39 Q41 Q43 Q45 Q49 Q55 Q56 Q57 Q58 Q85 Q86 Q87 Q89 Q91 Q96`
+
+Method: identical to Batch 2 (clean Chrome via gstack; service worker `unregister()` +
+`caches` deleted + reload before verification; Codex in-app browser excluded from the
+verdict basis).
+
+Result — 15/15 PASS, 0 FAIL:
+
+| Item | Category | Conclusion |
+| --- | --- | --- |
+| Q39 | concept | 1번 (증기를 가열한다) |
+| Q41 | calculation | 1번 (48.81°) |
+| Q43 | concept | 3번 (게이트-에미터 입력 임피던스 낮음 = 틀림) |
+| Q45 | concept | 1번 (극수가 증가한 경우) |
+| Q49 | concept | 1번 (크레인) |
+| Q55 | calculation | 3번 (50) |
+| Q56 | concept | 2번 (감소한다) |
+| Q57 | concept | 2번 (폐로권·고상권·이층권) |
+| Q58 | concept | 3번 (절연저항이 같을 것 = 틀림) |
+| Q85 | regulation | 1번 (50) |
+| Q86 | regulation | 1번 (1) |
+| Q87 | concept | 2번 (154[kV] 분산전원형 발전소) |
+| Q89 | regulation | 2번 (2.5[㎜²] 경동선 = 틀림) |
+| Q91 | regulation | 2번 (10) |
+| Q96 | concept | 2번 (3상 정류기용 변압기) |
+
+Verification facts:
+- All 15: result indicator `정답입니다`, pending gating box 0/15 (every item rendered
+  as `meaningful`), step blocks 2-3; solution displayed correctly after the answer
+  choice was selected (15/15).
+- Data 5-layer agreement for all 15: `questions.json.answer` == `questions.v2.json.answer`
+  == staging `q_answer` == `new_conclusion` == browser conclusion `정답: N번`.
+- Console errors: 0 across the whole batch.
+- `.katex-error`: 0. KaTeX rendered correctly on Q41 (3), Q55 (2), Q56 (3); other items
+  use plain-text math notation (0 KaTeX elements) — a notation choice, not a render failure.
+- Replacement-char badge: 0 on all 15.
+- Hold item `2025_3회_79` confirmed excluded from the Batch 3 scope (not present).
+
+Independent judgment:
+- Claude CLI execution verification: 15/15 PASS.
+- Web Claude independent judgment: 15/15 PASS.
+- Supervisor approval: Batch 3 fixed as final PASS on the clean Chrome / gstack basis.
+
+Batch 3 verdict: PASS — 15/15. No data, solution-content, or render-code changes were made.
+
+### T3.5-J Batch 2/3 combined summary
+
+- Batch 2 + Batch 3 combined: 36/36 PASS, 0 FAIL, 0 held.
+- Hold items `2025_2회_60`, `2025_3회_79`, `2026_1회_67` were not touched (`2026_1회_67`
+  belongs to 2026_1회, outside both batch scopes).
+- No paid Claude / OpenAI API calls were made; verification used local static checks
+  plus clean Chrome / gstack browser automation only.
+- No data, solution-content, or render-code changes were made.
+
+Process note — from the next batch (Batch 4, 2026_1회) onward, an explicit
+PUA (U+E000..U+F8FF) / U+FFFD 0-count check is added as a per-batch reporting item.
+For Batch 2/3 this property was already covered by the T3.5-J static verification
+(no PUA / no U+FFFD across all 74 applied items) and by the replacement-char badge
+count of 0 in every browser check.
