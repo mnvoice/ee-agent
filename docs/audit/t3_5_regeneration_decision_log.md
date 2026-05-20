@@ -236,4 +236,54 @@ Final diff:
 Gate status:
 
 - G4 (data apply): complete.
-- G5 (post-apply app verification): pending at `http://localhost:8001/`.
+- G5 (post-apply app verification): complete (see T3.5-J).
+
+## T3.5-J G5 Verification Outcome
+
+T3.5-J completed G5 as a read-only verification. No data changes.
+
+Static verification (all 74 applied items, 9 checks, each 74/74):
+
+- Key present in both `questions.json` and `questions.v2.json`.
+- `solution` / `steps` SHA1[:12] hash matches staging `new_solution_hash` / `new_steps_hash`
+  in `questions.json` and `questions.v2.json`.
+- `answer == staging q_answer == new_conclusion` (answer-locked invariant holds).
+- `getSolutionRenderState(q) == 'meaningful'` for all 74 — the app render-gating logic
+  (replicated from `app/index.html`) classifies every regenerated solution as visible,
+  so none fall back to the placeholder/empty pending box.
+- No PUA (U+E000..U+F8FF) and no U+FFFD in `solution` + `steps`.
+
+Browser spot-check at `http://localhost:8001/` (6 representative items — concept x3,
+calculation x2, regulation x1, spanning 2025 1/2/3회 and 2026 1회):
+
+| Item | Category | Result indicator | Pending box | Conclusion |
+| --- | --- | --- | --- | --- |
+| 2025_1회_14 | concept | 정답입니다 | none | 정답: 2번 (가우스의 정리) |
+| 2025_1회_36 | calculation | 정답입니다 | none | 정답: 2번 (60,820) |
+| 2025_1회_81 | regulation | 정답입니다 | none | 정답: 1번 (300) |
+| 2025_2회_16 | concept | 정답입니다 | none | 정답: 1번 (주파수에 비례한다.) |
+| 2025_3회_26 | concept | 정답입니다 | none | 정답: 1번 (서지 흡수기) |
+| 2026_1회_2 | calculation | 정답입니다 | none | 정답: 3번 (11) |
+
+- All 6 render question/choices/answer highlight/solution toggle correctly.
+- Pending gating box: 0. Step blocks: 2-3 each. Replacement-char badge: 0.
+- LaTeX renders via KaTeX (no MathJax). Console errors: 0.
+- `solution_svg` items (2025_2회_16, 2026_1회_2) show the "AI 풀이 그림 (원문 아님)" label.
+
+Conclusion: the 74 answer-locked regenerated solutions are correct at the data, render-gating,
+and live-display layers. Hold items (`2025_2회_60`, `2025_3회_79`, `2026_1회_67`) remain
+out of scope for this gate.
+
+Environmental note — display cache vs data (two separate problems):
+
+- A separate in-app browser (OpenAI Codex) showed the pre-regeneration solutions for
+  some items. This is a service-worker / HTTP cache staleness issue in that browser
+  context — NOT a data or render defect.
+- Evidence it is a cache issue, not data: (1) the app ships a service worker (`app/sw.js`);
+  (2) static hash checks confirm `app/data/questions.json` and `questions.v2.json` hold
+  the regenerated content (74/74); (3) the gstack verification used a clean Chrome
+  context with no prior cache and rendered the new solutions correctly.
+- Remedy for a stale browser: hard-reload or unregister the service worker. No data
+  or code change is warranted by the stale display.
+- Hold item `2025_3회_79` correctly retains its OLD solution because it was never
+  applied — this is expected, not a cache artifact.
