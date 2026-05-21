@@ -61,17 +61,17 @@ suspected damaged choices: [2] and [3] are visibly garbled ("3자 권선" /
 "1자 권선" likely "3차 / 1차 권선"; "승압콘", "3도분만 젬에" are non-words).
 [1] and [4] are mostly readable but may carry minor OCR noise.
 
-reviewer fields (blank — fill in R1):
+reviewer fields (filled at R1 from a direct read of the source PDF):
 
 ```
-source_choice_1:
-source_choice_2:
-source_choice_3:
-source_choice_4:
-source_page_confirmed:
-evidence_note:
-transcription_confidence:
-verdict:
+source_choice_1: 정류자 위에는 한 개의 자극마다 전기각 2π/3 간격으로 3조의 브러시가 있다.
+source_choice_2: 3차 권선을 설치하여 1차 권선과 조정권선을 회전자에, 2차 권선을 고정자에 설치하였다.
+source_choice_3: 3개의 슬립링은 회전자 권선을 3등분한 점에 각각 접속되어 있다.
+source_choice_4: 용량이 큰 것은 정류작용을 좋게 하기 위해 보상 권선과 보극권선을 고정자에 설치한다.
+source_page_confirmed: yes — PDF p.4 (book page 2-316), 문제 43, source PDF data/문제_2001_3회_20260316.pdf (7 pages total)
+evidence_note: Source PDF is a legibly printed exam book; all four choices read clearly. The DB OCR damage is a systematic 차→자 substitution in choice [2] ("3자/1자/2자" → "3차/1차/2차"), heavier garble in [3] ("승압콘"→"슬립링", "3도분만 젬에"→"3등분한 점에"), and minor errors in [1] ("전기자"→"전기각") and [4] ("정류자용을 줄게"→"정류작용을 좋게"). Choice [2] first token read as "3차" (= three windings), consistent with the DB OCR "3자" and the sentence structure. The 풀이 confirms [1]/[3]/[4] describe the correct structure and marks 【답】②, so choice [2] is the wrong statement — answer index 2 is consistent with the transcription.
+transcription_confidence: high
+verdict: transcription_ready
 ```
 
 ## Item 2 — `2015_3회_25`
@@ -95,17 +95,17 @@ current `choices` snapshot (DB, OCR-damaged):
 suspected damaged choices: [4] is entirely page-footer residue — the actual
 choice [4] text is missing. [1]-[3] carry a stray leading "：" punctuation.
 
-reviewer fields (blank — fill in R1):
+reviewer fields (filled at R1 from a direct read of the source PDF):
 
 ```
-source_choice_1:
-source_choice_2:
-source_choice_3:
-source_choice_4:
-source_page_confirmed:
-evidence_note:
-transcription_confidence:
-verdict:
+source_choice_1: 동작 전류가 커질수록 동작 시간이 짧게 되는 특성
+source_choice_2: 최소 동작전류 이상의 전류가 흐르면 즉시 동작하는 특성
+source_choice_3: 동작전류의 크기에 관계없이 일정한 시간에 동작하는 특성
+source_choice_4: 동작전류가 적은 동안에는 동작전류가 커질수록 동작시간이 짧아지고 어떤 전류 이상이 되면 동작전류의 크기에 관계없이 일정한 시간에서 동작하는 특성
+source_page_confirmed: yes — PDF p.9 (book page 473), 문제 25, source PDF "data/문제 _2015_3회_20260316.pdf" (33 pages total)
+evidence_note: Source PDF is a legibly printed exam book; all four choices read clearly. The DB choices were entirely wrong — they had captured the 풀이(solution) answer-key labels ("①: 반한시 특성", "②: 순한시 특성", "③: 정한시 특성") with a stray leading "：", and choice [4] held page-footer residue ("15년도 3회 / 473 / 전기기사 펄기 D-60 시리즈") instead of the choice text. The actual choices describe relay time characteristics. The 풀이 maps ①반한시 / ②순한시 / ③정한시 / ④반한시-정한시 and marks 【답】④; the question asks for the 반한시·정한시(combined) characteristic, so choice [4] is the answer — answer index 4 is consistent with the transcription.
+transcription_confidence: high
+verdict: transcription_ready
 ```
 
 ## Routing after transcription (R1/R2)
@@ -116,7 +116,8 @@ verdict:
 
 ## Status
 
-- This is the R0 prep document. The source choice fields are NOT filled here.
+- R1 complete: the source choice fields are filled above from a direct read
+  of the source PDFs. Both items: `verdict = transcription_ready`.
 - No `app/data` modification.
 - Both items remain `choice_ocr_recovery_candidate`, not applied.
 - `answer` for both items is already corrected and source-locked; this track
@@ -131,6 +132,7 @@ verdict:
 - No `answer` modification.
 - No `solution` / `steps` modification.
 - No `solution_svg` modification.
-- No source choice transcription (deferred to R1).
+- No `choices` apply (R1 fills the transcription only; apply is the later
+  R3 step).
 - No paid API call.
 - No push.
