@@ -326,7 +326,7 @@ window.addEventListener('unhandledrejection', function(e) { log('PROMISE ERR: ' 
   var SOLUTION_PLACEHOLDER_RE = /(문제\s*정보\s*부족|정보\s*부족|분석\s*불가능|분석\s*불가|전문\s*재제출|재제출|문제\s*내용\s*누락|문제\s*내용\s*부재|문제\s*및\s*선택지\s*정보\s*부재|문제\s*내용\s*및\s*보기\s*필요|인식\s*불가|모두\s*누락|모두\s*비어)/;
 
   // Hold items whose solution is withheld pending rewrite (figure-dependent track).
-  var SOLUTION_REWRITE_HOLD = { '2025_3회_79': true };
+  var SOLUTION_REWRITE_HOLD = {};
 
   // Hold items: original figure crops linked here as a pdfPageIndex fallback
   // (crop PNGs committed in bd99bc8; avoids tracking the large pdf_pages/index.json).

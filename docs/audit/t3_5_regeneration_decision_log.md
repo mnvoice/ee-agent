@@ -621,3 +621,18 @@ Release basis and constraints:
 - No paid Claude / OpenAI API calls; no new solution generation.
 
 Hold list after this release: `2025_3회_79` only.
+
+### T3.5-K H2 Hold release — 2025_3회_79 (2026-05-21)
+
+`2025_3회_79` is released after crop-backed answer-locked regeneration.
+
+Basis:
+- Source crop: `data/pdf_pages/figure_crops/2025_3회/2025_3회_Q079.png`.
+- Answer lock: `answer=1` preserved in both `questions.json` and `questions.v2.json`.
+- No paid Claude/OpenAI API call was made. The committed source crop was inspected locally.
+- The regenerated solution derives each block diagram by transfer-function algebra:
+  ① = `G1/(1+G1) * R`; ②, ③, ④ = `G1/(1+G1G2) * R`.
+- `SOLUTION_REWRITE_HOLD` no longer contains `2025_3회_79`, while `FIGURE_CROP_HOLD`
+  still maps the item to the tracked source crop.
+
+Hold list after H2 release: none.
