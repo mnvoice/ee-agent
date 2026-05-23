@@ -9,6 +9,8 @@ tags:
   - ee-agent/active-layer
 related:
   - docs/audit/decision_records/trap_map_active_decisions.jsonl
+  - docs/audit/supervisor_state/trap_map_active_state_2026-05-23.md
+  - docs/audit/supervisor_audits/trap_map_supervisor_layer_audit_protocol_2026-05-23.md
   - docs/audit/trap_map_A_priority_pilot_learning_package_closeout_2026-05-22.md
   - docs/audit/trap_map_B_priority_pilot_learning_package_closeout_2026-05-22.md
   - docs/audit/trap_map_B_priority_gigi_18_steps_cleanup_followup_erratum_2026-05-23.md
@@ -23,6 +25,18 @@ related:
 확인하게 한다.
 
 이 레이어는 정답 데이터가 아니다. 실행 로그도 아니다. 판단의 원장이다.
+
+중요한 한계가 있다. 이 레이어는 자기 자신을 supervise하지 못한다. supervisor가 쓴
+판단 기록은 그 자체로 옳음을 보장하지 않는다. 그래서 이 레이어는 v1.1부터 세 층으로
+분리해 운용한다.
+
+1. **결정 기록**: append-only decision record. 무엇을 왜 결정했는지 보존한다.
+2. **활성 상태 요약**: 현재 열린 트랙, 금지 범위, 다음 gate를 별도 문서로 갱신한다.
+3. **외부 audit**: decision record와 active state가 맞는지 별도 reviewer가 주기 점검한다.
+
+현재 활성 상태는 `docs/audit/supervisor_state/trap_map_active_state_2026-05-23.md`,
+audit protocol은 `docs/audit/supervisor_audits/trap_map_supervisor_layer_audit_protocol_2026-05-23.md`를
+기준으로 한다.
 
 ---
 
@@ -71,6 +85,22 @@ data 수정을 미뤘는지", "왜 9항으로 낮췄다가 다시 10항으로 �
 | forbidden_until_gate | 다음 gate 전까지 금지되는 일 |
 
 구조화 레코드는 `docs/audit/decision_records/trap_map_active_decisions.jsonl`에 함께 둔다.
+
+record는 append-only지만, 이전 판단을 정정할 수 있어야 한다. 따라서 새 record에는
+가능하면 `record_type`을 둔다.
+
+| record_type | 의미 |
+|---|---|
+| decision | 새 감독 판단 |
+| supersede | 이전 판단을 대체 |
+| revoke | 이전 판단을 철회 |
+| amend | 이전 판단 일부를 보정 |
+| audit | decision/state 정합성 점검 |
+| consolidation | 현재 활성 상태 요약 갱신 |
+
+`supersede`, `revoke`, `amend` record는 대상 id를 `supersedes`, `revokes`,
+`amends` 필드로 명시한다. 이 규칙은 잘못된 PASS가 나중에 발견됐을 때 그 실패를
+숨기지 않고 추적하기 위한 장치다.
 
 ---
 
@@ -232,6 +262,9 @@ PDF filename, app route/index 영향이 아직 측정되지 않았기 때문이�
 
 ## 4. 현재 active queue
 
+최신 active queue는 별도 active-state 문서가 canonical이다. 아래 표는 이 문서 작성
+시점의 historical snapshot으로 남긴다.
+
 | 우선순위 | 작업 | 상태 | gate |
 |---|---|---|---|
 | 1 | 기기-17 N3a A-track 적용 리뷰 | `b69ab80` 로컬 커밋 확인됨, push/review 필요 | N3a diff review |
@@ -277,4 +310,3 @@ PDF filename, app route/index 영향이 아직 측정되지 않았기 때문이�
 밟지 않게 하는 기억에서 나온다.
 
 이 문서는 그 기억을 능동적으로 관리하는 자리다.
-
