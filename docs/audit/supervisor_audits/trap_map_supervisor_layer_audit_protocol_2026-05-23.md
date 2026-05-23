@@ -17,6 +17,11 @@ record와 active state는 supervisor가 작성할 수 있지만, 그 정합성�
 | before push | supervisor layer 관련 commit을 push하기 전 |
 | after failed PASS | 이전 PASS가 후속 단계에서 깨졌을 때 |
 | before caution release | caution/blocked/clean count가 바뀌기 전 |
+| repeated supersede | 같은 track에서 supersede/revoke/amend가 2회 발생할 때 |
+| meta-work ratio | 다음 일반 task cycle에서 supervisor-layer commit 수가 본작업 commit 수를 초과할 때 |
+
+첫 audit cycle은 push 전 2026-05-23 local stack 기준으로 수행한다. 다음 정기 audit
+후보는 2026-05-30 또는 decision record 5건 추가 시점 중 먼저 오는 때다.
 
 ---
 
@@ -62,6 +67,19 @@ audit 결과는 필요하면 decision JSONL에 append한다.
 | consolidation | active-state 문서를 갱신해 현재 상태를 정리 |
 
 `amend`, `supersede`, `revoke`는 반드시 대상 record id를 함께 적는다.
+
+`amend`, `supersede`, `revoke`는 책임 회피 도구가 되면 안 된다. 따라서 아래 필드를
+필수로 둔다.
+
+| 필드 | 의미 |
+|---|---|
+| failure_reason | 이전 판단이 왜 틀렸거나 불완전했는지 |
+| prevention_check | 같은 실패를 다음 review에서 어떻게 막을지 |
+| affected_records | 영향을 받는 decision id 목록 |
+
+같은 track에서 `amend`/`supersede`/`revoke`가 2회 발생하면 external audit을 수행한다.
+3회 발생하면 해당 track을 freeze하고, 별도 audit PASS 전까지 새 normalization,
+clean count 갱신, push를 금지한다.
 
 ---
 

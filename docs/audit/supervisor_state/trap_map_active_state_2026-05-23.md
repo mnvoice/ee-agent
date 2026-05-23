@@ -49,12 +49,14 @@ data/id/meta/source identity mismatch는 B-track 별도다.
 | 우선순위 | 작업 | 상태 | next gate |
 |---|---|---|---|
 | 1 | active supervisor layer hardening | 본 follow-up에서 반영 | 1층/2층/3층 분리 반영 |
-| 2 | hardening review | 대기 | active-state / audit protocol / JSONL append 검토 |
-| 3 | push 여부 판단 | 대기 | local stack 전체 review |
-| 4 | 기기-17 B-track 영향 측정 | 대기 | 100항 sanity + app id grep |
-| 5 | 기기-17 data normalization plan | 대기 | B-track plan gate |
-| 6 | 기기-17 redryrun | 대기 | A/B 정정 후 |
-| 7 | clean count 갱신 | 대기 | 기기-17 caution 해제 가능 시 |
+| 2 | hardening evidence/safeguard 보강 | 진행 대상 | 5축 evidence + first audit + meta ratio reflection |
+| 3 | hardening review | 대기 | active-state / audit protocol / JSONL append 검토 |
+| 4 | push-readiness review | 대기 | local stack 전체 + first external audit evidence |
+| 5 | push 여부 판단 | 대기 | push-readiness PASS 후 사용자 결정 |
+| 6 | 기기-17 B-track 영향 측정 | 대기 | 100항 sanity + app id grep |
+| 7 | 기기-17 data normalization plan | 대기 | B-track plan gate |
+| 8 | 기기-17 redryrun | 대기 | A/B 정정 후 |
+| 9 | clean count 갱신 | 대기 | 기기-17 caution 해제 가능 시 |
 
 ---
 
@@ -93,13 +95,25 @@ data/id/meta/source identity mismatch는 B-track 별도다.
 
 ---
 
-## 7. 다음 작업자가 먼저 볼 것
+## 7. Meta-Work Ratio Watch
+
+| 범위 | 본작업 commit | supervisor/meta commit | 판단 |
+|---|---:|---:|---|
+| current layer-introduction cycle | 2 (`b69ab80`, `d450f67`) | 4 (`02f7f4b`, `dd20392`, `f227249`, `b69e42c`) | 도입 cycle로 1회 허용, 다음 일반 task cycle에서 감소 필요 |
+
+다음 일반 task cycle에서 supervisor/meta commit 수가 본작업 commit 수를 다시 초과하면
+external audit trigger로 본다.
+
+---
+
+## 8. 다음 작업자가 먼저 볼 것
 
 1. `git status -sb`
 2. `git log --oneline --decorate -6`
 3. 이 active-state 문서
 4. `docs/audit/trap_map_active_supervisor_layer_review_2026-05-23.md`
 5. `docs/audit/supervisor_audits/trap_map_supervisor_layer_audit_protocol_2026-05-23.md`
+6. `docs/audit/trap_map_active_supervisor_hardening_evidence_pack_2026-05-23.md`
 
 ---
 
