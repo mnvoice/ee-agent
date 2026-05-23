@@ -1,11 +1,24 @@
-# Trap-Map B-Priority Pilot — Day Plan (2026-05-22)
+# Trap-Map B-Priority Pilot — Day Plan v1.2 (2026-05-22, 기기-17 A-track 정정 반영)
 
 > 이 B-pilot은 v3.2 원본의 "대표 보기 함정" 추정 문제를 redryrun과 exact/adjacent
 > 분리로 흡수한 10항 세트다.
 
 study set v1(`08041ec`) 리뷰 PASS(`963c5b5`) 이후, B-priority pilot 10항을 2일
-학습 + 1일 복습 구조의 day plan으로 배치한다. redryrun(`6164d6f`) 판정
+학습 + 1일 복습 구조의 day plan으로 배치한 v1.2. redryrun(`6164d6f`) 판정
 ready/ready_with_note 10/10, needs_replacement 0 — 학습 진행 가능 상태.
+
+**v1.2 변경 (2026-05-23, N3a A-track)**: 기기-17 대표 기출 source citation 정정.
+대표 기출 id 표기를 PDF 원본 source 기준 `2022_1회_52`로 표기 (PDF 표지 기재
+일자 2022-04-24; 현재 questions.json storage key는 `2020_1회_52`로 유지, data /
+id / year / session / q_no / meta 정정은 B-track 별도 트랙). 보기 [1] LaTeX
+cleanup 안내문을 PDF 원본 정합 표기 `aV/√3 (V), √3I/a (A)` (정답 ①)로 정정.
+학습 내용·trap alignment·판정·외울 문장·3회독 체크·Day 1/2/3 일정 배치는 v1과
+동일. 기기-17 외 다른 9항(기기-18·4·23, 설비-13·14·10·21, 전력-25·18) 변경 없음.
+questions.json·data/id/meta 미수정. 산출물 버전: v1 → v1.2.
+
+- v1.2 변경 참조:
+  - N1 audit (`docs/audit/trap_map_B_priority_gigi_17_record_identity_targeted_audit_2026-05-23.md`)
+  - N2 plan v2 (`docs/audit/trap_map_B_priority_gigi_17_correction_plan_2026-05-23.md`)
 
 이번 단계는 day plan 작성까지만 — **learning log 미작성**(학습 기록·정오답·진도는
 별도 트랙). app/data·questions.json 미수정. solution/steps 미적용. answer/choices/
@@ -41,7 +54,9 @@ text 미수정. 유료 API 미호출. local server 미실행.
 
 ## Day 1 — 전기기기 4항 + 전력 1항
 
-### [기기-17] 변압기 권수비 — `2020_1회_52` (정답 1)
+### [기기-17] 변압기 권수비 — `2022_1회_52` (정답 ①)
+- source: `data/20200424_1회.pdf` p.4 q52 (PDF 표지 기재 일자 2022-04-24;
+  questions.json storage key는 `2020_1회_52` 유지, data/id/meta 정정은 B-track 별도)
 - trap type: S/C ★5 | alignment: **exact** | 판정: ready_with_note
 - 오늘 외울 것: a = N1/N2 = V1/V2 = I2/I1, 임피던스 Z1 = a²·Z2.
 - 이해할 것: 권수비는 자속을 매개로 전압·전류·임피던스를 *동시* 변환한다 —
@@ -52,9 +67,11 @@ text 미수정. 유료 API 미호출. local server 미실행.
   3. "권수비는 전압만 변환한다"는 보기가 틀린 이유를 전류 항으로 설명하라.
 - 틀리면 돌아갈 원리: 권수비의 정의 = 1·2차 권선 자속 결합비. 전압 ∝ a,
   전류 ∝ 1/a, 임피던스 ∝ a². Δ-Y 결선의 √3은 권수비와 *별개* 요인.
-- 주의: 보기 [1] LaTeX `√3·aV/√3`에 잉여 √3 artifact — **cleanup 대상**
-  (학습 자료 노출 전 `aV/√3`로 정리). 정답·풀이·trap은 정합. Δ-Y √3 결선 변환을
-  권수비와 분리해 설명할 것.
+- PDF 원본 표기 (학습 카드 기준): 보기 ① `aV/√3 (V), √3I/a (A)`, 정답 ①.
+  questions.json `choices[0]`의 잉여 √3 OCR artifact(`√3·aV/√3`)는 별 cleanup
+  트랙(B-track 또는 별 cleanup 트랙) 예정 — 본 commit에서는 questions.json
+  미수정. 본 카드는 PDF 원본 표기 기준. Δ-Y √3 결선 변환을 권수비와 분리해
+  설명할 것.
 
 ### [기기-18] 변압기 등가회로 — `2010_2회_47` (정답 4)
 - trap type: S/C ★5 | alignment: **adjacent** | 판정: ready_with_note

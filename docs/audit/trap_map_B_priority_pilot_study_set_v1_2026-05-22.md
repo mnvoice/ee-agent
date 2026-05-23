@@ -1,8 +1,22 @@
-# Trap-Map B-Priority Pilot — Study Set v1 (2026-05-22)
+# Trap-Map B-Priority Pilot — Study Set v1.2 (2026-05-22, 기기-17 A-track 정정 반영)
 
 representative re-dryrun PASS(`6164d6f`)로 확정된 B-priority pilot 10항을 학습용
 study set으로 정리한다. redryrun 판정 ready/ready_with_note 10/10, needs_replacement 0,
-defer 0 — 학습 패키지 진행 가능 상태에서 작성하는 첫 study set(v1)이다.
+defer 0 — 학습 패키지 진행 가능 상태에서 작성하는 첫 study set의 v1.2.
+
+**v1.2 변경 (2026-05-23, N3a A-track)**: 기기-17 대표 기출 source citation 정정.
+대표 기출 id 표기를 PDF 원본 source 기준 `2022_1회_52`로 표기 (PDF 표지 기재
+일자 2022-04-24; 현재 questions.json storage key는 `2020_1회_52`로 유지, data /
+id / year / session / q_no / meta 정정은 B-track 별도 트랙). 보기 [1] LaTeX
+cleanup 안내문을 PDF 원본 정합 표기 `aV/√3 (V), √3I/a (A)` (정답 ①)로 정정.
+학습 내용·trap alignment·판정·외울 문장·O/X·3회독 체크는 v1과 동일. 기기-17 외
+다른 9항(기기-18·4·23, 설비-13·14·10·21, 전력-25·18) 변경 없음. questions.json·
+data/id/meta 미수정. 산출물 버전: v1 → v1.2 (patch 양식 v1.0.1 대신 명시 v1.2
+발행).
+
+- v1.2 변경 참조:
+  - N1 audit (`docs/audit/trap_map_B_priority_gigi_17_record_identity_targeted_audit_2026-05-23.md`)
+  - N2 plan v2 (`docs/audit/trap_map_B_priority_gigi_17_correction_plan_2026-05-23.md`)
 
 이번 단계는 study set 정리까지만 — **day plan·learning log 미작성**. app/data
 미수정. questions.json 미수정. solution/steps 미적용. answer/choices/text 미수정.
@@ -36,7 +50,10 @@ defer 0 — 학습 패키지 진행 가능 상태에서 작성하는 첫 study s
 ### 전기기기 (4항)
 
 #### [기기-17] 변압기 권수비
-- trap type: S/C ★5 | 대표 기출: `2020_1회_52` (정답 1)
+- trap type: S/C ★5 | 대표 기출: `2022_1회_52` (정답 ①)
+- source: `data/20200424_1회.pdf` p.4 q52 (PDF 표지 기재 일자 2022-04-24; 현재
+  questions.json storage key는 `2020_1회_52`로 유지, data/id/meta 정정은 B-track
+  별도 트랙)
 - 판정: **ready_with_note** | trap alignment: **exact**
 - 원래 카드 함정: 권수비가 전압만 변환한다고 보는 보기.
 - 대표 기출이 검증하는 함정: 권수비 a 단상변압기 3대 1차 △·2차 Y 결선에서
@@ -48,10 +65,11 @@ defer 0 — 학습 패키지 진행 가능 상태에서 작성하는 첫 study s
   1. 권수비 a는 전압·전류·임피던스를 각각 어떻게 변환하는가?
   2. 1차 △·2차 Y 결선에서 단자전압·선전류 환산에 √3은 어디서 들어오는가?
   3. "권수비는 전압만 변환한다"는 보기가 틀린 이유를 전류 항으로 설명하라.
-- 학습 패키지 작성 시 주의 문장: 보기 [1] LaTeX 표기에 경미한 artifact가 있다
-  (`√3·aV/√3` — 잉여 √3, 단자전압 aV/√3의 OCR 잔류). 물리 풀이·정답 키(1)·trap은
-  정합하나, 학습 자료 노출 전 보기 [1]을 `aV/√3`로 cleanup해야 한다. Δ-Y √3
-  결선 변환이 권수비와 묶이므로 결선 √3을 권수비와 분리해 설명할 것.
+- PDF 원본 정합 표기 (학습 카드 기준): 보기 ① `aV/√3 (V), √3I/a (A)`, 정답 ①.
+  학습 카드는 본 PDF 원본 표기를 기준으로 한다. questions.json `choices[0]`의
+  잉여 √3 OCR artifact(`√3·aV/√3`)는 별 cleanup 트랙(B-track 또는 별 cleanup
+  트랙) 예정 — 본 commit에서는 questions.json 미수정. Δ-Y √3 결선 변환이
+  권수비와 묶이므로 결선 √3을 권수비와 분리해 설명할 것.
 
 #### [기기-18] 변압기 등가회로
 - trap type: S/C ★5 | 대표 기출: `2010_2회_47` (정답 4)
@@ -226,7 +244,7 @@ defer 0 — 학습 패키지 진행 가능 상태에서 작성하는 첫 study s
 
 | ID | 주제 | trap type | 대표 기출 | 판정 | alignment |
 |---|---|---|---|---|---|
-| 기기-17 | 변압기 권수비 | S/C ★5 | `2020_1회_52` | ready_with_note | exact |
+| 기기-17 | 변압기 권수비 | S/C ★5 | `2022_1회_52` (note 1) | ready_with_note | exact |
 | 기기-18 | 변압기 등가회로 | S/C ★5 | `2010_2회_47` | ready_with_note | adjacent |
 | 기기-4 | 동기기 %Z | S/C ★5 | `2008_1회_46` | ready_with_note | adjacent |
 | 기기-23 | 유도전동기 속도제어 | S/C ★4 | `2019_3회_52` | ready_with_note | adjacent |
@@ -241,6 +259,11 @@ defer 0 — 학습 패키지 진행 가능 상태에서 작성하는 첫 study s
 - alignment: exact 3(기기-17, 설비-13, 전력-18) / adjacent 7.
 - 과목 분포: 전기기기 4 / 전기설비 4 / 전력공학 2 / 회로이론 0.
 - trap type: S/C 4 / S/F 6 / S/D 0.
+
+(note 1) 기기-17 source: `data/20200424_1회.pdf` p.4 q52 (PDF 표지 기재 일자
+2022-04-24). 현재 questions.json storage key는 `2020_1회_52`로 유지 — data /
+id / year / session / q_no / meta 정정은 B-track 별도 트랙. 본 v1.2는 학습
+문서 표기 정정 한정.
 
 ---
 

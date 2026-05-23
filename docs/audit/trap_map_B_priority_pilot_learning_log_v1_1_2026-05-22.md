@@ -1,9 +1,22 @@
-# Trap-Map B-Priority Pilot — Learning Log v1.1 (2026-05-22)
+# Trap-Map B-Priority Pilot — Learning Log v1.2 (2026-05-22, 기기-17 A-track 정정 반영)
 
 > 이 B-pilot은 v3.2 원본의 "대표 보기 함정" 추정 문제를 redryrun과 exact/adjacent
 > 분리로 흡수한 10항 세트다.
 
-**v1.1 변경**: learning log review(`a3ab253`)의 P1-1(G-2) 수정. adjacent 7항의
+**v1.2 변경 (2026-05-23, N3a A-track)**: 기기-17 대표 기출 source citation 정정.
+대표 기출 id 표기를 PDF 원본 source 기준 `2022_1회_52`로 표기 (PDF 표지 기재
+일자 2022-04-24; 현재 questions.json storage key는 `2020_1회_52`로 유지, data /
+id / year / session / q_no / meta 정정은 B-track 별도 트랙). 보기 [1] LaTeX
+cleanup 안내문을 PDF 원본 정합 표기 `aV/√3 (V), √3I/a (A)` (정답 ①)로 정정.
+v1.1의 G-2 칸 5 라벨 분리(adjacent 7항)는 유지. 학습 내용·trap alignment·판정·
+6칸 회독 구조는 v1.1과 동일. 기기-17 외 다른 9항(기기-18·4·23, 설비-13·14·10·21,
+전력-25·18) 변경 없음. questions.json·data/id/meta 미수정. 산출물 버전: v1.1 → v1.2.
+
+- v1.2 변경 참조:
+  - N1 audit (`docs/audit/trap_map_B_priority_gigi_17_record_identity_targeted_audit_2026-05-23.md`)
+  - N2 plan v2 (`docs/audit/trap_map_B_priority_gigi_17_correction_plan_2026-05-23.md`)
+
+**v1.1 변경 (유지)**: learning log review(`a3ab253`)의 P1-1(G-2) 수정. adjacent 7항의
 "예상 오답 패턴"(칸 5)에 `[원카드]`/`[기출]`/`[core]` 라벨을 추가해 두 함정의
 오답을 분리 표기했다. 기존 오답 패턴 문장은 의미 변경 없이 라벨만 부여 — 신규
 사실·수치·공식 추가 없음. 칸 1~4·6, exact 3항(기기-17·설비-13·전력-18), Day 3,
@@ -52,7 +65,11 @@ solution/steps 미적용. answer/choices/text 미수정. 유료 API 미호출. l
 
 ## Day 1 Learning Log — 전기기기 4항 + 전력 1항
 
-### [기기-17] 변압기 권수비 — `2020_1회_52` (정답 1) — exact / ready_with_note
+### [기기-17] 변압기 권수비 — `2022_1회_52` (정답 ①) — exact / ready_with_note
+
+- source: `data/20200424_1회.pdf` p.4 q52 (PDF 표지 기재 일자 2022-04-24;
+  questions.json storage key는 `2020_1회_52` 유지, data/id/meta 정정은 B-track 별도)
+
 1. **1회독 암기**: 권수비 a = N1/N2 = V1/V2 = I2/I1, 임피던스 Z1 = a²·Z2.
    권수비는 전압·전류·임피던스를 동시에 변환한다.
 2. **2회독 원리 질문**: 권수비가 전압을 ×a 한다면 전류·임피던스는 각각 어떤
@@ -65,8 +82,10 @@ solution/steps 미적용. answer/choices/text 미수정. 유료 API 미호출. l
 5. **예상 오답 패턴**: 1차 선전류를 I/a로 계산(결선 √3 누락) / 결선 √3을 권수비
    a에 흡수해 중복 적용 / 임피던스를 a로 환산(a² 대신).
 6. **다음 회독 한 줄**: 전류 항 ÷a와 결선 √3을 분리해 다시 적는다.
-- **주의**: 보기 [1] LaTeX `√3·aV/√3`에 잉여 √3 artifact — **cleanup 대상**
-  (학습 자료 노출 전 `aV/√3`로 정리). 정답·풀이·trap 정합, 판정 ready_with_note.
+- **PDF 원본 표기 (학습 카드 기준)**: 보기 ① `aV/√3 (V), √3I/a (A)`, 정답 ①.
+  questions.json `choices[0]`의 잉여 √3 OCR artifact(`√3·aV/√3`)는 별 cleanup
+  트랙(B-track 또는 별 cleanup 트랙) 예정 — 본 commit에서는 questions.json
+  미수정. 판정 ready_with_note 유지.
 
 ### [기기-18] 변압기 등가회로 — `2010_2회_47` (정답 4) — adjacent / ready_with_note
 - 원래 카드 함정(v3.2): 1차/2차 환산 혼동 / 대표 기출 함정: 시험 범위 식별 — 절연내력은 두 시험으로 구할 수 없음.
