@@ -96,7 +96,8 @@ Legacy storage key는 유지하고, canonical source를 별도 필드 또는 ali
 - progress/annotations/wrong-note key migration이 필요 없다.
 - q52 단독 id 재발급을 피하면서 true source를 사용자와 후속 작업자에게 노출할 수 있다.
 - `2020_1회` 100항 전수 재귀속 전에도 partial canonical documentation이 가능하다.
-- rollback 비용이 낮다.
+- data normalization rollback 비용이 낮다. app alias resolver 도입 후 user-facing rollback
+  영향은 §2.3 trade-off 표에서 별도 평가한다.
 
 단점/위험:
 
@@ -159,8 +160,9 @@ Alias-first를 "즉시 실행안"으로 확정하지 않고, **우선 설계 후
 ### 2.4 Option C — Docs Errata Only
 
 Impact audit의 후보였던 "data 미수정 + docs errata만 유지"는 본 plan에서
-Alias-first의 최소 variant로 흡수한다. 이 variant는 app/data alias resolver 없이
-authoritative docs만으로 canonical source를 설명한다.
+Alias-first 실행 전 또는 실행 보류 시의 **temporary preservation state**로 분류한다.
+app/data alias resolver 없이 authoritative docs만으로 canonical source를 설명하는
+상태이며, 최종 cleanup variant로 간주하지 않는다.
 
 | 항목 | 평가 |
 |---|---|
@@ -169,8 +171,8 @@ authoritative docs만으로 canonical source를 설명한다.
 | caution | 해제 근거로는 약함. 원칙적으로 caution 유지 또는 별도 review 필요 |
 | 사용 조건 | 실행 전 임시 설명 또는 historical errata 유지에 한정 |
 
-따라서 Docs Errata Only는 최종 B-track cleanup이 아니라, Alias-first 실행 전 또는
-실행 보류 시의 보존 상태로 취급한다.
+Docs Errata Only 진입도 별도 명시 승인 대상이다. 신규 errata 문서 작성 또는 기존
+current-state 문서 sync 전에는 사용자 승인과 scope 확인이 필요하다.
 
 ---
 
@@ -194,7 +196,7 @@ Alias-first 채택 시 app persisted key는 유지한다.
 1. `canonicalSourceId(q)` 또는 alias resolver를 도입한다.
 2. 사용자 저장 데이터 lookup은 `storageId` 기준으로 유지한다.
 3. source 표시, external citation, errata 표시만 `canonicalSourceId`를 참조한다.
-4. alias table은 one-way로 시작한다: `storageId -> canonicalSourceId`.
+4. alias table은 one-way storage로 시작한다: `storageId -> canonicalSourceId`.
 5. 같은 canonical id가 여러 storage id에 매핑되는지 중복 검사를 둔다.
 
 주의:
@@ -226,17 +228,18 @@ Alias-first 실행 전 alias table의 source of truth(SoT)를 먼저 결정한�
 | record metadata field | 각 question record에 canonical field 추가 | record와 source가 가까움 | `questions.json`/per-year 수정이므로 고위험 |
 | app hardcoded mapping | JS module/object로 mapping 보관 | 구현 빠름 | data ownership 불명확, 장기 유지 부적합 |
 
-기본 선호는 **tracked docs registry로 schema를 먼저 확정한 뒤**, app/data 반영 필요성을
-별도 승인 gate로 넘기는 것이다. 이 기본 선호도 실행안은 아니며, SoT 결정은 decision
-record에 남긴다.
+위험 회피를 우선할 때의 기본 선호는 **tracked docs registry로 schema를 먼저 확정한 뒤**,
+app/data 반영 필요성을 별도 승인 gate로 넘기는 것이다. 이 기본 선호도 실행안은
+아니며, SoT 결정은 decision record에 남긴다.
 
 ### 3.1B Alias Integrity Checks
 
 Alias-first 실행 전후에 아래 integrity check를 통과해야 한다.
 
 1. 같은 `storage_id`가 두 개 이상의 `canonical_source_id`에 매핑되지 않는다.
-2. 같은 `canonical_source_id`에 여러 `storage_id`가 매핑되는 경우 의도된 alias인지
-   별도 목록에 표시한다.
+2. storage는 one-way로 유지하되, 검증 시 `canonical_source_id -> storage_id` 역방향
+   인덱스를 생성한다. 같은 `canonical_source_id`에 여러 `storage_id`가 매핑되는 경우
+   의도된 alias인지 별도 목록에 표시한다.
 3. 모든 `storage_id`가 current app question set에 존재한다.
 4. 모든 `canonical_source_id`는 source PDF, page, q_no evidence와 3-way로 정합해야 한다.
 5. orphan canonical id, dangling storage id, duplicate alias row가 0건이어야 한다.
@@ -443,8 +446,10 @@ caution 해제 review는 별도 문서로 작성하며, 최소한 아래 항목�
 | residual risk | legacy storage key 잔존, 66항 미해결 여부, user-facing 혼동 가능성 |
 | decision | caution 유지 / caution 해제 후보 / BLOCKED 중 하나 |
 
-review 판정은 PASS/NEEDS_FIX를 자동 선언하지 않는다. 해제 여부는 review 문서와
-decision record가 모두 준비된 뒤 별도 gate에서 결정한다.
+user-facing citation은 app screen smoke, display-layer code grep, 또는 docs-only state인
+경우 current-state 문구 diff 중 하나로 측정한다. review 판정은 PASS/NEEDS_FIX를 자동
+선언하지 않는다. 해제 여부는 review 문서와 decision record가 모두 준비된 뒤 별도
+gate에서 결정한다.
 
 ---
 
