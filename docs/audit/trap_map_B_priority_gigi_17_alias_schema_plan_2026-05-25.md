@@ -82,6 +82,10 @@ field rules:
 5. `status=approved`가 되려면 schema review, registry artifact approval, integrity check를
    통과해야 한다.
 6. `status=superseded` 또는 `blocked`는 원 row를 삭제하지 않고 대체/차단 사유를 남긴다.
+7. Active rows are `candidate` and `approved`. Historical rows are `superseded` and
+   `blocked`.
+8. `evidence_ref` should include both first-source audit evidence and downstream impact/decision
+   evidence when both exist.
 
 ---
 
@@ -98,7 +102,7 @@ field rules:
 | `source_pdf_page` | `4` |
 | `source_q_no` | `52` |
 | `cover_date` | `2022-04-24` |
-| `evidence_ref` | `trap_map_B_priority_gigi_17_B_track_impact_audit_2026-05-25.md §1, §3` |
+| `evidence_ref` | `trap_map_B_priority_gigi_17_record_identity_targeted_audit_2026-05-23.md §2, §3; trap_map_B_priority_gigi_17_B_track_impact_audit_2026-05-25.md §1, §3` |
 | `status` | `candidate` |
 | `notes` | `legacy storage key retained; PDF filename/date mismatch handled as cover-date evidence; caution remains` |
 
@@ -144,7 +148,7 @@ Before any registry artifact can be approved, the following checks must pass.
 
 | check | pass criterion |
 |---|---|
-| duplicate storage mapping | every `storage_id` maps to exactly one `canonical_source_id` |
+| duplicate storage mapping | every `storage_id` has exactly one active `canonical_source_id`; historical `superseded`/`blocked` rows are excluded |
 | intentional shared canonical | any `canonical_source_id` with multiple storage ids has an explicit intentional-alias note |
 | dangling storage id | every `storage_id` exists in the current question set or is explicitly historical |
 | orphan canonical id | every `canonical_source_id` has source PDF/page/q_no evidence |
@@ -222,6 +226,8 @@ Policy:
 Timing:
 
 - Alias schema plan can be reviewed before the 66항 plan.
+- After alias schema review passes, 66항 separability evaluation should start in parallel with
+  registry artifact approval.
 - Registry artifact approval should not claim that 66항 is resolved.
 - Batch migration cannot proceed until the 66항 policy is defined.
 
@@ -236,13 +242,17 @@ Timing:
    - Decide whether to create a tracked docs registry artifact.
    - Decide exact path and format.
    - Still no app/data changes unless separately approved.
-3. **Registry artifact creation**
+3. **66항 separability evaluation**
+   - Decide whether unresolved `2020_1,2회` 66항 risk is separable from q52 source citation.
+   - This may run in parallel with registry artifact approval.
+   - Caution release review cannot skip this evaluation.
+4. **Registry artifact creation**
    - Create the docs registry with q52 candidate row only if approved.
    - Run integrity checks.
-4. **App/data decision**
+5. **App/data decision**
    - Decide whether runtime resolver, app data registry, or record metadata is needed.
    - Requires separate approval and app-specific review.
-5. **Caution release review**
+6. **Caution release review**
    - Only after registry artifact, user-facing impact evidence, and redryrun evidence exist.
 
 ---
