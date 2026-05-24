@@ -133,7 +133,8 @@ Legacy storage key는 유지하고, canonical source를 별도 필드 또는 ali
 
 ### 2.3 Preferred Direction
 
-현재 plan 단계의 선호 방향은 **Alias-first**다.
+현재 plan 단계의 선호 방향은 **Alias-first**다. 정확히는 **위험 회피를 우선할 때의
+1순위 설계 후보**다.
 
 이유:
 
@@ -142,8 +143,34 @@ Legacy storage key는 유지하고, canonical source를 별도 필드 또는 ali
 - Batch migration은 data/app/pdf_pages/user persisted keys가 함께 움직이므로 명시 승인 전
   실행하기에 고위험이다.
 
+trade-off:
+
+| 기준 | Alias-first | Batch migration |
+|---|---|---|
+| 단기 안전성 | 높음. persisted key와 기존 index key를 유지 | 낮음. data/app/pdf_pages/user key가 같이 이동 |
+| 장기 source identity | 중간. storage id와 canonical source id가 분리됨 | 높음. data key와 canonical source가 일치 |
+| caution 해제 난이도 | 높음. legacy storage key를 clean으로 볼지 별도 판단 필요 | 낮아질 수 있음. 단 migration 검증 부담 큼 |
+| rollback 비용 | data normalization rollback은 낮음. app alias resolver 도입 후에는 사용자-facing 영향 별도 평가 필요 | 높음. id, persisted data, index rollback이 함께 필요 |
+| 실행 전 필요 evidence | alias SoT, resolver/read-path, integrity check | 100항 source evidence, 66항 session policy, migration fixture |
+
 단, Alias-first로 caution을 해제할 수 있는지는 별도 기준을 충족해야 한다. 본 plan은
 Alias-first를 "즉시 실행안"으로 확정하지 않고, **우선 설계 후보 1순위**로 둔다.
+
+### 2.4 Option C — Docs Errata Only
+
+Impact audit의 후보였던 "data 미수정 + docs errata만 유지"는 본 plan에서
+Alias-first의 최소 variant로 흡수한다. 이 variant는 app/data alias resolver 없이
+authoritative docs만으로 canonical source를 설명한다.
+
+| 항목 | 평가 |
+|---|---|
+| 장점 | 변경 범위가 가장 작고 app/data 위험이 없다 |
+| 단점 | app/user-facing source identity는 여전히 legacy key 중심으로 남는다 |
+| caution | 해제 근거로는 약함. 원칙적으로 caution 유지 또는 별도 review 필요 |
+| 사용 조건 | 실행 전 임시 설명 또는 historical errata 유지에 한정 |
+
+따라서 Docs Errata Only는 최종 B-track cleanup이 아니라, Alias-first 실행 전 또는
+실행 보류 시의 보존 상태로 취급한다.
 
 ---
 
@@ -170,6 +197,15 @@ Alias-first 채택 시 app persisted key는 유지한다.
 4. alias table은 one-way로 시작한다: `storageId -> canonicalSourceId`.
 5. 같은 canonical id가 여러 storage id에 매핑되는지 중복 검사를 둔다.
 
+주의:
+
+- alias resolver, `canonicalSourceId(q)`, 중복 검사는 app 코드 변경 영역이다.
+- §0의 보호 대상은 persisted storage key와 `_id` 체계이며, app read-path 코드 변경을
+  자동 승인하지 않는다.
+- app 코드 변경, tracked data alias 추가, docs-only alias registry 추가는 각각 별도
+  명시 승인 후 진행한다.
+- Alias-first는 "app 미변경"이 아니라 "persisted key 미변경" 전략으로 정의한다.
+
 권장 명명:
 
 | 용어 | 의미 |
@@ -178,6 +214,33 @@ Alias-first 채택 시 app persisted key는 유지한다.
 | `canonical_source_id` | 원본 시험/회차/q_no 기준 citation id |
 | `source_pdf` | canonical source PDF path |
 | `source_pdf_page` | PDF page |
+
+### 3.1A Alias Table Source-of-Truth Candidates
+
+Alias-first 실행 전 alias table의 source of truth(SoT)를 먼저 결정한다.
+
+| 후보 | 내용 | 장점 | 위험 / 한계 |
+|---|---|---|---|
+| tracked docs registry | `docs/audit/...` 아래 markdown/json registry | data/app 미수정, review 용이 | app runtime이 직접 참조하지 않으면 user-facing 개선 제한 |
+| tracked app data registry | app data 영역에 별도 alias json | app resolver와 연결 쉬움 | app/data 수정이므로 별도 승인 필요 |
+| record metadata field | 각 question record에 canonical field 추가 | record와 source가 가까움 | `questions.json`/per-year 수정이므로 고위험 |
+| app hardcoded mapping | JS module/object로 mapping 보관 | 구현 빠름 | data ownership 불명확, 장기 유지 부적합 |
+
+기본 선호는 **tracked docs registry로 schema를 먼저 확정한 뒤**, app/data 반영 필요성을
+별도 승인 gate로 넘기는 것이다. 이 기본 선호도 실행안은 아니며, SoT 결정은 decision
+record에 남긴다.
+
+### 3.1B Alias Integrity Checks
+
+Alias-first 실행 전후에 아래 integrity check를 통과해야 한다.
+
+1. 같은 `storage_id`가 두 개 이상의 `canonical_source_id`에 매핑되지 않는다.
+2. 같은 `canonical_source_id`에 여러 `storage_id`가 매핑되는 경우 의도된 alias인지
+   별도 목록에 표시한다.
+3. 모든 `storage_id`가 current app question set에 존재한다.
+4. 모든 `canonical_source_id`는 source PDF, page, q_no evidence와 3-way로 정합해야 한다.
+5. orphan canonical id, dangling storage id, duplicate alias row가 0건이어야 한다.
+6. q52는 단독 id 재발급이 아니라 alias/inventory entry로만 표현되어야 한다.
 
 ### 3.2 Batch Migration Compatibility
 
@@ -244,6 +307,14 @@ Alias-first의 기본 정책은 **legacy index key 유지 + canonical fallback �
 3. fallback은 read path에만 적용한다. write/update path는 명시 승인 전 열지 않는다.
 4. q52처럼 index key가 없는 항목은 "no pdf page index key" 상태를 그대로 기록한다.
 
+범위 한정:
+
+- q52 자체는 현재 pdf index key가 없다.
+- 따라서 alias fallback의 직접 benefit은 q52가 아니라 `2020_1회_*` prefix에 존재하는
+  5개 indexed key와 canonical citation/read-path 일관성에 한정된다.
+- q52는 source PDF/page citation으로 검증하고, pdfPageIndex hit를 caution 해제 근거로
+  사용하지 않는다.
+
 검증:
 
 - legacy key lookup이 기존과 동일하게 동작하는지 확인한다.
@@ -287,6 +358,13 @@ B-track 결과가 확정되기 전 historical 문서는 rewrite하지 않는다.
 | active-state / supervisor docs | decision layer 상태만 최신화. 과도한 메타 작업 금지 |
 | historical audit/review | rewrite 금지. 필요 시 "superseded by" 문서 링크만 추가 후보 |
 
+supervisor docs sync 범위:
+
+- B-track 결과가 확정되면 active-state 또는 supervisor log에 1개 entry만 추가한다.
+- 기존 supervisor policy, metric, cascade rule은 수정하지 않는다.
+- decision record가 필요한 정책 판단은 §8의 항목으로 제한한다.
+- review 지적 대응을 이유로 supervisor layer 구조를 확장하지 않는다.
+
 ### 5.2 Sync 문구 원칙
 
 Alias-first가 채택될 경우:
@@ -324,6 +402,7 @@ B-track 실행 후 redryrun은 option별로 기준을 다르게 둔다.
 redryrun evidence:
 
 - alias mapping table excerpt
+- alias integrity check result
 - app key lookup smoke result
 - q52 source citation display 또는 docs excerpt
 - pdf_pages related key count
@@ -351,6 +430,22 @@ redryrun evidence:
 - q52 and at least 4 related 2020_1회 samples
 - `2020_1,2회` sample check
 
+### 6.3 Caution Release Review Format
+
+caution 해제 review는 별도 문서로 작성하며, 최소한 아래 항목을 포함한다.
+
+| 항목 | 필수 내용 |
+|---|---|
+| scope | Alias-first 또는 Batch migration 중 실제 실행 범위 |
+| evidence inventory | source PDF/page, alias/migration mapping, app smoke, pdf_pages check |
+| guardrail check | q52 단독 id 재발급 없음, app/data/pdf_pages 승인 범위 준수 |
+| acceptance criteria | §7의 measurable criteria 결과 |
+| residual risk | legacy storage key 잔존, 66항 미해결 여부, user-facing 혼동 가능성 |
+| decision | caution 유지 / caution 해제 후보 / BLOCKED 중 하나 |
+
+review 판정은 PASS/NEEDS_FIX를 자동 선언하지 않는다. 해제 여부는 review 문서와
+decision record가 모두 준비된 뒤 별도 gate에서 결정한다.
+
 ---
 
 ## 7. Caution Release Conditions
@@ -373,6 +468,17 @@ Alias-first와 Batch migration 모두 공통:
 7. closeout/errata/current-state 문서가 sync됨.
 8. redryrun과 review가 별도 문서로 완료됨.
 
+measurable criteria:
+
+| 조건 | 측정 기준 |
+|---|---|
+| source citation | q52의 source PDF/page/q_no/canonical id가 1개 authoritative artifact에 존재 |
+| app key | progress, annotations, wrong-note lookup smoke가 legacy id 기준으로 모두 통과 |
+| pdf_pages | 관련 prefix count와 key list before/after가 문서화되고 dangling index 0건 |
+| closeout/errata | sync 대상 문서 목록과 변경/미변경 사유가 diff summary에 존재 |
+| redryrun/review | redryrun 문서와 caution release review 문서가 각각 존재 |
+| guardrail | q52 단독 id 변경, unapproved app/data/pdf_pages 변경, caution 선해제 0건 |
+
 ### 7.2 Alias-First Specific Conditions
 
 Alias-first에서 caution 해제를 검토하려면 아래 정책 판단이 필요하다.
@@ -391,6 +497,16 @@ Alias-first caution 해제 최소 기준:
 - "legacy storage key retained by design"이라는 정책 판단이 decision record 또는
   동등한 authoritative 문서에 남아야 한다.
 
+Alias-first measurable criteria:
+
+1. alias SoT artifact 위치가 decision record에 기록되어 있다.
+2. `storage_id=2020_1회_52`와 `canonical_source_id=2022_1회_52` mapping이 존재한다.
+3. q52 source PDF/page/q_no evidence가 mapping row 또는 linked evidence에 존재한다.
+4. alias integrity checks 6개가 모두 통과한다.
+5. user-facing citation이 legacy storage key만 보여주는 상태라면 caution 해제 후보가
+   아니라 caution 유지로 분류한다.
+6. Docs Errata Only variant에 머문 경우 caution 해제 후보로 올리지 않는다.
+
 ### 7.3 Batch Migration Specific Conditions
 
 Batch migration에서 caution 해제를 검토하려면 아래가 필요하다.
@@ -400,6 +516,39 @@ Batch migration에서 caution 해제를 검토하려면 아래가 필요하다.
 - `2020_1,2회` 66항 정책이 미해결로 남지 않아야 한다.
 - `pdf_pages/index.json` 동기화가 완료되어야 한다.
 - old/new id mapping이 문서화되어야 한다.
+
+Batch migration measurable criteria:
+
+1. `2020_1회` 100항 source claim은 전수 check 또는 사전에 정의된 sample/evidence
+   protocol을 통과해야 한다.
+2. old/new id mapping row count가 migrated question count와 일치한다.
+3. progress/annotations migration 또는 compatibility smoke test가 통과한다.
+4. `2020_1,2회` 66항은 분해/alias/보류 중 하나로 명시 결정되어야 하며, "미정"이면
+   caution 해제 후보로 올리지 않는다.
+5. pdf_pages moved/aliased key count가 before/after diff와 일치하고 dangling index가
+   0건이어야 한다.
+
+---
+
+## 7A. `2020_1,2회` 66항 Handling
+
+`2020_1,2회` 66항은 기기-17 q52의 직접 수정 대상이 아니라 systemic session-label
+문제다. 본 plan에서는 B-track의 blocking risk로 관리하되, 실행은 별도 트랙으로
+분리한다.
+
+| 경로 | 66항 처리 |
+|---|---|
+| Alias-first | 66항을 즉시 수정하지 않는다. 다만 caution release review에서 residual risk로 명시 |
+| Batch migration | 66항 session policy가 선결 조건이다. 분해/alias/보류 중 하나를 결정해야 함 |
+| Docs Errata Only | 66항은 별도 systemic issue로 유지하고 caution 해제 근거로 사용하지 않음 |
+
+정책:
+
+- Alias-first를 채택해도 66항 문제가 사라진 것으로 간주하지 않는다.
+- 66항 처리는 "기기-17 q52 단독 id 재발급 금지"와 같은 guardrail 아래 별도 plan으로
+  다룬다.
+- 66항 미해결 상태에서 caution을 해제하려면, 그 residual risk가 기기-17 source citation
+  clean 여부와 분리 가능하다는 review 근거가 필요하다.
 
 ---
 
@@ -414,6 +563,9 @@ decision record에 남겨야 한다.
 3. Batch migration 채택 시, persisted key migration 방식(explicit migration vs
    compatibility alias).
 4. `2020_1,2회` 66항을 분해할지 alias로 유지할지.
+5. alias table SoT artifact 위치.
+6. Docs Errata Only를 임시 상태로 유지할지, Alias-first 실행 범위에 포함할지.
+7. caution release review에서 사용할 acceptance criteria set.
 
 ---
 
@@ -424,11 +576,12 @@ decision record에 남겨야 한다.
 1. 본 plan review.
 2. Alias-first 채택 여부 정책 결정.
 3. Alias-first 채택 시:
-   - canonical alias schema 작성
-   - app read-path compatibility 설계
-   - pdf_pages legacy/canonical fallback 설계
-   - closeout/errata sync plan 확정
-   - redryrun fixture 정의
+   - canonical alias schema 작성 (별도 승인)
+   - alias SoT 위치 결정 (decision record)
+   - app read-path compatibility 설계 (app 코드 변경 별도 승인)
+   - pdf_pages legacy/canonical fallback 설계 (별도 승인)
+   - closeout/errata sync plan 확정 (별도 승인)
+   - redryrun fixture와 caution release review 양식 정의
 4. Batch migration을 선택해야 한다면:
    - `2020_1회` 100항 source evidence 보강
    - `2020_1,2회` 66항 session policy 작성
