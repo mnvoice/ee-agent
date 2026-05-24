@@ -73,6 +73,10 @@
 - 같은 track에서 3회 발생하면 track freeze. freeze 해제에는 별도 audit PASS가 필요하다.
 - failed PASS가 발생하면 다음 같은 종류의 PASS 판정에는 이전 실패 재발 방지 항목을
   review 기준에 추가한다.
+- audit 결과가 NEEDS_FIX이면 fix commit 또는 amend/supersede/revoke 1건을 먼저 만들고
+  재검토한다. 같은 scope에서 NEEDS_FIX 재감사는 최대 2회까지만 허용한다.
+- audit 결과가 BLOCKED이면 자동 재감사를 금지하고, 사용자/외부 reviewer가 scope 축소,
+  rollback, defer 중 하나를 결정해야 한다.
 
 ---
 

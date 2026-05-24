@@ -83,7 +83,24 @@ clean count 갱신, push를 금지한다.
 
 ---
 
-## 5. PASS Criteria
+## 5. Audit Result Cascade
+
+audit은 다음 action을 명확히 남긴다. "audit이 다음 gate"라고만 쓰지 않는다.
+
+| audit result | action | record rule | loop guard |
+|---|---|---|---|
+| PASS | gate 해제 또는 다음 planned gate로 진행 | 필요 시 `audit` 또는 `consolidation` 1건 append | 추가 audit 없음 |
+| NEEDS_FIX | fix commit 또는 `amend`/`supersede`/`revoke` 1건 작성 후 재검토 | 실패 이유와 prevention_check 필수 | 같은 scope에서 NEEDS_FIX 재감사 최대 2회 |
+| BLOCKED | track freeze, 사용자/외부 reviewer 개입 전 진행 금지 | `audit` record에 blocked reason과 unblock condition 명시 | 자동 재감사 금지 |
+
+같은 scope에서 audit failure(NEEDS_FIX 또는 BLOCKED)가 2회 발생하면 사람의 감독 판단을
+필수 gate로 둔다. 3회째 실패하면 해당 scope는 freeze하고, 새 record를 계속 쌓지 않는다.
+이때 다음 action은 "추가 audit"이 아니라 사용자/외부 reviewer가 scope 축소, rollback,
+defer 중 하나를 결정하는 것이다.
+
+---
+
+## 6. PASS Criteria
 
 supervisor layer audit이 PASS가 되려면 아래를 모두 만족해야 한다.
 
@@ -98,7 +115,7 @@ supervisor layer audit이 PASS가 되려면 아래를 모두 만족해야 한다
 
 ---
 
-## 6. Output Naming
+## 7. Output Naming
 
 audit 산출물은 아래 위치에 둔다.
 
