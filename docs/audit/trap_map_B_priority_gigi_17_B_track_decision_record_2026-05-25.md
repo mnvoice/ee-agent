@@ -19,19 +19,22 @@ PDF filename, `pdf_pages/index.json`은 수정하지 않는다.** push 없음. a
 
 | 항목 | 결정 |
 |---|---|
-| B-track primary direction | Alias-first를 다음 설계 후보로 채택 |
+| B-track primary direction | Alias-first를 다음 설계 검토 대상으로 진입 |
 | Batch migration | 보류. 100항 source evidence, 66항 policy, persisted key migration 전에는 실행 금지 |
 | canonical + legacy 상태 | clean으로 보지 않는다. caution 유지 상태에서 alias schema와 review gate로 이동 |
-| alias table SoT | 위험 회피 우선 시 tracked docs registry를 1차 SoT 후보로 둔다 |
+| alias table SoT | 위험 회피 우선 시 tracked docs registry를 1차 SoT 후보로 둔다(plan v2 §3.1A 기준) |
 | Docs Errata Only | cleanup이 아니라 temporary preservation state로 분류 |
 | `2020_1,2회` 66항 | 기기-17 q52와 분리된 별도 systemic session-label 트랙 |
 | acceptance criteria | plan v2 §7 measurable criteria를 caution release review 입력으로 사용 |
 
 ---
 
+Alias-first는 실행 결정이 아니다. alias schema plan에서 SoT, integrity check, user-facing
+impact, app/data 반영 여부를 다시 gate로 다룬다.
+
 ## 2. Rationale
 
-Alias-first를 다음 설계 후보로 채택하는 이유:
+Alias-first를 다음 설계 검토 대상으로 진입시키는 이유:
 
 - app `_id`가 progress, annotations, wrong-note filter, pdfPageIndex lookup에 사용된다.
 - `2020_1회` 100항 batch mis-label 가능성이 있어 q52 단독 id 재발급은 위험하다.
