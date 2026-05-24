@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "artifact_type": "trap_map_alias_registry",
+  "scope": "gigi_17_b_track",
+  "created_date": "2026-05-25",
+  "status": "candidate",
+  "rows": [
+    {
+      "storage_id": "2020_1회_52",
+      "canonical_source_id": "2022_1회_52",
+      "source_pdf": "data/20200424_1회.pdf",
+      "source_pdf_page": 4,
+      "source_q_no": 52,
+      "cover_date": "2022-04-24",
+      "evidence_ref": "trap_map_B_priority_gigi_17_record_identity_targeted_audit_2026-05-23.md §2, §3; trap_map_B_priority_gigi_17_B_track_impact_audit_2026-05-25.md §1, §3",
+      "status": "candidate",
+      "notes": "legacy storage key retained; PDF filename/date mismatch handled as cover-date evidence; caution remains"
+    }
+  ]
+}
