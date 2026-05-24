@@ -28,6 +28,19 @@ record는 append-only 원장이고, 이 문서는 현재 작업자가 먼저 봐
 
 ---
 
+## 1.1 Layer 운영 상태
+
+| 항목 | 상태 |
+|---|---|
+| 운영 선언 | 1차 운영 버전 (`DR-TRAP-LAYER-V1-OPERATIONAL`) |
+| 완성 여부 | 완성 아님, 검증 대상 |
+| 관찰 지표 | lookback rate / supersede-amend-revoke density / time-to-detection / decision velocity |
+| 수치 기준 | 초기에는 hardcode하지 않고 관찰값으로 둠 |
+| review trigger | 약 12주 또는 충분한 decision 수가 쌓인 시점 중 먼저 오는 때 |
+| 폐기 조건 | 실제 의사결정에 영향을 주지 못하거나 decision velocity 비용이 과도하면 축소/폐기 decision 작성 |
+
+---
+
 ## 2. 현재 count
 
 | 구분 | 상태 |
