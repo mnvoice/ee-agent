@@ -86,6 +86,7 @@ registry row promotion 금지 유지.
 - 99 records alias 확장 실행 → 별 evaluation + 별 명시 승인 영역
 - Batch migration 영역 → 66항 policy + mapping granularity 5 영역 모두 충족 후
 - caution release 진입 → E6 Q4 Inseparable 유지 영역
+- missing 29 data recovery debt → 별 트랙 (본 100 records source audit scope 외)
 
 ---
 
@@ -121,6 +122,7 @@ registry row promotion 금지 유지.
   영역 한정 read-only)
 - 후보 PDF의 표지 / 페이지 수 / 시행 일자 / 책 페이지 양식 영역 확인
 - PDF source 식별 양식 (예: 전자문제집 CBT / vFlat 스캔 / 별 양식) 영역 분류
+- E4 다른 합본 PDF 패턴 트랙 결과는 본 Phase A inventory의 input reference로 참조 가능 (단 E4 트랙 자체 실행은 별 트랙 §13 영역 유지)
 
 **산출**:
 - PDF 후보 inventory (별 docs/audit 영역)
@@ -207,6 +209,8 @@ registry row promotion 금지 유지.
 | **미매칭** | 어떤 PDF에도 매칭 안 됨 |
 
 → audit 결과의 모든 record에 표기 영역 명시. *추정 영역을 확정처럼 처리 금지*.
+
+→ **외부 official source가 없을 때는 *확정* 영역으로 승급하지 않고 *source-internal confirmed* (PDF 3-way 정합) 또는 *강한 가설* 영역으로 유지한다.** *확정* 영역 승급은 외부 official source evidence 트랙 (§13) 별 결정 후만 활성화.
 
 ---
 
@@ -409,6 +413,8 @@ Batch migration은 별 inseparable 영역 / persisted user data migration 영역
 | **S9** registry artifact 확장 (별 명시 승인) | §8 C1~C7 충족 영역 |
 
 본 plan 단계 = S0 (plan 작성). 실제 실행 S2~S9는 별 명시 승인 후만.
+
+Batch migration은 본 audit / alias 확장 영역과 별 트랙 — §9 G1~G4 모두 충족 영역까지 진입 차단 유지.
 
 ---
 
