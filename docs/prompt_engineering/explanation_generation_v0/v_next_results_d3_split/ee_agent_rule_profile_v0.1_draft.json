@@ -1,0 +1,341 @@
+{
+  "profile_metadata": {
+    "profile_version": "0.1-draft",
+    "domain_id": "ee-agent",
+    "status": "draft",
+    "compatible_schema_version": "0.1-draft",
+    "compatible_schema_file": "rule_schema_v0.1_draft.schema.json",
+    "created_at": "2026-05-27",
+    "source_notes": [
+      "본 profile은 Rule Schema Artifact Revision Gate의 산출물 초안.",
+      "predicate·check 카탈로그는 policy_change_rules.json v0.2 12 규칙에서 역추출한 초안 (실측 검증 없음).",
+      "threshold 값 4종은 D-3 관찰 또는 초기 추측. 모두 status: proposal.",
+      "본 파일은 schema 파일의 profile_contract.required_root_keys를 준수."
+    ]
+  },
+
+  "domain_taxonomy": {
+    "status_values": ["CLEAN", "NEEDS_REVIEW", "catalog", "GAP"],
+    "status_movement_notes": "정의된 status 간 이동만 추적. v0.1 NEEDS_REVIEW 인스턴스는 v0.2에서 NEEDS_REVIEW 또는 catalog로 분기. catalog는 ITEM_POLICY 안에 위치하되 generation 대상 아님.",
+    "category_enum": [
+      "RECOVERABILITY",
+      "AMBIGUITY",
+      "ROUTING",
+      "POLICY_RELAXATION",
+      "DATA_OR_TOOL_DRIFT",
+      "BROAD_KEYWORD",
+      "DATA_DEBT",
+      "TOOL_CHANGE",
+      "SUBJECT_CHANGE"
+    ],
+    "category_enum_notes": "Verdict.category 값. ee-agent 도메인 한정 어휘. 다른 도메인은 별도 profile에서 재정의."
+  },
+
+  "predicate_library": [
+    {
+      "predicate_id": "status_movement",
+      "description": "특정 status A에서 status B로 이동한 entry 수가 임계 이상인지 판정.",
+      "args_schema": {
+        "type": "object",
+        "required": ["from", "to", "min_count"],
+        "properties": {
+          "from": {"type": "string"},
+          "to": {
+            "oneOf": [
+              {"type": "string"},
+              {"type": "array", "items": {"type": "string"}}
+            ]
+          },
+          "min_count": {"type": "integer", "minimum": 1}
+        }
+      },
+      "examples": [
+        {"from": "CLEAN", "to": "GAP", "min_count": 1},
+        {"from": "GAP", "to": ["CLEAN", "NEEDS_REVIEW"], "min_count": 1}
+      ],
+      "draft_status": "역추출 초안. 실측 검증 없음."
+    },
+    {
+      "predicate_id": "delta_status_count",
+      "description": "특정 status의 증감 방향과 최소 변동량 판정.",
+      "args_schema": {
+        "type": "object",
+        "required": ["status", "direction"],
+        "properties": {
+          "status": {"type": "string"},
+          "direction": {
+            "type": "string",
+            "enum": ["positive", "negative", "zero"]
+          },
+          "min_count": {"type": "integer", "minimum": 0}
+        }
+      },
+      "examples": [
+        {"status": "CLEAN", "direction": "positive", "min_count": 1},
+        {"status": "GAP", "direction": "positive", "min_count": 1}
+      ],
+      "draft_status": "역추출 초안. 실측 검증 없음."
+    },
+    {
+      "predicate_id": "item_concentration_pct",
+      "description": "단일 item이 전체에서 차지하는 비율이 임계 이상인지 판정.",
+      "args_schema": {
+        "type": "object",
+        "required": ["min_pct"],
+        "properties": {
+          "item": {"type": "string"},
+          "min_pct": {"type": "number", "minimum": 0, "maximum": 100}
+        }
+      },
+      "examples": [
+        {"min_pct": 60}
+      ],
+      "draft_status": "역추출 초안. min_pct 60 값은 threshold proposal 참조."
+    },
+    {
+      "predicate_id": "hash_changed",
+      "description": "지정 대상의 hash 변경 여부 판정.",
+      "args_schema": {
+        "type": "object",
+        "required": ["target"],
+        "properties": {
+          "target": {
+            "type": "string",
+            "enum": ["questions", "tool", "policy"]
+          }
+        }
+      },
+      "examples": [
+        {"target": "questions"},
+        {"target": "tool"}
+      ],
+      "draft_status": "역추출 초안. 실측 검증 없음."
+    },
+    {
+      "predicate_id": "abs_delta_pct",
+      "description": "절대 변동률이 지정 범위에 들어가는지 판정.",
+      "args_schema": {
+        "type": "object",
+        "properties": {
+          "min": {"type": "number", "minimum": 0},
+          "max": {"type": "number", "minimum": 0},
+          "scope": {"type": "string"}
+        },
+        "anyOf": [
+          {"required": ["min"]},
+          {"required": ["max"]}
+        ]
+      },
+      "examples": [
+        {"max": 5},
+        {"min": 10}
+      ],
+      "draft_status": "역추출 초안. min·max 값은 threshold proposal 참조."
+    },
+    {
+      "predicate_id": "zero_hit_items",
+      "description": "0 hit item 수가 임계 이상인지 판정.",
+      "args_schema": {
+        "type": "object",
+        "required": ["at_least"],
+        "properties": {
+          "at_least": {"type": "integer", "minimum": 1}
+        }
+      },
+      "examples": [
+        {"at_least": 1}
+      ],
+      "draft_status": "역추출 초안. 실측 검증 없음."
+    },
+    {
+      "predicate_id": "item_changed",
+      "description": "같은 entry에서 매칭 item이 before/after 사이에 달라졌는지 판정.",
+      "args_schema": {
+        "type": "object",
+        "properties": {
+          "same_status": {"type": "boolean"}
+        }
+      },
+      "examples": [
+        {"same_status": true}
+      ],
+      "draft_status": "역추출 초안. 실측 검증 없음."
+    }
+  ],
+
+  "check_library": [
+    {
+      "function_id": "multi_word_keyword_recovery_test",
+      "description": "multi-word keyword 1~2개 추가로 GAP entry 회수 가능 여부 자동 시도.",
+      "parameters_schema": {
+        "type": "object",
+        "properties": {
+          "max_words": {"type": "integer", "minimum": 1, "maximum": 5}
+        }
+      },
+      "return_type": "recovery_report",
+      "draft_status": "역추출 초안. 실측 검증 없음."
+    },
+    {
+      "function_id": "list_competing_items_per_pid",
+      "description": "각 pid별로 경합한 item 목록 출력.",
+      "parameters_schema": {
+        "type": "object",
+        "properties": {}
+      },
+      "return_type": "competition_list",
+      "draft_status": "역추출 초안. 실측 검증 없음."
+    },
+    {
+      "function_id": "list_before_after_items_per_pid",
+      "description": "각 pid별로 before·after item을 함께 출력.",
+      "parameters_schema": {
+        "type": "object",
+        "properties": {}
+      },
+      "return_type": "routing_diff",
+      "draft_status": "역추출 초안. 실측 검증 없음."
+    },
+    {
+      "function_id": "compare_keyword_lists_for_new_broad",
+      "description": "새로 추가된 keyword 중 broad single-word 후보 식별.",
+      "parameters_schema": {
+        "type": "object",
+        "properties": {}
+      },
+      "return_type": "broad_addition_list",
+      "draft_status": "역추출 초안. 실측 검증 없음."
+    },
+    {
+      "function_id": "diff_input_data_hash",
+      "description": "before·after 입력 데이터(questions) hash 차이 확인.",
+      "parameters_schema": {
+        "type": "object",
+        "properties": {}
+      },
+      "return_type": "hash_diff",
+      "draft_status": "역추출 초안. 실측 검증 없음."
+    },
+    {
+      "function_id": "diff_tool_version_metadata",
+      "description": "도구 자체의 버전·설정 메타데이터 차이 확인.",
+      "parameters_schema": {
+        "type": "object",
+        "properties": {}
+      },
+      "return_type": "tool_diff",
+      "draft_status": "역추출 초안. 실측 검증 없음."
+    },
+    {
+      "function_id": "list_top_matching_keywords_for_item",
+      "description": "특정 item에 매칭된 상위 N개 keyword 출력.",
+      "parameters_schema": {
+        "type": "object",
+        "required": ["item"],
+        "properties": {
+          "item": {"type": "string"},
+          "top_n": {"type": "integer", "minimum": 1}
+        }
+      },
+      "return_type": "keyword_freq_list",
+      "draft_status": "역추출 초안. 실측 검증 없음."
+    },
+    {
+      "function_id": "search_synonyms_in_corpus",
+      "description": "지정 item·동의어 후보가 corpus에 실제 등장하는지 확인.",
+      "parameters_schema": {
+        "type": "object",
+        "required": ["item"],
+        "properties": {
+          "item": {"type": "string"},
+          "synonyms": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        }
+      },
+      "return_type": "synonym_hit_report",
+      "draft_status": "역추출 초안. 실측 검증 없음."
+    },
+    {
+      "function_id": "trace_responsible_keyword",
+      "description": "특정 pid 매칭에 기여한 keyword 추적.",
+      "parameters_schema": {
+        "type": "object",
+        "required": ["pid"],
+        "properties": {
+          "pid": {"type": "string"}
+        }
+      },
+      "return_type": "keyword_trace",
+      "draft_status": "역추출 초안. 실측 검증 없음."
+    },
+    {
+      "function_id": "verify_no_keyword_overreach",
+      "description": "keyword가 의도 외 영역으로 과도 매칭되었는지 확인.",
+      "parameters_schema": {
+        "type": "object",
+        "properties": {}
+      },
+      "return_type": "overreach_report",
+      "draft_status": "역추출 초안. 실측 검증 없음."
+    }
+  ],
+
+  "threshold_proposals": {
+    "broad_item_concentration_pct": {
+      "value": 60,
+      "status": "proposal",
+      "rationale": "D-3 단일 item 흡수 패턴 관찰값. 도메인 출제 비중 큰 영역이면 정합일 수 있음. 확정 검증 없음.",
+      "proposal_source": "human suggestion, 2026-05-27"
+    },
+    "soft_alert_max_delta_pct": {
+      "value": 5,
+      "status": "proposal",
+      "rationale": "초기 임계값. 380 entry 풀 전수 검증 없음.",
+      "proposal_source": "initial heuristic, 2026-05-27"
+    },
+    "hard_alert_min_delta_pct": {
+      "value": 10,
+      "status": "proposal",
+      "rationale": "초기 임계값. 380 entry 풀 전수 검증 없음.",
+      "proposal_source": "initial heuristic, 2026-05-27"
+    },
+    "multi_word_min_length": {
+      "value": 2,
+      "status": "proposal",
+      "rationale": "multi-word keyword 최소 단어 수. D-3 split 정책 기반.",
+      "proposal_source": "D-3 policy observation, 2026-05-27"
+    }
+  },
+
+  "aggregation_policy": {
+    "method": "highest_priority_wins",
+    "selection_rationale": "ee-agent profile 1차 선택. 본 게이트는 영구 확정으로 표기하지 않음.",
+    "permanently_fixed": false
+  },
+
+  "claim_boundary": {
+    "directly_defined": [
+      "status_values 4종",
+      "category_enum 9종 (ee-agent 도메인 한정)",
+      "aggregation_method 1차 선택값"
+    ],
+    "draft_extracted_from_v0_2_instances": [
+      "predicate_library 7종 (status_movement·delta_status_count·item_concentration_pct·hash_changed·abs_delta_pct·zero_hit_items·item_changed)",
+      "check_library 10종"
+    ],
+    "proposal_only": [
+      "broad_item_concentration_pct = 60",
+      "soft_alert_max_delta_pct = 5",
+      "hard_alert_min_delta_pct = 10",
+      "multi_word_min_length = 2"
+    ],
+    "not_validated_in_this_gate": [
+      "predicate·check 카탈로그의 도구 구현 정합성",
+      "category_enum 9종의 실제 분류 커버리지",
+      "threshold 4종의 확정값 적정성",
+      "v0.2 12 규칙을 본 schema 형식으로 변환 가능 여부 전수 검증"
+    ]
+  }
+}

@@ -1,0 +1,511 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://verify-agent/schemas/rule_schema_v0.1-draft.schema.json",
+  "title": "Rule Schema v0.1 Draft (domain-neutral core + profile contract)",
+  "description": "domain-neutral rule contract. ee-agent 카탈로그·threshold 등 도메인 의존 값은 별도 profile 파일 ee_agent_rule_profile_v0.1_draft.json에 위치. 본 schema는 형식 검증용. ID uniqueness·predicate_id cross-check·function_id cross-check·category cross-check 등은 후속 validator gate 책임.",
+  "type": "object",
+  "required": [
+    "schema_metadata",
+    "core",
+    "profile_contract",
+    "rule_contract",
+    "change_report_contract"
+  ],
+  "properties": {
+    "schema_metadata": {
+      "$ref": "#/definitions/SchemaMetadata"
+    },
+    "core": {
+      "$ref": "#/definitions/Core"
+    },
+    "profile_contract": {
+      "$ref": "#/definitions/ProfileContract"
+    },
+    "rule_contract": {
+      "$ref": "#/definitions/Rule"
+    },
+    "change_report_contract": {
+      "$ref": "#/definitions/ChangeReport"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Rule"
+      },
+      "description": "선택 필드. rule 인스턴스 배열. 본 게이트는 인스턴스를 작성하지 않음. v0.2 → v0.1-draft 변환은 별도 migration gate."
+    }
+  },
+
+  "definitions": {
+    "SchemaMetadata": {
+      "type": "object",
+      "description": "schema 자체의 메타. 인스턴스 메타는 RuleMetadata에 별도 정의.",
+      "required": ["schema_version", "status"],
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "const": "0.1-draft",
+          "description": "본 게이트의 schema 버전. v0.2 인스턴스 버전과 혼동 금지."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "review", "approved", "deprecated"]
+        },
+        "compatible_with_instance_versions": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "예: ['0.1.x']"
+        },
+        "migration_paths": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["from_version", "migration_notes"],
+            "properties": {
+              "from_version": {"type": "string"},
+              "migration_notes": {"type": "string"},
+              "breaking_changes": {
+                "type": "array",
+                "items": {"type": "string"}
+              }
+            }
+          }
+        },
+        "known_limits": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "JSON Schema 기본 검증으로 보장되지 않는 항목. validator gate 책임. 예: ['Rule.id uniqueness', 'PredicateCall.predicate_id cross-check', 'Verdict.category cross-check']"
+        }
+      }
+    },
+
+    "Core": {
+      "type": "object",
+      "description": "domain-neutral 정의. 다른 verify-agent 프로젝트에 그대로 적용 가능한 영역.",
+      "required": [
+        "priority_group_enum",
+        "severity_enum",
+        "auto_action_enum",
+        "aggregation_method_enum",
+        "criteria_combinator_enum",
+        "verification_status_enum",
+        "predicate_interface",
+        "check_interface"
+      ],
+      "properties": {
+        "priority_group_enum": {
+          "type": "array",
+          "items": {"type": "string"},
+          "const": ["critical", "major", "standard", "minor"],
+          "description": "다중 매칭 정렬·final_action 산출 기준."
+        },
+        "severity_enum": {
+          "type": "array",
+          "items": {"type": "string"},
+          "const": ["IMPROVEMENT", "SOFT_ALERT", "INVESTIGATE", "SUSPECT", "HARD_ALERT"],
+          "description": "변동 심각도 라벨. 사람에게 표시."
+        },
+        "auto_action_enum": {
+          "type": "array",
+          "items": {"type": "string"},
+          "const": ["log_only", "trigger_check", "human_review", "block"],
+          "description": "도구의 자동 행동 카테고리."
+        },
+        "aggregation_method_enum": {
+          "type": "array",
+          "items": {"type": "string"},
+          "const": ["highest_priority_wins", "most_severe_wins", "conservative_combine"],
+          "description": "다중 매칭 시 final_action 산출 방법 후보."
+        },
+        "criteria_combinator_enum": {
+          "type": "array",
+          "items": {"type": "string"},
+          "const": ["AND", "OR"]
+        },
+        "verification_status_enum": {
+          "type": "array",
+          "items": {"type": "string"},
+          "const": ["single_case", "multi_case", "well_tested"],
+          "description": "규칙의 검증 누적 수준."
+        },
+        "predicate_interface": {
+          "type": "object",
+          "description": "predicate 인터페이스. 실제 카탈로그는 profile 파일의 predicate_library에 위치.",
+          "properties": {
+            "id_pattern": {"const": "^[a-z][a-z0-9_]*$"},
+            "args_must_be_schema": {"const": true},
+            "return_type": {"const": "boolean"}
+          }
+        },
+        "check_interface": {
+          "type": "object",
+          "description": "automated check 인터페이스. 실제 카탈로그는 profile 파일의 check_library에 위치.",
+          "properties": {
+            "id_pattern": {"const": "^[a-z][a-z0-9_]*$"},
+            "parameters_must_be_schema": {"const": true},
+            "return_type_required": {"const": true}
+          }
+        }
+      }
+    },
+
+    "ProfileContract": {
+      "type": "object",
+      "description": "profile 파일이 갖춰야 할 root 키 명세. 실제 ee-agent 값은 ee_agent_rule_profile_v0.1_draft.json에 위치.",
+      "required": [
+        "required_root_keys",
+        "required_threshold_status",
+        "category_enum_source",
+        "predicate_library_source",
+        "check_library_source"
+      ],
+      "properties": {
+        "required_root_keys": {
+          "type": "array",
+          "items": {"type": "string"},
+          "const": [
+            "profile_metadata",
+            "domain_taxonomy",
+            "predicate_library",
+            "check_library",
+            "threshold_proposals",
+            "aggregation_policy"
+          ],
+          "description": "profile 파일 root에 포함되어야 할 키."
+        },
+        "required_threshold_status": {
+          "type": "string",
+          "const": "proposal",
+          "description": "본 schema_version에서는 모든 threshold가 status: proposal로 표기되어야 함."
+        },
+        "category_enum_source": {
+          "type": "string",
+          "const": "profile.domain_taxonomy.category_enum",
+          "description": "Verdict.category 값은 이 경로에서 도출."
+        },
+        "predicate_library_source": {
+          "type": "string",
+          "const": "profile.predicate_library[*].predicate_id",
+          "description": "PredicateCall.predicate_id 값은 이 경로에서 도출."
+        },
+        "check_library_source": {
+          "type": "string",
+          "const": "profile.check_library[*].function_id",
+          "description": "AutomatedCheckCall.function_id 값은 이 경로에서 도출."
+        },
+        "aggregation_method_source": {
+          "type": "string",
+          "const": "core.aggregation_method_enum",
+          "description": "profile.aggregation_policy.method 값은 이 enum 중 하나."
+        }
+      }
+    },
+
+    "Rule": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "scope",
+        "priority_group",
+        "metadata",
+        "criteria",
+        "verdict",
+        "automated_check",
+        "human_review_guidelines"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^R\\d+(_[a-z]+)*$",
+          "description": "고유 식별자. uniqueness는 validator gate에서 별도 검사."
+        },
+        "name": {"type": "string"},
+        "scope": {
+          "type": "object",
+          "required": ["applicable_to"],
+          "properties": {
+            "applicable_to": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "tested_in": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "domain_agnostic": {"type": "boolean"}
+          }
+        },
+        "priority_group": {
+          "type": "string",
+          "enum": ["critical", "major", "standard", "minor"]
+        },
+        "metadata": {
+          "$ref": "#/definitions/RuleMetadata"
+        },
+        "criteria": {
+          "$ref": "#/definitions/Criteria"
+        },
+        "verdict": {
+          "$ref": "#/definitions/Verdict"
+        },
+        "automated_check": {
+          "$ref": "#/definitions/AutomatedCheckCall"
+        },
+        "human_review_guidelines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HumanReviewGuideline"
+          }
+        },
+        "examples": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RuleExample"
+          }
+        }
+      }
+    },
+
+    "RuleMetadata": {
+      "type": "object",
+      "required": ["origin", "verification_status"],
+      "properties": {
+        "origin": {
+          "type": "string",
+          "description": "어느 사례에서 발견된 규칙인가."
+        },
+        "evidence": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "검증 이력 ID 배열."
+        },
+        "verification_status": {
+          "type": "string",
+          "enum": ["single_case", "multi_case", "well_tested"]
+        },
+        "deprecation_signal": {
+          "type": "string",
+          "description": "이 규칙이 틀렸다고 볼 수 있는 조건."
+        },
+        "created_at": {"type": "string", "format": "date"},
+        "last_reviewed_at": {"type": "string", "format": "date"}
+      }
+    },
+
+    "Criteria": {
+      "type": "object",
+      "required": ["predicates", "combinator"],
+      "properties": {
+        "predicates": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/PredicateCall"
+          }
+        },
+        "combinator": {
+          "type": "string",
+          "enum": ["AND", "OR"]
+        }
+      }
+    },
+
+    "PredicateCall": {
+      "type": "object",
+      "description": "Rule.criteria.predicates의 각 항목. predicate_id는 profile.predicate_library의 카탈로그를 참조해야 하나 본 schema는 형식만 검증. cross-check는 validator gate.",
+      "required": ["predicate_id", "args"],
+      "properties": {
+        "predicate_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "args": {
+          "type": "object",
+          "description": "해당 predicate의 args_schema 준수. validator gate가 cross-check."
+        }
+      }
+    },
+
+    "Verdict": {
+      "type": "object",
+      "description": "4필드 verdict. severity와 auto_action은 core enum, category는 profile enum (cross-check 필요), rationale은 자유 텍스트.",
+      "required": ["severity", "category", "auto_action", "rationale"],
+      "properties": {
+        "severity": {
+          "type": "string",
+          "enum": ["IMPROVEMENT", "SOFT_ALERT", "INVESTIGATE", "SUSPECT", "HARD_ALERT"]
+        },
+        "category": {
+          "type": "string",
+          "description": "profile.domain_taxonomy.category_enum 중 1. cross-check는 validator gate."
+        },
+        "auto_action": {
+          "type": "string",
+          "enum": ["log_only", "trigger_check", "human_review", "block"]
+        },
+        "rationale": {
+          "type": "string",
+          "description": "왜 이 verdict인가. 자유 텍스트."
+        }
+      }
+    },
+
+    "AutomatedCheckCall": {
+      "type": "object",
+      "required": ["function_id"],
+      "properties": {
+        "function_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "description": "profile.check_library의 카탈로그 중 1. cross-check는 validator gate."
+        },
+        "parameters": {
+          "type": "object",
+          "description": "해당 check의 parameters_schema 준수. validator gate가 cross-check."
+        },
+        "expected_return_type": {"type": "string"}
+      }
+    },
+
+    "HumanReviewGuideline": {
+      "type": "object",
+      "required": ["condition", "action"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^G\\d+$"
+        },
+        "condition": {"type": "string"},
+        "action": {"type": "string"}
+      }
+    },
+
+    "RuleExample": {
+      "type": "object",
+      "required": ["case_id", "input_summary"],
+      "properties": {
+        "case_id": {"type": "string"},
+        "input_summary": {"type": "string"},
+        "expected_verdict": {
+          "$ref": "#/definitions/Verdict"
+        },
+        "note": {"type": "string"}
+      }
+    },
+
+    "ChangeReport": {
+      "type": "object",
+      "description": "다중 매칭 보고 형식. 도구가 출력해야 할 shape. final_action은 aggregation_policy.method를 사용하여 산출.",
+      "required": [
+        "change_id",
+        "all_matched_rules",
+        "final_action",
+        "aggregation_method_used"
+      ],
+      "properties": {
+        "change_id": {"type": "string"},
+        "context": {
+          "type": "object",
+          "properties": {
+            "before_hash": {"type": "string"},
+            "after_hash": {"type": "string"},
+            "tool_hash": {"type": "string"},
+            "policy_hash": {"type": "string"}
+          }
+        },
+        "all_matched_rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MatchedRule"
+          }
+        },
+        "final_action": {
+          "type": "string",
+          "enum": ["log_only", "trigger_check", "human_review", "block"]
+        },
+        "aggregation_method_used": {
+          "type": "string",
+          "enum": ["highest_priority_wins", "most_severe_wins", "conservative_combine"]
+        }
+      }
+    },
+
+    "MatchedRule": {
+      "type": "object",
+      "required": ["rule_id", "verdict", "priority_group"],
+      "properties": {
+        "rule_id": {
+          "type": "string",
+          "pattern": "^R\\d+(_[a-z]+)*$"
+        },
+        "verdict": {
+          "$ref": "#/definitions/Verdict"
+        },
+        "priority_group": {
+          "type": "string",
+          "enum": ["critical", "major", "standard", "minor"]
+        },
+        "matched_criteria_evidence": {
+          "type": "object",
+          "description": "해당 규칙이 매칭된 근거. predicate별 입력값 스냅샷 등."
+        }
+      }
+    },
+
+    "AggregationPolicy": {
+      "type": "object",
+      "description": "profile 파일의 aggregation_policy 형식. method는 core.aggregation_method_enum 중 1.",
+      "required": ["method"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["highest_priority_wins", "most_severe_wins", "conservative_combine"]
+        },
+        "selection_rationale": {"type": "string"},
+        "permanently_fixed": {
+          "type": "boolean",
+          "description": "현재 단계에서는 false 권장. 영구 확정 시 별도 게이트."
+        }
+      }
+    },
+
+    "ThresholdProposal": {
+      "type": "object",
+      "description": "profile 파일의 threshold_proposals 각 항목 형식. 본 schema_version에서는 status가 항상 'proposal'.",
+      "required": ["value", "status", "rationale"],
+      "properties": {
+        "value": {
+          "oneOf": [
+            {"type": "number"},
+            {"type": "integer"},
+            {"type": "string"}
+          ]
+        },
+        "status": {
+          "type": "string",
+          "const": "proposal"
+        },
+        "rationale": {"type": "string"},
+        "proposal_source": {"type": "string"}
+      }
+    }
+  },
+
+  "_design_notes": {
+    "scope_of_this_schema": "형식 검증용 contract만. validator 작성·인스턴스 마이그레이션·threshold 확정·도구 작성·governance implementation·D-4 automation은 별도 게이트.",
+    "schema_vs_profile_boundary": "본 파일은 도메인 무관 contract만 정의. ee-agent 카탈로그·threshold 실제 값은 ee_agent_rule_profile_v0.1_draft.json에 위치.",
+    "threshold_status_constraint": "ThresholdProposal.status는 const 'proposal'. 본 schema_version에서는 확정값 사용 불가.",
+    "known_limits": [
+      "L1 Rule.id uniqueness: JSON Schema pattern만으로 보장되지 않음. validator gate에서 인스턴스 배열 전수 검사.",
+      "L2 PredicateCall.predicate_id ↔ profile.predicate_library 카탈로그 일치: cross-check 필요.",
+      "L3 PredicateCall.args ↔ 해당 predicate의 args_schema: predicate별 재검증 필요.",
+      "L4 Verdict.category ↔ profile.domain_taxonomy.category_enum: cross-check 필요.",
+      "L5 AutomatedCheckCall.function_id ↔ profile.check_library 카탈로그 일치: cross-check 필요.",
+      "L6 AutomatedCheckCall.parameters ↔ 해당 check의 parameters_schema: check별 재검증 필요.",
+      "L7 Rule.priority_group과 Verdict.severity 조합 정합성: 도메인 규약 미정의.",
+      "L8 RuleMetadata.deprecation_signal과 verification_status 일관성: 정책 검사 미정의."
+    ],
+    "validator_gate_dependency": "L1~L8 검증은 후속 Schema Validator Gate에서 구현."
+  }
+}
