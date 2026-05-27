@@ -1,0 +1,159 @@
+{
+  "scope": "Manifest shift review — CLEAN 94 → 87 감소 원인 분해 + recoverable 분류 + S3/S4 keyword 보강 후보 + CLEAN 87 수용성 평가. 실제 수정/적용 0.",
+  "essential_question": "CLEAN 94 → 87 = -7 감소가 (1) split keyword 너무 좁음 (recoverable) / (2) 기존 overclaim 정정 / (3) 라우팅 변화 + 회귀 / (4) data debt — 어느 영역에 귀속되는가?",
+  "claim_boundary": {
+    "actual_policy_modification": 0,
+    "selector_modification": 0,
+    "input_regeneration": 0,
+    "generation_rerun": 0,
+    "audit_rerun": 0,
+    "hard_check_modification": 0,
+    "catalog_gap_rescue_execution": 0,
+    "split_design_actual_revision": 0,
+    "commit": 0,
+    "devlog_vault_memory_decision_jsonl": 0
+  },
+  "evidence_pointer": {
+    "implementation_report": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/item_split_implementation_report.md",
+    "implementation_json": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/item_split_implementation_report.json",
+    "split_design": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_b/item_split_design.md",
+    "policy_review_execution": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_b/metadata_policy_review_execution_report.md"
+  },
+  "number_reconciliation": {
+    "baseline_CLEAN": 94,
+    "split_CLEAN": 87,
+    "delta": -7,
+    "exit_count": 8,
+    "new_count": 1,
+    "formula": "94 - 8 + 1 = 87",
+    "user_question_1건_차이_답": "1 NEW pid (2003_3회_26)이 신규 CLEAN 진입. baseline 비CLEAN (가공전선 이격거리 외 영역) → split CLEAN. catalog 5 + gap 3 = 8 exit 와 1 new로 net -7 정합.",
+    "catalog_split_total": 60,
+    "catalog_split_minus_baseline_catalog": "+9 (51 → 60)",
+    "gap_split_total": 95,
+    "gap_split_minus_baseline_gap": "-2 (97 → 95)",
+    "total_pool_preserved": "242 (변동 0)"
+  },
+  "all_8_exit_pids": [
+    {"pid": "1999_4회_84", "fate": "catalog", "post_split_item": "가공전선 이격거리", "kw": "이격거리", "status": "NEEDS_REVIEW", "actual_topic": "66kV 시가지 가공전선로 단면적 (50mm²) — 풀이는 발전소 계측장치", "cause": "data_debt (OCR/풀이 mismatch)", "recoverable": false, "intentional_drop": true},
+    {"pid": "2003_3회_81", "fate": "catalog", "post_split_item": "차단기", "kw": "차단기", "status": "NEEDS_REVIEW", "actual_topic": "22.9kV 중성선 다중접지식 접지선 굵기", "cause": "split S4 (가공전선 기타 설비기준)에 '접지선 굵기' kw 있으나 차단기 slot의 kw '차단기'가 먼저 매칭 (slot priority). 본 sample이 S4로 가야 하나 차단기 slot으로 흘러감.", "recoverable": true, "intentional_drop": false, "fix_candidate": "S4 keyword 우선순위 또는 selector matching priority 조정 (사용자 명시 0)"},
+    {"pid": "2004_1회_91", "fate": "gap", "post_split_item": null, "kw": null, "actual_topic": "22.9kV 가공전선 도로 횡단 시 높이 (OCR 깨짐)", "cause": "data_debt (OCR + 풀이 부재)", "recoverable": false, "intentional_drop": true},
+    {"pid": "2004_3회_92", "fate": "gap", "post_split_item": null, "kw": null, "actual_topic": "66kV+6kV 동일 지지물 단면적 — 분석 불가", "cause": "data_debt (풀이 부재) + 본 sample 영역 S3 (지지물 시설)", "recoverable": "partial (data debt만 아니면 S3 kw 매칭 가능)", "intentional_drop": "partial"},
+    {"pid": "2005_3회_81", "fate": "catalog", "post_split_item": "가공전선 이격거리", "kw": "이격거리", "status": "NEEDS_REVIEW", "actual_topic": "가공전선 지지물 시설기준 (옳지 않은 것)", "cause": "본 sample은 S3 영역이나 S3 kw 미매칭. S1 '이격거리' substring 매칭 (본문에 '이격거리' 단어 포함 추정)", "recoverable": true, "intentional_drop": false, "fix_candidate": "S3 keyword 보강 ('가공전선로 지지물', '지지물 기준', '발판 볼트 시설' 등)"},
+    {"pid": "2006_1회_85", "fate": "catalog", "post_split_item": "가공전선 이격거리", "kw": "이격거리", "status": "NEEDS_REVIEW", "actual_topic": "154kV 가공전선 애자장치 시가지 시설 (풀이 부재)", "cause": "data_debt + S3 영역 (시가지 가공전선로 시설). S3 kw '시가지 가공전선로' 또는 '애자장치 시설' 매칭 안 됨", "recoverable": "partial (data debt + S3 keyword 보강)", "intentional_drop": "partial"},
+    {"pid": "2006_2회_83", "fate": "catalog", "post_split_item": "가공전선 이격거리", "kw": "이격거리", "status": "NEEDS_REVIEW", "actual_topic": "시가지 저압 가공전선로 도로 따라 시설 지표상 최저 높이", "cause": "본 sample은 S1 (이격/높이) 영역. 그러나 status NEEDS_REVIEW — score 부족 또는 evidence_field 영역 이슈. matched_keyword '이격거리'로 정확 매칭이나 score 15 미만으로 CLEAN 차단 추정", "recoverable": true, "intentional_drop": false, "fix_candidate": "score 영역 분석 — keyword 추가 시 score 회복 가능"},
+    {"pid": "2007_1회_84", "fate": "gap", "post_split_item": null, "kw": null, "actual_topic": "지선 시설기준 (소선 3가닥)", "cause": "본 sample은 S4 D 영역 (지선). S4 kw '지선 시설'/'지선 소선' 정의됐으나 본 sample 본문에 직접 매칭 안 됨", "recoverable": true, "intentional_drop": false, "fix_candidate": "S4 keyword 보강 ('가공전선 지선', '지선 안전율', '지선 도로 횡단' 등)"}
+  ],
+  "1_new_pid": {
+    "pid": "2003_3회_26",
+    "post_split_item": "가공전선 기타 설비기준",
+    "kw": "전선 단면적",
+    "rationale": "baseline 비CLEAN (다른 item 영역 또는 가공전선 이격거리에서 score 부족)이었으나 split 후 S4 narrow keyword '전선 단면적' 매칭으로 CLEAN 진입. split의 정합 효과 — 신규 영역 발현."
+  },
+  "26_baseline_pid_fate_summary": {
+    "CLEAN_in_split": 18,
+    "catalog_in_split": 5,
+    "gap_in_split": 3,
+    "total": 26,
+    "data_debt_overlap": 6
+  },
+  "catalog_5_cause_classification": [
+    {"pid": "1999_4회_84", "cause_primary": "data_debt", "cause_secondary": null, "recoverable": false},
+    {"pid": "2003_3회_81", "cause_primary": "selector slot priority", "cause_secondary": "S4 keyword 우선순위 문제", "recoverable": true},
+    {"pid": "2005_3회_81", "cause_primary": "S3 keyword 부족", "cause_secondary": null, "recoverable": true},
+    {"pid": "2006_1회_85", "cause_primary": "data_debt + S3 keyword 부족", "cause_secondary": null, "recoverable": "partial"},
+    {"pid": "2006_2회_83", "cause_primary": "score 영역 (S1 정합, NEEDS_REVIEW)", "cause_secondary": null, "recoverable": true}
+  ],
+  "gap_3_cause_classification": [
+    {"pid": "2004_1회_91", "cause_primary": "data_debt (OCR 깨짐)", "cause_secondary": null, "recoverable": false},
+    {"pid": "2004_3회_92", "cause_primary": "data_debt (풀이 부재)", "cause_secondary": "S3 영역", "recoverable": "partial"},
+    {"pid": "2007_1회_84", "cause_primary": "S4 keyword 부족 (지선)", "cause_secondary": null, "recoverable": true}
+  ],
+  "mismatch_4_CLEAN_attribution": {
+    "all_4_in_CLEAN_87": true,
+    "rationale": "mismatch 4건은 CLEAN 안 포함 (라우팅 변화, count 손실 0). 즉 CLEAN 87 손실은 mismatch 4건과 별 영역.",
+    "pids_and_routing": [
+      {"pid": "2001_2회_82", "in_CLEAN_87": true, "moved_to": "가공전선로 경간·이도", "kw": "인장강도"},
+      {"pid": "2007_1회_82", "in_CLEAN_87": true, "moved_to": "가공전선로 경간·이도", "kw": "인장강도"},
+      {"pid": "2007_2회_81", "in_CLEAN_87": true, "moved_to": "절연내력 / 유도장해", "kw": "통신선"},
+      {"pid": "2007_2회_82", "in_CLEAN_87": true, "moved_to": "가공전선로 경간·이도", "kw": "이도"}
+    ],
+    "regression_implication": "CLEAN count 회귀 0. 단 학습자 입장에서 라우팅 변화는 metadata misleading 가능 — 별 audit 후보 (다른 item kw 정합성)."
+  },
+  "recoverable_vs_intentional_drop_classification": {
+    "recoverable_pids": [
+      {"pid": "2003_3회_81", "fix_method": "S4 keyword 우선순위 또는 selector priority"},
+      {"pid": "2005_3회_81", "fix_method": "S3 keyword 보강"},
+      {"pid": "2006_2회_83", "fix_method": "score 영역 또는 S1 keyword 보강"},
+      {"pid": "2007_1회_84", "fix_method": "S4 D 지선 keyword 보강"}
+    ],
+    "recoverable_count": 4,
+    "partial_recoverable_pids": [
+      {"pid": "2004_3회_92", "rationale": "data_debt + S3 영역. data debt 처리 후 S3 keyword 보강 시 회복"},
+      {"pid": "2006_1회_85", "rationale": "data_debt + S3 영역"}
+    ],
+    "partial_count": 2,
+    "intentional_drop_pids": [
+      {"pid": "1999_4회_84", "rationale": "data debt OCR/풀이 mismatch — questions.json 영역 audit 후만 회복 가능"},
+      {"pid": "2004_1회_91", "rationale": "data debt OCR 깨짐 + 풀이 부재"}
+    ],
+    "intentional_drop_count": 2
+  },
+  "S3_S4_keyword_enhancement_candidates": {
+    "S3_가공전선_지지물_시설_enhancement": {
+      "current_keywords_10": ["지지물 시설", "지지물 분기", "발판 볼트", "동일 지지물", "시가지 가공전선로", "농사용 가공전선로", "지지물 종류", "지지물 시가지", "교차 시설", "애자장치 시설"],
+      "additional_candidates": ["가공전선로 지지물", "지지물 기준", "발판 볼트 시설", "옳지 않은 것 지지물", "지지물 시설기준"],
+      "broad_avoid": "단일 단어 '가공전선' 재도입 0. multi-word만.",
+      "expected_pid_recovery": ["2005_3회_81 (S3 정합)", "2006_1회_85 (S3 정합, data debt 동시)"]
+    },
+    "S4_가공전선_기타_설비기준_enhancement": {
+      "current_keywords_11": ["가공지선", "지선 시설", "지선 소선", "접지선 굵기", "접지 시설", "통신선 시설", "통신선 옥내", "전선 굵기", "전선 단면적", "전선 지름", "경동선 지름"],
+      "additional_candidates": ["가공전선 지선", "지선 안전율", "지선 도로 횡단", "특고압 가공지선", "지선 도로", "지선 가공전선로", "지선 굵기"],
+      "broad_avoid": "단일 단어 '가공전선' 재도입 0. multi-word만.",
+      "expected_pid_recovery": ["2007_1회_84 (S4 D 지선 영역)"]
+    },
+    "S1_가공전선_이격거리_no_change_needed": "현재 6/6 정합 — narrow keyword 양호",
+    "S2_가공전선_안전율_풍압_no_change_needed": "현재 3/3 정합 — narrow keyword 양호"
+  },
+  "CLEAN_87_acceptance_evaluation": {
+    "rationale": "8 exit 중 2건 intentional drop (data debt) + 2건 partial recoverable + 4건 fully recoverable. 즉 4건은 keyword 보강 + 정책 결정으로 회복 가능. 단 data debt 4건 (2건 intentional + 2건 partial) 은 questions.json audit 영역으로 분리.",
+    "acceptance_levels": {
+      "CLEAN_91_potential": "4 recoverable + 87 = 91 (keyword 보강 후)",
+      "CLEAN_93_potential": "+ 2 partial recoverable = 93 (data debt 일부 처리 시)",
+      "CLEAN_87_immediate": "현 상태 (split 적용 + keyword 보강 0)"
+    },
+    "acceptance_decision_factors": [
+      "CLEAN 94 hard check 완화 정책 채택 여부",
+      "split design 보강 (recoverable 4건 회복) 시간 비용",
+      "data debt audit 별 영역 처리 결정",
+      "intentional drop 2건 (data debt OCR) 영구 제외 vs questions.json 보강 결정"
+    ]
+  },
+  "hard_check_relaxation_necessity": {
+    "current_state": "input_creator.py:310-312 — `if len(main_clean) != 94: ERROR + return 1`",
+    "necessity_levels": {
+      "if_split_design_보강_94_회복": "hard check 완화 불필요",
+      "if_CLEAN_87_or_91_수용": "hard check 완화 필요 (CLEAN >= 85 또는 별 임계값)",
+      "if_split_폐기": "hard check 완화 불필요"
+    },
+    "본_채널_판단": "split design 보강이 본 게이트의 권장 경로 — hard check 완화 현 단계 불필요. 보강 후 CLEAN 91 또는 92 도달 가능 시 data debt 별 audit 영역으로 분리 처리.",
+    "hard_check_design_decision": "별 게이트 — 본 게이트는 결정 0"
+  },
+  "next_gate_recommendation": {
+    "single_recommendation": "SPLIT_DESIGN_ADJUSTMENT_RECOMMENDED",
+    "rationale": "8 exit 중 4건 (50%) 또는 6건 (75% partial 포함) recoverable. keyword 보강 multi-word만 사용 (broad 가공전선 재도입 0). data debt 4건은 별 audit 영역 분리. split의 본질 정합 효과는 측정 완료 (1 new + 정합 14건 + recoverable 4-6건). 보강 design 후 implementation 재시도 시 CLEAN 91-93 도달 가능, hard check 차단 영역 회피.",
+    "secondary_options": [
+      {"option": "CLEAN_87_ACCEPTANCE_RECOMMENDED", "when": "사용자 명시 hard check 완화 정책 채택 시"},
+      {"option": "HARD_CHECK_POLICY_DESIGN_NEEDED", "when": "CLEAN 87 수용 정책 design 필요 시"},
+      {"option": "RESTORE_PREVIEW_RECOMMENDED", "when": "split 본질 효과 부족 판정 시 — 현재 부적합"},
+      {"option": "NEEDS_HUMAN_DECISION_ON_SPLIT_SCOPE", "when": "구조 모호 시 — 현재 분명히 분류됨"}
+    ]
+  },
+  "final_status_options": {
+    "SPLIT_DESIGN_ADJUSTMENT_RECOMMENDED": "S3/S4 keyword 보강 design — 본 채널 권장",
+    "CLEAN_87_ACCEPTANCE_RECOMMENDED": "CLEAN 87 수용 + hard check 완화 정책",
+    "RESTORE_PREVIEW_RECOMMENDED": "split 폐기 + pre_preview.py 원상복구 — 현 증거상 부적합",
+    "HARD_CHECK_POLICY_DESIGN_NEEDED": "CLEAN 87 수용 정책 design",
+    "NEEDS_HUMAN_DECISION_ON_SPLIT_SCOPE": "구조 모호 시 — 현재 분명"
+  },
+  "selected_final_status": "SPLIT_DESIGN_ADJUSTMENT_RECOMMENDED"
+}

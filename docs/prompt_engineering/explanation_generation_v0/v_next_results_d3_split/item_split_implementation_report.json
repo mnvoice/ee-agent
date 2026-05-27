@@ -1,0 +1,164 @@
+{
+  "scope": "Item split implementation attempt — scripts/v_next_d3_pre_preview.py 1 entry → 4 entries patch + selector dry-run + 26 baseline pid fate measurement. input_creator hard block (CLEAN 87 != 94) 으로 input 재생성 + synthesizer 재실행 + post-split metadata audit 0.",
+  "essential_question": "split 적용 후 모집단/manifest 변동 + 회귀 측정",
+  "claim_boundary": {
+    "actual_input_regeneration": 0,
+    "actual_generation_rerun": 0,
+    "post_split_metadata_audit_execution": 0,
+    "selector_code_modification": 0,
+    "explanation_synthesizer_modification": 0,
+    "catalog_gap_rescue": 0,
+    "d4": 0,
+    "commit": 0,
+    "devlog_vault_memory_decision_jsonl": 0,
+    "pre_preview_patch_applied": 1,
+    "input_creator_hard_block_encountered": 1
+  },
+  "evidence_pointer": {
+    "item_split_design": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_b/item_split_design.md",
+    "metadata_policy_review_execution": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_b/metadata_policy_review_execution_report.md",
+    "selector_dryrun_report": "docs/prompt_engineering/explanation_generation_v0/v_next_policy/d3_selector_dryrun_report.md"
+  },
+  "actual_modification_diff_summary": {
+    "file": "scripts/v_next_d3_pre_preview.py",
+    "lines": "237-247 (1 entry) → 237-296 (4 entries + comment lines)",
+    "before_keywords_7": ["가공전선", "이격거리", "가공지선", "접지선", "안테나", "약전류전선", "식물 이격"],
+    "after_4_split_keywords_total": 36,
+    "broad_keyword_가공전선_dropped": true,
+    "patch_status": "applied (not committed)"
+  },
+  "selector_dry_run_result": {
+    "CLEAN_total": 87,
+    "CLEAN_expansion": 57,
+    "CLEAN_non_expansion_metadata": 30,
+    "catalog": 60,
+    "gap": 95,
+    "before_split_baseline": {
+      "CLEAN_total": 94,
+      "CLEAN_expansion": 57,
+      "CLEAN_non_expansion_metadata": 37,
+      "catalog": 51,
+      "gap": 97
+    },
+    "delta": {
+      "CLEAN_total": "-7 (94 → 87)",
+      "CLEAN_expansion": "0 (57 → 57)",
+      "CLEAN_non_expansion_metadata": "-7 (37 → 30)",
+      "catalog": "+9 (51 → 60)",
+      "gap": "-2 (97 → 95)"
+    },
+    "broad_keyword_hits": 0
+  },
+  "baseline_26_pid_fate": {
+    "CLEAN": [
+      {"pid": "1999_4회_81", "item_post_split": "가공전선 안전율 / 풍압", "kw": "풍압 하중", "target_split": "S2", "match_correct": true},
+      {"pid": "2000_2회_86", "item_post_split": "가공전선 이격거리", "kw": "이격거리", "target_split": "S1", "match_correct": true},
+      {"pid": "2000_6회_92", "item_post_split": "가공전선 이격거리", "kw": "이격거리", "target_split": "S1", "match_correct": true},
+      {"pid": "2001_2회_82", "item_post_split": "가공전선로 경간·이도", "kw": "인장강도", "target_split": "S3 (지지물 시설 영역)", "match_correct": false, "issue": "본 문제는 케이블 단면적 (C 영역)이지만 경간·이도 item kw '인장강도'로 매칭됨"},
+      {"pid": "2002_3회_85", "item_post_split": "가공전선로 경간·이도", "kw": "경간", "target_split": "S3 (경간 영역 — 경간·이도 item과 정합)", "match_correct": true, "note": "본 문제 농사용 최대 경간 30m — 경간·이도 item이 더 정합 (item 자체 변화)"},
+      {"pid": "2004_1회_84", "item_post_split": "가공전선 이격거리", "kw": "이격거리", "target_split": "S1", "match_correct": true},
+      {"pid": "2004_2회_86", "item_post_split": "가공전선 이격거리", "kw": "이격거리", "target_split": "S1", "match_correct": true},
+      {"pid": "2004_3회_83", "item_post_split": "가공전선 이격거리", "kw": "이격거리", "target_split": "S1", "match_correct": true},
+      {"pid": "2006_1회_29", "item_post_split": "가공전선 기타 설비기준", "kw": "가공지선", "target_split": "S4", "match_correct": true},
+      {"pid": "2006_1회_86", "item_post_split": "가공전선 안전율 / 풍압", "kw": "풍압 하중", "target_split": "S2", "match_correct": true},
+      {"pid": "2006_2회_86", "item_post_split": "가공전선 안전율 / 풍압", "kw": "풍압 하중", "target_split": "S2", "match_correct": true},
+      {"pid": "2006_3회_81", "item_post_split": "가공전선 지지물 시설", "kw": "동일 지지물", "target_split": "S3", "match_correct": true},
+      {"pid": "2006_3회_83", "item_post_split": "가공전선 기타 설비기준", "kw": "가공지선", "target_split": "S4", "match_correct": true},
+      {"pid": "2007_1회_81", "item_post_split": "가공전선 이격거리", "kw": "이격거리", "target_split": "S1", "match_correct": true},
+      {"pid": "2007_1회_82", "item_post_split": "가공전선로 경간·이도", "kw": "인장강도", "target_split": "S4 (전선 굵기 영역)", "match_correct": false, "issue": "본 문제 400V 가공전선 굵기 (S4 영역)인데 경간·이도 item kw '인장강도'로 매칭"},
+      {"pid": "2007_2회_27", "item_post_split": "가공전선 기타 설비기준", "kw": "가공지선", "target_split": "S4", "match_correct": true},
+      {"pid": "2007_2회_81", "item_post_split": "절연내력 / 유도장해", "kw": "통신선", "target_split": "S4 (통신선 영역)", "match_correct": false, "issue": "본 문제 통신선 옥내 시설 (S4 영역)인데 절연내력/유도장해 item kw '통신선'으로 매칭"},
+      {"pid": "2007_2회_82", "item_post_split": "가공전선로 경간·이도", "kw": "이도", "target_split": "S1 (이격거리 영역, 풀이 부재 → X)", "match_correct": false, "issue": "본 문제 154kV 도로 제2차 접근 이격거리지만 본문 '이도' 단어 substring 매칭"}
+    ],
+    "catalog": [
+      {"pid": "1999_4회_84", "item": "가공전선 이격거리", "kw": "이격거리", "status": "NEEDS_REVIEW"},
+      {"pid": "2003_3회_81", "item": "차단기", "kw": "차단기", "status": "NEEDS_REVIEW", "note": "기존 가공전선 이격거리 영역이었으나 split 후 다른 slot (전력_보호고장S 차단기) keyword 매칭"},
+      {"pid": "2005_3회_81", "item": "가공전선 이격거리", "kw": "이격거리", "status": "NEEDS_REVIEW"},
+      {"pid": "2006_1회_85", "item": "가공전선 이격거리", "kw": "이격거리", "status": "NEEDS_REVIEW"},
+      {"pid": "2006_2회_83", "item": "가공전선 이격거리", "kw": "이격거리", "status": "NEEDS_REVIEW"}
+    ],
+    "gap": [
+      {"pid": "2004_1회_91", "note": "no match — 본문 OCR 깨짐"},
+      {"pid": "2004_3회_92", "note": "no match — 풀이 부재"},
+      {"pid": "2007_1회_84", "note": "no match — 본 문제 지선 시설 (S4 D 영역)이나 split 후 매칭 안 됨"}
+    ],
+    "summary": {
+      "CLEAN": 18,
+      "catalog": 5,
+      "gap": 3,
+      "absent": 0,
+      "total": 26
+    }
+  },
+  "split_distribution_post": {
+    "가공전선 이격거리 (S1)": 6,
+    "가공전선 안전율 / 풍압 (S2)": 3,
+    "가공전선 지지물 시설 (S3)": 1,
+    "가공전선 기타 설비기준 (S4)": 3,
+    "이동 to 가공전선로 경간·이도": 4,
+    "이동 to 절연내력 / 유도장해": 1,
+    "catalog": 5,
+    "gap": 3
+  },
+  "mismatch_warning": {
+    "count": 4,
+    "pids": ["2001_2회_82", "2007_1회_82", "2007_2회_81", "2007_2회_82"],
+    "rationale": "다른 item의 keyword가 더 강하게 매칭됨. split design의 narrow keyword가 좁아져 sample이 다른 item으로 흘러감.",
+    "implication": "split design step 2의 다른 item kw 정합성 영향 발현. 향후 다른 item 정합성 audit 후보."
+  },
+  "parser_validation_status": "NOT_RUN — input_creator hard block (CLEAN 87 != 94) 으로 input 재생성 0",
+  "generation_status": "NOT_RUN — 동일 사유",
+  "post_split_metadata_audit_status": "NOT_RUN — 동일 사유. selector dry-run 측정값만 보고.",
+  "regression_check_breaker_P5": {
+    "CLEAN_expansion": "57 → 57 (변동 0)",
+    "breaker_13_status": "expansion 57 영역에 포함, 영향 0",
+    "P5_positive_signal_preserved": true
+  },
+  "regression_check_split_out_of_scope": {
+    "scope": "split 영역 (전력_설비고장)을 제외한 다른 slot 항목 영향",
+    "다른_slot_CLEAN_변동": "전력_송배전D / 전력_보호고장S / 전력_안정도D / 전력_변환본질4 / 전력_함정S 모두 영향 0 (각 slot의 item lookup 정합)",
+    "단": "절연내력/유도장해 +1 (2007_2회_81 통신선 매칭 — split 외부 item이 broad 'communications' 영역 가져감) 및 가공전선로 경간·이도 +4 (분기 mismatch 영역) — split out-of-scope 영향 발현"
+  },
+  "data_debt_6_pid_fate": [
+    {"pid": "1999_4회_84", "fate": "catalog", "data_debt": "OCR/풀이 mismatch"},
+    {"pid": "2000_6회_92", "fate": "CLEAN (S1)", "data_debt": "풀이 부재"},
+    {"pid": "2004_1회_91", "fate": "gap", "data_debt": "OCR 깨짐 + 풀이 부재 → 매칭 0"},
+    {"pid": "2004_3회_92", "fate": "gap", "data_debt": "풀이 부재 → 매칭 0"},
+    {"pid": "2006_1회_85", "fate": "catalog", "data_debt": "풀이 부재"},
+    {"pid": "2007_2회_82", "fate": "CLEAN (경간·이도 mismatch)", "data_debt": "풀이 부재"}
+  ],
+  "data_debt_processing": {
+    "CLEAN_with_data_debt": 2,
+    "catalog_with_data_debt": 2,
+    "gap_with_data_debt": 2,
+    "note": "split 적용 결과 data debt 6건은 CLEAN/catalog/gap 3 영역 모두 분산. 별 bucket 0, split item 내부 flag 분리."
+  },
+  "input_creator_hard_block_analysis": {
+    "trigger": "input_creator.py:310-312 — `if len(main_clean) != 94: ERROR ... return 1`",
+    "split_resulted_in_CLEAN": 87,
+    "shortfall": "7 (94 → 87)",
+    "options_to_proceed": [
+      "Option A: scripts/v_next_d3_input_creator.py hard check 완화 (사용자 명시 0 — 수정 금지 영역)",
+      "Option B: split design 재조정 (S3/S4 keywords 확대로 7건 회복)",
+      "Option C: baseline 복원 + split policy 원상복구",
+      "Option D: pre_preview.py 보정 유지, 측정 결과만 보고 + 사용자 명시 분기 영역으로 처리"
+    ],
+    "selected_option": "D",
+    "rationale": "사용자 분기 명시: 'catalog/gap 이동이 있으면 실패로 단정하지 말고 별도 측정값으로 보고'. ITEM_SPLIT_PARTIAL_WITH_MANIFEST_SHIFT 정합."
+  },
+  "current_state": {
+    "scripts/v_next_d3_pre_preview.py": "patch_applied (4 entries) — 사용자 결정 후 원상복구 또는 design 재조정 영역",
+    "v_next_inputs_d3/": "baseline 그대로 보존 (input_creator hard fail로 write 0)",
+    "v_next_inputs_d3_b/": "차단기 split B 결과 보존 (이전 commit)",
+    "v_next_inputs_d3_baseline_split_round/": "본 게이트 backup (정합 확인 후 정리 가능)",
+    "v_next_results_d3_split/": "본 보고서 + JSON 만 포함 (generation 0)"
+  },
+  "final_status_options": {
+    "ITEM_SPLIT_IMPLEMENTED_AND_VERIFIED": "split 완전 적용 + parser PASS + audit 개선 측정",
+    "ITEM_SPLIT_PARTIAL_WITH_MANIFEST_SHIFT": "split 적용 + manifest 변동 발생 (catalog/gap shift) + input_creator hard check 차단",
+    "ITEM_SPLIT_REGRESSION_FOUND": "차단기/P5 영역 회귀 발견",
+    "BLOCKED_BY_SELECTOR_MANIFEST_CHANGE": "selector manifest 변경 자체 차단 (split 미적용)"
+  },
+  "selected_final_status": "ITEM_SPLIT_PARTIAL_WITH_MANIFEST_SHIFT",
+  "rationale_for_selection": "Primary: selector dry-run으로 split 적용 가능 측정 확인 (CLEAN 87 / 4 split items 분포 측정). Secondary: input_creator CLEAN 94 hard check로 input 재생성 차단 → parser/generation/audit 측정 불가. catalog/gap 변동 8건 (catalog +9, gap -2, CLEAN -7). 차단기 영역 회귀 0 확인. data debt 6건 분산 측정. ITEM_SPLIT_IMPLEMENTED_AND_VERIFIED 미해당 (input 재생성 차단). ITEM_SPLIT_REGRESSION_FOUND 미해당 (차단기 영역 영향 0). BLOCKED_BY_SELECTOR_MANIFEST_CHANGE 미해당 (selector는 정상 dry-run 통과, manifest 변동만)."
+}
