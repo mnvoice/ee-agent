@@ -1,0 +1,196 @@
+{
+  "scope": "Hard check policy DESIGN — input_creator + parser_validator의 CLEAN 94 hard check를 manifest shift에 대응 가능하도록 설계. 실제 코드 수정 0.",
+  "essential_question": "정책이 정교해져서 CLEAN 수가 94에서 87-93으로 변할 때, 이를 실패로 볼 것인가 정상 manifest shift로 볼 것인가?",
+  "claim_boundary": {
+    "actual_input_creator_modification": 0,
+    "actual_parser_validator_modification": 0,
+    "actual_pre_preview_modification": 0,
+    "input_regeneration": 0,
+    "generation_rerun": 0,
+    "audit_rerun": 0,
+    "d4_automation_execution": 0,
+    "catalog_gap_rescue": 0,
+    "commit": 0,
+    "devlog_vault_memory_decision_jsonl": 0
+  },
+  "evidence_pointer": {
+    "input_creator_hard_checks": "scripts/v_next_d3_input_creator.py:310-315",
+    "parser_validator_truthy_checks": "scripts/v_next_d3_parser_validator.py:128, 159-176",
+    "split_implementation_report": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/item_split_implementation_report.md",
+    "manifest_shift_review": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/item_split_manifest_shift_review.md",
+    "split_design_adjustment": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/split_design_adjustment.md",
+    "metadata_policy_review": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_b/metadata_policy_review_execution_report.md"
+  },
+  "current_hard_check_structure": {
+    "input_creator": {
+      "file": "scripts/v_next_d3_input_creator.py",
+      "lines": "310-315",
+      "checks": [
+        {"check": "if len(main_clean) != 94", "action": "ERROR + return 1", "type": "hard fail"},
+        {"check": "if len(catalog) != 51 or len(gap) != 97", "action": "ERROR + return 1", "type": "hard fail"}
+      ],
+      "intent": "전력공학 모집단 (242) 의 정합 분류 보장 — CLEAN 94 + catalog 51 + gap 97 = 242"
+    },
+    "parser_validator": {
+      "file": "scripts/v_next_d3_parser_validator.py",
+      "lines": "128, 159-176",
+      "checks": [
+        {"check": "manifest.get('selected_count') == 94", "action": "truthy 측정", "type": "soft (truthy in summary table)"},
+        {"check": "generated == 94 / parse_pass == 94 / enriched_4_complete == 94 / essence_present == 94 / rep_trap_present == 94", "action": "truthy 측정 표 표시", "type": "soft"}
+      ],
+      "intent": "검증 표에서 94 정합 표시 — 단 hard fail 아님"
+    }
+  },
+  "block_reason_for_item_split": {
+    "summary": "input_creator의 `len(main_clean) != 94` hard check가 split 후 CLEAN 87을 실패로 판정 → input 재생성/parser/synthesizer/audit 차단",
+    "split_actual_outcome": "94 - 8 exit + 1 new = 87 (5 recoverable + 2 partial + 2 intentional drop의 정상 manifest shift)",
+    "policy_failure_signal": "0 (실제 회귀 0, broad keyword 제거 성공, 차단기 영역 영향 0)",
+    "block_is_false_positive": true,
+    "rationale": "split의 본질 효과 (broad match 제거, item 정합화)는 측정 가능하나 hard check의 fixed 94 강제가 정책 정교화 자체를 차단"
+  },
+  "fixed_94_limitation_analysis": [
+    {"limitation": "정책 정교화 차단", "detail": "broad keyword 제거 / item split / data debt 분리 등 정합 개선이 CLEAN 수 변화를 동반하면 자동 실패"},
+    {"limitation": "intentional drop 차단", "detail": "data debt sample을 의도적으로 catalog/gap으로 분리하면 CLEAN 감소 — fixed 94 위반"},
+    {"limitation": "new clean 무시", "detail": "정책 정교화로 신규 CLEAN 진입 (예: 2003_3회_26)이 발생해도 net 변화만 측정, 효과 측정 0"},
+    {"limitation": "manifest shift 정합성 측정 불가", "detail": "exit/new/recoverable/intentional drop 등 의미 구분 영역이 hard check에는 입력되지 않음"},
+    {"limitation": "policy revision 안전 영역 없음", "detail": "정책 정교화 실험과 production sealed 영역이 동일 strict mode로 처리 → 정책 실험 자체가 위험"}
+  ],
+  "policy_candidates": [
+    {
+      "id": "A",
+      "name": "fixed 94 유지",
+      "pros": ["production sealed 영역 보호", "예측 가능", "기존 invariant 유지"],
+      "cons": ["정책 정교화 차단", "manifest shift 정상 영역도 실패 판정", "split/keyword 정합화 진행 불가"],
+      "verdict": "production-only mode로 유지, 다른 mode 필요"
+    },
+    {
+      "id": "B",
+      "name": "expected range 허용 (예: CLEAN 85-100)",
+      "pros": ["정책 정교화 허용 영역 확보", "구현 단순"],
+      "cons": ["range 임의 결정 — 정책 근거 부재", "manifest shift 의미 구분 0", "data debt drop vs broad match 회복 구분 불가"],
+      "verdict": "range만으로는 의미 영역 부족"
+    },
+    {
+      "id": "C",
+      "name": "manifest-shift-aware check",
+      "pros": ["exit/new/recoverable/intentional drop 명시", "정책 정교화 의미 영역 반영", "회귀 vs 정상 shift 분리"],
+      "cons": ["check 입력 영역 확장 (manifest shift report 의존)", "구현 복잡"],
+      "verdict": "정책 본질에 가장 정합. 단 mode 분리 필수"
+    },
+    {
+      "id": "D",
+      "name": "explicit allowed_delta file 기반 check",
+      "pros": ["사전 합의된 변동 영역 보장", "audit trail 명시"],
+      "cons": ["allowed_delta 사전 작성 필요", "정책 발견 영역 (의도하지 않은 변동)은 차단"],
+      "verdict": "policy revision mode의 input 영역으로 활용 가능"
+    },
+    {
+      "id": "E",
+      "name": "policy revision mode에서만 relaxed check 허용",
+      "pros": ["production sealed 영역 strict 유지", "정책 정교화 mode 별 영역", "mode 분리로 안전 보장"],
+      "cons": ["mode 전환 결정 영역 필요", "revision mode 진입 인가 영역 정의 필요"],
+      "verdict": "production safety + 정책 정교화 양립 가능"
+    }
+  ],
+  "recommended_policy": {
+    "primary": "C+E 결합 (manifest-shift-aware check + policy revision mode 분리)",
+    "mode_structure": [
+      {
+        "mode": "production",
+        "default": true,
+        "check": "strict (fixed 94 / catalog 51 / gap 97 동일)",
+        "use_case": "일반 generation / D-3 baseline / sealed assets 영역",
+        "fail_action": "ERROR + return 1"
+      },
+      {
+        "mode": "policy_revision",
+        "default": false,
+        "enter_via": "CLI flag (--policy-revision) 또는 환경 변수 (D3_POLICY_REVISION=1)",
+        "check": "manifest-shift-aware (exit/new/recoverable/intentional drop 명시 시 통과)",
+        "required_inputs": [
+          "manifest_shift_report.json — exit pids / new pids / recoverable / intentional drop 명시",
+          "expected_clean_range — 정책 변경 후 예상 CLEAN 영역 (예: 87-94)",
+          "protected_groups — 보호 영역 (예: expansion 57 영역, 차단기 13 영역)"
+        ],
+        "use_case": "split / keyword adjustment / data debt 분리 등 정책 정교화 실험",
+        "fail_action": "manifest shift 미설명 시 ERROR, 설명 시 WARN + 진행 허용"
+      },
+      {
+        "mode": "sealed_baseline",
+        "default": false,
+        "enter_via": "explicit lock (예: SEALED_D3=1)",
+        "check": "production보다 더 strict — 기존 manifest 항목 변경 0 강제",
+        "use_case": "v_full handoff / D-2 sealed 영역 / published baseline",
+        "fail_action": "ERROR (revision 불가)"
+      }
+    ]
+  },
+  "policy_revision_mode_definition": {
+    "enter_conditions": [
+      "사용자 명시 mode flag 진입 (--policy-revision)",
+      "manifest_shift_report.json 입력 제공",
+      "expected_clean_range 입력 제공",
+      "protected_groups 입력 제공"
+    ],
+    "exit_conditions": [
+      "정책 변경 commit 완료",
+      "post-revision audit 통과",
+      "production mode로 자동 복귀"
+    ],
+    "audit_trail": "policy_revision 입력 + 결과 + decision은 별 audit log에 기록 (단 본 design 단계는 log 구조 0)"
+  },
+  "manifest_shift_aware_check_conditions": [
+    {"category": "exit", "condition": "baseline CLEAN → split 비CLEAN", "required": "각 exit pid의 cause (recoverable / partial / intentional drop / data debt) 명시"},
+    {"category": "new", "condition": "baseline 비CLEAN → split CLEAN", "required": "신규 CLEAN pid + 매칭 keyword 명시"},
+    {"category": "delta_total", "condition": "Δ CLEAN = -7 등", "required": "expected range (예: -10 ~ +10) 안 / forbidden broad reintroduction 0"},
+    {"category": "protected_group", "condition": "expansion 57 / 차단기 13 등", "required": "변경 0 (회귀 0)"},
+    {"category": "catalog_gap_shift", "condition": "catalog +9 / gap -2 등", "required": "manifest_shift_report에 설명"},
+    {"category": "broad_keyword", "condition": "broad single-word keyword 재도입 측정", "required": "0건 / 의도 broad는 명시 + 사용자 명시 인가"}
+  ],
+  "input_creation_allow_conditions": [
+    "CLEAN count 변화가 manifest_shift_report.json에 설명되어 있음",
+    "exit/new pid 목록이 제공됨",
+    "forbidden broad keyword 재도입 0",
+    "protected groups (expansion 57, 차단기 13) 회귀 0",
+    "catalog/gap 이동이 expected range 안",
+    "baseline 보존 경로가 별 디렉토리에 있음 (예: v_next_inputs_d3_baseline_*)"
+  ],
+  "input_creation_fail_conditions": [
+    "unexplained CLEAN loss (manifest shift report 미제공 또는 cause 불명)",
+    "protected expansion group (57) 손상",
+    "차단기 13 영역 회귀",
+    "broad keyword (`가공전선` 등 단일 단어) 재도입",
+    "untracked selector drift (selector 코드 수정 후 manifest 변동)",
+    "catalog/gap 이동 설명 0 (실패 또는 sealed 영역 침범)"
+  ],
+  "hard_fail_vs_soft_fail_criteria": [
+    {"trigger": "protected expansion group 회귀 (차단기 13 또는 다른 expansion 57)", "type": "hard fail", "action": "ERROR + return 1"},
+    {"trigger": "broad keyword 재도입", "type": "hard fail", "action": "ERROR + return 1"},
+    {"trigger": "sealed baseline mode 위반", "type": "hard fail", "action": "ERROR + return 1"},
+    {"trigger": "unexplained CLEAN loss", "type": "hard fail (policy_revision mode 외)", "action": "ERROR + return 1"},
+    {"trigger": "manifest shift 설명 제공 + expected range 안", "type": "soft warn", "action": "WARN + 진행"},
+    {"trigger": "data debt drop", "type": "soft warn", "action": "WARN + intentional drop 명시 시 진행"},
+    {"trigger": "new CLEAN 진입", "type": "soft info", "action": "INFO + 진행"}
+  ],
+  "d4_automation_reuse_structure": [
+    {"item": "subject별 expected range", "scope": "전력공학 외 다른 subject도 동일 hard check 구조 → mode 분리 재사용"},
+    {"item": "manifest diff report", "scope": "subject별 baseline vs new manifest diff 자동 생성"},
+    {"item": "policy revision mode gate", "scope": "D-4 자동화 시 subject별 정책 정교화 단계에서 mode 진입 인가"},
+    {"item": "hard fail vs soft fail 기준", "scope": "전 subject 공통 적용 — protected group + broad keyword + sealed mode 위반은 hard fail"}
+  ],
+  "implementation_gate_files_to_modify": [
+    {"file": "scripts/v_next_d3_input_creator.py", "lines": "310-315 (2 hard checks)", "scope": "fixed 94 strict → mode-aware (production strict / revision relaxed / sealed extra-strict)"},
+    {"file": "scripts/v_next_d3_parser_validator.py", "lines": "128 + 159-176 (truthy checks)", "scope": "94 hardcoded → mode-aware truthy"},
+    {"file": "scripts/v_next_d3_pre_preview.py", "lines": null, "scope": "0 (선택 영역 — manifest_shift report 입력 영역 추가 가능)"},
+    {"file": "manifest_shift_report.json schema", "lines": null, "scope": "신규 — exit/new/recoverable/protected/expected_range 영역 명시 schema"}
+  ],
+  "final_status_options": {
+    "READY_FOR_HARD_CHECK_POLICY_IMPLEMENTATION_GATE": "정책 명세 + mode 정의 + condition 정합 완료, implementation 진입 가능",
+    "NEEDS_HARD_CHECK_POLICY_DESIGN_FIX": "design 빈틈 있어 재설계",
+    "KEEP_STRICT_CHECK_RECOMMENDED": "strict 유지 권장 — 정책 정교화는 별 영역",
+    "NEEDS_USER_DECISION_ON_POLICY_REVISION_MODE": "revision mode 진입 영역 사용자 결정 필요"
+  },
+  "selected_final_status": "READY_FOR_HARD_CHECK_POLICY_IMPLEMENTATION_GATE",
+  "secondary_status": "NEEDS_USER_DECISION_ON_POLICY_REVISION_MODE (mode 진입 인가 영역 사용자 결정)",
+  "rationale_for_selection": "C+E 결합 정책 (manifest-shift-aware + policy_revision mode) — production sealed 영역 strict 유지 + 정책 정교화 영역 별 mode. 5 정책 후보 비교 + 3 mode 구조 정의 + manifest shift 6 category + allow/fail conditions + hard/soft 기준 + D-4 재사용 영역 명시. KEEP_STRICT 권장 안 함 (split 본질 효과 측정 가능, fixed 94 false positive 영역). NEEDS_DESIGN_FIX 미해당. revision mode 진입 영역은 사용자 결정 (secondary)."
+}
