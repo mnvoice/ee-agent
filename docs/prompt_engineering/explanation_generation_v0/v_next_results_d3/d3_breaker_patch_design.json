@@ -1,0 +1,196 @@
+{
+  "scope": "D-3 breaker patch design (read-only). Recovery plan for 13 unexpected expansion-empty without disturbing 44 success / 37 non_expansion_metadata / D-2 sealed / v_full handoff / future D-4/P5.",
+  "claim_boundary": {
+    "patch": 0,
+    "implementation": 0,
+    "generation_rerun": 0,
+    "audit_rerun": 0,
+    "semantic_gain": 0,
+    "p5": 0,
+    "d4": 0,
+    "commit": 0,
+    "devlog_vault_memory_decision_jsonl": 0
+  },
+  "evidence_pointer": {
+    "diagnosis_report": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3/d3_breaker_expansion_empty_diagnosis.md",
+    "audit_report": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3/d3_paired_audit_report.md",
+    "audit_join": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3/d3_paired_audit_join.json"
+  },
+  "dl_source_of_truth_trace": {
+    "step_1": {"file": "scripts/v_next_d3_pre_preview.py", "lines": "138-148",
+              "role": "CANDIDATE_POWER_POLICY [전력공학, 전력_보호고장S, 차단기] dl definition (single source of truth)",
+              "current_dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산"},
+    "step_2": {"file": "scripts/v_next_d3_selector.py", "lines": "185",
+              "role": "policy.get('dl') → enriched_dynamic_link (read-only consumer)"},
+    "step_3": {"file": "scripts/v_next_d3_input_creator.py", "lines": "106-107, 134",
+              "role": "enriched_dynamic_link → input.md `dynamic_link:` line + manifest.items[].enriched_dynamic_link"},
+    "step_4": {"file": "scripts/explanation_synthesizer.py", "lines": "186-251",
+              "role": "parse_dynamic_link substring matching over CROSS_TARGET_KEYWORDS / MATCHED_CORE_FALLBACK"}
+  },
+  "audit_group_assignment_rule": {
+    "file": "scripts/v_next_d3_selector.py",
+    "line": "171 (attach_audit_group)",
+    "rule": "group = 'expansion' if entry.get('dl') is not None else 'non_expansion_metadata'",
+    "implication": "Changing breaker dl to None automatically re-classifies breaker 13 from expansion → non_expansion_metadata (this is the mechanism behind candidate C, not a separate field)"
+  },
+  "candidates": [
+    {
+      "id": 1,
+      "name": "B-only (D-3 ITEM_POLICY dl normalization)",
+      "scope": "v_next_d3_pre_preview.py:145 — 1-line edit",
+      "proposed_change_options": [
+        {"option": "B1", "new_dl": "전력 차단기 -> 회로 단락전류 환산 -> 회로 임피던스 환산",
+         "rationale": "Preserves both 회로 단락전류 and 회로 임피던스 as separate arrow segments. Existing key '회로 임피던스' (synthesizer line 142) hits via contiguous substring (within '회로 임피던스 환산'). Adds a second 회로 segment for symmetry."},
+        {"option": "B2", "new_dl": "전력 차단기 -> 회로 단락전류 / 회로 임피던스 환산",
+         "rationale": "Minimal edit. Adds '회로' prefix to '임피던스 환산' part. Existing key '회로 임피던스' hits substring '회로 임피던스' (now contiguous within '회로 임피던스 환산'). Single edit, preserves shape."},
+        {"option": "B3", "new_dl": "전력 차단기 -> 회로 임피던스 환산 -> 설비 차단 보호",
+         "rationale": "More aggressive. Recovers 2 targets: 회로 임피던스 (line 142 → 회로이론) + 설비 보호 (line 130 → 전기설비기술기준). But 설비 차단 보호 wording is new — verify generator key '설비 보호' substring match still works."}
+      ],
+      "recommended_sub_option": "B2 (minimal scope clamp — single substring fix, no new wording introduced)",
+      "files_changed": ["scripts/v_next_d3_pre_preview.py"],
+      "lines_changed_estimate": 1,
+      "expected_recovery": "13 / 13 breaker cases → cross_subject_expansion target=회로이론 (1 expansion entry). Multi-target recovery requires additional keyword (A1) for 전기설비기술기준 / 전기기기.",
+      "regression_risk": {
+        "level": "very_low",
+        "blast_radius": "ITEM_POLICY 변경 → 13 breaker rows의 enriched_dynamic_link 갱신 → D-3 selector 재실행 → D-3 generation 재실행 → 13 outputs 변경. 다른 81 D-3 항목 영향 0 (per-(slot,item) lookup). v_full 영향 0 (D-3 정책은 v_full handoff scope 영역 밖). D-2 sealed 영향 0.",
+        "specific_protections": ["selection_manifest의 audit_group은 차단기 dl이 여전히 non-None이므로 expansion 유지 (정합)",
+                                "다른 17 item slot은 lookup key 다르므로 영향 0",
+                                "v_full handoff_scope.read_only invariant 유지",
+                                "D-2 sealed_assets.read_only invariant 유지"]
+      },
+      "validation_procedure": [
+        "v_next_d3_selector.py 재실행 → selection_manifest 차단기 13건의 enriched_dynamic_link만 새 표현으로 갱신 확인 (다른 81 항목 enriched_dynamic_link diff 0)",
+        "v_next_d3_parser_validator.py 재실행 → parse PASS 94/94 + audit_group expansion 57/57 + non_expansion_metadata 37/37 유지 확인",
+        "explanation_synthesizer.py 재실행 (v_next_inputs_d3 → v_next_results_d3_b) → 13 차단기 outputs의 cross_subject_expansion.expands_to non-empty 확인 (44 기존 성공 항목 expands_to 변화 없음 확인 — diff 측정 필요)",
+        "d3_audit.py 재실행 → 4차원 join table에서 (expansion, dl_keyword)=57 / (expansion, empty)=0 확인",
+        "정량 회귀 측정: phenomenon_len / trap_pattern_len / distractor_specificity / uncertainty_flags / related_same_core 7 dimension delta — 13 차단기에서만 delta 발현, 81 항목 delta=0 확인"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "A1 (narrow keyword map addition)",
+      "scope": "scripts/explanation_synthesizer.py:100-147 — add 1-3 entries to CROSS_TARGET_KEYWORDS",
+      "proposed_change_options": [
+        {"option": "A1a", "additions": [["차단기", "전기기기"]],
+         "rationale": "차단기는 전기기기 도메인의 개폐 장치로 cross-target 가능. 단 차단기 dl head가 '전력 차단기'이므로 차단기 substring 매칭은 hit하지만 target=전기기기는 차단기 학습 본질(회로 단락전류 / 임피던스 환산)과 거리. 의미 부적합 가능."},
+        {"option": "A1b", "additions": [["단락전류", "회로이론"]],
+         "rationale": "차단기 dl에 '단락전류' substring 있음 → hit. target=회로이론 정합. 단 '단락전류'는 일반 단어 — 다른 항목의 dl에서도 매칭 가능 (예: 단락전류·임피던스 item dl에 이미 '단락전류' 있음 — overshoot 위험 측정 필요)."},
+        {"option": "A1c", "additions": [["회로 단락전류", "회로이론"]],
+         "rationale": "차단기 dl에 '회로 단락전류' substring 있음 → hit. target=회로이론 정합. 더 구체적 keyword라 overshoot 위험 낮음."}
+      ],
+      "recommended_sub_option": "A1c (most specific, lowest overshoot risk). NOT recommended as standalone — see B-only first.",
+      "files_changed": ["scripts/explanation_synthesizer.py"],
+      "lines_changed_estimate": "1-3",
+      "expected_recovery": "13 / 13 breaker cases recover IF chosen keyword substring is present in current dl. Future breaker variants with different dl also recover.",
+      "regression_risk": {
+        "level": "medium",
+        "blast_radius": "Generator 전역 변경 — 모든 input/output (v_full 1000 + v_next D-3 94 + 미래 모든 generation) 영향 가능. 키워드 substring 매칭이 의도하지 않은 dl에서도 hit 가능.",
+        "specific_concerns": ["A1b (단락전류): 단락전류·임피던스 item (4 항목) dl에 이미 '단락전류' 있음. 기존 expansion source가 회로이론에서 회로이론으로 그대로 (중복 dedup으로 무해)일 가능성 높으나 측정 필요",
+                              "A1c (회로 단락전류): 더 구체적이라 overshoot 가능성 낮음. 단 v_full 1000 항목 회귀 측정 필요",
+                              "Generator 변경은 v_full handoff scope 보호 영역 내부 (scripts/explanation_synthesizer.py)이므로 사용자 명시 게이트 영역"]
+      },
+      "validation_procedure": [
+        "v_full 1000 + v_next D-3 94 재실행 → 모든 output에서 cross_subject_expansion 변화 측정",
+        "44 기존 dl_keyword 성공 항목의 expansion 변화 0 확인",
+        "다른 항목들의 expansion source 변화 측정 (dl_keyword → dl_keyword 중복 hit는 무해, dl_keyword → 다른 target 추가는 회귀)",
+        "v_full handoff scope 변경 측정 — 보호 영역 invariant 위반 시 즉시 중단"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "A2 (MATCHED_CORE_FALLBACK addition)",
+      "scope": "scripts/explanation_synthesizer.py:150-174 — add `차단기` key",
+      "proposed_change_options": [
+        {"option": "A2a", "additions": {"차단기": [["회로이론", "차단기 → 회로 단락전류 / 임피던스 환산 경로"]]},
+         "rationale": "matched_core_name='차단기'인 모든 input에 회로이론 fallback. dl 표현이 약하거나 dl=None일 때도 작동."},
+        {"option": "A2b", "additions": {"차단기": [["회로이론", "차단기 → 회로 단락전류 경로"], ["전기설비기술기준", "차단기 → 보호 장치 / 차단 용량 경로"]]},
+         "rationale": "Multi-target fallback. 회로이론 + 전기설비기술기준."}
+      ],
+      "recommended_sub_option": "Conservative — DO NOT recommend as first patch. Even narrowest A2a applies to ALL future inputs with matched_core_name='차단기' (current 13 + unbounded future).",
+      "files_changed": ["scripts/explanation_synthesizer.py"],
+      "lines_changed_estimate": "2-5",
+      "expected_recovery": "13 / 13 breaker cases recover. Plus ALL future breaker inputs (any dl shape, even dl=None) recover via fallback.",
+      "regression_risk": {
+        "level": "medium_high",
+        "blast_radius": "Generator 전역 fallback 변경. matched_core_name='차단기'인 모든 input에 자동 fallback 작동. 향후 dl이 의도적으로 약하거나 None인 차단기 input에도 강제 expansion 발현.",
+        "specific_concerns": ["A2는 dl path 실패 시 fallback이므로 직접 회귀 영향은 적음 (기존 44 성공은 Path 2 dl_keyword에서 이미 hit → Path 3 안 들어옴)",
+                              "그러나 미래 차단기 input의 dl 정책 자유도 축소 — dl=None 박을 의도가 있어도 자동 expansion 발현",
+                              "차단기 외 matched_core_name이 'X 차단기' 형태일 때 substring 매칭 안 함 (dict key 정확히 일치 — `if matched_core_name in MATCHED_CORE_FALLBACK`) 으로 안전"]
+      },
+      "validation_procedure": [
+        "v_full 1000 + v_next D-3 94 재실행 → matched_core_name='차단기'인 input 개수 측정",
+        "Path 2 hit 항목은 Path 3 안 들어가므로 회귀 0 측정",
+        "Path 1/2 miss 한 차단기 입력에서만 fallback hit 확인",
+        "미래 dl=None 차단기 의도 영역 침범 가능성 — 정책 합의 필요"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "A+B combined",
+      "scope": "B + A1c (or A2a)",
+      "rationale": "Both A and B causes hold. Combined fix maximizes recovery breadth (current 13 + future variants) and target multiplicity (회로이론 + 잠재적 전기설비).",
+      "concerns": [
+        "Concurrent change of two surfaces — recovery attribution ambiguous (which fix recovered which case?)",
+        "Codex supervisor note: B-only first, then measure, then decide if A1 add is needed — sequential implementation preserves attribution",
+        "Validation requires 2-step measurement: (1) B-only baseline measurement, (2) +A1 incremental measurement"
+      ],
+      "recommended_sequencing": "B-only first → measure 13 recovery → if multi-target needed and overshoot acceptable, add A1c → re-measure"
+    },
+    {
+      "id": 5,
+      "name": "C (breaker reclassification to non_expansion_metadata)",
+      "scope": "v_next_d3_pre_preview.py:145 — change dl to None",
+      "mechanism": "audit_group is auto-derived from dl (selector line 171). dl=None → audit_group='non_expansion_metadata' automatic.",
+      "rationale_against": [
+        "S/Fault is policy-eligible for expansion (synthesizer line 237)",
+        "Same slot non-breaker S/Fault 14 cases succeed via dl_keyword",
+        "차단기 학습 본질은 회로 단락전류 / 임피던스 환산 영역으로 자연 연결됨 — non_expansion_metadata 분류는 학습 의미 영역에서 정합 안 됨",
+        "Reclassification masks a real gap rather than fixing it",
+        "Reduces D-3 expansion group from 57 to 44 — paired audit framework의 expansion vs non_expansion 분리 정합성 훼손"
+      ],
+      "verdict": "REJECTED (current evidence does not support intentional empty policy for breaker)"
+    }
+  ],
+  "recommended_implementation_order": [
+    {"step": 1, "action": "B-only (B2 minimal sub-option) — v_next_d3_pre_preview.py:145 dl 1 line 보정",
+     "gate": "사용자 명시 implementation 게이트"},
+    {"step": 2, "action": "v_next_d3_selector.py → v_next_d3_parser_validator.py → explanation_synthesizer.py 순차 재실행 (output dir: v_next_results_d3_b)",
+     "gate": "동일 implementation 게이트 (재생성 허용 명시 시)"},
+    {"step": 3, "action": "d3_audit.py 재실행 → 4차원 join table에서 (expansion, dl_keyword)=57 / (expansion, empty)=0 확인 + 81 비차단기 항목 회귀 0 확인",
+     "gate": "동일 implementation 게이트"},
+    {"step": 4, "action": "13 차단기 회복 measurement + 81 비차단기 항목 delta=0 검증 후 multi-target 필요 판단 → A1c 추가 여부 별 게이트 결정",
+     "gate": "사용자 명시 결정 게이트"}
+  ],
+  "final_recommendation": {
+    "primary": "B-only (B2 sub-option)",
+    "rationale": [
+      "Single line change (v_next_d3_pre_preview.py:145)",
+      "Generator 전역 미수정 — explanation_synthesizer.py read-only 유지",
+      "Lookup key per (subject, slot, item)이므로 다른 81 항목 enriched_dynamic_link 변경 0",
+      "v_full 1000 영향 0 (D-3 정책은 v_full handoff scope 외부)",
+      "D-2 sealed assets 영향 0",
+      "audit_group 자동 결정 룰 (selector line 171)이 dl != None 그대로 보존 → expansion 분류 유지",
+      "Codex 감독관 1순위와 정합 — 회귀 위험 최저 + 13건 일점 집중 패턴에 정확히 대응",
+      "재생성 후 4차원 join table의 (expansion, dl_keyword)가 44 → 57로 단조 증가 측정 가능 (기존 44 항목 변경 0)"
+    ]
+  },
+  "deferred_candidates": [
+    {"id": "A1c (narrow keyword '회로 단락전류')",
+     "status": "deferred to step 4",
+     "condition": "B-only step 3 measurement에서 multi-target 필요 판단 시 / future 차단기 dl 변형 회복 필요 시 / overshoot 측정 통과 시"},
+    {"id": "A2a (matched_core_fallback)",
+     "status": "deferred — conservative",
+     "condition": "dl 표현 변형 영역이 너무 다양해서 keyword/dl 정규화 모두 한계일 때만 고려"}
+  ],
+  "rejected_candidates": [
+    {"id": "C reclassification",
+     "status": "REJECTED",
+     "rationale": "Masks real gap, conflicts with S/Fault expansion policy, breaks audit framework integrity"}
+  ],
+  "final_status_options": {
+    "READY_FOR_BREAKER_PATCH_IMPLEMENTATION_GATE": "B-only design 완료, 사용자 implementation 결정 대기",
+    "NEEDS_HUMAN_DECISION_ON_BREAKER_PATCH_SCOPE": "B vs A1 vs A+B sequencing에 대한 사용자 명시 결정 필요 (본 design은 B-only first 권고하나 다른 sub-option 선택 영역)"
+  },
+  "selected_final_status": "READY_FOR_BREAKER_PATCH_IMPLEMENTATION_GATE",
+  "rationale_for_selection": "Design은 B-only (B2) 단일 권고를 명시함. A1 / A2 / A+B는 step 4에서 별 게이트 결정 영역으로 분리됨. 따라서 implementation 게이트 진입 가능 상태이며, 별 인간 결정 분기는 다음 게이트에서 처리."
+}

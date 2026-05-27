@@ -1,0 +1,61 @@
+{
+  "problem_id": "1998_4회_25",
+  "problem_summary": "전력공학 1998_4회_q25: 부하율·수용률·부등률 — S/Static 정적 문제.",
+  "core_extraction": {
+    "phenomenon": "부하율·수용률·부등률의 본질: 부하율·수용률·부등률.",
+    "problem": "부하율/수용률/부등률을 어떻게 구분해 외우는가를 정확히 파악해 시험장에서 정답을 골라야 한다.",
+    "device_or_concept": "부하율·수용률·부등률은 입력 solution의 풀이 양식으로 작동: 변전소에 걸리는 최대 전력을 구하는 문제입니다.\n\n**주어진 데이터:**\n- 변압기 용량: 5000 kVA (전압: 154/6.6 kV)\n- 4개 배전선 부하 설비 및 수용률\n- 배전선간 부등률: 1.17\n\n**계산 절차:**\n\n**Step 1: 각 배전선의 최대 수요 전력 계산**\n\n각 배전선 최대 전력 = 부하 설비 × 수용률\n\n- a선: 4716 × .",
+    "memorize": "변전소에 걸리는 최대 전력을 구하는 문제입니다.\n\n**주어진 데이터:**\n- 변압기 용량: 5000 kVA (전압: 154/6.6 kV)\n- 4개 배전선 부하 설비 및 수용률\n- 배전선간 부등률: 1.17\n\n**계산 절차:**\n\n**",
+    "trap_pattern": "부하율 vs 수용률 vs 부등률 정의 혼동 함정"
+  },
+  "answer_analysis": {
+    "correct_choice": 3,
+    "why_correct": "보기 (3)는 부하율·수용률·부등률의 본질 — 부하율/수용률/부등률을 어떻게 구분해 외우는가에 정합. solution 단서: 변전소에 걸리는 최대 전력을 구하는 문제입니다.\n\n**주어진 데이터:**\n- 변압기 용량: 5000 kVA (전압: 154/6.6 kV)\n- 4개 배전선 부하 설비 및 수용률\n- 배전선간 부등률: 1.17\n\n**계산 절차:**\n\n**Step 1: 각 배전선의 최대 수요 전력 계산**\n\n각 배전선 최대 전력 = 부하 설비 × 수용률\n\n- a선: 4716 × .",
+    "correct_type": "static_formula"
+  },
+  "distractor_analysis": [
+    {
+      "choice": 1,
+      "trap_type": "부하율 vs 수용률 vs 부등률 정의 혼동 함정",
+      "confused_with": "정답 보기 (3): 4598",
+      "why_wrong": "보기 (1) '4186': 수치/단위 차이 함정. 정답 보기 (3) '4598'와 비교하면 부하율·수용률·부등률의 핵심(부하율/수용률/부등률을 어떻게 구분해 외우는가)에 어긋난다."
+    },
+    {
+      "choice": 2,
+      "trap_type": "부하율 vs 수용률 vs 부등률 정의 혼동 함정",
+      "confused_with": "정답 보기 (3): 4598",
+      "why_wrong": "보기 (2) '4356': 수치/단위 차이 함정. 정답 보기 (3) '4598'와 비교하면 부하율·수용률·부등률의 핵심(부하율/수용률/부등률을 어떻게 구분해 외우는가)에 어긋난다."
+    },
+    {
+      "choice": 4,
+      "trap_type": "부하율 vs 수용률 vs 부등률 정의 혼동 함정",
+      "confused_with": "정답 보기 (3): 4598",
+      "why_wrong": "보기 (4) '4728': 수치/단위 차이 함정. 정답 보기 (3) '4598'와 비교하면 부하율·수용률·부등률의 핵심(부하율/수용률/부등률을 어떻게 구분해 외우는가)에 어긋난다."
+    }
+  ],
+  "related_problems": {
+    "same_core": [
+      "1999_6회_24",
+      "2008_1회_25"
+    ],
+    "same_trap_pattern": [
+      "1999_6회_24",
+      "2008_1회_25"
+    ],
+    "selection_rationale": "same_core: 후보 2건에서 상위 2건 사용 (스키마 maxItems=5). same_trap_pattern: 후보 2건에서 상위 2건 사용 (스키마 maxItems=3)."
+  },
+  "cross_subject_expansion": {
+    "primary_subject": "전력공학",
+    "expands_to": []
+  },
+  "learning_meta": {
+    "v32_core_id": null,
+    "phenomenon_origin": "S/Static",
+    "trap_map_61_member": true,
+    "study_priority": "medium",
+    "study_phase": "trap_check"
+  },
+  "uncertainty_flags": [
+    "candidate_pool_small"
+  ]
+}

@@ -1,0 +1,2231 @@
+{
+  "rows": [
+    {
+      "input": "input_001.md",
+      "pid": "1998_2회_23",
+      "audit_group": "expansion",
+      "item": "송전 용량/거리",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "송전선",
+      "enriched_dl": "전력 송전용량 -> 회로 4단자망 -> 회로 분포정수",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 송전용량 → 회로이론: 회로 분포정수 경로"
+      ],
+      "v_full_pair": "output_760.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 52,
+      "trap_pattern_len": 15,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_002.md",
+      "pid": "1998_4회_21",
+      "audit_group": "expansion",
+      "item": "송전 용량/거리",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "송전선",
+      "enriched_dl": "전력 송전용량 -> 회로 4단자망 -> 회로 분포정수",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 송전용량 → 회로이론: 회로 분포정수 경로"
+      ],
+      "v_full_pair": "output_769.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 52,
+      "trap_pattern_len": 15,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_003.md",
+      "pid": "1998_4회_22",
+      "audit_group": "expansion",
+      "item": "차단기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "차단기",
+      "enriched_dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_770.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 45,
+      "trap_pattern_len": 20,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_004.md",
+      "pid": "1998_4회_23",
+      "audit_group": "expansion",
+      "item": "분포정수 송전",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "특성 임피던스",
+      "enriched_dl": "전력 분포정수 -> 회로 분포정수 -> 회로 4단자망",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 분포정수 → 회로이론: 전력 분포정수 경로"
+      ],
+      "v_full_pair": "output_771.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 51,
+      "trap_pattern_len": 21,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_005.md",
+      "pid": "1998_4회_25",
+      "audit_group": "non_expansion_metadata",
+      "item": "부하율·수용률·부등률",
+      "slot_grp": "전력_함정S",
+      "matched_keyword": "수용률",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_772.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 29,
+      "trap_pattern_len": 26,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_006.md",
+      "pid": "1999_3회_22",
+      "audit_group": "expansion",
+      "item": "전압강하·전력손실",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "전력손실",
+      "enriched_dl": "전력 전압강하/손실 -> 회로 임피던스 -> 회로 옴의 법칙",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 전압강하/손실 → 회로이론: 회로 임피던스 경로"
+      ],
+      "v_full_pair": "output_780.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 57,
+      "trap_pattern_len": 22,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_007.md",
+      "pid": "1999_3회_23",
+      "audit_group": "expansion",
+      "item": "지락·중성점 접지",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "소호리액터",
+      "enriched_dl": "전력 중성점 접지 -> 회로 대칭분 해석",
+      "expansion_source": "dl_keyword",
+      "expands_count": 2,
+      "target_subjects": [
+        "전기설비기술기준",
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 중성점 접지 → 전기설비기술기준: 전력 중성점 접지 경로",
+        "전력 중성점 접지 → 회로이론: 회로 대칭분 해석 경로"
+      ],
+      "v_full_pair": "output_781.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 46,
+      "trap_pattern_len": 29,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_008.md",
+      "pid": "1999_4회_81",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_791.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_009.md",
+      "pid": "1999_4회_84",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_793.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_010.md",
+      "pid": "1999_6회_23",
+      "audit_group": "expansion",
+      "item": "송전 용량/거리",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "송전선",
+      "enriched_dl": "전력 송전용량 -> 회로 4단자망 -> 회로 분포정수",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 송전용량 → 회로이론: 회로 분포정수 경로"
+      ],
+      "v_full_pair": "output_794.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 52,
+      "trap_pattern_len": 15,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_011.md",
+      "pid": "1999_6회_24",
+      "audit_group": "non_expansion_metadata",
+      "item": "부하율·수용률·부등률",
+      "slot_grp": "전력_함정S",
+      "matched_keyword": "부하율",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_795.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 29,
+      "trap_pattern_len": 26,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_012.md",
+      "pid": "2000_2회_23",
+      "audit_group": "expansion",
+      "item": "차단기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "차단기",
+      "enriched_dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_800.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 45,
+      "trap_pattern_len": 20,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_013.md",
+      "pid": "2000_2회_85",
+      "audit_group": "expansion",
+      "item": "보호계전기·피뢰기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "피뢰기",
+      "enriched_dl": "전력 보호계전기/피뢰기 -> 설비 절연/보호 -> 회로 임피던스",
+      "expansion_source": "dl_keyword",
+      "expands_count": 2,
+      "target_subjects": [
+        "전기설비기술기준",
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 보호계전기/피뢰기 → 전기설비기술기준: 설비 절연/보호 경로",
+        "전력 보호계전기/피뢰기 → 회로이론: 회로 임피던스 경로"
+      ],
+      "v_full_pair": "output_803.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 59,
+      "trap_pattern_len": 23,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_014.md",
+      "pid": "2000_2회_86",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "이격거리",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_804.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_015.md",
+      "pid": "2000_4회_23",
+      "audit_group": "expansion",
+      "item": "코로나 / 전선 도체",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "코로나",
+      "enriched_dl": "전력 코로나/표피효과 -> 회로 분포정수 -> 회로 임피던스",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 코로나/표피효과 → 회로이론: 회로 분포정수 경로"
+      ],
+      "v_full_pair": "output_808.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 59,
+      "trap_pattern_len": 23,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_016.md",
+      "pid": "2000_6회_21",
+      "audit_group": "expansion",
+      "item": "송전 용량/거리",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "선로 정수",
+      "enriched_dl": "전력 송전용량 -> 회로 4단자망 -> 회로 분포정수",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 송전용량 → 회로이론: 회로 분포정수 경로"
+      ],
+      "v_full_pair": "output_810.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 52,
+      "trap_pattern_len": 15,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_017.md",
+      "pid": "2000_6회_23",
+      "audit_group": "expansion",
+      "item": "전압강하·전력손실",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "전압강하",
+      "enriched_dl": "전력 전압강하/손실 -> 회로 임피던스 -> 회로 옴의 법칙",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 전압강하/손실 → 회로이론: 회로 임피던스 경로"
+      ],
+      "v_full_pair": "output_811.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 57,
+      "trap_pattern_len": 22,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_018.md",
+      "pid": "2000_6회_27",
+      "audit_group": "expansion",
+      "item": "단락전류·임피던스",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "단락전류",
+      "enriched_dl": "전력 단락전류 -> 회로 옴의 법칙 -> 회로 임피던스 환산",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 단락전류 → 회로이론: 회로 임피던스 환산 경로"
+      ],
+      "v_full_pair": "output_813.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 57,
+      "trap_pattern_len": 27,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_019.md",
+      "pid": "2000_6회_28",
+      "audit_group": "expansion",
+      "item": "보호계전기·피뢰기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "피뢰기",
+      "enriched_dl": "전력 보호계전기/피뢰기 -> 설비 절연/보호 -> 회로 임피던스",
+      "expansion_source": "dl_keyword",
+      "expands_count": 2,
+      "target_subjects": [
+        "전기설비기술기준",
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 보호계전기/피뢰기 → 전기설비기술기준: 설비 절연/보호 경로",
+        "전력 보호계전기/피뢰기 → 회로이론: 회로 임피던스 경로"
+      ],
+      "v_full_pair": "output_814.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 59,
+      "trap_pattern_len": 23,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_020.md",
+      "pid": "2000_6회_85",
+      "audit_group": "non_expansion_metadata",
+      "item": "절연내력 / 유도장해",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "절연내력시험전압",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_821.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 29,
+      "trap_pattern_len": 30,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_021.md",
+      "pid": "2000_6회_92",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_824.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_022.md",
+      "pid": "2001_1회_22",
+      "audit_group": "expansion",
+      "item": "송전 용량/거리",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "송전전압",
+      "enriched_dl": "전력 송전용량 -> 회로 4단자망 -> 회로 분포정수",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 송전용량 → 회로이론: 회로 분포정수 경로"
+      ],
+      "v_full_pair": "output_826.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 52,
+      "trap_pattern_len": 15,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_023.md",
+      "pid": "2001_2회_21",
+      "audit_group": "expansion",
+      "item": "단락전류·임피던스",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "단락전류",
+      "enriched_dl": "전력 단락전류 -> 회로 옴의 법칙 -> 회로 임피던스 환산",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 단락전류 → 회로이론: 회로 임피던스 환산 경로"
+      ],
+      "v_full_pair": "output_829.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 57,
+      "trap_pattern_len": 27,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_024.md",
+      "pid": "2001_2회_24",
+      "audit_group": "non_expansion_metadata",
+      "item": "절연내력 / 유도장해",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "유도장해",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_830.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 29,
+      "trap_pattern_len": 30,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_025.md",
+      "pid": "2001_2회_29",
+      "audit_group": "expansion",
+      "item": "송전 용량/거리",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "송전 거리",
+      "enriched_dl": "전력 송전용량 -> 회로 4단자망 -> 회로 분포정수",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 송전용량 → 회로이론: 회로 분포정수 경로"
+      ],
+      "v_full_pair": "output_832.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 52,
+      "trap_pattern_len": 15,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_026.md",
+      "pid": "2001_2회_82",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_836.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_027.md",
+      "pid": "2001_3회_25",
+      "audit_group": "expansion",
+      "item": "전압강하·전력손실",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "전력손실",
+      "enriched_dl": "전력 전압강하/손실 -> 회로 임피던스 -> 회로 옴의 법칙",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 전압강하/손실 → 회로이론: 회로 임피던스 경로"
+      ],
+      "v_full_pair": "output_843.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 57,
+      "trap_pattern_len": 22,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_028.md",
+      "pid": "2001_3회_26",
+      "audit_group": "expansion",
+      "item": "보호계전기·피뢰기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "피뢰기",
+      "enriched_dl": "전력 보호계전기/피뢰기 -> 설비 절연/보호 -> 회로 임피던스",
+      "expansion_source": "dl_keyword",
+      "expands_count": 2,
+      "target_subjects": [
+        "전기설비기술기준",
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 보호계전기/피뢰기 → 전기설비기술기준: 설비 절연/보호 경로",
+        "전력 보호계전기/피뢰기 → 회로이론: 회로 임피던스 경로"
+      ],
+      "v_full_pair": "output_844.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 59,
+      "trap_pattern_len": 23,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_029.md",
+      "pid": "2001_3회_81",
+      "audit_group": "expansion",
+      "item": "차단기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "차단기",
+      "enriched_dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_847.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 45,
+      "trap_pattern_len": 20,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_030.md",
+      "pid": "2002_1회_22",
+      "audit_group": "expansion",
+      "item": "차단기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "차단기",
+      "enriched_dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_851.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 45,
+      "trap_pattern_len": 20,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_031.md",
+      "pid": "2002_1회_30",
+      "audit_group": "expansion",
+      "item": "단락전류·임피던스",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "기준용량",
+      "enriched_dl": "전력 단락전류 -> 회로 옴의 법칙 -> 회로 임피던스 환산",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 단락전류 → 회로이론: 회로 임피던스 환산 경로"
+      ],
+      "v_full_pair": "output_855.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 57,
+      "trap_pattern_len": 27,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_032.md",
+      "pid": "2002_1회_33",
+      "audit_group": "expansion",
+      "item": "지락·중성점 접지",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "중성점",
+      "enriched_dl": "전력 중성점 접지 -> 회로 대칭분 해석",
+      "expansion_source": "dl_keyword",
+      "expands_count": 2,
+      "target_subjects": [
+        "전기설비기술기준",
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 중성점 접지 → 전기설비기술기준: 전력 중성점 접지 경로",
+        "전력 중성점 접지 → 회로이론: 회로 대칭분 해석 경로"
+      ],
+      "v_full_pair": "output_856.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 46,
+      "trap_pattern_len": 29,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_033.md",
+      "pid": "2002_3회_21",
+      "audit_group": "expansion",
+      "item": "코로나 / 전선 도체",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "복도체",
+      "enriched_dl": "전력 코로나/표피효과 -> 회로 분포정수 -> 회로 임피던스",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 코로나/표피효과 → 회로이론: 회로 분포정수 경로"
+      ],
+      "v_full_pair": "output_863.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 59,
+      "trap_pattern_len": 23,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_034.md",
+      "pid": "2002_3회_23",
+      "audit_group": "expansion",
+      "item": "보호계전기·피뢰기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "피뢰기",
+      "enriched_dl": "전력 보호계전기/피뢰기 -> 설비 절연/보호 -> 회로 임피던스",
+      "expansion_source": "dl_keyword",
+      "expands_count": 2,
+      "target_subjects": [
+        "전기설비기술기준",
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 보호계전기/피뢰기 → 전기설비기술기준: 설비 절연/보호 경로",
+        "전력 보호계전기/피뢰기 → 회로이론: 회로 임피던스 경로"
+      ],
+      "v_full_pair": "output_865.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 59,
+      "trap_pattern_len": 23,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_035.md",
+      "pid": "2002_3회_26",
+      "audit_group": "expansion",
+      "item": "차단기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "차단기",
+      "enriched_dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_867.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 45,
+      "trap_pattern_len": 20,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_036.md",
+      "pid": "2002_3회_37",
+      "audit_group": "expansion",
+      "item": "송전 용량/거리",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "송전선",
+      "enriched_dl": "전력 송전용량 -> 회로 4단자망 -> 회로 분포정수",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 송전용량 → 회로이론: 회로 분포정수 경로"
+      ],
+      "v_full_pair": "output_868.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 52,
+      "trap_pattern_len": 15,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_037.md",
+      "pid": "2002_3회_85",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_871.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_038.md",
+      "pid": "2003_1회_21",
+      "audit_group": "expansion",
+      "item": "단락전류·임피던스",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "단락전류",
+      "enriched_dl": "전력 단락전류 -> 회로 옴의 법칙 -> 회로 임피던스 환산",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 단락전류 → 회로이론: 회로 임피던스 환산 경로"
+      ],
+      "v_full_pair": "output_873.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 57,
+      "trap_pattern_len": 27,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_039.md",
+      "pid": "2003_1회_22",
+      "audit_group": "non_expansion_metadata",
+      "item": "절연내력 / 유도장해",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "통신선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_874.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 29,
+      "trap_pattern_len": 30,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_040.md",
+      "pid": "2003_1회_23",
+      "audit_group": "expansion",
+      "item": "차단기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "차단기",
+      "enriched_dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_875.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 45,
+      "trap_pattern_len": 20,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_041.md",
+      "pid": "2003_1회_27",
+      "audit_group": "expansion",
+      "item": "차단기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "차단기",
+      "enriched_dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_877.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 45,
+      "trap_pattern_len": 20,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_042.md",
+      "pid": "2003_1회_44",
+      "audit_group": "expansion",
+      "item": "보호계전기·피뢰기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "보호계전기",
+      "enriched_dl": "전력 보호계전기/피뢰기 -> 설비 절연/보호 -> 회로 임피던스",
+      "expansion_source": "dl_keyword",
+      "expands_count": 2,
+      "target_subjects": [
+        "전기설비기술기준",
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 보호계전기/피뢰기 → 전기설비기술기준: 설비 절연/보호 경로",
+        "전력 보호계전기/피뢰기 → 회로이론: 회로 임피던스 경로"
+      ],
+      "v_full_pair": "output_878.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 59,
+      "trap_pattern_len": 23,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_043.md",
+      "pid": "2003_1회_62",
+      "audit_group": "expansion",
+      "item": "분포정수 송전",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "특성 임피던스",
+      "enriched_dl": "전력 분포정수 -> 회로 분포정수 -> 회로 4단자망",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 분포정수 → 회로이론: 전력 분포정수 경로"
+      ],
+      "v_full_pair": "output_879.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 51,
+      "trap_pattern_len": 21,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_044.md",
+      "pid": "2003_3회_81",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_889.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_045.md",
+      "pid": "2004_1회_30",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선로 경간·이도",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "이도",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_894.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 29,
+      "trap_pattern_len": 17,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_046.md",
+      "pid": "2004_1회_84",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "이격거리",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_898.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_047.md",
+      "pid": "2004_1회_90",
+      "audit_group": "expansion",
+      "item": "차단기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "차단기",
+      "enriched_dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_900.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 45,
+      "trap_pattern_len": 20,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_048.md",
+      "pid": "2004_1회_91",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_901.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_049.md",
+      "pid": "2004_2회_23",
+      "audit_group": "expansion",
+      "item": "전압강하·전력손실",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "전력손실",
+      "enriched_dl": "전력 전압강하/손실 -> 회로 임피던스 -> 회로 옴의 법칙",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 전압강하/손실 → 회로이론: 회로 임피던스 경로"
+      ],
+      "v_full_pair": "output_904.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 57,
+      "trap_pattern_len": 22,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_050.md",
+      "pid": "2004_2회_24",
+      "audit_group": "expansion",
+      "item": "송전 용량/거리",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "송전선",
+      "enriched_dl": "전력 송전용량 -> 회로 4단자망 -> 회로 분포정수",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 송전용량 → 회로이론: 회로 분포정수 경로"
+      ],
+      "v_full_pair": "output_905.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 52,
+      "trap_pattern_len": 15,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_051.md",
+      "pid": "2004_2회_25",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선로 경간·이도",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "경간",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_906.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 29,
+      "trap_pattern_len": 17,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_052.md",
+      "pid": "2004_2회_31",
+      "audit_group": "expansion",
+      "item": "전압강하·전력손실",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "전력손실",
+      "enriched_dl": "전력 전압강하/손실 -> 회로 임피던스 -> 회로 옴의 법칙",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 전압강하/손실 → 회로이론: 회로 임피던스 경로"
+      ],
+      "v_full_pair": "output_907.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 57,
+      "trap_pattern_len": 22,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_053.md",
+      "pid": "2004_2회_86",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "이격거리",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_909.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_054.md",
+      "pid": "2004_3회_23",
+      "audit_group": "expansion",
+      "item": "분포정수 송전",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "작용인덕턴스",
+      "enriched_dl": "전력 분포정수 -> 회로 분포정수 -> 회로 4단자망",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 분포정수 → 회로이론: 전력 분포정수 경로"
+      ],
+      "v_full_pair": "output_910.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 51,
+      "trap_pattern_len": 21,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_055.md",
+      "pid": "2004_3회_25",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선로 경간·이도",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "경간",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_912.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 29,
+      "trap_pattern_len": 17,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_056.md",
+      "pid": "2004_3회_27",
+      "audit_group": "expansion",
+      "item": "차단기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "차단기",
+      "enriched_dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_913.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 45,
+      "trap_pattern_len": 20,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_057.md",
+      "pid": "2004_3회_29",
+      "audit_group": "expansion",
+      "item": "차단기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "차단기",
+      "enriched_dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_914.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 45,
+      "trap_pattern_len": 20,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_058.md",
+      "pid": "2004_3회_82",
+      "audit_group": "expansion",
+      "item": "차단기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "차단기",
+      "enriched_dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_915.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 45,
+      "trap_pattern_len": 20,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_059.md",
+      "pid": "2004_3회_83",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_916.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_060.md",
+      "pid": "2004_3회_92",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_920.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_061.md",
+      "pid": "2005_1회_21",
+      "audit_group": "expansion",
+      "item": "분포정수 송전",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "분포정수",
+      "enriched_dl": "전력 분포정수 -> 회로 분포정수 -> 회로 4단자망",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 분포정수 → 회로이론: 전력 분포정수 경로"
+      ],
+      "v_full_pair": "output_921.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 51,
+      "trap_pattern_len": 21,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_062.md",
+      "pid": "2005_1회_28",
+      "audit_group": "expansion",
+      "item": "전압강하·전력손실",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "전압강하",
+      "enriched_dl": "전력 전압강하/손실 -> 회로 임피던스 -> 회로 옴의 법칙",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 전압강하/손실 → 회로이론: 회로 임피던스 경로"
+      ],
+      "v_full_pair": "output_924.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 57,
+      "trap_pattern_len": 22,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_063.md",
+      "pid": "2005_1회_29",
+      "audit_group": "expansion",
+      "item": "차단기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "차단기",
+      "enriched_dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_925.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 45,
+      "trap_pattern_len": 20,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_064.md",
+      "pid": "2005_2회_23",
+      "audit_group": "expansion",
+      "item": "전압강하·전력손실",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "전력손실",
+      "enriched_dl": "전력 전압강하/손실 -> 회로 임피던스 -> 회로 옴의 법칙",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 전압강하/손실 → 회로이론: 회로 임피던스 경로"
+      ],
+      "v_full_pair": "output_931.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 57,
+      "trap_pattern_len": 22,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_065.md",
+      "pid": "2005_2회_28",
+      "audit_group": "expansion",
+      "item": "지락·중성점 접지",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "소호리액터",
+      "enriched_dl": "전력 중성점 접지 -> 회로 대칭분 해석",
+      "expansion_source": "dl_keyword",
+      "expands_count": 2,
+      "target_subjects": [
+        "전기설비기술기준",
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 중성점 접지 → 전기설비기술기준: 전력 중성점 접지 경로",
+        "전력 중성점 접지 → 회로이론: 회로 대칭분 해석 경로"
+      ],
+      "v_full_pair": "output_933.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 46,
+      "trap_pattern_len": 29,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_066.md",
+      "pid": "2005_2회_30",
+      "audit_group": "expansion",
+      "item": "분포정수 송전",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "특성 임피던스",
+      "enriched_dl": "전력 분포정수 -> 회로 분포정수 -> 회로 4단자망",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 분포정수 → 회로이론: 전력 분포정수 경로"
+      ],
+      "v_full_pair": "output_934.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 51,
+      "trap_pattern_len": 21,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_067.md",
+      "pid": "2005_2회_31",
+      "audit_group": "expansion",
+      "item": "송전 용량/거리",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "송전선",
+      "enriched_dl": "전력 송전용량 -> 회로 4단자망 -> 회로 분포정수",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 송전용량 → 회로이론: 회로 분포정수 경로"
+      ],
+      "v_full_pair": "output_935.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 52,
+      "trap_pattern_len": 15,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_068.md",
+      "pid": "2005_3회_26",
+      "audit_group": "expansion",
+      "item": "송전 용량/거리",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "송전선",
+      "enriched_dl": "전력 송전용량 -> 회로 4단자망 -> 회로 분포정수",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 송전용량 → 회로이론: 회로 분포정수 경로"
+      ],
+      "v_full_pair": "output_942.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 52,
+      "trap_pattern_len": 15,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_069.md",
+      "pid": "2005_3회_81",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_947.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_070.md",
+      "pid": "2006_1회_2",
+      "audit_group": "expansion",
+      "item": "전압강하·전력손실",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "전압강하",
+      "enriched_dl": "전력 전압강하/손실 -> 회로 임피던스 -> 회로 옴의 법칙",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 전압강하/손실 → 회로이론: 회로 임피던스 경로"
+      ],
+      "v_full_pair": "output_949.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 57,
+      "trap_pattern_len": 22,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_071.md",
+      "pid": "2006_1회_28",
+      "audit_group": "expansion",
+      "item": "전압강하·전력손실",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "전력손실",
+      "enriched_dl": "전력 전압강하/손실 -> 회로 임피던스 -> 회로 옴의 법칙",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 전압강하/손실 → 회로이론: 회로 임피던스 경로"
+      ],
+      "v_full_pair": "output_952.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 57,
+      "trap_pattern_len": 22,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_072.md",
+      "pid": "2006_1회_29",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공지선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_953.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_073.md",
+      "pid": "2006_1회_85",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_956.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_074.md",
+      "pid": "2006_1회_86",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_957.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_075.md",
+      "pid": "2006_2회_26",
+      "audit_group": "non_expansion_metadata",
+      "item": "역률 개선",
+      "slot_grp": "전력_함정S",
+      "matched_keyword": "전력용 콘덴서",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_962.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 17,
+      "trap_pattern_len": 21,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_076.md",
+      "pid": "2006_2회_83",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_968.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_077.md",
+      "pid": "2006_2회_86",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_969.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_078.md",
+      "pid": "2006_3회_21",
+      "audit_group": "expansion",
+      "item": "지락·중성점 접지",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "소호리액터",
+      "enriched_dl": "전력 중성점 접지 -> 회로 대칭분 해석",
+      "expansion_source": "dl_keyword",
+      "expands_count": 2,
+      "target_subjects": [
+        "전기설비기술기준",
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 중성점 접지 → 전기설비기술기준: 전력 중성점 접지 경로",
+        "전력 중성점 접지 → 회로이론: 회로 대칭분 해석 경로"
+      ],
+      "v_full_pair": "output_970.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 46,
+      "trap_pattern_len": 29,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_079.md",
+      "pid": "2006_3회_25",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선로 경간·이도",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "경간",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_971.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 29,
+      "trap_pattern_len": 17,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_080.md",
+      "pid": "2006_3회_81",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_973.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_081.md",
+      "pid": "2006_3회_83",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_974.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_082.md",
+      "pid": "2007_1회_24",
+      "audit_group": "expansion",
+      "item": "송전 용량/거리",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "송전선",
+      "enriched_dl": "전력 송전용량 -> 회로 4단자망 -> 회로 분포정수",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 송전용량 → 회로이론: 회로 분포정수 경로"
+      ],
+      "v_full_pair": "output_978.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 52,
+      "trap_pattern_len": 15,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_083.md",
+      "pid": "2007_1회_62",
+      "audit_group": "expansion",
+      "item": "분포정수 송전",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "특성 임피던스",
+      "enriched_dl": "전력 분포정수 -> 회로 분포정수 -> 회로 4단자망",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 분포정수 → 회로이론: 전력 분포정수 경로"
+      ],
+      "v_full_pair": "output_980.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 51,
+      "trap_pattern_len": 21,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_084.md",
+      "pid": "2007_1회_81",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_981.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_085.md",
+      "pid": "2007_1회_82",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_982.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_086.md",
+      "pid": "2007_1회_84",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_984.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_087.md",
+      "pid": "2007_1회_87",
+      "audit_group": "expansion",
+      "item": "보호계전기·피뢰기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "피뢰기",
+      "enriched_dl": "전력 보호계전기/피뢰기 -> 설비 절연/보호 -> 회로 임피던스",
+      "expansion_source": "dl_keyword",
+      "expands_count": 2,
+      "target_subjects": [
+        "전기설비기술기준",
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 보호계전기/피뢰기 → 전기설비기술기준: 설비 절연/보호 경로",
+        "전력 보호계전기/피뢰기 → 회로이론: 회로 임피던스 경로"
+      ],
+      "v_full_pair": "output_986.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 59,
+      "trap_pattern_len": 23,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_088.md",
+      "pid": "2007_2회_24",
+      "audit_group": "expansion",
+      "item": "코로나 / 전선 도체",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "복도체",
+      "enriched_dl": "전력 코로나/표피효과 -> 회로 분포정수 -> 회로 임피던스",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 코로나/표피효과 → 회로이론: 회로 분포정수 경로"
+      ],
+      "v_full_pair": "output_988.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 59,
+      "trap_pattern_len": 23,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_089.md",
+      "pid": "2007_2회_27",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공지선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_990.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_090.md",
+      "pid": "2007_2회_81",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_993.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_091.md",
+      "pid": "2007_2회_82",
+      "audit_group": "non_expansion_metadata",
+      "item": "가공전선 이격거리",
+      "slot_grp": "전력_설비고장",
+      "matched_keyword": "가공전선",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_994.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 25,
+      "trap_pattern_len": 19,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_092.md",
+      "pid": "2008_1회_23",
+      "audit_group": "expansion",
+      "item": "차단기",
+      "slot_grp": "전력_보호고장S",
+      "matched_keyword": "차단기",
+      "enriched_dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_998.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 45,
+      "trap_pattern_len": 20,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_093.md",
+      "pid": "2008_1회_25",
+      "audit_group": "non_expansion_metadata",
+      "item": "부하율·수용률·부등률",
+      "slot_grp": "전력_함정S",
+      "matched_keyword": "최대전력",
+      "enriched_dl": "",
+      "expansion_source": "empty",
+      "expands_count": 0,
+      "target_subjects": [],
+      "via_concepts": [],
+      "v_full_pair": "output_999.json",
+      "uncertainty_flags": [
+        "candidate_pool_small"
+      ],
+      "phenomenon_len": 29,
+      "trap_pattern_len": 26,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    },
+    {
+      "input": "input_094.md",
+      "pid": "2008_1회_29",
+      "audit_group": "expansion",
+      "item": "전압강하·전력손실",
+      "slot_grp": "전력_송배전D",
+      "matched_keyword": "전압강하",
+      "enriched_dl": "전력 전압강하/손실 -> 회로 임피던스 -> 회로 옴의 법칙",
+      "expansion_source": "dl_keyword",
+      "expands_count": 1,
+      "target_subjects": [
+        "회로이론"
+      ],
+      "via_concepts": [
+        "전력 전압강하/손실 → 회로이론: 회로 임피던스 경로"
+      ],
+      "v_full_pair": "output_1000.json",
+      "uncertainty_flags": [],
+      "phenomenon_len": 57,
+      "trap_pattern_len": 22,
+      "distractor_trap_specificity": 1.0,
+      "self_corrections": false
+    }
+  ],
+  "tab": {
+    "expansion|dl_keyword": 44,
+    "expansion|empty": 13,
+    "non_expansion_metadata|empty": 37,
+    "expansion|MISSING_OUTPUT": 0,
+    "non_expansion_metadata|dl_keyword": 0,
+    "non_expansion_metadata|MISSING_OUTPUT": 0
+  },
+  "unexpected_expansion_empty": [
+    "1998_4회_22",
+    "2000_2회_23",
+    "2001_3회_81",
+    "2002_1회_22",
+    "2002_3회_26",
+    "2003_1회_23",
+    "2003_1회_27",
+    "2004_1회_90",
+    "2004_3회_27",
+    "2004_3회_29",
+    "2004_3회_82",
+    "2005_1회_29",
+    "2008_1회_23"
+  ],
+  "candidate_pool_small": [
+    {
+      "input": "input_005.md",
+      "pid": "1998_4회_25",
+      "slot_grp": "전력_함정S",
+      "item": "부하율·수용률·부등률",
+      "audit_group": "non_expansion_metadata",
+      "expansion_source": "empty"
+    },
+    {
+      "input": "input_007.md",
+      "pid": "1999_3회_23",
+      "slot_grp": "전력_보호고장S",
+      "item": "지락·중성점 접지",
+      "audit_group": "expansion",
+      "expansion_source": "dl_keyword"
+    },
+    {
+      "input": "input_011.md",
+      "pid": "1999_6회_24",
+      "slot_grp": "전력_함정S",
+      "item": "부하율·수용률·부등률",
+      "audit_group": "non_expansion_metadata",
+      "expansion_source": "empty"
+    },
+    {
+      "input": "input_015.md",
+      "pid": "2000_4회_23",
+      "slot_grp": "전력_송배전D",
+      "item": "코로나 / 전선 도체",
+      "audit_group": "expansion",
+      "expansion_source": "dl_keyword"
+    },
+    {
+      "input": "input_018.md",
+      "pid": "2000_6회_27",
+      "slot_grp": "전력_보호고장S",
+      "item": "단락전류·임피던스",
+      "audit_group": "expansion",
+      "expansion_source": "dl_keyword"
+    },
+    {
+      "input": "input_020.md",
+      "pid": "2000_6회_85",
+      "slot_grp": "전력_설비고장",
+      "item": "절연내력 / 유도장해",
+      "audit_group": "non_expansion_metadata",
+      "expansion_source": "empty"
+    },
+    {
+      "input": "input_023.md",
+      "pid": "2001_2회_21",
+      "slot_grp": "전력_보호고장S",
+      "item": "단락전류·임피던스",
+      "audit_group": "expansion",
+      "expansion_source": "dl_keyword"
+    },
+    {
+      "input": "input_024.md",
+      "pid": "2001_2회_24",
+      "slot_grp": "전력_설비고장",
+      "item": "절연내력 / 유도장해",
+      "audit_group": "non_expansion_metadata",
+      "expansion_source": "empty"
+    },
+    {
+      "input": "input_031.md",
+      "pid": "2002_1회_30",
+      "slot_grp": "전력_보호고장S",
+      "item": "단락전류·임피던스",
+      "audit_group": "expansion",
+      "expansion_source": "dl_keyword"
+    },
+    {
+      "input": "input_032.md",
+      "pid": "2002_1회_33",
+      "slot_grp": "전력_보호고장S",
+      "item": "지락·중성점 접지",
+      "audit_group": "expansion",
+      "expansion_source": "dl_keyword"
+    },
+    {
+      "input": "input_033.md",
+      "pid": "2002_3회_21",
+      "slot_grp": "전력_송배전D",
+      "item": "코로나 / 전선 도체",
+      "audit_group": "expansion",
+      "expansion_source": "dl_keyword"
+    },
+    {
+      "input": "input_038.md",
+      "pid": "2003_1회_21",
+      "slot_grp": "전력_보호고장S",
+      "item": "단락전류·임피던스",
+      "audit_group": "expansion",
+      "expansion_source": "dl_keyword"
+    },
+    {
+      "input": "input_039.md",
+      "pid": "2003_1회_22",
+      "slot_grp": "전력_설비고장",
+      "item": "절연내력 / 유도장해",
+      "audit_group": "non_expansion_metadata",
+      "expansion_source": "empty"
+    },
+    {
+      "input": "input_045.md",
+      "pid": "2004_1회_30",
+      "slot_grp": "전력_설비고장",
+      "item": "가공전선로 경간·이도",
+      "audit_group": "non_expansion_metadata",
+      "expansion_source": "empty"
+    },
+    {
+      "input": "input_051.md",
+      "pid": "2004_2회_25",
+      "slot_grp": "전력_설비고장",
+      "item": "가공전선로 경간·이도",
+      "audit_group": "non_expansion_metadata",
+      "expansion_source": "empty"
+    },
+    {
+      "input": "input_055.md",
+      "pid": "2004_3회_25",
+      "slot_grp": "전력_설비고장",
+      "item": "가공전선로 경간·이도",
+      "audit_group": "non_expansion_metadata",
+      "expansion_source": "empty"
+    },
+    {
+      "input": "input_065.md",
+      "pid": "2005_2회_28",
+      "slot_grp": "전력_보호고장S",
+      "item": "지락·중성점 접지",
+      "audit_group": "expansion",
+      "expansion_source": "dl_keyword"
+    },
+    {
+      "input": "input_075.md",
+      "pid": "2006_2회_26",
+      "slot_grp": "전력_함정S",
+      "item": "역률 개선",
+      "audit_group": "non_expansion_metadata",
+      "expansion_source": "empty"
+    },
+    {
+      "input": "input_078.md",
+      "pid": "2006_3회_21",
+      "slot_grp": "전력_보호고장S",
+      "item": "지락·중성점 접지",
+      "audit_group": "expansion",
+      "expansion_source": "dl_keyword"
+    },
+    {
+      "input": "input_079.md",
+      "pid": "2006_3회_25",
+      "slot_grp": "전력_설비고장",
+      "item": "가공전선로 경간·이도",
+      "audit_group": "non_expansion_metadata",
+      "expansion_source": "empty"
+    },
+    {
+      "input": "input_088.md",
+      "pid": "2007_2회_24",
+      "slot_grp": "전력_송배전D",
+      "item": "코로나 / 전선 도체",
+      "audit_group": "expansion",
+      "expansion_source": "dl_keyword"
+    },
+    {
+      "input": "input_093.md",
+      "pid": "2008_1회_25",
+      "slot_grp": "전력_함정S",
+      "item": "부하율·수용률·부등률",
+      "audit_group": "non_expansion_metadata",
+      "expansion_source": "empty"
+    }
+  ]
+}

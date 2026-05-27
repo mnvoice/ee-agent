@@ -1,0 +1,1346 @@
+{
+  "rows": [
+    {
+      "input": "input_001.md",
+      "pid": "1998_2회_23",
+      "item": "송전 용량/거리",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_002.md",
+      "pid": "1998_4회_21",
+      "item": "송전 용량/거리",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_003.md",
+      "pid": "1998_4회_22",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_004.md",
+      "pid": "1998_4회_23",
+      "item": "분포정수 송전",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_005.md",
+      "pid": "1998_4회_25",
+      "item": "부하율·수용률·부등률",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_006.md",
+      "pid": "1999_3회_22",
+      "item": "전압강하·전력손실",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_007.md",
+      "pid": "1999_3회_23",
+      "item": "지락·중성점 접지",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 2,
+      "expands_count_base": 2
+    },
+    {
+      "input": "input_008.md",
+      "pid": "1999_4회_81",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_009.md",
+      "pid": "1999_4회_84",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_010.md",
+      "pid": "1999_6회_23",
+      "item": "송전 용량/거리",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_011.md",
+      "pid": "1999_6회_24",
+      "item": "부하율·수용률·부등률",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_012.md",
+      "pid": "2000_2회_23",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_013.md",
+      "pid": "2000_2회_85",
+      "item": "보호계전기·피뢰기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 2,
+      "expands_count_base": 2
+    },
+    {
+      "input": "input_014.md",
+      "pid": "2000_2회_86",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_015.md",
+      "pid": "2000_4회_23",
+      "item": "코로나 / 전선 도체",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_016.md",
+      "pid": "2000_6회_21",
+      "item": "송전 용량/거리",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_017.md",
+      "pid": "2000_6회_23",
+      "item": "전압강하·전력손실",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_018.md",
+      "pid": "2000_6회_27",
+      "item": "단락전류·임피던스",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_019.md",
+      "pid": "2000_6회_28",
+      "item": "보호계전기·피뢰기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 2,
+      "expands_count_base": 2
+    },
+    {
+      "input": "input_020.md",
+      "pid": "2000_6회_85",
+      "item": "절연내력 / 유도장해",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_021.md",
+      "pid": "2000_6회_92",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_022.md",
+      "pid": "2001_1회_22",
+      "item": "송전 용량/거리",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_023.md",
+      "pid": "2001_2회_21",
+      "item": "단락전류·임피던스",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_024.md",
+      "pid": "2001_2회_24",
+      "item": "절연내력 / 유도장해",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_025.md",
+      "pid": "2001_2회_29",
+      "item": "송전 용량/거리",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_026.md",
+      "pid": "2001_2회_82",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_027.md",
+      "pid": "2001_3회_25",
+      "item": "전압강하·전력손실",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_028.md",
+      "pid": "2001_3회_26",
+      "item": "보호계전기·피뢰기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 2,
+      "expands_count_base": 2
+    },
+    {
+      "input": "input_029.md",
+      "pid": "2001_3회_81",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_030.md",
+      "pid": "2002_1회_22",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_031.md",
+      "pid": "2002_1회_30",
+      "item": "단락전류·임피던스",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_032.md",
+      "pid": "2002_1회_33",
+      "item": "지락·중성점 접지",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 2,
+      "expands_count_base": 2
+    },
+    {
+      "input": "input_033.md",
+      "pid": "2002_3회_21",
+      "item": "코로나 / 전선 도체",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_034.md",
+      "pid": "2002_3회_23",
+      "item": "보호계전기·피뢰기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 2,
+      "expands_count_base": 2
+    },
+    {
+      "input": "input_035.md",
+      "pid": "2002_3회_26",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_036.md",
+      "pid": "2002_3회_37",
+      "item": "송전 용량/거리",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_037.md",
+      "pid": "2002_3회_85",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_038.md",
+      "pid": "2003_1회_21",
+      "item": "단락전류·임피던스",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_039.md",
+      "pid": "2003_1회_22",
+      "item": "절연내력 / 유도장해",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_040.md",
+      "pid": "2003_1회_23",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_041.md",
+      "pid": "2003_1회_27",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_042.md",
+      "pid": "2003_1회_44",
+      "item": "보호계전기·피뢰기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 2,
+      "expands_count_base": 2
+    },
+    {
+      "input": "input_043.md",
+      "pid": "2003_1회_62",
+      "item": "분포정수 송전",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_044.md",
+      "pid": "2003_3회_81",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_045.md",
+      "pid": "2004_1회_30",
+      "item": "가공전선로 경간·이도",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_046.md",
+      "pid": "2004_1회_84",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_047.md",
+      "pid": "2004_1회_90",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_048.md",
+      "pid": "2004_1회_91",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_049.md",
+      "pid": "2004_2회_23",
+      "item": "전압강하·전력손실",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_050.md",
+      "pid": "2004_2회_24",
+      "item": "송전 용량/거리",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_051.md",
+      "pid": "2004_2회_25",
+      "item": "가공전선로 경간·이도",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_052.md",
+      "pid": "2004_2회_31",
+      "item": "전압강하·전력손실",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_053.md",
+      "pid": "2004_2회_86",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_054.md",
+      "pid": "2004_3회_23",
+      "item": "분포정수 송전",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_055.md",
+      "pid": "2004_3회_25",
+      "item": "가공전선로 경간·이도",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_056.md",
+      "pid": "2004_3회_27",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_057.md",
+      "pid": "2004_3회_29",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_058.md",
+      "pid": "2004_3회_82",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_059.md",
+      "pid": "2004_3회_83",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_060.md",
+      "pid": "2004_3회_92",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_061.md",
+      "pid": "2005_1회_21",
+      "item": "분포정수 송전",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_062.md",
+      "pid": "2005_1회_28",
+      "item": "전압강하·전력손실",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_063.md",
+      "pid": "2005_1회_29",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_064.md",
+      "pid": "2005_2회_23",
+      "item": "전압강하·전력손실",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_065.md",
+      "pid": "2005_2회_28",
+      "item": "지락·중성점 접지",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 2,
+      "expands_count_base": 2
+    },
+    {
+      "input": "input_066.md",
+      "pid": "2005_2회_30",
+      "item": "분포정수 송전",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_067.md",
+      "pid": "2005_2회_31",
+      "item": "송전 용량/거리",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_068.md",
+      "pid": "2005_3회_26",
+      "item": "송전 용량/거리",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_069.md",
+      "pid": "2005_3회_81",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_070.md",
+      "pid": "2006_1회_2",
+      "item": "전압강하·전력손실",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_071.md",
+      "pid": "2006_1회_28",
+      "item": "전압강하·전력손실",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_072.md",
+      "pid": "2006_1회_29",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_073.md",
+      "pid": "2006_1회_85",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_074.md",
+      "pid": "2006_1회_86",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_075.md",
+      "pid": "2006_2회_26",
+      "item": "역률 개선",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_076.md",
+      "pid": "2006_2회_83",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_077.md",
+      "pid": "2006_2회_86",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_078.md",
+      "pid": "2006_3회_21",
+      "item": "지락·중성점 접지",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 2,
+      "expands_count_base": 2
+    },
+    {
+      "input": "input_079.md",
+      "pid": "2006_3회_25",
+      "item": "가공전선로 경간·이도",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_080.md",
+      "pid": "2006_3회_81",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_081.md",
+      "pid": "2006_3회_83",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_082.md",
+      "pid": "2007_1회_24",
+      "item": "송전 용량/거리",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_083.md",
+      "pid": "2007_1회_62",
+      "item": "분포정수 송전",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_084.md",
+      "pid": "2007_1회_81",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_085.md",
+      "pid": "2007_1회_82",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_086.md",
+      "pid": "2007_1회_84",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_087.md",
+      "pid": "2007_1회_87",
+      "item": "보호계전기·피뢰기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 2,
+      "expands_count_base": 2
+    },
+    {
+      "input": "input_088.md",
+      "pid": "2007_2회_24",
+      "item": "코로나 / 전선 도체",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    },
+    {
+      "input": "input_089.md",
+      "pid": "2007_2회_27",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_090.md",
+      "pid": "2007_2회_81",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_091.md",
+      "pid": "2007_2회_82",
+      "item": "가공전선 이격거리",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_092.md",
+      "pid": "2008_1회_23",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_093.md",
+      "pid": "2008_1회_25",
+      "item": "부하율·수용률·부등률",
+      "audit_group": "non_expansion_metadata",
+      "src_b": "empty",
+      "src_base": "empty",
+      "expands_count_b": 0,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_094.md",
+      "pid": "2008_1회_29",
+      "item": "전압강하·전력손실",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "dl_keyword",
+      "expands_count_b": 1,
+      "expands_count_base": 1
+    }
+  ],
+  "tab_baseline": {
+    "expansion|dl_keyword": 44,
+    "expansion|empty": 13,
+    "non_expansion_metadata|empty": 37,
+    "non_expansion_metadata|dl_keyword": 0
+  },
+  "tab_b": {
+    "expansion|dl_keyword": 57,
+    "non_expansion_metadata|empty": 37,
+    "expansion|empty": 0,
+    "non_expansion_metadata|dl_keyword": 0
+  },
+  "changed_rows": [
+    {
+      "input": "input_003.md",
+      "pid": "1998_4회_22",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_012.md",
+      "pid": "2000_2회_23",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_029.md",
+      "pid": "2001_3회_81",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_030.md",
+      "pid": "2002_1회_22",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_035.md",
+      "pid": "2002_3회_26",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_040.md",
+      "pid": "2003_1회_23",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_041.md",
+      "pid": "2003_1회_27",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_047.md",
+      "pid": "2004_1회_90",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_056.md",
+      "pid": "2004_3회_27",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_057.md",
+      "pid": "2004_3회_29",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_058.md",
+      "pid": "2004_3회_82",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_063.md",
+      "pid": "2005_1회_29",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_092.md",
+      "pid": "2008_1회_23",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    }
+  ],
+  "breaker_recovered": [
+    {
+      "input": "input_003.md",
+      "pid": "1998_4회_22",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_012.md",
+      "pid": "2000_2회_23",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_029.md",
+      "pid": "2001_3회_81",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_030.md",
+      "pid": "2002_1회_22",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_035.md",
+      "pid": "2002_3회_26",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_040.md",
+      "pid": "2003_1회_23",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_041.md",
+      "pid": "2003_1회_27",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_047.md",
+      "pid": "2004_1회_90",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_056.md",
+      "pid": "2004_3회_27",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_057.md",
+      "pid": "2004_3회_29",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_058.md",
+      "pid": "2004_3회_82",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_063.md",
+      "pid": "2005_1회_29",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    },
+    {
+      "input": "input_092.md",
+      "pid": "2008_1회_23",
+      "item": "차단기",
+      "audit_group": "expansion",
+      "src_b": "dl_keyword",
+      "src_base": "empty",
+      "expands_count_b": 1,
+      "expands_count_base": 0
+    }
+  ],
+  "non_breaker_regressions": [],
+  "non_breaker_field_diff_counts": {},
+  "breaker_field_diff_counts": {
+    "phenomenon": 13,
+    "expansion_target_subjects": 13,
+    "expansion_via_concepts": 13
+  },
+  "breaker_semantic_changes": [
+    {
+      "input": "input_003.md",
+      "pid": "1998_4회_22",
+      "fields_differ": [
+        "phenomenon",
+        "expansion_target_subjects",
+        "expansion_via_concepts"
+      ]
+    },
+    {
+      "input": "input_012.md",
+      "pid": "2000_2회_23",
+      "fields_differ": [
+        "phenomenon",
+        "expansion_target_subjects",
+        "expansion_via_concepts"
+      ]
+    },
+    {
+      "input": "input_029.md",
+      "pid": "2001_3회_81",
+      "fields_differ": [
+        "phenomenon",
+        "expansion_target_subjects",
+        "expansion_via_concepts"
+      ]
+    },
+    {
+      "input": "input_030.md",
+      "pid": "2002_1회_22",
+      "fields_differ": [
+        "phenomenon",
+        "expansion_target_subjects",
+        "expansion_via_concepts"
+      ]
+    },
+    {
+      "input": "input_035.md",
+      "pid": "2002_3회_26",
+      "fields_differ": [
+        "phenomenon",
+        "expansion_target_subjects",
+        "expansion_via_concepts"
+      ]
+    },
+    {
+      "input": "input_040.md",
+      "pid": "2003_1회_23",
+      "fields_differ": [
+        "phenomenon",
+        "expansion_target_subjects",
+        "expansion_via_concepts"
+      ]
+    },
+    {
+      "input": "input_041.md",
+      "pid": "2003_1회_27",
+      "fields_differ": [
+        "phenomenon",
+        "expansion_target_subjects",
+        "expansion_via_concepts"
+      ]
+    },
+    {
+      "input": "input_047.md",
+      "pid": "2004_1회_90",
+      "fields_differ": [
+        "phenomenon",
+        "expansion_target_subjects",
+        "expansion_via_concepts"
+      ]
+    },
+    {
+      "input": "input_056.md",
+      "pid": "2004_3회_27",
+      "fields_differ": [
+        "phenomenon",
+        "expansion_target_subjects",
+        "expansion_via_concepts"
+      ]
+    },
+    {
+      "input": "input_057.md",
+      "pid": "2004_3회_29",
+      "fields_differ": [
+        "phenomenon",
+        "expansion_target_subjects",
+        "expansion_via_concepts"
+      ]
+    },
+    {
+      "input": "input_058.md",
+      "pid": "2004_3회_82",
+      "fields_differ": [
+        "phenomenon",
+        "expansion_target_subjects",
+        "expansion_via_concepts"
+      ]
+    },
+    {
+      "input": "input_063.md",
+      "pid": "2005_1회_29",
+      "fields_differ": [
+        "phenomenon",
+        "expansion_target_subjects",
+        "expansion_via_concepts"
+      ]
+    },
+    {
+      "input": "input_092.md",
+      "pid": "2008_1회_23",
+      "fields_differ": [
+        "phenomenon",
+        "expansion_target_subjects",
+        "expansion_via_concepts"
+      ]
+    }
+  ]
+}

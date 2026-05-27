@@ -1,0 +1,69 @@
+{
+  "problem_id": "2001_1회_22",
+  "problem_summary": "전력공학 2001_1회_q22: 송전 용량/거리 — D/Dynamic 동적 문제.",
+  "core_extraction": {
+    "phenomenon": "송전 용량/거리의 본질: 전력 송전용량 -> 회로 4단자망 -> 회로 분포정수 흐름으로 작동.",
+    "problem": "송전 거리와 전압이 송전 용량에 어떻게 작용하는가를 정확히 파악해 시험장에서 정답을 골라야 한다.",
+    "device_or_concept": "송전 용량/거리은 입력 solution의 풀이 양식으로 작동: **문제 해석:**\n송전 전압을 올렸을 때 발생하는 문제점과 발생하지 않는 항목을 찾는 문제입니다.\n\n**제시된 정보:**\n- 절연 파괴 전위 경도: 직류 30[kV/cm], 교류 21[kV/cm]\n- 원래 문제: \"237/3.7[mm] 경동연선(반지름 0.555[cm])의 완전 연가 66[kV] 송전선 인덕턴스\"\n\n**송전전압 상승의 주요 문제점:**\n\n.",
+    "memorize": "**문제 해석:**\n송전 전압을 올렸을 때 발생하는 문제점과 발생하지 않는 항목을 찾는 문제입니다.\n\n**제시된 정보:**\n- 절연 파괴 전위 경도: 직류 30[kV/cm], 교류 21[kV/cm]\n- 원래 문제: \"237/3.7[m",
+    "trap_pattern": "송전 전압급 단위 혼동 함정"
+  },
+  "answer_analysis": {
+    "correct_choice": 3,
+    "why_correct": "보기 (3)는 송전 용량/거리의 본질 — 송전 거리와 전압이 송전 용량에 어떻게 작용하는가에 정합. solution 단서: **문제 해석:**\n송전 전압을 올렸을 때 발생하는 문제점과 발생하지 않는 항목을 찾는 문제입니다.\n\n**제시된 정보:**\n- 절연 파괴 전위 경도: 직류 30[kV/cm], 교류 21[kV/cm]\n- 원래 문제: \"237/3.7[mm] 경동연선(반지름 0.555[cm])의 완전 연가 66[kV] 송전선 인덕턴스\"\n\n**송전전압 상승의 주요 문제점:**\n\n.",
+    "correct_type": "dynamic_phenomenon"
+  },
+  "distractor_analysis": [
+    {
+      "choice": 1,
+      "trap_type": "송전 전압급 단위 혼동 함정",
+      "confused_with": "정답 보기 (3): \\(2.849[\\mathrm{mH} / \\mathrm{km}]\\)",
+      "why_wrong": "보기 (1) '\\(1.237[\\mathrm{mH} / \\mathrm{km}]\\)': 정답 보기와 핵심 표현 차이로 인한 함정. 정답 보기 (3) '\\(2.849[\\mathrm{mH} / \\mathrm{km}]\\)'와 비교하면 송전 용량/거리의 핵심(송전 거리와 전압이 송전 용량에 어떻게 작용하는가)에 어긋난다."
+    },
+    {
+      "choice": 2,
+      "trap_type": "송전 전압급 단위 혼동 함정",
+      "confused_with": "정답 보기 (3): \\(2.849[\\mathrm{mH} / \\mathrm{km}]\\)",
+      "why_wrong": "보기 (2) '\\(1.287[\\mathrm{mH} / \\mathrm{km}]\\)': 정답 보기와 핵심 표현 차이로 인한 함정. 정답 보기 (3) '\\(2.849[\\mathrm{mH} / \\mathrm{km}]\\)'와 비교하면 송전 용량/거리의 핵심(송전 거리와 전압이 송전 용량에 어떻게 작용하는가)에 어긋난다."
+    },
+    {
+      "choice": 4,
+      "trap_type": "송전 전압급 단위 혼동 함정",
+      "confused_with": "정답 보기 (3): \\(2.849[\\mathrm{mH} / \\mathrm{km}]\\)",
+      "why_wrong": "보기 (4) '\\(2.899[\\mathrm{mH} / \\mathrm{km}]\\)': 정답 보기와 핵심 표현 차이로 인한 함정. 정답 보기 (3) '\\(2.849[\\mathrm{mH} / \\mathrm{km}]\\)'와 비교하면 송전 용량/거리의 핵심(송전 거리와 전압이 송전 용량에 어떻게 작용하는가)에 어긋난다."
+    }
+  ],
+  "related_problems": {
+    "same_core": [
+      "1998_2회_23",
+      "1998_4회_21",
+      "1999_6회_23",
+      "2000_6회_21",
+      "2001_2회_29"
+    ],
+    "same_trap_pattern": [
+      "1998_2회_23",
+      "1998_4회_21",
+      "1999_6회_23"
+    ],
+    "selection_rationale": "same_core: 후보 10건에서 상위 5건 사용 (스키마 maxItems=5). same_trap_pattern: 후보 5건에서 상위 3건 사용 (스키마 maxItems=3)."
+  },
+  "cross_subject_expansion": {
+    "primary_subject": "전력공학",
+    "expands_to": [
+      {
+        "target_subject": "회로이론",
+        "via_concept": "전력 송전용량 → 회로이론: 회로 분포정수 경로",
+        "connection_type": "dynamic_to_static_rule"
+      }
+    ]
+  },
+  "learning_meta": {
+    "v32_core_id": null,
+    "phenomenon_origin": "D/Dynamic",
+    "trap_map_61_member": true,
+    "study_priority": "medium",
+    "study_phase": "trap_check"
+  },
+  "uncertainty_flags": []
+}

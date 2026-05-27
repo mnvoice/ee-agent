@@ -1,0 +1,69 @@
+{
+  "problem_id": "2001_2회_29",
+  "problem_summary": "전력공학 2001_2회_q29: 송전 용량/거리 — D/Dynamic 동적 문제.",
+  "core_extraction": {
+    "phenomenon": "송전 용량/거리의 본질: 전력 송전용량 -> 회로 4단자망 -> 회로 분포정수 흐름으로 작동.",
+    "problem": "송전 거리와 전압이 송전 용량에 어떻게 작용하는가를 정확히 파악해 시험장에서 정답을 골라야 한다.",
+    "device_or_concept": "송전 용량/거리은 입력 solution의 풀이 양식으로 작동: 교류 송전에서 거리 증가에 따른 송전 가능 전력 감소 이유를 묻는 문제입니다.\n\n**핵심 공식:**\n\n송전 가능 전력: \\[ P = \\frac{E_S E_R}{X} \\sin \\delta \\]\n\n여기서:\n- \\(E_S\\): 송전 전압\n- \\(E_R\\): 수전 전압\n- \\(X\\): 선로의 유도 리액턴스\n- \\(\\delta\\): 전압 위상각\n\n**분석:**\n\n송.",
+    "memorize": "교류 송전에서 거리 증가에 따른 송전 가능 전력 감소 이유를 묻는 문제입니다.\n\n**핵심 공식:**\n\n송전 가능 전력: \\[ P = \\frac{E_S E_R}{X} \\sin \\delta \\]\n\n여기서:\n- \\(E_S\\): 송전 전압\n",
+    "trap_pattern": "송전 전압급 단위 혼동 함정"
+  },
+  "answer_analysis": {
+    "correct_choice": 2,
+    "why_correct": "보기 (2)는 송전 용량/거리의 본질 — 송전 거리와 전압이 송전 용량에 어떻게 작용하는가에 정합. solution 단서: 교류 송전에서 거리 증가에 따른 송전 가능 전력 감소 이유를 묻는 문제입니다.\n\n**핵심 공식:**\n\n송전 가능 전력: \\[ P = \\frac{E_S E_R}{X} \\sin \\delta \\]\n\n여기서:\n- \\(E_S\\): 송전 전압\n- \\(E_R\\): 수전 전압\n- \\(X\\): 선로의 유도 리액턴스\n- \\(\\delta\\): 전압 위상각\n\n**분석:**\n\n송.",
+    "correct_type": "dynamic_phenomenon"
+  },
+  "distractor_analysis": [
+    {
+      "choice": 1,
+      "trap_type": "송전 전압급 단위 혼동 함정",
+      "confused_with": "정답 보기 (2): 선로의 유도성 리액턴스가 커지기 때문이다",
+      "why_wrong": "보기 (1) '선로의 어드미턴스가 커지기 때문이다': 유사 명칭/개념 혼동 함정. 정답 보기 (2) '선로의 유도성 리액턴스가 커지기 때문이다'와 비교하면 송전 용량/거리의 핵심(송전 거리와 전압이 송전 용량에 어떻게 작용하는가)에 어긋난다."
+    },
+    {
+      "choice": 3,
+      "trap_type": "송전 전압급 단위 혼동 함정",
+      "confused_with": "정답 보기 (2): 선로의 유도성 리액턴스가 커지기 때문이다",
+      "why_wrong": "보기 (3) '코로나 손실이 증가하기 때문이다': 유사 명칭/개념 혼동 함정. 정답 보기 (2) '선로의 유도성 리액턴스가 커지기 때문이다'와 비교하면 송전 용량/거리의 핵심(송전 거리와 전압이 송전 용량에 어떻게 작용하는가)에 어긋난다."
+    },
+    {
+      "choice": 4,
+      "trap_type": "송전 전압급 단위 혼동 함정",
+      "confused_with": "정답 보기 (2): 선로의 유도성 리액턴스가 커지기 때문이다",
+      "why_wrong": "보기 (4) '자항 손실이 커지기 때문이다': 유사 명칭/개념 혼동 함정. 정답 보기 (2) '선로의 유도성 리액턴스가 커지기 때문이다'와 비교하면 송전 용량/거리의 핵심(송전 거리와 전압이 송전 용량에 어떻게 작용하는가)에 어긋난다."
+    }
+  ],
+  "related_problems": {
+    "same_core": [
+      "1998_2회_23",
+      "1998_4회_21",
+      "1999_6회_23",
+      "2000_6회_21",
+      "2001_1회_22"
+    ],
+    "same_trap_pattern": [
+      "1998_2회_23",
+      "1998_4회_21",
+      "1999_6회_23"
+    ],
+    "selection_rationale": "same_core: 후보 10건에서 상위 5건 사용 (스키마 maxItems=5). same_trap_pattern: 후보 5건에서 상위 3건 사용 (스키마 maxItems=3)."
+  },
+  "cross_subject_expansion": {
+    "primary_subject": "전력공학",
+    "expands_to": [
+      {
+        "target_subject": "회로이론",
+        "via_concept": "전력 송전용량 → 회로이론: 회로 분포정수 경로",
+        "connection_type": "dynamic_to_static_rule"
+      }
+    ]
+  },
+  "learning_meta": {
+    "v32_core_id": null,
+    "phenomenon_origin": "D/Dynamic",
+    "trap_map_61_member": true,
+    "study_priority": "medium",
+    "study_phase": "trap_check"
+  },
+  "uncertainty_flags": []
+}

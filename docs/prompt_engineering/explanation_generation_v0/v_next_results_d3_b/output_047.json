@@ -1,0 +1,69 @@
+{
+  "problem_id": "2004_1회_90",
+  "problem_summary": "전력공학 2004_1회_q90: 차단기 — S/Fault 정적 문제.",
+  "core_extraction": {
+    "phenomenon": "차단기의 본질: 전력 차단기 -> 회로 단락전류 / 회로 임피던스 환산 흐름으로 작동.",
+    "problem": "소호매질 종류가 차단 특성에 어떻게 작용하는가를 정확히 파악해 시험장에서 정답을 골라야 한다.",
+    "device_or_concept": "차단기은 입력 solution의 풀이 양식으로 작동: 문제 데이터 부재: 2008년도 3회 문제 82의 구체적인 문제 내용, 보기, 풀이가 제공되지 않아 분석이 불가능합니다. 문제 내용과 보기를 제공해주시기 바랍니다..",
+    "memorize": "문제 데이터 부재: 2008년도 3회 문제 82의 구체적인 문제 내용, 보기, 풀이가 제공되지 않아 분석이 불가능합니다. 문제 내용과 보기를 제공해주시기 바랍니다.",
+    "trap_pattern": "차단 용량 vs 차단 시간 혼동 함정"
+  },
+  "answer_analysis": {
+    "correct_choice": 2,
+    "why_correct": "보기 (2)는 차단기의 본질 — 소호매질 종류가 차단 특성에 어떻게 작용하는가에 정합. solution 단서: 문제 데이터 부재: 2008년도 3회 문제 82의 구체적인 문제 내용, 보기, 풀이가 제공되지 않아 분석이 불가능합니다. 문제 내용과 보기를 제공해주시기 바랍니다..",
+    "correct_type": "fault_compression"
+  },
+  "distractor_analysis": [
+    {
+      "choice": 1,
+      "trap_type": "차단 용량 vs 차단 시간 혼동 함정",
+      "confused_with": "정답 보기 (2): 읍선수지게 가공전선과 상호 간은 직접 접촉할 것",
+      "why_wrong": "보기 (1) '관의 지지점 관의 거리는 1.5m 이하로 할 것': 유사 명칭/개념 혼동 함정. 정답 보기 (2) '읍선수지게 가공전선과 상호 간은 직접 접촉할 것'와 비교하면 차단기의 핵심(소호매질 종류가 차단 특성에 어떻게 작용하는가)에 어긋난다."
+    },
+    {
+      "choice": 3,
+      "trap_type": "차단 용량 vs 차단 시간 혼동 함정",
+      "confused_with": "정답 보기 (2): 읍선수지게 가공전선과 상호 간은 직접 접촉할 것",
+      "why_wrong": "보기 (3) '접지제를 시용하여 관 상호 간을 심전하는 것이는 과의': 유사 명칭/개념 혼동 함정. 정답 보기 (2) '읍선수지게 가공전선과 상호 간은 직접 접촉할 것'와 비교하면 차단기의 핵심(소호매질 종류가 차단 특성에 어떻게 작용하는가)에 어긋난다."
+    },
+    {
+      "choice": 4,
+      "trap_type": "차단 용량 vs 차단 시간 혼동 함정",
+      "confused_with": "정답 보기 (2): 읍선수지게 가공전선과 상호 간은 직접 접촉할 것",
+      "why_wrong": "보기 (4) '접지제를 시용하지 않고 관 상호 간을 심전하는 것이는 과의 마땅지둘의 1.2배 이상으로 할 것': 유사 명칭/개념 혼동 함정. 정답 보기 (2) '읍선수지게 가공전선과 상호 간은 직접 접촉할 것'와 비교하면 차단기의 핵심(소호매질 종류가 차단 특성에 어떻게 작용하는가)에 어긋난다."
+    }
+  ],
+  "related_problems": {
+    "same_core": [
+      "1998_4회_22",
+      "2000_2회_23",
+      "2001_3회_81",
+      "2002_1회_22",
+      "2002_3회_26"
+    ],
+    "same_trap_pattern": [
+      "1998_4회_22",
+      "2000_2회_23",
+      "2001_3회_81"
+    ],
+    "selection_rationale": "same_core: 후보 10건에서 상위 5건 사용 (스키마 maxItems=5). same_trap_pattern: 후보 5건에서 상위 3건 사용 (스키마 maxItems=3)."
+  },
+  "cross_subject_expansion": {
+    "primary_subject": "전력공학",
+    "expands_to": [
+      {
+        "target_subject": "회로이론",
+        "via_concept": "전력 차단기 → 회로이론: 회로 단락전류 / 회로 임피던스 환산 경로",
+        "connection_type": "fault_rule_transfer"
+      }
+    ]
+  },
+  "learning_meta": {
+    "v32_core_id": null,
+    "phenomenon_origin": "S/Fault",
+    "trap_map_61_member": true,
+    "study_priority": "medium",
+    "study_phase": "trap_check"
+  },
+  "uncertainty_flags": []
+}

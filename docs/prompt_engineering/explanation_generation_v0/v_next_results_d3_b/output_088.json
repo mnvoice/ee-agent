@@ -1,0 +1,67 @@
+{
+  "problem_id": "2007_2회_24",
+  "problem_summary": "전력공학 2007_2회_q24: 코로나 / 전선 도체 — D/Dynamic 동적 문제.",
+  "core_extraction": {
+    "phenomenon": "코로나 / 전선 도체의 본질: 전력 코로나/표피효과 -> 회로 분포정수 -> 회로 임피던스 흐름으로 작동.",
+    "problem": "전선 표면 전계와 도체 손실이 어떻게 작용하는가를 정확히 파악해 시험장에서 정답을 골라야 한다.",
+    "device_or_concept": "코로나 / 전선 도체은 입력 solution의 풀이 양식으로 작동: 복도체(Bundle conductor)의 인덕턴스를 구하는 문제로, 일반 공식에서 P에 해당하는 항을 찾는 것입니다.\n\n**일반 n-도체 인덕턴스 공식:**\n\\[L_n = \\frac{0.05}{n} + 0.4605 \\log_{10} \\frac{D}{\\sqrt[n]{rl^{n-1}}} \\text{ [mH/km]}\\]\n\n**복도체 적용 (n=2):**\n\n\\[L.",
+    "memorize": "복도체(Bundle conductor)의 인덕턴스를 구하는 문제로, 일반 공식에서 P에 해당하는 항을 찾는 것입니다.\n\n**일반 n-도체 인덕턴스 공식:**\n\\[L_n = \\frac{0.05}{n} + 0.4605 \\log_{10} ",
+    "trap_pattern": "코로나 임계전압 vs 정격 전압 혼동 함정"
+  },
+  "answer_analysis": {
+    "correct_choice": 1,
+    "why_correct": "보기 (1)는 코로나 / 전선 도체의 본질 — 전선 표면 전계와 도체 손실이 어떻게 작용하는가에 정합. solution 단서: 복도체(Bundle conductor)의 인덕턴스를 구하는 문제로, 일반 공식에서 P에 해당하는 항을 찾는 것입니다.\n\n**일반 n-도체 인덕턴스 공식:**\n\\[L_n = \\frac{0.05}{n} + 0.4605 \\log_{10} \\frac{D}{\\sqrt[n]{rl^{n-1}}} \\text{ [mH/km]}\\]\n\n**복도체 적용 (n=2):**\n\n\\[L.",
+    "correct_type": "dynamic_phenomenon"
+  },
+  "distractor_analysis": [
+    {
+      "choice": 2,
+      "trap_type": "코로나 임계전압 vs 정격 전압 혼동 함정",
+      "confused_with": "정답 보기 (1): \\(\\log_{10}\\frac{D}{\\sqrt{rl}}\\)",
+      "why_wrong": "보기 (2) '\\(\\log_e\\frac{D}{\\sqrt{rl}}\\)': 분수 분자·분모 위치 또는 부호 차이 함정. 정답 보기 (1) '\\(\\log_{10}\\frac{D}{\\sqrt{rl}}\\)'와 비교하면 코로나 / 전선 도체의 핵심(전선 표면 전계와 도체 손실이 어떻게 작용하는가)에 어긋난다."
+    },
+    {
+      "choice": 3,
+      "trap_type": "코로나 임계전압 vs 정격 전압 혼동 함정",
+      "confused_with": "정답 보기 (1): \\(\\log_{10}\\frac{D}{\\sqrt{rl}}\\)",
+      "why_wrong": "보기 (3) '\\(\\log_{10}\\frac{l}{\\sqrt{rD}}\\)': 분수 분자·분모 위치 또는 부호 차이 함정. 정답 보기 (1) '\\(\\log_{10}\\frac{D}{\\sqrt{rl}}\\)'와 비교하면 코로나 / 전선 도체의 핵심(전선 표면 전계와 도체 손실이 어떻게 작용하는가)에 어긋난다."
+    },
+    {
+      "choice": 4,
+      "trap_type": "코로나 임계전압 vs 정격 전압 혼동 함정",
+      "confused_with": "정답 보기 (1): \\(\\log_{10}\\frac{D}{\\sqrt{rl}}\\)",
+      "why_wrong": "보기 (4) '\\(\\log_e\\frac{l}{\\sqrt{rD}}\\)': 분수 분자·분모 위치 또는 부호 차이 함정. 정답 보기 (1) '\\(\\log_{10}\\frac{D}{\\sqrt{rl}}\\)'와 비교하면 코로나 / 전선 도체의 핵심(전선 표면 전계와 도체 손실이 어떻게 작용하는가)에 어긋난다."
+    }
+  ],
+  "related_problems": {
+    "same_core": [
+      "2000_4회_23",
+      "2002_3회_21"
+    ],
+    "same_trap_pattern": [
+      "2000_4회_23",
+      "2002_3회_21"
+    ],
+    "selection_rationale": "same_core: 후보 2건에서 상위 2건 사용 (스키마 maxItems=5). same_trap_pattern: 후보 2건에서 상위 2건 사용 (스키마 maxItems=3)."
+  },
+  "cross_subject_expansion": {
+    "primary_subject": "전력공학",
+    "expands_to": [
+      {
+        "target_subject": "회로이론",
+        "via_concept": "전력 코로나/표피효과 → 회로이론: 회로 분포정수 경로",
+        "connection_type": "dynamic_to_static_rule"
+      }
+    ]
+  },
+  "learning_meta": {
+    "v32_core_id": null,
+    "phenomenon_origin": "D/Dynamic",
+    "trap_map_61_member": true,
+    "study_priority": "medium",
+    "study_phase": "trap_check"
+  },
+  "uncertainty_flags": [
+    "candidate_pool_small"
+  ]
+}

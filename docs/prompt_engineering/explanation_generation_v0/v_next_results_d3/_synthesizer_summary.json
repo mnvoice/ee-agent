@@ -1,0 +1,41 @@
+{
+  "generated": 94,
+  "schema_pass": 94,
+  "schema_fail": 0,
+  "related_id_violations": 0,
+  "contamination": 0,
+  "per_input_errors": {},
+  "subject_dist": {
+    "전력공학": 94
+  },
+  "phenomenon_origin_dist": {
+    "D/Dynamic": 30,
+    "S/Fault": 27,
+    "S/Static": 37
+  },
+  "correct_type_dist": {
+    "dynamic_phenomenon": 30,
+    "fault_compression": 27,
+    "static_formula": 37
+  },
+  "study_priority_dist": {
+    "medium": 94
+  },
+  "self_corrections_inputs": [],
+  "distractor_total": 282,
+  "distractor_with_input_trap_type": 282,
+  "distractor_with_inferred_pattern": 0,
+  "uncertainty_signatures": {
+    "()": 72,
+    "('candidate_pool_small',)": 22
+  },
+  "expansion_source_dist": {
+    "dl_keyword": 44,
+    "empty": 50
+  },
+  "audit_only_flag_dist": {
+    "matched_core_id_null_meta_only": 94,
+    "cross_subject_hints_empty_meta_only": 94
+  },
+  "jsonl": "generated_explanations_v_next_results_d3.jsonl"
+}

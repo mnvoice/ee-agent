@@ -1,0 +1,69 @@
+{
+  "problem_id": "2000_6회_27",
+  "problem_summary": "전력공학 2000_6회_q27: 단락전류·임피던스 — S/Fault 정적 문제.",
+  "core_extraction": {
+    "phenomenon": "단락전류·임피던스의 본질: 전력 단락전류 -> 회로 옴의 법칙 -> 회로 임피던스 환산 흐름으로 작동.",
+    "problem": "%Z와 기준용량을 어떻게 환산해 단락전류를 구하는가를 정확히 파악해 시험장에서 정답을 골라야 한다.",
+    "device_or_concept": "단락전류·임피던스은 입력 solution의 풀이 양식으로 작동: **개념 설명:**\n\n송전선로에서 발생하는 전류 현상의 분류:\n\n**1) 단락 전류 (Short-circuit current):**\n- 정의: 선간 단락(3상 중 2상 이상이 접촉)으로 인한 전류\n- 특성: **유도 전류** (지상, 90도 이상 후행)\n- 선로의 유도성 임피던스가 지배적\n- 크기: 매우 큼\n\n**2) 지락 전류 (Ground fault c.",
+    "memorize": "**개념 설명:**\n\n송전선로에서 발생하는 전류 현상의 분류:\n\n**1) 단락 전류 (Short-circuit current):**\n- 정의: 선간 단락(3상 중 2상 이상이 접촉)으로 인한 전류\n- 특성: **유도 전류** (지상,",
+    "trap_pattern": "기준용량 환산 비율 함정 / %Z 기준 변경 혼동"
+  },
+  "answer_analysis": {
+    "correct_choice": 2,
+    "why_correct": "보기 (2)는 단락전류·임피던스의 본질 — %Z와 기준용량을 어떻게 환산해 단락전류를 구하는가에 정합. solution 단서: **개념 설명:**\n\n송전선로에서 발생하는 전류 현상의 분류:\n\n**1) 단락 전류 (Short-circuit current):**\n- 정의: 선간 단락(3상 중 2상 이상이 접촉)으로 인한 전류\n- 특성: **유도 전류** (지상, 90도 이상 후행)\n- 선로의 유도성 임피던스가 지배적\n- 크기: 매우 큼\n\n**2) 지락 전류 (Ground fault c.",
+    "correct_type": "fault_compression"
+  },
+  "distractor_analysis": [
+    {
+      "choice": 1,
+      "trap_type": "기준용량 환산 비율 함정 / %Z 기준 변경 혼동",
+      "confused_with": "정답 보기 (2): 뒤진 전류",
+      "why_wrong": "보기 (1) '앞선 전류': 유사 명칭/개념 혼동 함정. 정답 보기 (2) '뒤진 전류'와 비교하면 단락전류·임피던스의 핵심(%Z와 기준용량을 어떻게 환산해 단락전류를 구하는가)에 어긋난다."
+    },
+    {
+      "choice": 3,
+      "trap_type": "기준용량 환산 비율 함정 / %Z 기준 변경 혼동",
+      "confused_with": "정답 보기 (2): 뒤진 전류",
+      "why_wrong": "보기 (3) '중심 전류': 유사 명칭/개념 혼동 함정. 정답 보기 (2) '뒤진 전류'와 비교하면 단락전류·임피던스의 핵심(%Z와 기준용량을 어떻게 환산해 단락전류를 구하는가)에 어긋난다."
+    },
+    {
+      "choice": 4,
+      "trap_type": "기준용량 환산 비율 함정 / %Z 기준 변경 혼동",
+      "confused_with": "정답 보기 (2): 뒤진 전류",
+      "why_wrong": "보기 (4) '누설 전류': 유사 명칭/개념 혼동 함정. 정답 보기 (2) '뒤진 전류'와 비교하면 단락전류·임피던스의 핵심(%Z와 기준용량을 어떻게 환산해 단락전류를 구하는가)에 어긋난다."
+    }
+  ],
+  "related_problems": {
+    "same_core": [
+      "2001_2회_21",
+      "2002_1회_30",
+      "2003_1회_21"
+    ],
+    "same_trap_pattern": [
+      "2001_2회_21",
+      "2002_1회_30",
+      "2003_1회_21"
+    ],
+    "selection_rationale": "same_core: 후보 3건에서 상위 3건 사용 (스키마 maxItems=5). same_trap_pattern: 후보 3건에서 상위 3건 사용 (스키마 maxItems=3)."
+  },
+  "cross_subject_expansion": {
+    "primary_subject": "전력공학",
+    "expands_to": [
+      {
+        "target_subject": "회로이론",
+        "via_concept": "전력 단락전류 → 회로이론: 회로 임피던스 환산 경로",
+        "connection_type": "fault_rule_transfer"
+      }
+    ]
+  },
+  "learning_meta": {
+    "v32_core_id": null,
+    "phenomenon_origin": "S/Fault",
+    "trap_map_61_member": true,
+    "study_priority": "medium",
+    "study_phase": "trap_check"
+  },
+  "uncertainty_flags": [
+    "candidate_pool_small"
+  ]
+}

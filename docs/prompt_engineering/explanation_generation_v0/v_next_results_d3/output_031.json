@@ -1,0 +1,69 @@
+{
+  "problem_id": "2002_1회_30",
+  "problem_summary": "전력공학 2002_1회_q30: 단락전류·임피던스 — S/Fault 정적 문제.",
+  "core_extraction": {
+    "phenomenon": "단락전류·임피던스의 본질: 전력 단락전류 -> 회로 옴의 법칙 -> 회로 임피던스 환산 흐름으로 작동.",
+    "problem": "%Z와 기준용량을 어떻게 환산해 단락전류를 구하는가를 정확히 파악해 시험장에서 정답을 골라야 한다.",
+    "device_or_concept": "단락전류·임피던스은 입력 solution의 풀이 양식으로 작동: 기준 용량 변환에 따른 %임피던스 변환 문제입니다.\n\n**핵심 공식:**\n%임피던스의 정의:\n\\[\nZ_P = \\frac{Z \\cdot P}{10V^2} \\quad \\text{[%]}\n\\]\n\n여기서:\n- \\(Z\\): 실제 임피던스 [Ω]\n- \\(P\\): 기준 용량 [kVA]\n- \\(V\\): 기준 전압 [kV]\n\n**풀이:**\n\n기준값 (P, V)에서의 %임피.",
+    "memorize": "기준 용량 변환에 따른 %임피던스 변환 문제입니다.\n\n**핵심 공식:**\n%임피던스의 정의:\n\\[\nZ_P = \\frac{Z \\cdot P}{10V^2} \\quad \\text{[%]}\n\\]\n\n여기서:\n- \\(Z\\): 실제 임피던스 [Ω",
+    "trap_pattern": "기준용량 환산 비율 함정 / %Z 기준 변경 혼동"
+  },
+  "answer_analysis": {
+    "correct_choice": 3,
+    "why_correct": "보기 (3)는 단락전류·임피던스의 본질 — %Z와 기준용량을 어떻게 환산해 단락전류를 구하는가에 정합. solution 단서: 기준 용량 변환에 따른 %임피던스 변환 문제입니다.\n\n**핵심 공식:**\n%임피던스의 정의:\n\\[\nZ_P = \\frac{Z \\cdot P}{10V^2} \\quad \\text{[%]}\n\\]\n\n여기서:\n- \\(Z\\): 실제 임피던스 [Ω]\n- \\(P\\): 기준 용량 [kVA]\n- \\(V\\): 기준 전압 [kV]\n\n**풀이:**\n\n기준값 (P, V)에서의 %임피.",
+    "correct_type": "fault_compression"
+  },
+  "distractor_analysis": [
+    {
+      "choice": 1,
+      "trap_type": "기준용량 환산 비율 함정 / %Z 기준 변경 혼동",
+      "confused_with": "정답 보기 (3): \\(Z_{n1} = \\frac{P_1}{P} \\times \\left(\\frac{V_1}{V}\\right)^2",
+      "why_wrong": "보기 (1) '\\(Z_{n1} = \\frac{P_1}{P} \\times \\left(\\frac{V}{V_1}\\right)^2 Z_n\\)': 분수 분자·분모 위치 또는 부호 차이 함정. 정답 보기 (3) '\\(Z_{n1} = \\frac{P_1}{P} \\times \\left(\\frac{V_1}{V}\\right)^2'와 비교하면 단락전류·임피던스의 핵심(%Z와 기준용량을 어떻게 환산해 단락전류를 구하는가)에 어긋난다."
+    },
+    {
+      "choice": 2,
+      "trap_type": "기준용량 환산 비율 함정 / %Z 기준 변경 혼동",
+      "confused_with": "정답 보기 (3): \\(Z_{n1} = \\frac{P_1}{P} \\times \\left(\\frac{V_1}{V}\\right)^2",
+      "why_wrong": "보기 (2) '\\(Z_{n1} = \\frac{P_1}{P} \\times \\frac{V}{V_1} Z_n\\)': 분수 분자·분모 위치 또는 부호 차이 함정. 정답 보기 (3) '\\(Z_{n1} = \\frac{P_1}{P} \\times \\left(\\frac{V_1}{V}\\right)^2'와 비교하면 단락전류·임피던스의 핵심(%Z와 기준용량을 어떻게 환산해 단락전류를 구하는가)에 어긋난다."
+    },
+    {
+      "choice": 4,
+      "trap_type": "기준용량 환산 비율 함정 / %Z 기준 변경 혼동",
+      "confused_with": "정답 보기 (3): \\(Z_{n1} = \\frac{P_1}{P} \\times \\left(\\frac{V_1}{V}\\right)^2",
+      "why_wrong": "보기 (4) '\\(Z_{n1} = \\frac{P_1}{P} \\times \\frac{V_1}{V} Z_n\\)': 분수 분자·분모 위치 또는 부호 차이 함정. 정답 보기 (3) '\\(Z_{n1} = \\frac{P_1}{P} \\times \\left(\\frac{V_1}{V}\\right)^2'와 비교하면 단락전류·임피던스의 핵심(%Z와 기준용량을 어떻게 환산해 단락전류를 구하는가)에 어긋난다."
+    }
+  ],
+  "related_problems": {
+    "same_core": [
+      "2000_6회_27",
+      "2001_2회_21",
+      "2003_1회_21"
+    ],
+    "same_trap_pattern": [
+      "2000_6회_27",
+      "2001_2회_21",
+      "2003_1회_21"
+    ],
+    "selection_rationale": "same_core: 후보 3건에서 상위 3건 사용 (스키마 maxItems=5). same_trap_pattern: 후보 3건에서 상위 3건 사용 (스키마 maxItems=3)."
+  },
+  "cross_subject_expansion": {
+    "primary_subject": "전력공학",
+    "expands_to": [
+      {
+        "target_subject": "회로이론",
+        "via_concept": "전력 단락전류 → 회로이론: 회로 임피던스 환산 경로",
+        "connection_type": "fault_rule_transfer"
+      }
+    ]
+  },
+  "learning_meta": {
+    "v32_core_id": null,
+    "phenomenon_origin": "S/Fault",
+    "trap_map_61_member": true,
+    "study_priority": "medium",
+    "study_phase": "trap_check"
+  },
+  "uncertainty_flags": [
+    "candidate_pool_small"
+  ]
+}

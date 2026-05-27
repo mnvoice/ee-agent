@@ -1,0 +1,69 @@
+{
+  "problem_id": "2003_1회_21",
+  "problem_summary": "전력공학 2003_1회_q21: 단락전류·임피던스 — S/Fault 정적 문제.",
+  "core_extraction": {
+    "phenomenon": "단락전류·임피던스의 본질: 전력 단락전류 -> 회로 옴의 법칙 -> 회로 임피던스 환산 흐름으로 작동.",
+    "problem": "%Z와 기준용량을 어떻게 환산해 단락전류를 구하는가를 정확히 파악해 시험장에서 정답을 골라야 한다.",
+    "device_or_concept": "단락전류·임피던스은 입력 solution의 풀이 양식으로 작동: 3상 단락전류 계산식을 유도합니다.\n\n**핵심 공식:**\n기준값(Base) 기준으로 표현된 %임피던스와 기준전류의 관계식\n\n**단계별 풀이:**\n1) %임피던스의 정의:\n\\[ \\%Z_s = \\frac{Z \\times 100}{V_n^2/S_n} = \\frac{Z \\times 100 \\times I_n}{V_n} \\]\n\n2) 단락전류 도출:\n\\[ I_s = .",
+    "memorize": "3상 단락전류 계산식을 유도합니다.\n\n**핵심 공식:**\n기준값(Base) 기준으로 표현된 %임피던스와 기준전류의 관계식\n\n**단계별 풀이:**\n1) %임피던스의 정의:\n\\[ \\%Z_s = \\frac{Z \\times 100}{V_n^",
+    "trap_pattern": "기준용량 환산 비율 함정 / %Z 기준 변경 혼동"
+  },
+  "answer_analysis": {
+    "correct_choice": 2,
+    "why_correct": "보기 (2)는 단락전류·임피던스의 본질 — %Z와 기준용량을 어떻게 환산해 단락전류를 구하는가에 정합. solution 단서: 3상 단락전류 계산식을 유도합니다.\n\n**핵심 공식:**\n기준값(Base) 기준으로 표현된 %임피던스와 기준전류의 관계식\n\n**단계별 풀이:**\n1) %임피던스의 정의:\n\\[ \\%Z_s = \\frac{Z \\times 100}{V_n^2/S_n} = \\frac{Z \\times 100 \\times I_n}{V_n} \\]\n\n2) 단락전류 도출:\n\\[ I_s = .",
+    "correct_type": "fault_compression"
+  },
+  "distractor_analysis": [
+    {
+      "choice": 1,
+      "trap_type": "기준용량 환산 비율 함정 / %Z 기준 변경 혼동",
+      "confused_with": "정답 보기 (2): \\( rac{100I_L}{%Z}\\)",
+      "why_wrong": "보기 (1) '\\( rac{V_r I_L}{100%Z}\\)': 정답 보기와 핵심 표현 차이로 인한 함정. 정답 보기 (2) '\\( rac{100I_L}{%Z}\\)'와 비교하면 단락전류·임피던스의 핵심(%Z와 기준용량을 어떻게 환산해 단락전류를 구하는가)에 어긋난다."
+    },
+    {
+      "choice": 3,
+      "trap_type": "기준용량 환산 비율 함정 / %Z 기준 변경 혼동",
+      "confused_with": "정답 보기 (2): \\( rac{100I_L}{%Z}\\)",
+      "why_wrong": "보기 (3) '\\( rac{V_r^2}{%Z}\\)': 정답 보기와 핵심 표현 차이로 인한 함정. 정답 보기 (2) '\\( rac{100I_L}{%Z}\\)'와 비교하면 단락전류·임피던스의 핵심(%Z와 기준용량을 어떻게 환산해 단락전류를 구하는가)에 어긋난다."
+    },
+    {
+      "choice": 4,
+      "trap_type": "기준용량 환산 비율 함정 / %Z 기준 변경 혼동",
+      "confused_with": "정답 보기 (2): \\( rac{100I_L}{%Z}\\)",
+      "why_wrong": "보기 (4) '\\( rac{%Z_r I_L}{V_n}\\)': 정답 보기와 핵심 표현 차이로 인한 함정. 정답 보기 (2) '\\( rac{100I_L}{%Z}\\)'와 비교하면 단락전류·임피던스의 핵심(%Z와 기준용량을 어떻게 환산해 단락전류를 구하는가)에 어긋난다."
+    }
+  ],
+  "related_problems": {
+    "same_core": [
+      "2000_6회_27",
+      "2001_2회_21",
+      "2002_1회_30"
+    ],
+    "same_trap_pattern": [
+      "2000_6회_27",
+      "2001_2회_21",
+      "2002_1회_30"
+    ],
+    "selection_rationale": "same_core: 후보 3건에서 상위 3건 사용 (스키마 maxItems=5). same_trap_pattern: 후보 3건에서 상위 3건 사용 (스키마 maxItems=3)."
+  },
+  "cross_subject_expansion": {
+    "primary_subject": "전력공학",
+    "expands_to": [
+      {
+        "target_subject": "회로이론",
+        "via_concept": "전력 단락전류 → 회로이론: 회로 임피던스 환산 경로",
+        "connection_type": "fault_rule_transfer"
+      }
+    ]
+  },
+  "learning_meta": {
+    "v32_core_id": null,
+    "phenomenon_origin": "S/Fault",
+    "trap_map_61_member": true,
+    "study_priority": "medium",
+    "study_phase": "trap_check"
+  },
+  "uncertainty_flags": [
+    "candidate_pool_small"
+  ]
+}

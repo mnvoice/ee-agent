@@ -1,0 +1,61 @@
+{
+  "problem_id": "2008_1회_25",
+  "problem_summary": "전력공학 2008_1회_q25: 부하율·수용률·부등률 — S/Static 정적 문제.",
+  "core_extraction": {
+    "phenomenon": "부하율·수용률·부등률의 본질: 부하율·수용률·부등률.",
+    "problem": "부하율/수용률/부등률을 어떻게 구분해 외우는가를 정확히 파악해 시험장에서 정답을 골라야 한다.",
+    "device_or_concept": "부하율·수용률·부등률은 입력 solution의 풀이 양식으로 작동: 3상 4선식 배전방식은 Y 결선이고 Y 결선에서는 선전류 \\(=\\) 상전류 이므로 \\(P=3 V I\\) 이다．\n1 선당 최대전력은 \\(P_{1}=\\frac{P}{4}=\\frac{3}{4} V T=0.75 V I\\) 가 된다．［답］（3）.",
+    "memorize": "3상 4선식 배전방식은 Y 결선이고 Y 결선에서는 선전류 \\(=\\) 상전류 이므로 \\(P=3 V I\\) 이다．\n1 선당 최대전력은 \\(P_{1}=\\frac{P}{4}=\\frac{3}{4} V T=0.75 V I\\) 가 된다．［답］（3",
+    "trap_pattern": "부하율 vs 수용률 vs 부등률 정의 혼동 함정"
+  },
+  "answer_analysis": {
+    "correct_choice": 3,
+    "why_correct": "보기 (3)는 부하율·수용률·부등률의 본질 — 부하율/수용률/부등률을 어떻게 구분해 외우는가에 정합. solution 단서: 3상 4선식 배전방식은 Y 결선이고 Y 결선에서는 선전류 \\(=\\) 상전류 이므로 \\(P=3 V I\\) 이다．\n1 선당 최대전력은 \\(P_{1}=\\frac{P}{4}=\\frac{3}{4} V T=0.75 V I\\) 가 된다．［답］（3）.",
+    "correct_type": "static_formula"
+  },
+  "distractor_analysis": [
+    {
+      "choice": 1,
+      "trap_type": "부하율 vs 수용률 vs 부등률 정의 혼동 함정",
+      "confused_with": "정답 보기 (3): 0.75VI",
+      "why_wrong": "보기 (1) '0.5VI': 정답 보기와 핵심 표현 차이로 인한 함정. 정답 보기 (3) '0.75VI'와 비교하면 부하율·수용률·부등률의 핵심(부하율/수용률/부등률을 어떻게 구분해 외우는가)에 어긋난다."
+    },
+    {
+      "choice": 2,
+      "trap_type": "부하율 vs 수용률 vs 부등률 정의 혼동 함정",
+      "confused_with": "정답 보기 (3): 0.75VI",
+      "why_wrong": "보기 (2) '0.57VI': 정답 보기와 핵심 표현 차이로 인한 함정. 정답 보기 (3) '0.75VI'와 비교하면 부하율·수용률·부등률의 핵심(부하율/수용률/부등률을 어떻게 구분해 외우는가)에 어긋난다."
+    },
+    {
+      "choice": 4,
+      "trap_type": "부하율 vs 수용률 vs 부등률 정의 혼동 함정",
+      "confused_with": "정답 보기 (3): 0.75VI",
+      "why_wrong": "보기 (4) '1.0VI': 정답 보기와 핵심 표현 차이로 인한 함정. 정답 보기 (3) '0.75VI'와 비교하면 부하율·수용률·부등률의 핵심(부하율/수용률/부등률을 어떻게 구분해 외우는가)에 어긋난다."
+    }
+  ],
+  "related_problems": {
+    "same_core": [
+      "1998_4회_25",
+      "1999_6회_24"
+    ],
+    "same_trap_pattern": [
+      "1998_4회_25",
+      "1999_6회_24"
+    ],
+    "selection_rationale": "same_core: 후보 2건에서 상위 2건 사용 (스키마 maxItems=5). same_trap_pattern: 후보 2건에서 상위 2건 사용 (스키마 maxItems=3)."
+  },
+  "cross_subject_expansion": {
+    "primary_subject": "전력공학",
+    "expands_to": []
+  },
+  "learning_meta": {
+    "v32_core_id": null,
+    "phenomenon_origin": "S/Static",
+    "trap_map_61_member": true,
+    "study_priority": "medium",
+    "study_phase": "trap_check"
+  },
+  "uncertainty_flags": [
+    "candidate_pool_small"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "problem_id": "2004_3회_29",
+  "problem_summary": "전력공학 2004_3회_q29: 차단기 — S/Fault 정적 문제.",
+  "core_extraction": {
+    "phenomenon": "차단기의 본질: 전력 차단기 -> 회로 단락전류 / 임피던스 환산 흐름으로 작동.",
+    "problem": "소호매질 종류가 차단 특성에 어떻게 작용하는가를 정확히 파악해 시험장에서 정답을 골라야 한다.",
+    "device_or_concept": "차단기은 입력 solution의 풀이 양식으로 작동: 154kV급 변전소에 주로 설치되는 차단기:\n\n**각 차단기의 특성 및 적용 전압:**\n\n| 차단기 종류 | 소호 매질 | 적용 전압 | 특징 |\n|-----------|---------|---------|------|\n| 유입 차단기(OCB) | 절연유 | 154kV 이상 | 고전압, 대용량 |\n| 기중 차단기(ACB) | 공기 | 저전압(~440V) |.",
+    "memorize": "154kV급 변전소에 주로 설치되는 차단기:\n\n**각 차단기의 특성 및 적용 전압:**\n\n| 차단기 종류 | 소호 매질 | 적용 전압 | 특징 |\n|-----------|---------|---------|------|\n| 유입 차단",
+    "trap_pattern": "차단 용량 vs 차단 시간 혼동 함정"
+  },
+  "answer_analysis": {
+    "correct_choice": 4,
+    "why_correct": "보기 (4)는 차단기의 본질 — 소호매질 종류가 차단 특성에 어떻게 작용하는가에 정합. solution 단서: 154kV급 변전소에 주로 설치되는 차단기:\n\n**각 차단기의 특성 및 적용 전압:**\n\n| 차단기 종류 | 소호 매질 | 적용 전압 | 특징 |\n|-----------|---------|---------|------|\n| 유입 차단기(OCB) | 절연유 | 154kV 이상 | 고전압, 대용량 |\n| 기중 차단기(ACB) | 공기 | 저전압(~440V) |.",
+    "correct_type": "fault_compression"
+  },
+  "distractor_analysis": [
+    {
+      "choice": 1,
+      "trap_type": "차단 용량 vs 차단 시간 혼동 함정",
+      "confused_with": "정답 보기 (4): SF₆ 가스 차단기(GCB)",
+      "why_wrong": "보기 (1) '자기 차단기(MBB)': 유사 명칭/개념 혼동 함정. 정답 보기 (4) 'SF₆ 가스 차단기(GCB)'와 비교하면 차단기의 핵심(소호매질 종류가 차단 특성에 어떻게 작용하는가)에 어긋난다."
+    },
+    {
+      "choice": 2,
+      "trap_type": "차단 용량 vs 차단 시간 혼동 함정",
+      "confused_with": "정답 보기 (4): SF₆ 가스 차단기(GCB)",
+      "why_wrong": "보기 (2) '유입 차단기(OCB)': 유사 명칭/개념 혼동 함정. 정답 보기 (4) 'SF₆ 가스 차단기(GCB)'와 비교하면 차단기의 핵심(소호매질 종류가 차단 특성에 어떻게 작용하는가)에 어긋난다."
+    },
+    {
+      "choice": 3,
+      "trap_type": "차단 용량 vs 차단 시간 혼동 함정",
+      "confused_with": "정답 보기 (4): SF₆ 가스 차단기(GCB)",
+      "why_wrong": "보기 (3) '기중 차단기(ACB)': 유사 명칭/개념 혼동 함정. 정답 보기 (4) 'SF₆ 가스 차단기(GCB)'와 비교하면 차단기의 핵심(소호매질 종류가 차단 특성에 어떻게 작용하는가)에 어긋난다."
+    }
+  ],
+  "related_problems": {
+    "same_core": [
+      "1998_4회_22",
+      "2000_2회_23",
+      "2001_3회_81",
+      "2002_1회_22",
+      "2002_3회_26"
+    ],
+    "same_trap_pattern": [
+      "1998_4회_22",
+      "2000_2회_23",
+      "2001_3회_81"
+    ],
+    "selection_rationale": "same_core: 후보 10건에서 상위 5건 사용 (스키마 maxItems=5). same_trap_pattern: 후보 5건에서 상위 3건 사용 (스키마 maxItems=3)."
+  },
+  "cross_subject_expansion": {
+    "primary_subject": "전력공학",
+    "expands_to": []
+  },
+  "learning_meta": {
+    "v32_core_id": null,
+    "phenomenon_origin": "S/Fault",
+    "trap_map_61_member": true,
+    "study_priority": "medium",
+    "study_phase": "trap_check"
+  },
+  "uncertainty_flags": []
+}

@@ -1,0 +1,150 @@
+{
+  "scope": "D-3 unexpected expansion-empty 13 cases (전부 차단기 / 전력_보호고장S)",
+  "claim_boundary": {
+    "patch": 0,
+    "generation": 0,
+    "semantic_gain": 0,
+    "p5": 0,
+    "d4": 0,
+    "commit": 0
+  },
+  "generator_evidence": {
+    "file": "scripts/explanation_synthesizer.py",
+    "function": "parse_dynamic_link",
+    "line_start": 186,
+    "line_end": 251,
+    "matching_rule": "substring (`if kw in dl`) over CROSS_TARGET_KEYWORDS (line 223-224)",
+    "phen_origin_policy": "S/Fault is included in matched_core_name fallback (line 237: `D/Dynamic`, `S/Fault`, `S/Conversion`)",
+    "phen_origin_for_breaker": "S/Fault — expansion eligible by policy",
+    "cross_target_keywords_line_start": 100,
+    "cross_target_keywords_line_end": 147,
+    "matched_core_fallback_line_start": 150,
+    "matched_core_fallback_line_end": 174
+  },
+  "keyword_hit_miss": {
+    "breaker_dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+    "candidate_substring_matches": [
+      {"keyword": "차단기", "in_CROSS_TARGET_KEYWORDS": false, "substring_in_dl": true, "result": "no map entry"},
+      {"keyword": "단락전류", "in_CROSS_TARGET_KEYWORDS": false, "substring_in_dl": true, "result": "no map entry"},
+      {"keyword": "회로 단락전류", "in_CROSS_TARGET_KEYWORDS": false, "substring_in_dl": true, "result": "no map entry"},
+      {"keyword": "임피던스 환산", "in_CROSS_TARGET_KEYWORDS": false, "substring_in_dl": true, "result": "no map entry"},
+      {"keyword": "회로 임피던스", "in_CROSS_TARGET_KEYWORDS": true, "substring_in_dl": false, "result": "dl text breaks substring: `회로 단락전류 / 임피던스` — slash and space prevent `회로 임피던스` substring hit"},
+      {"keyword": "전력 보호", "in_CROSS_TARGET_KEYWORDS": true, "substring_in_dl": false, "result": "dl head is `전력 차단기`, not `전력 보호`"}
+    ],
+    "matched_core_fallback_for_breaker": {
+      "matched_core_name": "차단기",
+      "in_MATCHED_CORE_FALLBACK_keys": false,
+      "result": "no fallback entry"
+    },
+    "path1_cross_subject_hints": "input.md does not declare explicit cross_subject_hints",
+    "final_path": "all 3 paths miss → expansion_source = 'empty'"
+  },
+  "success_comparators_same_slot_S_Fault": [
+    {
+      "input": "input_018.md",
+      "pid": "2000_6회_27",
+      "item": "단락전류·임피던스",
+      "dl": "전력 단락전류 -> 회로 옴의 법칙 -> 회로 임피던스 환산",
+      "hits": [
+        {"keyword": "회로 임피던스", "matched": true, "reason": "marker `회로 임피던스` is contiguous substring within `회로 임피던스 환산` (last segment)"}
+      ],
+      "expands_to_count": 1,
+      "phen_origin": "S/Fault"
+    },
+    {
+      "input": "input_013.md",
+      "pid": "2000_2회_85",
+      "item": "보호계전기·피뢰기",
+      "dl": "전력 보호계전기/피뢰기 -> 설비 절연/보호 -> 회로 임피던스",
+      "hits": [
+        {"keyword": "보호계전기", "matched": true, "tgt": "전기설비기술기준"},
+        {"keyword": "회로 임피던스", "matched": true, "reason": "final segment is exactly `회로 임피던스`"}
+      ],
+      "expands_to_count": 2,
+      "phen_origin": "S/Fault"
+    },
+    {
+      "input": "input_007.md",
+      "pid": "1999_3회_23",
+      "item": "지락·중성점 접지",
+      "dl": "전력 중성점 접지 -> 회로 대칭분 해석",
+      "hits": [
+        {"keyword": "접지", "matched": true, "tgt": "전기설비기술기준"},
+        {"keyword": "회로 대칭분", "matched": true, "tgt": "회로이론"}
+      ],
+      "expands_to_count": 2,
+      "phen_origin": "S/Fault"
+    }
+  ],
+  "failure_evidence_breaker_samples": [
+    {
+      "input": "input_003.md", "pid": "1998_4회_22",
+      "matched_core_name": "차단기", "phen_origin": "S/Fault",
+      "dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+      "cross_subject_hints_in_input": false,
+      "output_expands_to": []
+    },
+    {
+      "input": "input_012.md", "pid": "2000_2회_23",
+      "matched_core_name": "차단기", "phen_origin": "S/Fault",
+      "dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+      "cross_subject_hints_in_input": false,
+      "output_expands_to": []
+    },
+    {
+      "input": "input_092.md", "pid": "2008_1회_23",
+      "matched_core_name": "차단기", "phen_origin": "S/Fault",
+      "dl": "전력 차단기 -> 회로 단락전류 / 임피던스 환산",
+      "cross_subject_hints_in_input": false,
+      "output_expands_to": []
+    }
+  ],
+  "shared_5_axis_of_13_breaker_rows": {
+    "audit_group": "expansion",
+    "slot_grp": "전력_보호고장S",
+    "item": "차단기",
+    "matched_keyword": "차단기",
+    "enriched_dynamic_link": "전력 차단기 -> 회로 단락전류 / 임피던스 환산"
+  },
+  "cause_candidate_assessment": {
+    "A_keyword_map_gap": {
+      "verdict": "supported",
+      "evidence": "CROSS_TARGET_KEYWORDS lacks `차단기`, `단락전류`, `회로 단락전류`, `임피던스 환산`. MATCHED_CORE_FALLBACK lacks `차단기` key."
+    },
+    "B_dl_expression_mismatch": {
+      "verdict": "supported",
+      "evidence": "Existing key `회로 임피던스` is a contiguous substring hit in success comparator dls (output_018 / output_013), but the breaker dl `회로 단락전류 / 임피던스 환산` splits the same conceptual pair with `단락전류 / ` between `회로` and `임피던스`, breaking substring match."
+    },
+    "A_plus_B_combined": {
+      "verdict": "most likely",
+      "evidence": "Both A (no direct key) and B (substring-broken expression) hold simultaneously. Either alone would not produce all 13 misses if the other path were operational."
+    },
+    "C_policy_intentional_empty": {
+      "verdict": "low likelihood",
+      "evidence": "phen_origin S/Fault is in the fallback allow-list (line 237). Same-slot non-breaker S/Fault items (보호계전기·피뢰기 6 / 지락·중성점 접지 4 / 단락전류·임피던스 4) all succeed via dl_keyword path. Policy does not exclude breaker by class."
+    }
+  },
+  "next_gate_design_candidates_read_only": [
+    {
+      "name": "narrow_keyword_map_patch_design",
+      "scope": "Add entries to CROSS_TARGET_KEYWORDS for `차단기` and adjacent terms (`단락전류`, `차단용량`) mapped to (회로이론, 전력공학 자기 도메인이므로 회로이론 target만). Or add `차단기` entry to MATCHED_CORE_FALLBACK.",
+      "risk": "Substring matching may produce overshoot to unrelated breaker mentions in other items"
+    },
+    {
+      "name": "dynamic_link_expression_normalization_design",
+      "scope": "Normalize the breaker D-3 ITEM_POLICY dl from `회로 단락전류 / 임피던스 환산` to `회로 단락전류 → 회로 임피던스 환산` (or `회로 단락전류 + 회로 임피던스 환산`) so the existing `회로 임피던스` key produces substring hit",
+      "risk": "Touching ITEM_POLICY may affect other consumers; verify scope before any patch"
+    },
+    {
+      "name": "breaker_policy_reclassify_design",
+      "scope": "Move breaker 13 from audit_group=expansion to non_expansion_metadata, accepting that breaker is fundamentally a power-system device without natural cross-subject expansion path",
+      "risk": "Conceptually wrong — breaker DOES connect to 회로 단락전류 / 회로 임피던스 환산; reclassification would mask a real gap"
+    },
+    {
+      "name": "semantic_sampling_p5",
+      "scope": "Sample 3-5 breaker outputs and v_full pairs side-by-side to check whether the missing expansion actually degrades human readability, before any patch",
+      "risk": "Sampling alone does not fix the gap"
+    }
+  ],
+  "diagnosis_final": "A+B combined is the most likely cause. C is excluded by S/Fault policy + same-slot success. A alone OR B alone cannot fully explain — both hold simultaneously."
+}

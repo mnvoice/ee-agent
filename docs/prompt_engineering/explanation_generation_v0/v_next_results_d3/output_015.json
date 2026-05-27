@@ -1,0 +1,67 @@
+{
+  "problem_id": "2000_4회_23",
+  "problem_summary": "전력공학 2000_4회_q23: 코로나 / 전선 도체 — D/Dynamic 동적 문제.",
+  "core_extraction": {
+    "phenomenon": "코로나 / 전선 도체의 본질: 전력 코로나/표피효과 -> 회로 분포정수 -> 회로 임피던스 흐름으로 작동.",
+    "problem": "전선 표면 전계와 도체 손실이 어떻게 작용하는가를 정확히 파악해 시험장에서 정답을 골라야 한다.",
+    "device_or_concept": "코로나 / 전선 도체은 입력 solution의 풀이 양식으로 작동: **핵심 공식:** 3상 3선식 송전선로의 코로나 임계 전압\n\n**기본 코로나 임계 전압식:**\n\n\\[\nE_0 = 24.3 \\, m_0 m_1 \\delta \\, d \\log_{10}\\frac{2D}{d} \\text{ [kV]}\n\\]\n\n여기서:\n- $m_0$: 전선 표면계수\n- $m_1$: 기후계수(날씨계수)\n- $\\delta$: 상대 공기 밀도\n- $d$:.",
+    "memorize": "**핵심 공식:** 3상 3선식 송전선로의 코로나 임계 전압\n\n**기본 코로나 임계 전압식:**\n\n\\[\nE_0 = 24.3 \\, m_0 m_1 \\delta \\, d \\log_{10}\\frac{2D}{d} \\text{ [kV]}\n\\]\n",
+    "trap_pattern": "코로나 임계전압 vs 정격 전압 혼동 함정"
+  },
+  "answer_analysis": {
+    "correct_choice": 1,
+    "why_correct": "보기 (1)는 코로나 / 전선 도체의 본질 — 전선 표면 전계와 도체 손실이 어떻게 작용하는가에 정합. solution 단서: **핵심 공식:** 3상 3선식 송전선로의 코로나 임계 전압\n\n**기본 코로나 임계 전압식:**\n\n\\[\nE_0 = 24.3 \\, m_0 m_1 \\delta \\, d \\log_{10}\\frac{2D}{d} \\text{ [kV]}\n\\]\n\n여기서:\n- $m_0$: 전선 표면계수\n- $m_1$: 기후계수(날씨계수)\n- $\\delta$: 상대 공기 밀도\n- $d$:.",
+    "correct_type": "dynamic_phenomenon"
+  },
+  "distractor_analysis": [
+    {
+      "choice": 2,
+      "trap_type": "코로나 임계전압 vs 정격 전압 혼동 함정",
+      "confused_with": "정답 보기 (1): \\(E_o = 24.3d \\log_{10}\\frac{D}{r}\\)",
+      "why_wrong": "보기 (2) '\\(E_o = 24.3d \\log_{10}\\frac{r}{D}\\)': 분수 분자·분모 위치 또는 부호 차이 함정. 정답 보기 (1) '\\(E_o = 24.3d \\log_{10}\\frac{D}{r}\\)'와 비교하면 코로나 / 전선 도체의 핵심(전선 표면 전계와 도체 손실이 어떻게 작용하는가)에 어긋난다."
+    },
+    {
+      "choice": 3,
+      "trap_type": "코로나 임계전압 vs 정격 전압 혼동 함정",
+      "confused_with": "정답 보기 (1): \\(E_o = 24.3d \\log_{10}\\frac{D}{r}\\)",
+      "why_wrong": "보기 (3) '\\(E_o = \\frac{24.3}{d \\log_{10}\\frac{r}{D}}\\)': 분수 분자·분모 위치 또는 부호 차이 함정. 정답 보기 (1) '\\(E_o = 24.3d \\log_{10}\\frac{D}{r}\\)'와 비교하면 코로나 / 전선 도체의 핵심(전선 표면 전계와 도체 손실이 어떻게 작용하는가)에 어긋난다."
+    },
+    {
+      "choice": 4,
+      "trap_type": "코로나 임계전압 vs 정격 전압 혼동 함정",
+      "confused_with": "정답 보기 (1): \\(E_o = 24.3d \\log_{10}\\frac{D}{r}\\)",
+      "why_wrong": "보기 (4) '\\(E_o = \\frac{24.3}{d \\log_{10}\\frac{D}{r}}\\)': 분수 분자·분모 위치 또는 부호 차이 함정. 정답 보기 (1) '\\(E_o = 24.3d \\log_{10}\\frac{D}{r}\\)'와 비교하면 코로나 / 전선 도체의 핵심(전선 표면 전계와 도체 손실이 어떻게 작용하는가)에 어긋난다."
+    }
+  ],
+  "related_problems": {
+    "same_core": [
+      "2002_3회_21",
+      "2007_2회_24"
+    ],
+    "same_trap_pattern": [
+      "2002_3회_21",
+      "2007_2회_24"
+    ],
+    "selection_rationale": "same_core: 후보 2건에서 상위 2건 사용 (스키마 maxItems=5). same_trap_pattern: 후보 2건에서 상위 2건 사용 (스키마 maxItems=3)."
+  },
+  "cross_subject_expansion": {
+    "primary_subject": "전력공학",
+    "expands_to": [
+      {
+        "target_subject": "회로이론",
+        "via_concept": "전력 코로나/표피효과 → 회로이론: 회로 분포정수 경로",
+        "connection_type": "dynamic_to_static_rule"
+      }
+    ]
+  },
+  "learning_meta": {
+    "v32_core_id": null,
+    "phenomenon_origin": "D/Dynamic",
+    "trap_map_61_member": true,
+    "study_priority": "medium",
+    "study_phase": "trap_check"
+  },
+  "uncertainty_flags": [
+    "candidate_pool_small"
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "problem_id": "2006_3회_21",
+  "problem_summary": "전력공학 2006_3회_q21: 지락·중성점 접지 — S/Fault 정적 문제.",
+  "core_extraction": {
+    "phenomenon": "지락·중성점 접지의 본질: 전력 중성점 접지 -> 회로 대칭분 해석 흐름으로 작동.",
+    "problem": "중성점 접지 방식이 지락전류에 어떻게 작용하는가를 정확히 파악해 시험장에서 정답을 골라야 한다.",
+    "device_or_concept": "지락·중성점 접지은 입력 solution의 풀이 양식으로 작동: **핵심 공식:**\n소호 리액터 용량은 다음 공식으로 계산됩니다.\n\\[ P_c = 3 \\times 2\\pi f C_s E^2 \\text{ [VA]} \\]\n여기서:\n- \\( f = 60 \\text{ [Hz]} \\) (국내 전력 주파수)\n- \\( C_s = 0.0058 \\times 10^{-6} \\times 50 = 0.29 \\times 10^{-6} \\tex.",
+    "memorize": "**핵심 공식:**\n소호 리액터 용량은 다음 공식으로 계산됩니다.\n\\[ P_c = 3 \\times 2\\pi f C_s E^2 \\text{ [VA]} \\]\n여기서:\n- \\( f = 60 \\text{ [Hz]} \\) (국내 전력 주파수)",
+    "trap_pattern": "직접접지 vs 소호리액터 vs 비접지 특성 혼동 함정"
+  },
+  "answer_analysis": {
+    "correct_choice": 3,
+    "why_correct": "보기 (3)는 지락·중성점 접지의 본질 — 중성점 접지 방식이 지락전류에 어떻게 작용하는가에 정합. solution 단서: **핵심 공식:**\n소호 리액터 용량은 다음 공식으로 계산됩니다.\n\\[ P_c = 3 \\times 2\\pi f C_s E^2 \\text{ [VA]} \\]\n여기서:\n- \\( f = 60 \\text{ [Hz]} \\) (국내 전력 주파수)\n- \\( C_s = 0.0058 \\times 10^{-6} \\times 50 = 0.29 \\times 10^{-6} \\tex.",
+    "correct_type": "fault_compression"
+  },
+  "distractor_analysis": [
+    {
+      "choice": 1,
+      "trap_type": "직접접지 vs 소호리액터 vs 비접지 특성 혼동 함정",
+      "confused_with": "정답 보기 (3): 524",
+      "why_wrong": "보기 (1) '386': 수치/단위 차이 함정. 정답 보기 (3) '524'와 비교하면 지락·중성점 접지의 핵심(중성점 접지 방식이 지락전류에 어떻게 작용하는가)에 어긋난다."
+    },
+    {
+      "choice": 2,
+      "trap_type": "직접접지 vs 소호리액터 vs 비접지 특성 혼동 함정",
+      "confused_with": "정답 보기 (3): 524",
+      "why_wrong": "보기 (2) '435': 수치/단위 차이 함정. 정답 보기 (3) '524'와 비교하면 지락·중성점 접지의 핵심(중성점 접지 방식이 지락전류에 어떻게 작용하는가)에 어긋난다."
+    },
+    {
+      "choice": 4,
+      "trap_type": "직접접지 vs 소호리액터 vs 비접지 특성 혼동 함정",
+      "confused_with": "정답 보기 (3): 524",
+      "why_wrong": "보기 (4) '712': 수치/단위 차이 함정. 정답 보기 (3) '524'와 비교하면 지락·중성점 접지의 핵심(중성점 접지 방식이 지락전류에 어떻게 작용하는가)에 어긋난다."
+    }
+  ],
+  "related_problems": {
+    "same_core": [
+      "1999_3회_23",
+      "2002_1회_33",
+      "2005_2회_28"
+    ],
+    "same_trap_pattern": [
+      "1999_3회_23",
+      "2002_1회_33",
+      "2005_2회_28"
+    ],
+    "selection_rationale": "same_core: 후보 3건에서 상위 3건 사용 (스키마 maxItems=5). same_trap_pattern: 후보 3건에서 상위 3건 사용 (스키마 maxItems=3)."
+  },
+  "cross_subject_expansion": {
+    "primary_subject": "전력공학",
+    "expands_to": [
+      {
+        "target_subject": "전기설비기술기준",
+        "via_concept": "전력 중성점 접지 → 전기설비기술기준: 전력 중성점 접지 경로",
+        "connection_type": "fault_rule_transfer"
+      },
+      {
+        "target_subject": "회로이론",
+        "via_concept": "전력 중성점 접지 → 회로이론: 회로 대칭분 해석 경로",
+        "connection_type": "fault_rule_transfer"
+      }
+    ]
+  },
+  "learning_meta": {
+    "v32_core_id": null,
+    "phenomenon_origin": "S/Fault",
+    "trap_map_61_member": true,
+    "study_priority": "medium",
+    "study_phase": "trap_check"
+  },
+  "uncertainty_flags": [
+    "candidate_pool_small"
+  ]
+}

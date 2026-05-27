@@ -1,0 +1,69 @@
+{
+  "problem_id": "2004_2회_31",
+  "problem_summary": "전력공학 2004_2회_q31: 전압강하·전력손실 — D/Dynamic 동적 문제.",
+  "core_extraction": {
+    "phenomenon": "전압강하·전력손실의 본질: 전력 전압강하/손실 -> 회로 임피던스 -> 회로 옴의 법칙 흐름으로 작동.",
+    "problem": "송전 거리·전류·임피던스가 전압강하에 어떻게 작용하는가를 정확히 파악해 시험장에서 정답을 골라야 한다.",
+    "device_or_concept": "전압강하·전력손실은 입력 solution의 풀이 양식으로 작동: 송전선로의 전력손실은 다음 공식으로 계산됩니다:\n\n**핵심 공식:**\n\\[ P_l = I^2 R = \\frac{P^2 R}{V^2 \\cos^2\\phi} \\]\n\n전력손실률(k)은:\n\\[ k(\\%) = \\frac{P_l}{P} \\times 100 = \\frac{P \\cdot R}{V^2 \\cos^2\\phi} \\times 100 \\]\n\n**풀이 단계:**\n1. .",
+    "memorize": "송전선로의 전력손실은 다음 공식으로 계산됩니다:\n\n**핵심 공식:**\n\\[ P_l = I^2 R = \\frac{P^2 R}{V^2 \\cos^2\\phi} \\]\n\n전력손실률(k)은:\n\\[ k(\\%) = \\frac{P_l}{P} \\time",
+    "trap_pattern": "단상 vs 3상 전압강하 공식 혼동 함정"
+  },
+  "answer_analysis": {
+    "correct_choice": 2,
+    "why_correct": "보기 (2)는 전압강하·전력손실의 본질 — 송전 거리·전류·임피던스가 전압강하에 어떻게 작용하는가에 정합. solution 단서: 송전선로의 전력손실은 다음 공식으로 계산됩니다:\n\n**핵심 공식:**\n\\[ P_l = I^2 R = \\frac{P^2 R}{V^2 \\cos^2\\phi} \\]\n\n전력손실률(k)은:\n\\[ k(\\%) = \\frac{P_l}{P} \\times 100 = \\frac{P \\cdot R}{V^2 \\cos^2\\phi} \\times 100 \\]\n\n**풀이 단계:**\n1. .",
+    "correct_type": "dynamic_phenomenon"
+  },
+  "distractor_analysis": [
+    {
+      "choice": 1,
+      "trap_type": "단상 vs 3상 전압강하 공식 혼동 함정",
+      "confused_with": "정답 보기 (2): 47.7",
+      "why_wrong": "보기 (1) '43.7': 수치/단위 차이 함정. 정답 보기 (2) '47.7'와 비교하면 전압강하·전력손실의 핵심(송전 거리·전류·임피던스가 전압강하에 어떻게 작용하는가)에 어긋난다."
+    },
+    {
+      "choice": 3,
+      "trap_type": "단상 vs 3상 전압강하 공식 혼동 함정",
+      "confused_with": "정답 보기 (2): 47.7",
+      "why_wrong": "보기 (3) '53.7': 수치/단위 차이 함정. 정답 보기 (2) '47.7'와 비교하면 전압강하·전력손실의 핵심(송전 거리·전류·임피던스가 전압강하에 어떻게 작용하는가)에 어긋난다."
+    },
+    {
+      "choice": 4,
+      "trap_type": "단상 vs 3상 전압강하 공식 혼동 함정",
+      "confused_with": "정답 보기 (2): 47.7",
+      "why_wrong": "보기 (4) '59.7': 수치/단위 차이 함정. 정답 보기 (2) '47.7'와 비교하면 전압강하·전력손실의 핵심(송전 거리·전류·임피던스가 전압강하에 어떻게 작용하는가)에 어긋난다."
+    }
+  ],
+  "related_problems": {
+    "same_core": [
+      "1999_3회_22",
+      "2000_6회_23",
+      "2001_3회_25",
+      "2004_2회_23",
+      "2005_1회_28"
+    ],
+    "same_trap_pattern": [
+      "1999_3회_22",
+      "2000_6회_23",
+      "2001_3회_25"
+    ],
+    "selection_rationale": "same_core: 후보 9건에서 상위 5건 사용 (스키마 maxItems=5). same_trap_pattern: 후보 5건에서 상위 3건 사용 (스키마 maxItems=3)."
+  },
+  "cross_subject_expansion": {
+    "primary_subject": "전력공학",
+    "expands_to": [
+      {
+        "target_subject": "회로이론",
+        "via_concept": "전력 전압강하/손실 → 회로이론: 회로 임피던스 경로",
+        "connection_type": "dynamic_to_static_rule"
+      }
+    ]
+  },
+  "learning_meta": {
+    "v32_core_id": null,
+    "phenomenon_origin": "D/Dynamic",
+    "trap_map_61_member": true,
+    "study_priority": "medium",
+    "study_phase": "trap_check"
+  },
+  "uncertainty_flags": []
+}
