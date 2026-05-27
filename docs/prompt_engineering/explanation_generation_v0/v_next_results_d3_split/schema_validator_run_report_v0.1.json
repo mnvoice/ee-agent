@@ -1,0 +1,70 @@
+{
+  "summary": {
+    "total_checks": 12,
+    "passed": 4,
+    "failed": 0,
+    "warned": 0,
+    "report_only": 0,
+    "skipped": 8,
+    "exit_decision": "pass",
+    "errors_count": 0,
+    "report_only_items_count": 0,
+    "unresolved_policy_questions_count": 0
+  },
+  "errors": [],
+  "warnings": [],
+  "report_only": [],
+  "unresolved_policy_questions": [],
+  "skipped_checks": [
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5",
+    "L6",
+    "L7",
+    "L8"
+  ],
+  "input_files": {
+    "schema": {
+      "path": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/rule_schema_v0.1_draft.schema.json",
+      "sha256": "74d02d6dce4cefe1491d7db109067f492b947fcaf5237976a5cc9ea9c3a93086",
+      "exists": true
+    },
+    "profile": {
+      "path": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/ee_agent_rule_profile_v0.1_draft.json",
+      "sha256": "67875d9e128717f900d25d7cd78402e70a9907b5d853702ace43b5a583ccc65d",
+      "exists": true
+    },
+    "rules": {
+      "path": null,
+      "sha256": null,
+      "exists": false
+    },
+    "change_report": {
+      "path": null,
+      "sha256": null,
+      "exists": false
+    }
+  },
+  "metadata": {
+    "validator_version": "0.1.0",
+    "schema_version_const": "0.1-draft",
+    "profile_version": "0.1-draft",
+    "change_report_skipped": true,
+    "check_outcomes": {
+      "schema_root_required": "pass",
+      "profile_root_required": "pass",
+      "version_alignment": "pass",
+      "threshold_status": "pass",
+      "L1": "skip",
+      "L2": "skip",
+      "L3": "skip",
+      "L4": "skip",
+      "L5": "skip",
+      "L6": "skip",
+      "L7": "skip",
+      "L8": "skip"
+    }
+  }
+}
