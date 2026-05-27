@@ -1,0 +1,516 @@
+{
+  "instance_metadata": {
+    "instance_version": "0.1-draft",
+    "compatible_schema_version": "0.1-draft",
+    "compatible_profile_version": "0.1-draft",
+    "source_v0_2_path": "/private/tmp/ee_agent_rule_schema_sources/policy_change_rules.json",
+    "source_v0_2_sha256": "0faa8e2f421570d48c774a9f144a604bcd67cdc0921db685fd3169d32c64a2af",
+    "migration_date": "2026-05-28",
+    "rules_count": 12,
+    "notes": "본 인스턴스는 v0.2 policy_change_rules.json 12 규칙을 v0.1-draft schema 형식으로 변환한 초안. 일부 매핑은 unresolved 항목을 포함하며 policy_change_rules_migration_log_v0.1.md를 함께 참조."
+  },
+  "rules": [
+    {
+      "id": "R1",
+      "name": "CLEAN to GAP 이동",
+      "scope": {
+        "applicable_to": ["item_policy_based_selector"],
+        "tested_in": ["ee-agent D-3"],
+        "domain_agnostic": false
+      },
+      "priority_group": "standard",
+      "metadata": {
+        "origin": "v0.2 policy_change_rules.json R1, 2026-05-27",
+        "evidence": [],
+        "verification_status": "single_case",
+        "created_at": "2026-05-27",
+        "last_reviewed_at": "2026-05-28"
+      },
+      "criteria": {
+        "predicates": [
+          {
+            "predicate_id": "status_movement",
+            "args": {"from": "CLEAN", "to": "GAP", "min_count": 1}
+          }
+        ],
+        "combinator": "AND"
+      },
+      "verdict": {
+        "severity": "INVESTIGATE",
+        "category": "RECOVERABILITY",
+        "auto_action": "trigger_check",
+        "rationale": "정밀화 또는 keyword 누락 두 가능성 모두 존재. 회수 가능 여부 자동 시도 필요."
+      },
+      "automated_check": {
+        "function_id": "multi_word_keyword_recovery_test",
+        "parameters": {}
+      },
+      "human_review_guidelines": [
+        {"condition": "회수 가능", "action": "정책 오류 (keyword 보강)"},
+        {"condition": "회수 불가 + 의미상 item 외", "action": "정밀화 수용"},
+        {"condition": "회수 불가 + 의미상 item 내", "action": "data debt"}
+      ]
+    },
+    {
+      "id": "R2",
+      "name": "CLEAN to NEEDS_REVIEW 이동",
+      "scope": {
+        "applicable_to": ["item_policy_based_selector"],
+        "tested_in": ["ee-agent D-3"],
+        "domain_agnostic": false
+      },
+      "priority_group": "standard",
+      "metadata": {
+        "origin": "v0.2 policy_change_rules.json R2, 2026-05-27",
+        "evidence": [],
+        "verification_status": "single_case",
+        "created_at": "2026-05-27",
+        "last_reviewed_at": "2026-05-28"
+      },
+      "criteria": {
+        "predicates": [
+          {
+            "predicate_id": "status_movement",
+            "args": {"from": "CLEAN", "to": "NEEDS_REVIEW", "min_count": 1}
+          }
+        ],
+        "combinator": "AND"
+      },
+      "verdict": {
+        "severity": "INVESTIGATE",
+        "category": "AMBIGUITY",
+        "auto_action": "human_review",
+        "rationale": "item 경계 모호화. 경합 item 식별 후 경계 정합성 검토 필요."
+      },
+      "automated_check": {
+        "function_id": "list_competing_items_per_pid",
+        "parameters": {}
+      },
+      "human_review_guidelines": [
+        {"condition": "경합 item 별개", "action": "경계 정합 수용"},
+        {"condition": "경합 item 같은 영역", "action": "item 통합·split 재설계"}
+      ]
+    },
+    {
+      "id": "R3",
+      "name": "CLEAN to CLEAN 라우팅 변화",
+      "scope": {
+        "applicable_to": ["item_policy_based_selector"],
+        "tested_in": ["ee-agent D-3"],
+        "domain_agnostic": false
+      },
+      "priority_group": "standard",
+      "metadata": {
+        "origin": "v0.2 policy_change_rules.json R3, 2026-05-27",
+        "evidence": [],
+        "verification_status": "single_case",
+        "created_at": "2026-05-27",
+        "last_reviewed_at": "2026-05-28"
+      },
+      "criteria": {
+        "predicates": [
+          {
+            "predicate_id": "status_movement",
+            "args": {"from": "CLEAN", "to": "CLEAN", "min_count": 1}
+          },
+          {
+            "predicate_id": "item_changed",
+            "args": {"same_status": true}
+          }
+        ],
+        "combinator": "AND"
+      },
+      "verdict": {
+        "severity": "SOFT_ALERT",
+        "category": "ROUTING",
+        "auto_action": "log_only",
+        "rationale": "분류는 유지되고 item만 변화. CLEAN count 영향 없음."
+      },
+      "automated_check": {
+        "function_id": "list_before_after_items_per_pid",
+        "parameters": {}
+      },
+      "human_review_guidelines": [
+        {"condition": "새 item 더 정밀", "action": "개선 수용"},
+        {"condition": "새 item 부정확", "action": "keyword 충돌 검토"}
+      ]
+    },
+    {
+      "id": "R4",
+      "name": "CLEAN count 증가",
+      "scope": {
+        "applicable_to": ["item_policy_based_selector"],
+        "tested_in": ["ee-agent D-3"],
+        "domain_agnostic": false
+      },
+      "priority_group": "major",
+      "metadata": {
+        "origin": "v0.2 policy_change_rules.json R4, 2026-05-27",
+        "evidence": [],
+        "verification_status": "single_case",
+        "created_at": "2026-05-27",
+        "last_reviewed_at": "2026-05-28"
+      },
+      "criteria": {
+        "predicates": [
+          {
+            "predicate_id": "delta_status_count",
+            "args": {"status": "CLEAN", "direction": "positive", "min_count": 1}
+          }
+        ],
+        "combinator": "AND"
+      },
+      "verdict": {
+        "severity": "SUSPECT",
+        "category": "POLICY_RELAXATION",
+        "auto_action": "human_review",
+        "rationale": "정책 완화 의심. 사전 진술 CLEAN 증가 예상 있을 때만 수용 검증."
+      },
+      "automated_check": {
+        "function_id": "compare_keyword_lists_for_new_broad",
+        "parameters": {}
+      },
+      "human_review_guidelines": [
+        {"condition": "새 keyword multi-word 정밀화", "action": "정합 수용 (드문 경우)"},
+        {"condition": "새 keyword single-word broad", "action": "회귀로 간주, 제거"},
+        {"condition": "사전 진술 있음", "action": "수용 후 검증"}
+      ]
+    },
+    {
+      "id": "R5",
+      "name": "GAP만 증가",
+      "scope": {
+        "applicable_to": ["item_policy_based_selector"],
+        "tested_in": ["ee-agent D-3"],
+        "domain_agnostic": false
+      },
+      "priority_group": "minor",
+      "metadata": {
+        "origin": "v0.2 policy_change_rules.json R5, 2026-05-27",
+        "evidence": [],
+        "verification_status": "single_case",
+        "deprecation_signal": "policy hash 변경 + data hash 변경 모두 false면 측정 오류 가능성, 재실행 필요.",
+        "created_at": "2026-05-27",
+        "last_reviewed_at": "2026-05-28"
+      },
+      "criteria": {
+        "predicates": [
+          {
+            "predicate_id": "delta_status_count",
+            "args": {"status": "GAP", "direction": "positive", "min_count": 1}
+          },
+          {
+            "predicate_id": "delta_status_count",
+            "args": {"status": "CLEAN", "direction": "zero"}
+          },
+          {
+            "predicate_id": "delta_status_count",
+            "args": {"status": "NEEDS_REVIEW", "direction": "zero"}
+          }
+        ],
+        "combinator": "AND"
+      },
+      "verdict": {
+        "severity": "INVESTIGATE",
+        "category": "DATA_OR_TOOL_DRIFT",
+        "auto_action": "trigger_check",
+        "rationale": "정책 무변동에 GAP만 증가. 데이터 hash 또는 tool hash 변경 가능성."
+      },
+      "automated_check": {
+        "function_id": "diff_input_data_hash",
+        "parameters": {}
+      },
+      "human_review_guidelines": [
+        {"condition": "questions hash 변경", "action": "데이터 변동 정합"},
+        {"condition": "tool hash 변경", "action": "R12 적용"},
+        {"condition": "둘 다 동일", "action": "측정 오류로 간주, 재실행"}
+      ]
+    },
+    {
+      "id": "R6",
+      "name": "한 item 60%+ 집중",
+      "scope": {
+        "applicable_to": ["item_policy_based_selector"],
+        "tested_in": ["ee-agent D-3"],
+        "domain_agnostic": false
+      },
+      "priority_group": "major",
+      "metadata": {
+        "origin": "v0.2 policy_change_rules.json R6, 2026-05-27 (가공전선 패턴)",
+        "evidence": [],
+        "verification_status": "single_case",
+        "created_at": "2026-05-27",
+        "last_reviewed_at": "2026-05-28"
+      },
+      "criteria": {
+        "predicates": [
+          {
+            "predicate_id": "item_concentration_pct",
+            "args": {"min_pct": 60}
+          }
+        ],
+        "combinator": "AND"
+      },
+      "verdict": {
+        "severity": "SUSPECT",
+        "category": "BROAD_KEYWORD",
+        "auto_action": "human_review",
+        "rationale": "단일 item 60%+ 흡수. broad keyword 의심. 도메인 출제 비중 큰 영역이면 정합 가능."
+      },
+      "automated_check": {
+        "function_id": "list_top_matching_keywords_for_item",
+        "parameters": {"item": "<runtime_resolved>", "top_n": 10}
+      },
+      "human_review_guidelines": [
+        {"condition": "single-word keyword 다수 매칭", "action": "split 필요"},
+        {"condition": "multi-word여도 광범위", "action": "item 재정의"},
+        {"condition": "도메인 출제 비중 큰 영역", "action": "수용"},
+        {"condition": "threshold 자의성 인정", "action": "조정 가능"}
+      ]
+    },
+    {
+      "id": "R7",
+      "name": "Soft alert (변동 <= 5%)",
+      "scope": {
+        "applicable_to": ["item_policy_based_selector"],
+        "tested_in": ["ee-agent D-3"],
+        "domain_agnostic": true
+      },
+      "priority_group": "minor",
+      "metadata": {
+        "origin": "v0.2 policy_change_rules.json R7, 2026-05-27",
+        "evidence": [],
+        "verification_status": "single_case",
+        "deprecation_signal": "category 매핑 임시값. profile.category_enum 보강 또는 magnitude-only category 별도 정의 시 재배정 필요.",
+        "created_at": "2026-05-27",
+        "last_reviewed_at": "2026-05-28"
+      },
+      "criteria": {
+        "predicates": [
+          {
+            "predicate_id": "abs_delta_pct",
+            "args": {"max": 5}
+          }
+        ],
+        "combinator": "AND"
+      },
+      "verdict": {
+        "severity": "SOFT_ALERT",
+        "category": "DATA_OR_TOOL_DRIFT",
+        "auto_action": "log_only",
+        "rationale": "경미한 변동. 정상 범위. category 매핑 임시값 (migration_log unresolved 참조)."
+      },
+      "automated_check": {
+        "function_id": "diff_input_data_hash",
+        "parameters": {}
+      },
+      "human_review_guidelines": [
+        {"condition": "3회 이상 같은 방향 누적", "action": "재검토"}
+      ]
+    },
+    {
+      "id": "R8",
+      "name": "Hard alert (변동 >= 10%)",
+      "scope": {
+        "applicable_to": ["item_policy_based_selector"],
+        "tested_in": ["ee-agent D-3"],
+        "domain_agnostic": true
+      },
+      "priority_group": "critical",
+      "metadata": {
+        "origin": "v0.2 policy_change_rules.json R8, 2026-05-27",
+        "evidence": [],
+        "verification_status": "single_case",
+        "deprecation_signal": "category 매핑 임시값. profile.category_enum 보강 또는 magnitude-only category 별도 정의 시 재배정 필요. automated_check 매핑도 placeholder.",
+        "created_at": "2026-05-27",
+        "last_reviewed_at": "2026-05-28"
+      },
+      "criteria": {
+        "predicates": [
+          {
+            "predicate_id": "abs_delta_pct",
+            "args": {"min": 10}
+          }
+        ],
+        "combinator": "AND"
+      },
+      "verdict": {
+        "severity": "HARD_ALERT",
+        "category": "DATA_OR_TOOL_DRIFT",
+        "auto_action": "block",
+        "rationale": "큰 변동. 자동 진행 차단 후 원인 분류. category 매핑 임시값 (migration_log unresolved 참조)."
+      },
+      "automated_check": {
+        "function_id": "diff_input_data_hash",
+        "parameters": {}
+      },
+      "human_review_guidelines": [
+        {"condition": "원인 분류 후", "action": "R1~R6, R10~R12 재적용"},
+        {"condition": "사전 진술 없음", "action": "회귀 우선 의심"}
+      ]
+    },
+    {
+      "id": "R9",
+      "name": "Data debt item (0 hit)",
+      "scope": {
+        "applicable_to": ["item_policy_based_selector"],
+        "tested_in": ["ee-agent D-3"],
+        "domain_agnostic": false
+      },
+      "priority_group": "minor",
+      "metadata": {
+        "origin": "v0.2 policy_change_rules.json R9, 2026-05-27",
+        "evidence": [],
+        "verification_status": "single_case",
+        "created_at": "2026-05-27",
+        "last_reviewed_at": "2026-05-28"
+      },
+      "criteria": {
+        "predicates": [
+          {
+            "predicate_id": "zero_hit_items",
+            "args": {"at_least": 1}
+          }
+        ],
+        "combinator": "AND"
+      },
+      "verdict": {
+        "severity": "INVESTIGATE",
+        "category": "DATA_DEBT",
+        "auto_action": "trigger_check",
+        "rationale": "before>0 이후 after=0 회귀, 또는 신규 item 0 hit (keyword 설계 실패·데이터 부재)."
+      },
+      "automated_check": {
+        "function_id": "search_synonyms_in_corpus",
+        "parameters": {"item": "<runtime_resolved>"}
+      },
+      "human_review_guidelines": [
+        {"condition": "case (a) before>0 이후 after=0", "action": "회귀, keyword 또는 data 원인 분석"},
+        {"condition": "case (b) 동의어 풍부", "action": "keyword 설계 실패"},
+        {"condition": "case (b) 동의어 빈약", "action": "데이터 부재, item 보류"}
+      ]
+    },
+    {
+      "id": "R10",
+      "name": "NEEDS_REVIEW to CLEAN (ambiguity 해소)",
+      "scope": {
+        "applicable_to": ["item_policy_based_selector"],
+        "tested_in": ["ee-agent D-3"],
+        "domain_agnostic": false
+      },
+      "priority_group": "standard",
+      "metadata": {
+        "origin": "v0.2 policy_change_rules.json R10, 2026-05-27",
+        "evidence": [],
+        "verification_status": "single_case",
+        "created_at": "2026-05-27",
+        "last_reviewed_at": "2026-05-28"
+      },
+      "criteria": {
+        "predicates": [
+          {
+            "predicate_id": "status_movement",
+            "args": {"from": "NEEDS_REVIEW", "to": "CLEAN", "min_count": 1}
+          }
+        ],
+        "combinator": "AND"
+      },
+      "verdict": {
+        "severity": "IMPROVEMENT",
+        "category": "AMBIGUITY",
+        "auto_action": "log_only",
+        "rationale": "경계 명확화 또는 keyword 정밀화 결과. 보통 정합."
+      },
+      "automated_check": {
+        "function_id": "verify_no_keyword_overreach",
+        "parameters": {}
+      },
+      "human_review_guidelines": [
+        {"condition": "해소된 ambiguity 정합", "action": "개선 수용"},
+        {"condition": "keyword 한쪽 과도", "action": "over-pull 재검토"}
+      ]
+    },
+    {
+      "id": "R11",
+      "name": "GAP to CLEAN·NEEDS_REVIEW (회수)",
+      "scope": {
+        "applicable_to": ["item_policy_based_selector"],
+        "tested_in": ["ee-agent D-3"],
+        "domain_agnostic": false
+      },
+      "priority_group": "standard",
+      "metadata": {
+        "origin": "v0.2 policy_change_rules.json R11, 2026-05-27",
+        "evidence": [],
+        "verification_status": "single_case",
+        "created_at": "2026-05-27",
+        "last_reviewed_at": "2026-05-28"
+      },
+      "criteria": {
+        "predicates": [
+          {
+            "predicate_id": "status_movement",
+            "args": {"from": "GAP", "to": ["CLEAN", "NEEDS_REVIEW"], "min_count": 1}
+          }
+        ],
+        "combinator": "AND"
+      },
+      "verdict": {
+        "severity": "IMPROVEMENT",
+        "category": "RECOVERABILITY",
+        "auto_action": "log_only",
+        "rationale": "이전 GAP entry가 다시 매칭됨. multi-word 정밀화면 정합, broad single-word면 R4 의심."
+      },
+      "automated_check": {
+        "function_id": "trace_responsible_keyword",
+        "parameters": {"pid": "<runtime_resolved>"}
+      },
+      "human_review_guidelines": [
+        {"condition": "회수 keyword multi-word 정밀화", "action": "정합 수용"},
+        {"condition": "회수 keyword broad single-word", "action": "R4 적용 (의심)"},
+        {"condition": "회수 entry 의미상 매칭 item과 정합", "action": "확인 완료"}
+      ]
+    },
+    {
+      "id": "R12",
+      "name": "도구 자체 변경 감지",
+      "scope": {
+        "applicable_to": ["item_policy_based_selector"],
+        "tested_in": ["ee-agent D-3"],
+        "domain_agnostic": true
+      },
+      "priority_group": "critical",
+      "metadata": {
+        "origin": "v0.2 policy_change_rules.json R12, 2026-05-27",
+        "evidence": [],
+        "verification_status": "single_case",
+        "created_at": "2026-05-27",
+        "last_reviewed_at": "2026-05-28"
+      },
+      "criteria": {
+        "predicates": [
+          {
+            "predicate_id": "hash_changed",
+            "args": {"target": "tool"}
+          }
+        ],
+        "combinator": "AND"
+      },
+      "verdict": {
+        "severity": "INVESTIGATE",
+        "category": "TOOL_CHANGE",
+        "auto_action": "trigger_check",
+        "rationale": "도구 코드·설정 변경 감지. 정책 변경과 분리 추적."
+      },
+      "automated_check": {
+        "function_id": "diff_tool_version_metadata",
+        "parameters": {}
+      },
+      "human_review_guidelines": [
+        {"condition": "도구 변경 의도 명시", "action": "변경 사유 기록"},
+        {"condition": "정책 무변동", "action": "변동량을 도구 영향으로 측정"},
+        {"condition": "정책·도구 동시 변경", "action": "측정 분리를 위해 동시 변경 금지 권고"}
+      ]
+    }
+  ]
+}
