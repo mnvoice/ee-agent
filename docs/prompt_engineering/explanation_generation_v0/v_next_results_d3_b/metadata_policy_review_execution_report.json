@@ -1,0 +1,129 @@
+{
+  "scope": "Metadata policy review execution — 가공전선 이격거리 26 sample 전수 read + taxonomy 분류 + cross-tab + split 후보 + selector keyword integrity 판정.",
+  "essential_question": "metadata_misleading 신호의 5 원인 (C1-C5) 중 실제 우세 원인은 무엇인가? 가공전선 이격거리 26건 모집단에서 item split / selector keyword 정합성 / data debt 분리 기반으로 판정.",
+  "user_message_truncation_note": "사용자 메시지 끝 잘림 — '이격거리 keyword가 실제 이격거리와 얼마나' 이후 명시 영역 미발현. 본 채널은 design 정합 추정으로 산출물 경로 / 최종 상태 옵션 / 금지 영역 진행. 보고서 내 추정 영역 명시.",
+  "claim_boundary": {
+    "policy_actual_revision": 0,
+    "selector_code_modification": 0,
+    "item_split_actual_application": 0,
+    "37_total_reclassification_claim": 0,
+    "catalog_gap_rescue": 0,
+    "d4": 0,
+    "generation_or_audit_rerun": 0,
+    "commit": 0,
+    "devlog_vault_memory_decision_jsonl": 0,
+    "26_sample_classification_scope": "26 sample 전수 — 가공전선 이격거리 item에 한정"
+  },
+  "evidence_pointer": {
+    "policy_review_design": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_b/metadata_policy_review_design.md",
+    "metadata_only_audit_report": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_b/metadata_only_audit_execution_report.md",
+    "selection_manifest_b": "docs/prompt_engineering/explanation_generation_v0/v_next_inputs_d3_b/selection_manifest.json"
+  },
+  "sample_classification": [
+    {"input": "input_008.md", "pid": "1999_4회_81", "kw": "가공전선", "year": 1999, "category": "B", "data_debt": false, "actual_topic": "목주 풍압 하중 안전율 1.3", "rationale": "전기설비기술기준 332.7 안전율 표"},
+    {"input": "input_009.md", "pid": "1999_4회_84", "kw": "가공전선", "year": 1999, "category": "E", "data_debt": true, "actual_topic": "66kV 시가지 전선 단면적 (50mm²) — 풀이는 발전소 계측장치 (OCR/본문 mismatch)", "rationale": "전선 굵기 영역 (E), 단 풀이 자체가 다른 문제로 기록 → X"},
+    {"input": "input_014.md", "pid": "2000_2회_86", "kw": "이격거리", "year": 2000, "category": "A", "data_debt": false, "actual_topic": "애자공사 고압 옥내배선 이격거리 (15cm)", "rationale": "전기설비기술기준 342.1 이격거리 표"},
+    {"input": "input_021.md", "pid": "2000_6회_92", "kw": "가공전선", "year": 2000, "category": "A", "data_debt": true, "actual_topic": "고압 가공전선 ↔ 안테나 이격거리 (60cm) — 풀이 '정보 부족'", "rationale": "이격거리 영역 (A), 풀이 부재 → X"},
+    {"input": "input_026.md", "pid": "2001_2회_82", "kw": "가공전선", "year": 2001, "category": "C", "data_debt": false, "actual_topic": "저압 가공전선 ↔ 25kV 교류전차선 교차 시 케이블 단면적 35mm²", "rationale": "교차 시설기준 (C)"},
+    {"input": "input_037.md", "pid": "2002_3회_85", "kw": "가공전선", "year": 2002, "category": "C", "data_debt": false, "actual_topic": "농사용 저압 가공전선로 최대 경간 30m", "rationale": "지지물/경간 시설기준 (C, 경간·이도 영역과도 겹침)"},
+    {"input": "input_044.md", "pid": "2003_3회_81", "kw": "가공전선", "year": 2003, "category": "E", "data_debt": false, "actual_topic": "22.9kV 중성선 다중접지식 접지선 굵기", "rationale": "접지선 굵기 (E, 가공지선/접지)"},
+    {"input": "input_046.md", "pid": "2004_1회_84", "kw": "이격거리", "year": 2004, "category": "A", "data_debt": false, "actual_topic": "특고압 지중전선 ↔ 가연성/유독성 관 이격거리 (1m)", "rationale": "이격거리 (A)"},
+    {"input": "input_048.md", "pid": "2004_1회_91", "kw": "가공전선", "year": 2004, "category": "A", "data_debt": true, "actual_topic": "22.9kV 가공전선 도로 횡단 시 높이 (OCR 깨짐)", "rationale": "이격거리/높이 영역 (A), OCR 깨짐 → X"},
+    {"input": "input_053.md", "pid": "2004_2회_86", "kw": "이격거리", "year": 2004, "category": "A", "data_debt": false, "actual_topic": "154kV 가공송전선 ↔ 식물 이격거리 (3.2m)", "rationale": "이격거리 (A)"},
+    {"input": "input_059.md", "pid": "2004_3회_83", "kw": "가공전선", "year": 2004, "category": "A", "data_debt": false, "actual_topic": "154kV 가공전선로 ↔ 도로 이격거리 (4.8m)", "rationale": "이격거리 (A)"},
+    {"input": "input_060.md", "pid": "2004_3회_92", "kw": "가공전선", "year": 2004, "category": "C", "data_debt": true, "actual_topic": "66kV+6kV 동일 지지물 시설 단면적 — 분석 불가", "rationale": "지지물 시설 (C), 풀이 부재 → X"},
+    {"input": "input_069.md", "pid": "2005_3회_81", "kw": "가공전선", "year": 2005, "category": "C", "data_debt": false, "actual_topic": "가공전선 지지물 시설기준 (옳지 않은 것)", "rationale": "지지물 시설기준 (C)"},
+    {"input": "input_072.md", "pid": "2006_1회_29", "kw": "가공지선", "year": 2006, "category": "E", "data_debt": false, "actual_topic": "가공지선 설명 틀린 것", "rationale": "가공지선 (E)"},
+    {"input": "input_073.md", "pid": "2006_1회_85", "kw": "가공전선", "year": 2006, "category": "C", "data_debt": true, "actual_topic": "154kV 가공전선 애자장치 시설 (시가지) — 풀이 부재", "rationale": "지지물/시가지 시설기준 (C), 풀이 부재 → X"},
+    {"input": "input_074.md", "pid": "2006_1회_86", "kw": "가공전선", "year": 2006, "category": "B", "data_debt": false, "actual_topic": "가공전선로 구성재 풍압 하중 (병종)", "rationale": "풍압 하중 (B)"},
+    {"input": "input_076.md", "pid": "2006_2회_83", "kw": "가공전선", "year": 2006, "category": "A", "data_debt": false, "actual_topic": "시가지 저압 가공전선로 도로 따라 시설 시 지표상 최저 높이 (5m 또는 6m)", "rationale": "이격/높이 (A)"},
+    {"input": "input_077.md", "pid": "2006_2회_86", "kw": "가공전선", "year": 2006, "category": "B", "data_debt": false, "actual_topic": "가공전선로 지지물 강관 철탑 병종 풍압 하중", "rationale": "풍압 하중 (B)"},
+    {"input": "input_080.md", "pid": "2006_3회_81", "kw": "가공전선", "year": 2006, "category": "C", "data_debt": false, "actual_topic": "특고압 가공전선 ↔ 가공약전류전선 동일 지지물 시설 기준 (35kV 초과)", "rationale": "지지물 시설 (C)"},
+    {"input": "input_081.md", "pid": "2006_3회_83", "kw": "가공전선", "year": 2006, "category": "E", "data_debt": false, "actual_topic": "특고압 가공지선 지름 규격 (5mm)", "rationale": "가공지선 규격 (E)"},
+    {"input": "input_084.md", "pid": "2007_1회_81", "kw": "가공전선", "year": 2007, "category": "A", "data_debt": false, "actual_topic": "저압 가공전선 상호간 이격거리 + 지지물 이격", "rationale": "이격거리 (A)"},
+    {"input": "input_085.md", "pid": "2007_1회_82", "kw": "가공전선", "year": 2007, "category": "E", "data_debt": false, "actual_topic": "400V 이하 저압 가공전선 굵기 (지름 3.2mm)", "rationale": "전선 굵기 (E)"},
+    {"input": "input_086.md", "pid": "2007_1회_84", "kw": "가공전선", "year": 2007, "category": "D", "data_debt": false, "actual_topic": "지선 시설기준 (소선 3가닥)", "rationale": "지선 (D)"},
+    {"input": "input_089.md", "pid": "2007_2회_27", "kw": "가공지선", "year": 2007, "category": "E", "data_debt": false, "actual_topic": "가공지선 설치 목적", "rationale": "가공지선 (E)"},
+    {"input": "input_090.md", "pid": "2007_2회_81", "kw": "가공전선", "year": 2007, "category": "E", "data_debt": false, "actual_topic": "특고압 가공전선로 지지물 통신선 옥내 시설 시 적용 전압 (400V 초과)", "rationale": "통신선 시설 기준 (E)"},
+    {"input": "input_091.md", "pid": "2007_2회_82", "kw": "가공전선", "year": 2007, "category": "A", "data_debt": true, "actual_topic": "154kV 가공전선 ↔ 도로 제2차 접근 100m 이하 길이 합계 — 풀이 부재", "rationale": "이격/접근 (A), 풀이 부재 → X"}
+  ],
+  "category_distribution_total": {
+    "A_clearance": 9,
+    "B_safety_wind": 3,
+    "C_support_facility": 6,
+    "D_guy_wire": 1,
+    "E_other_facility": 7,
+    "total": 26
+  },
+  "data_debt_X_count": 6,
+  "data_debt_pids": ["009 (E+X OCR/풀이 mismatch)", "021 (A+X 풀이 부재)", "048 (A+X OCR 깨짐)", "060 (C+X 풀이 부재)", "073 (C+X 풀이 부재)", "091 (A+X 풀이 부재)"],
+  "category_distribution_clean_X_excluded": {
+    "A_clearance": 6,
+    "B_safety_wind": 3,
+    "C_support_facility": 4,
+    "D_guy_wire": 1,
+    "E_other_facility": 6,
+    "total": 20,
+    "A_ratio_in_clean": "6/20 = 30.0%",
+    "non_A_ratio_in_clean": "14/20 = 70.0%"
+  },
+  "keyword_x_category_cross_tab": {
+    "가공전선_21": {"A": 6, "B": 3, "C": 6, "D": 1, "E": 5, "X_overlap": 6},
+    "이격거리_3": {"A": 3, "B": 0, "C": 0, "D": 0, "E": 0, "X_overlap": 0},
+    "가공지선_2": {"A": 0, "B": 0, "C": 0, "D": 0, "E": 2, "X_overlap": 0}
+  },
+  "keyword_integrity_analysis": {
+    "가공전선": {"matches": 21, "A_hits": 6, "A_hit_rate": "28.6%", "verdict": "broad — 5 카테고리에 분산. broad match keyword."},
+    "이격거리": {"matches": 3, "A_hits": 3, "A_hit_rate": "100.0%", "verdict": "narrow + accurate — A 카테고리 정확 매칭."},
+    "가공지선": {"matches": 2, "A_hits": 0, "E_hits": 2, "E_hit_rate": "100.0%", "verdict": "narrow + accurate to E — 가공지선 영역 정확 매칭. 단 A 영역과는 무관."}
+  },
+  "item_split_decision": {
+    "threshold": "≥3건 → split 후보 / 1-2건 → 통합",
+    "split_candidates": [
+      {"new_item": "가공전선 이격거리 (A 영역 유지)", "count_clean": 6, "decision": "SPLIT_RECOMMENDED"},
+      {"new_item": "가공전선 안전율 / 풍압 (B)", "count_clean": 3, "decision": "SPLIT_RECOMMENDED"},
+      {"new_item": "가공전선 지지물 시설 (C)", "count_clean": 4, "decision": "SPLIT_RECOMMENDED"},
+      {"new_item": "가공전선 지선 시설 (D)", "count_clean": 1, "decision": "MERGE_TO_E (1건만이라 E에 통합 권장)"},
+      {"new_item": "가공전선 기타 설비기준 (D+E 통합)", "count_clean": 7, "decision": "SPLIT_RECOMMENDED"}
+    ],
+    "final_split_count": 4,
+    "split_actual_application": 0
+  },
+  "cause_decomposition_final_weight": {
+    "C1_policy_definition_issue": {"verdict": "CONFIRMED_HIGH", "evidence": "기존 essence가 이격거리 중심으로 정의되어 70% non-A 영역 미흡"},
+    "C2_selector_broad_match": {"verdict": "CONFIRMED_HIGH", "evidence": "'가공전선' kw 적중률 28.6% — broad match. 다른 2 kw는 100%."},
+    "C3_item_split_needed": {"verdict": "CONFIRMED_HIGH", "evidence": "split 후보 4개 (A/B/C/E) 모두 ≥3건 threshold 충족"},
+    "C4_data_debt": {"verdict": "CONFIRMED_MEDIUM", "evidence": "6/26 = 23.1% X 발현. 단 policy issue와는 별 영역 분리 가능."},
+    "C5_sample_only_exception": {"verdict": "REJECTED", "evidence": "정합 20건 중 14건 (70%)이 misleading 영역. 우연 아님."}
+  },
+  "pathway_mapping": [
+    {"signal": "item_split_recommended (4 후보 ≥3건 충족)", "matched": true, "next_state": "ITEM_SPLIT_RECOMMENDED"},
+    {"signal": "selector_broad_match_confirmed (가공전선 kw 적중률 28.6%)", "matched": true, "next_state": "SELECTOR_BROAD_MATCH_CONFIRMED"},
+    {"signal": "policy_definition_issue_confirmed (essence 영역 미흡)", "matched": true, "next_state": "POLICY_DEFINITION_ISSUE_CONFIRMED"},
+    {"signal": "data_debt_dominant", "matched": false, "rationale": "X 6/26 = 23%이나 policy issue 14/20 = 70%보다 작음. dominant 아님."},
+    {"signal": "sample_only_exception", "matched": false, "rationale": "패턴 일관"}
+  ],
+  "next_gate_recommendations": [
+    {"priority": 1, "name": "item_split_design", "scope": "가공전선 이격거리 → 4 sub-item (A/B/C/E) split design + 각 essence/trap 신정의 + matched_keyword narrow set design"},
+    {"priority": 2, "name": "selector_keyword_integrity_design", "scope": "'가공전선' kw → multi-word kw set ('가공전선 이격거리' / '가공전선 풍압' / '가공전선 지지물' / '가공전선 기타') design"},
+    {"priority": 3, "name": "data_debt_audit_design", "scope": "6 X sample 별 audit (questions.json 영역) — policy issue와 분리 처리"},
+    {"priority": 4, "name": "본 결과 commit + push", "scope": "사용자 명시 별 게이트"},
+    {"priority": 5, "name": "37 모집단 확대 audit", "scope": "다른 4 item (역률 개선 / 부하율·수용률·부등률 / 가공전선로 경간·이도 / 절연내력 / 유도장해) 영역 정합성 확인"}
+  ],
+  "final_status_options_estimated_by_design": {
+    "POLICY_DEFINITION_ISSUE_CONFIRMED": "essence 정의 영역 미흡 (C1)",
+    "SELECTOR_BROAD_MATCH_CONFIRMED": "selector broad match (C2)",
+    "ITEM_SPLIT_RECOMMENDED": "split 후보 ≥3건 다수 (C3)",
+    "DATA_DEBT_DOMINANT": "X가 우세 — 본 측정 미해당",
+    "MIXED_CAUSE_FOUND": "C1+C2+C3 동시 발현",
+    "POLICY_REVIEW_INCONCLUSIVE": "rubric 모호"
+  },
+  "selected_final_status_primary": "ITEM_SPLIT_RECOMMENDED",
+  "selected_final_status_secondary": ["SELECTOR_BROAD_MATCH_CONFIRMED", "POLICY_DEFINITION_ISSUE_CONFIRMED"],
+  "rationale_for_selection": "Primary ITEM_SPLIT_RECOMMENDED: split 후보 4개 (A/B/C/E 통합) 모두 threshold ≥3건 충족. 본질적 해결법은 item split. Secondary SELECTOR_BROAD_MATCH_CONFIRMED: 가공전선 kw 적중률 28.6%로 broad match 입증. Secondary POLICY_DEFINITION_ISSUE_CONFIRMED: essence 영역이 이격거리 중심으로 좁아 70% 영역 미흡. 3 cause 동시 발현 — MIXED 영역으로도 표현 가능하나 가장 actionable은 ITEM_SPLIT.",
+  "user_decision_required_due_to_truncation": [
+    "산출물 경로 추정 (design 정합)",
+    "최종 상태 옵션 추정 (design 정합)",
+    "금지 영역 추정 (design 동일 패턴)"
+  ]
+}

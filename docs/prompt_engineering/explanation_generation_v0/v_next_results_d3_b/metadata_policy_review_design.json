@@ -1,0 +1,190 @@
+{
+  "scope": "Metadata policy review DESIGN — non_expansion_metadata 37 audit finding의 원인 분리 (policy / selector / item split / data debt / sample-only) 및 가공전선 이격거리 26건 전수 audit 설계. 실제 policy/selector 수정 0.",
+  "essential_question": "metadata_misleading 4/7 + dl_should_exist_candidate 3/7 신호의 원인이 (1) policy definition / (2) selector broad match / (3) item split needed / (4) data debt / (5) sample-only exception 중 어느 영역인가?",
+  "claim_boundary": {
+    "policy_actual_revision": 0,
+    "selector_code_modification": 0,
+    "26_total_reclassification_claim": 0,
+    "37_total_reclassification_claim": 0,
+    "item_split_actual_application": 0,
+    "catalog_gap_rescue": 0,
+    "d4": 0,
+    "generation_or_audit_rerun": 0,
+    "commit": 0,
+    "devlog_vault_memory_decision_jsonl": 0
+  },
+  "evidence_pointer": {
+    "metadata_only_audit_report": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_b/metadata_only_audit_execution_report.md",
+    "metadata_only_audit_json": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_b/metadata_only_audit_execution_report.json",
+    "selection_manifest_b": "docs/prompt_engineering/explanation_generation_v0/v_next_inputs_d3_b/selection_manifest.json",
+    "item_policy_source": "scripts/v_next_d3_pre_preview.py:237-247 (가공전선 이격거리 policy)",
+    "selector_match_logic": "scripts/v_next_d3_pre_preview.py:272-322 (keyword_hit, compute_score_local) + line 309-316 broad keyword check"
+  },
+  "metadata_only_audit_summary": {
+    "majority_label": "metadata_misleading (4/7)",
+    "label_counts": {"metadata_helpful": 2, "metadata_neutral": 1, "metadata_misleading": 4, "needs_human_review": 0},
+    "misleading_pids": [
+      {"pid": "1998_4회_25", "item": "부하율·수용률·부등률", "issue": "essence 정의 외우기 vs 본 문제 계산 — mismatch"},
+      {"pid": "1999_4회_81", "item": "가공전선 이격거리", "issue": "이격거리 essence vs 안전율/풍압 본 문제 — 영역 오부착"},
+      {"pid": "2005_3회_81", "item": "가공전선 이격거리", "issue": "이격거리 essence vs 지지물 시설기준 — 영역 오부착"},
+      {"pid": "2007_1회_84", "item": "가공전선 이격거리", "issue": "이격거리 essence vs 지선 시설기준 — 영역 오부착"}
+    ],
+    "dl_should_exist_candidates": 3
+  },
+  "cause_decomposition": {
+    "C1_policy_definition_issue": {
+      "name": "policy definition issue — essence/trap이 좁게 정의되어 실제 문제 다양성 미흡",
+      "evidence_signal": "가공전선 이격거리 item의 essence '가공전선과 다른 시설간 안전 이격거리는 어떻게 정해지는가'가 안전율/지지물/지선 영역을 포괄하지 않음",
+      "weight_estimate": "high (M3/M4/M5에서 essence 자체가 실제 문제 영역과 어긋남)"
+    },
+    "C2_selector_broad_match_issue": {
+      "name": "selector matched_keyword broad match — 'broad' keyword가 의미 영역과 무관한 문제 포함",
+      "evidence_signal": "가공전선 이격거리 26건 중 21건이 matched_keyword='가공전선' (80.8%). M3/M4/M5 모두 '가공전선' kw. 단일 단어 '가공전선'은 안전율/지지물/지선/이격거리 등 광범위 영역에 substring 매칭.",
+      "weight_estimate": "high (broad keyword 자체가 misleading 매칭의 직접 메커니즘)"
+    },
+    "C3_item_split_needed": {
+      "name": "단일 item이 다양한 영역 포괄 — split 후보",
+      "evidence_signal": "가공전선 이격거리 item이 실제로는 (a) 이격거리 (b) 안전율/풍압 (c) 지지물 (d) 지선 (e) 기타 설비기준 영역 동시 포괄. essence/trap 단일 정의로 처리 불가.",
+      "weight_estimate": "high (split이 본질 해결법일 가능성)"
+    },
+    "C4_data_debt": {
+      "name": "questions.json 원본 정합성 문제 — 답안/본문/OCR 데이터 debt",
+      "evidence_signal": "M2 (역률 개선) 답안 부정합 / M4 답안 부정합 / M6 OCR 깨짐 — 7 sample 중 3건 data debt 발견",
+      "weight_estimate": "medium (audit 신호 일부 기여, 단 misleading의 1차 원인은 아님)"
+    },
+    "C5_sample_only_exception": {
+      "name": "7 sample만 우연 misleading, 모집단은 정상",
+      "evidence_signal": "가공전선 이격거리 sample 3건 모두 misleading — 우연 확률 낮음. 26건 모집단 audit 필요.",
+      "weight_estimate": "low (3/3 misleading 패턴이 우연일 가능성 낮음)"
+    }
+  },
+  "26_full_audit_design": {
+    "scope": "가공전선 이격거리 26건 전수 audit — 각 문제의 question_text + solution 기반 실제 영역 분류",
+    "samples": [
+      {"input": "input_008.md", "pid": "1999_4회_81", "kw": "가공전선", "year": 1999},
+      {"input": "input_009.md", "pid": "1999_4회_84", "kw": "가공전선", "year": 1999},
+      {"input": "input_014.md", "pid": "2000_2회_86", "kw": "이격거리", "year": 2000},
+      {"input": "input_021.md", "pid": "2000_6회_92", "kw": "가공전선", "year": 2000},
+      {"input": "input_026.md", "pid": "2001_2회_82", "kw": "가공전선", "year": 2001},
+      {"input": "input_037.md", "pid": "2002_3회_85", "kw": "가공전선", "year": 2002},
+      {"input": "input_044.md", "pid": "2003_3회_81", "kw": "가공전선", "year": 2003},
+      {"input": "input_046.md", "pid": "2004_1회_84", "kw": "이격거리", "year": 2004},
+      {"input": "input_048.md", "pid": "2004_1회_91", "kw": "가공전선", "year": 2004},
+      {"input": "input_053.md", "pid": "2004_2회_86", "kw": "이격거리", "year": 2004},
+      {"input": "input_059.md", "pid": "2004_3회_83", "kw": "가공전선", "year": 2004},
+      {"input": "input_060.md", "pid": "2004_3회_92", "kw": "가공전선", "year": 2004},
+      {"input": "input_069.md", "pid": "2005_3회_81", "kw": "가공전선", "year": 2005},
+      {"input": "input_072.md", "pid": "2006_1회_29", "kw": "가공지선", "year": 2006},
+      {"input": "input_073.md", "pid": "2006_1회_85", "kw": "가공전선", "year": 2006},
+      {"input": "input_074.md", "pid": "2006_1회_86", "kw": "가공전선", "year": 2006},
+      {"input": "input_076.md", "pid": "2006_2회_83", "kw": "가공전선", "year": 2006},
+      {"input": "input_077.md", "pid": "2006_2회_86", "kw": "가공전선", "year": 2006},
+      {"input": "input_080.md", "pid": "2006_3회_81", "kw": "가공전선", "year": 2006},
+      {"input": "input_081.md", "pid": "2006_3회_83", "kw": "가공전선", "year": 2006},
+      {"input": "input_084.md", "pid": "2007_1회_81", "kw": "가공전선", "year": 2007},
+      {"input": "input_085.md", "pid": "2007_1회_82", "kw": "가공전선", "year": 2007},
+      {"input": "input_086.md", "pid": "2007_1회_84", "kw": "가공전선", "year": 2007},
+      {"input": "input_089.md", "pid": "2007_2회_27", "kw": "가공지선", "year": 2007},
+      {"input": "input_090.md", "pid": "2007_2회_81", "kw": "가공전선", "year": 2007},
+      {"input": "input_091.md", "pid": "2007_2회_82", "kw": "가공전선", "year": 2007}
+    ],
+    "matched_keyword_distribution": {"가공전선": 21, "이격거리": 3, "가공지선": 2},
+    "audit_method": "각 sample input.md read → question_text + solution 영역 식별 → 6 taxonomy 중 1개 할당",
+    "outputs_required": [
+      "26 sample × (pid, kw, actual_category)",
+      "kw별 카테고리 분포 (가공전선 21건 / 이격거리 3건 / 가공지선 2건 분포)",
+      "year별 카테고리 분포 (시기 변화)",
+      "policy issue 비율 정량화"
+    ]
+  },
+  "reclassification_taxonomy": {
+    "A_actual_clearance": {"label": "A. 실제 이격거리", "definition": "가공전선과 다른 시설 (전차/광섬유/약전류/안테나/식물/통신) 간 안전 이격거리 수치 / 기준"},
+    "B_safety_factor_wind": {"label": "B. 안전율 / 풍압 하중", "definition": "지지물 안전율, 풍압 하중, 강도 규정"},
+    "C_support_facility": {"label": "C. 지지물 시설기준", "definition": "지지물 분기, 발판 볼트, 시설 위치 등"},
+    "D_guy_wire": {"label": "D. 지선 / 지지선 시설기준", "definition": "지선 안전율, 소선 가닥수, 지름, 도로 횡단 높이 등"},
+    "E_other_facility_standard": {"label": "E. 기타 가공전선 설비기준", "definition": "가공지선/접지, 시설 가능 여부, 일반 기준 등 (A-D 외)"},
+    "X_data_debt": {"label": "X. data debt", "definition": "답안 부정합 / OCR 깨짐 / 본문 부재 / 원문 자체 부족"}
+  },
+  "judgment_rubric": {
+    "per_sample_steps": [
+      "Step 1: input.md read (question_text + solution + answer + choices)",
+      "Step 2: question_text 영역 식별 — 무엇을 묻는가 (이격거리 수치? 안전율? 시설기준?)",
+      "Step 3: solution 영역 식별 — 풀이가 어떤 영역의 표/규정을 인용하는가",
+      "Step 4: 6 taxonomy (A/B/C/D/E/X) 중 1개 할당",
+      "Step 5: data debt 신호 (답안 mismatch / OCR / 본문 부재) 별도 X 마킹"
+    ],
+    "boundary_rules": [
+      "이격거리 수치 (저압/고압/특고압 별 m 단위) → A",
+      "안전율 (1.2 / 1.3 / 1.5 / 2.5 / 풍압 하중) → B",
+      "지지물 분기 / 발판 볼트 / 시설 위치 / 종류 → C",
+      "지선 소선 가닥수 / 지름 / 안전율 / 횡단 높이 → D",
+      "가공지선 / 접지 / 일반 가능 여부 / A-D 외 → E",
+      "답안 부정합 / OCR / 본문 부재 → X 동시 표시 (A-E 1개 + X)"
+    ]
+  },
+  "item_split_candidate_design": {
+    "scope": "audit execution 후 카테고리 분포 측정 후만 결정",
+    "candidate_split": [
+      {"new_item": "가공전선 이격거리", "scope": "A. 실제 이격거리", "essence_keep": "가공전선과 다른 시설간 안전 이격거리는 어떻게 정해지는가"},
+      {"new_item": "가공전선 안전율 / 풍압", "scope": "B. 안전율 / 풍압 하중", "essence_proposal": "가공전선 지지물의 안전율과 풍압 하중 기준은 어떻게 결정되는가"},
+      {"new_item": "가공전선 지지물 시설", "scope": "C. 지지물 시설기준", "essence_proposal": "가공전선로 지지물 시설기준 (분기/발판/위치)이 어떻게 정해지는가"},
+      {"new_item": "가공전선 지선 시설", "scope": "D. 지선 / 지지선 시설기준", "essence_proposal": "가공전선 지선의 소선/안전율/높이 기준이 어떻게 정해지는가"},
+      {"new_item": "가공전선 기타 설비기준", "scope": "E. 기타", "essence_proposal": "가공전선 일반 설비기준 (가공지선/접지 등)이 어떻게 정해지는가"}
+    ],
+    "split_decision_threshold": "각 split 후보가 audit 결과 ≥ 3건 모집단 보유 시에만 split 권장. 1-2건은 'E. 기타'에 통합.",
+    "actual_split_application": 0
+  },
+  "selector_keyword_integrity_method": {
+    "scope": "scripts/v_next_d3_pre_preview.py:237-247 keywords 7개의 broad match 정도 측정 — 코드 수정 0, 측정만",
+    "method": [
+      "Step 1: 가공전선 이격거리 ITEM_POLICY keywords 7개 list 확보 (가공전선/이격거리/가공지선/접지선/안테나/약전류전선/식물 이격)",
+      "Step 2: 26 sample audit 결과 (카테고리 A-X)와 matched_keyword (가공전선 21 / 이격거리 3 / 가공지선 2) cross-tab 작성",
+      "Step 3: 각 keyword별 카테고리 적중률 측정 — '이격거리' kw는 A 카테고리 비율 높음?  '가공전선' kw는 A/B/C/D/E 분산?",
+      "Step 4: broad keyword 식별 — '가공전선' 등 단일 단어가 의미 영역과 무관한 매칭 유발하면 broad",
+      "Step 5: narrow keyword 후보 design — '가공전선' → '가공전선 이격거리' / '가공전선 시설기준' / '가공전선 보호' 등 multi-word로 split 제안"
+    ],
+    "outputs_required": [
+      "keyword × category 2D 표 (3 keywords × 6 categories)",
+      "각 keyword의 적중률 (예: '이격거리' kw → A 100%?, '가공전선' kw → A 30% + 다른 70%?)",
+      "narrow keyword design 후보 list"
+    ]
+  },
+  "data_debt_separation_criteria": {
+    "scope": "policy issue vs data debt 분리",
+    "data_debt_signals": [
+      {"signal": "답안 부정합", "detection": "input answer 필드 vs solution 본문 정답 표시 불일치"},
+      {"signal": "본문 부재", "detection": "device_or_concept = '문제 데이터 부재' 또는 짧은 placeholder"},
+      {"signal": "OCR 깨짐", "detection": "choices에 비표준 단어 (예: '리률로지', '써지널라이저', '읍선수지게' 등)"},
+      {"signal": "원문 자체 부족", "detection": "questions.json에 해당 pid의 raw solution 자체 비어있음"}
+    ],
+    "separation_rule": "data debt 신호 있는 sample은 카테고리 + X 동시 표시. policy issue 측정에서는 'data debt 별도 영역'으로 분리하여 X 제외한 25건 (또는 N건) 기반 policy issue 비율 산출.",
+    "output_separation_format": "26 sample table에 두 컬럼: (1) actual_category (A-E) (2) data_debt_flag (X 여부)"
+  },
+  "next_execution_gate_conditions": [
+    "26 sample 전수 read + 카테고리 분류 완료",
+    "kw × category cross-tab 작성",
+    "data debt 분리 측정 완료",
+    "item split 후보 (split 권장 / 통합 권장) 결정 design",
+    "selector keyword integrity 결과 design",
+    "최종 다음 게이트 추천 (policy 수정 design / selector 수정 design / data debt audit / split 적용 등)"
+  ],
+  "must_not_do_in_design_phase": [
+    "26 sample 실제 read 실행 (execution 게이트 영역)",
+    "카테고리 분류 적용",
+    "selector keyword cross-tab 실제 측정",
+    "data debt 측정 실행",
+    "item split 실제 적용",
+    "policy / selector 코드 수정",
+    "Synthesizer / audit 재실행",
+    "P5 / D-4 / catalog / gap / reuse 진입",
+    "commit",
+    "DEVLOG / Vault / MEMORY / decision JSONL 작성"
+  ],
+  "final_status_options": {
+    "READY_FOR_METADATA_POLICY_REVIEW_EXECUTION_GATE": "26 sample roster + taxonomy 6종 + rubric + item split 후보 + selector keyword integrity 방법 + data debt 분리 기준 모두 명세 완료",
+    "NEEDS_POLICY_REVIEW_DESIGN_FIX": "design에 빈틈 있어 재설계 필요",
+    "BLOCKED_BY_MISSING_MANIFEST_MAPPING": "26 sample 명단 매핑 불가"
+  },
+  "selected_final_status": "READY_FOR_METADATA_POLICY_REVIEW_EXECUTION_GATE",
+  "rationale_for_selection": "26 sample 전수 명단 확보 (kw 분포 가공전선 21 / 이격거리 3 / 가공지선 2). taxonomy 6종 (A-E + X) 정의. judgment rubric 5 step. item split 5 candidate design. selector keyword integrity 5 step method. data debt 4 signal + separation rule. 5 원인 분해 (C1-C5) 가중치 추정. Execution 단계 조건 6 step. 모든 영역 구조 명세 완료."
+}
