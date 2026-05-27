@@ -1,0 +1,183 @@
+{
+  "scope": "P5 sampling execution — 12 samples, semantic signal measurement (NOT a 94/242 totality claim).",
+  "essential_question": "metadata mechanically active inside generator — does the resulting explanation feel better to a human reader?",
+  "claim_boundary": {
+    "semantic_signal_scope": "12 samples only",
+    "d3_total_semantic_gain_claim": 0,
+    "94_total_improved_claim": 0,
+    "242_improved_claim": 0,
+    "a1c_decision": "deferred until further evidence",
+    "metadata_only_absolute_quality_claim": 0,
+    "patch_reversion_consideration": 0,
+    "commit": 0,
+    "devlog_vault_memory_decision_jsonl": 0
+  },
+  "measurement_strategy": {
+    "non_breaker_and_non_expansion_7": "sha256 identity check (baseline vs B) — confirms file-level no-change; auto-label `same`",
+    "breaker_5": "side-by-side read of baseline output + B output + 6-axis rubric"
+  },
+  "sample_results": [
+    {
+      "group": "A_breaker",
+      "input": "input_003.md", "pid": "1998_4회_22",
+      "key_diff": [
+        "phenomenon: `회로 단락전류 / 임피던스 환산` → `회로 단락전류 / 회로 임피던스 환산` (회로 1단어 추가)",
+        "cross_subject_expansion.expands_to: [] → [회로이론 via `전력 차단기 → 회로이론: 회로 단락전류 / 회로 임피던스 환산 경로`]",
+        "다른 모든 필드 동일"
+      ],
+      "rubric": {
+        "comprehension_ease": {"base": 3, "b": 3.5, "note": "phenomenon 회로 1단어로 회로 단락전류와 회로 임피던스 분리 명시"},
+        "cross_subject_link_value": {"base": "N/A", "b": 4, "note": "유전 차단기 특성 학습 시 회로 임피던스 환산 영역과 다리 유용"},
+        "forced_link_risk": {"base": "N/A", "b": 2, "note": "link valid, 약간 mechanical wording이나 차단기 학습 본질 정합"},
+        "distractor_specificity": {"base": 3, "b": 3, "note": "trap_type 및 distractor 텍스트 동일"},
+        "phenomenon_trap_utility": {"base": 3, "b": 3, "note": "phenomenon 약간 명확, 나머지 동일"},
+        "metadata_overload_risk": {"base": 1, "b": 1.5, "note": "expansion 1건 추가, overload 수준 아님"}
+      },
+      "label": "B_better"
+    },
+    {
+      "group": "A_breaker",
+      "input": "input_012.md", "pid": "2000_2회_23",
+      "key_diff": [
+        "phenomenon 회로 1단어 추가",
+        "cross_subject_expansion 회로이론 1건 부착",
+        "다른 모든 필드 동일"
+      ],
+      "rubric": {
+        "comprehension_ease": {"base": 3, "b": 3.5, "note": "차단기 종류(MBB/ABB/VCB/ACB) 비교 시 회로 임피던스 영역 연결 도움"},
+        "cross_subject_link_value": {"base": "N/A", "b": 4, "note": "차단기 정격 전압 / 차단 용량은 회로 단락전류와 회로 임피던스 환산을 사용하는 영역 — link 유용"},
+        "forced_link_risk": {"base": "N/A", "b": 2, "note": "link 자연"},
+        "distractor_specificity": {"base": 3, "b": 3, "note": "동일"},
+        "phenomenon_trap_utility": {"base": 3, "b": 3, "note": "동일"},
+        "metadata_overload_risk": {"base": 1, "b": 1.5, "note": "낮음"}
+      },
+      "label": "B_better"
+    },
+    {
+      "group": "A_breaker",
+      "input": "input_047.md", "pid": "2004_1회_90",
+      "key_diff": [
+        "phenomenon 회로 1단어 추가",
+        "cross_subject_expansion 회로이론 1건 부착",
+        "단 본문 device_or_concept = '문제 데이터 부재: 2008년도 3회 문제 82의 구체적인 문제 내용, 보기, 풀이가 제공되지 않아 분석이 불가능합니다' — raw solution 부재"
+      ],
+      "rubric": {
+        "comprehension_ease": {"base": "N/A", "b": "N/A", "note": "본문 부재로 평가 곤란"},
+        "cross_subject_link_value": {"base": "N/A", "b": "N/A", "note": "link 자체는 정합, 단 본문 없음"},
+        "forced_link_risk": {"base": "N/A", "b": "N/A", "note": "본문 없어 link 적절성 평가 불가"},
+        "distractor_specificity": {"base": 2, "b": 2, "note": "distractor 본문도 일부 깨짐 (입력 OCR 문제로 추정)"},
+        "phenomenon_trap_utility": {"base": "N/A", "b": "N/A", "note": "본문 부재"},
+        "metadata_overload_risk": {"base": 1, "b": 1.5, "note": "낮음"}
+      },
+      "label": "needs_human_review"
+    },
+    {
+      "group": "A_breaker",
+      "input": "input_056.md", "pid": "2004_3회_27",
+      "key_diff": [
+        "phenomenon 회로 1단어 추가",
+        "cross_subject_expansion 회로이론 1건 부착",
+        "다른 모든 필드 동일"
+      ],
+      "rubric": {
+        "comprehension_ease": {"base": 3, "b": 4, "note": "콘덴서용 차단기 정격 전류 (120% vs 150%) 영역 — 회로 임피던스 환산 link 잘 맞음"},
+        "cross_subject_link_value": {"base": "N/A", "b": 4, "note": "콘덴서 회로 단락전류 / 임피던스 환산 영역과 link 직접 관련"},
+        "forced_link_risk": {"base": "N/A", "b": 2, "note": "link 자연"},
+        "distractor_specificity": {"base": 3, "b": 3, "note": "동일 (수치/단위 차이 함정)"},
+        "phenomenon_trap_utility": {"base": 3, "b": 3, "note": "동일"},
+        "metadata_overload_risk": {"base": 1, "b": 1.5, "note": "낮음"}
+      },
+      "label": "B_better"
+    },
+    {
+      "group": "A_breaker",
+      "input": "input_092.md", "pid": "2008_1회_23",
+      "key_diff": [
+        "phenomenon 회로 1단어 추가",
+        "cross_subject_expansion 회로이론 1건 부착",
+        "단 본문 device_or_concept = 'A:가동 접촉자 / B:고정 접촉자 / C:승강간 / D:절연 liner' — 부품 명칭 영역"
+      ],
+      "rubric": {
+        "comprehension_ease": {"base": 3, "b": 3, "note": "부품 명칭 영역은 회로 단락전류 / 임피던스 환산과 직접 거리"},
+        "cross_subject_link_value": {"base": "N/A", "b": 3, "note": "link 자체 정합하나 본 문제 (부품 명칭)에는 덜 적절"},
+        "forced_link_risk": {"base": "N/A", "b": 3, "note": "부품 명칭과 회로 임피던스 환산 연결은 약간 forced"},
+        "distractor_specificity": {"base": 3, "b": 3, "note": "동일"},
+        "phenomenon_trap_utility": {"base": 3, "b": 3, "note": "동일"},
+        "metadata_overload_risk": {"base": 1, "b": 1.5, "note": "낮음"}
+      },
+      "label": "same"
+    },
+    {"group": "B_non_breaker_expansion", "input": "input_001.md", "pid": "1998_2회_23",
+     "key_diff": ["baseline ↔ B sha256 identical (file-level 변경 0)"],
+     "rubric": "auto same (file identical)",
+     "label": "same"},
+    {"group": "B_non_breaker_expansion", "input": "input_007.md", "pid": "1999_3회_23",
+     "key_diff": ["baseline ↔ B sha256 identical"],
+     "rubric": "auto same",
+     "label": "same"},
+    {"group": "B_non_breaker_expansion", "input": "input_018.md", "pid": "2000_6회_27",
+     "key_diff": ["baseline ↔ B sha256 identical"],
+     "rubric": "auto same",
+     "label": "same"},
+    {"group": "B_non_breaker_expansion", "input": "input_015.md", "pid": "2000_4회_23",
+     "key_diff": ["baseline ↔ B sha256 identical"],
+     "rubric": "auto same",
+     "label": "same"},
+    {"group": "C_non_expansion_metadata", "input": "input_005.md", "pid": "1998_4회_25",
+     "key_diff": ["baseline ↔ B sha256 identical — patch 무관 영역"],
+     "rubric": "auto same",
+     "label": "same",
+     "note": "B vs baseline same. metadata-only 절대 품질은 본 비교로 측정 불가 (별 audit 영역)"},
+    {"group": "C_non_expansion_metadata", "input": "input_008.md", "pid": "1999_4회_81",
+     "key_diff": ["baseline ↔ B sha256 identical"],
+     "rubric": "auto same",
+     "label": "same",
+     "note": "metadata-only 절대 품질 별 영역"},
+    {"group": "C_non_expansion_metadata", "input": "input_045.md", "pid": "2004_1회_30",
+     "key_diff": ["baseline ↔ B sha256 identical"],
+     "rubric": "auto same",
+     "label": "same",
+     "note": "metadata-only 절대 품질 별 영역"}
+  ],
+  "group_majority": {
+    "A_breaker_5": {"B_better": 3, "same": 1, "needs_human_review": 1, "B_worse": 0, "majority": "B_better"},
+    "B_non_breaker_expansion_4": {"B_better": 0, "same": 4, "needs_human_review": 0, "B_worse": 0, "majority": "same"},
+    "C_non_expansion_metadata_3": {"B_better": 0, "same": 3, "needs_human_review": 0, "B_worse": 0, "majority": "same"}
+  },
+  "breaker_link_quality_observation": {
+    "useful_when": "차단기 학습 본질이 회로 단락전류 / 회로 임피던스 환산 영역과 직접 정합 (003, 012, 056 — 차단 용량 / 정격 전류 / 콘덴서 차단)",
+    "less_useful_when": "부품 명칭 / 본문 부재 영역 (092, 047)",
+    "summary": "차단기 dl 표현의 link는 학습 본질 영역에서는 의미 있는 다리, 부품/구조 영역에서는 덜 적절"
+  },
+  "hidden_regression_signal_check": {
+    "non_breaker_4_sample_file_identity": "all 4 identical (sha256 match)",
+    "non_breaker_4_sample_label": "same × 4",
+    "hidden_regression_found": false,
+    "human_spot_check_aligned_with_mechanical_audit": true
+  },
+  "metadata_only_quality_observation": {
+    "non_expansion_3_sample_file_identity": "all 3 identical (B vs baseline)",
+    "absolute_metadata_only_quality_measurable_from_this_sampling": false,
+    "rationale": "본 sampling은 baseline vs B 비교 — non_expansion_metadata 그룹의 B output은 baseline과 identical이므로 metadata-only 절대 품질 평가는 본 측정 영역 외. 별 audit 필요 시 dl=None 영역에 대한 별도 절대 품질 sampling 필요."
+  },
+  "pathway_mapping": [
+    {"condition": "breaker samples majority B_better", "matched": true, "next_state": "patch_semantic_value_supported", "decision": "B-only patch semantic value 지지. A1c 추가 불필요 유지."},
+    {"condition": "non_breaker spot check clean (no B_worse)", "matched": true, "next_state": "regression_human_clean", "decision": "81 회귀 0이 사람 spot check와 정합. 추가 조치 0."},
+    {"condition": "non_expansion samples weak quality", "matched": "not_measurable", "next_state": "deferred", "decision": "본 비교 측정으로는 metadata-only 절대 품질 평가 불가 — 별 audit 후보로 보류"}
+  ],
+  "next_gate_recommendations": [
+    {"priority": 1, "name": "P5 결과 정착", "scope": "본 보고서 commit + push 별 게이트 (사용자 명시 영역)"},
+    {"priority": 2, "name": "A1c keyword design 보류 유지", "scope": "차단기 majority B_better이므로 추가 patch 불필요 — 본 결과로 deferred 유지"},
+    {"priority": 3, "name": "metadata-only audit", "scope": "non_expansion_metadata 37 절대 품질 별 sampling — 본 P5와 분리 영역"},
+    {"priority": 4, "name": "D-4 진입", "scope": "unpaired 148 baseline audit — P5와 독립 별 영역"},
+    {"priority": 5, "name": "needs_human_review 1건 (input_047) 후속", "scope": "본문 부재 sample은 본 P5 영역 외 — questions.json 영역 data debt audit 후보"}
+  ],
+  "final_status_options": {
+    "P5_SIGNAL_B_BETTER": "차단기 majority B_better + 비차단기 회귀 사람 기준 정합 + non_expansion 변경 없음 — semantic signal supports patch maintenance",
+    "P5_SIGNAL_SAME_OR_WEAK": "차단기 majority same — mechanical only, semantic gain 약함",
+    "P5_SIGNAL_B_WORSE_OR_RISK": "차단기 majority B_worse — patch 유지 재검토 필요",
+    "P5_NEEDS_HUMAN_REVIEW": "전 group needs_human_review 다수 — automated rubric으로 결정 불가"
+  },
+  "selected_final_status": "P5_SIGNAL_B_BETTER",
+  "rationale_for_selection": "Group A (차단기) majority B_better (3/5) — B-only patch의 cross_subject_expansion이 차단기 학습 본질 영역에서 의미 있는 link 제공. Group B (비차단기 spot check) all `same` — hidden regression 없음. Group C (non_expansion) all `same` — patch 무관 영역, metadata-only 절대 품질은 본 측정 외. 즉 patch 유지 결정의 semantic 신호는 positive."
+}

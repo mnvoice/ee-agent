@@ -1,0 +1,115 @@
+{
+  "scope": "P5 sampling DESIGN ONLY — execution is deferred to a separate gate. Build sample roster + rubric + label + branching conditions for human-judged semantic-gain spot check.",
+  "essential_question": "metadata that mechanically utilized inside the generator: does the resulting explanation actually feel better to a human reader, or only mechanically richer?",
+  "claim_boundary": {
+    "mechanical_recovery_claim": "already locked at 13/13 from previous gate — NOT a P5 claim",
+    "semantic_gain_claim": 0,
+    "242_improved_claim": 0,
+    "p5_execution": 0,
+    "d4": 0,
+    "a1c_patch": 0,
+    "commit": 0,
+    "devlog_vault_memory_decision_jsonl": 0
+  },
+  "evidence_pointer": {
+    "implementation_report": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_b/d3_breaker_patch_implementation_report.md",
+    "paired_audit_report": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3/d3_paired_audit_report.md",
+    "audit_join_baseline": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3/d3_paired_audit_join.json",
+    "audit_join_b": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_b/d3_breaker_patch_implementation_audit.json",
+    "selection_manifest_baseline": "docs/prompt_engineering/explanation_generation_v0/v_next_inputs_d3/selection_manifest.json",
+    "selection_manifest_b": "docs/prompt_engineering/explanation_generation_v0/v_next_inputs_d3_b/selection_manifest.json"
+  },
+  "sample_groups": [
+    {
+      "group": "breaker_13_recovered",
+      "population": 13,
+      "sample_size": 5,
+      "selection_strategy": "year-span diversity (1998 / 2000 / 2004 × 2 / 2008) to capture variation in raw solution wording while breaker dl is identical across all 13",
+      "samples": [
+        {"input": "input_003.md", "pid": "1998_4회_22", "year": 1998, "rationale": "earliest"},
+        {"input": "input_012.md", "pid": "2000_2회_23", "year": 2000, "rationale": "mid-1990s wave"},
+        {"input": "input_047.md", "pid": "2004_1회_90", "year": 2004, "rationale": "q_no 90 (calc/applied region candidate)"},
+        {"input": "input_056.md", "pid": "2004_3회_27", "year": 2004, "rationale": "2004 representative (4 cases that year)"},
+        {"input": "input_092.md", "pid": "2008_1회_23", "year": 2008, "rationale": "latest"}
+      ],
+      "purpose": "Does cross_subject_expansion to 회로이론 actually help the human reader, or feel forced?"
+    },
+    {
+      "group": "non_breaker_expansion_44_spot_check",
+      "population": 44,
+      "sample_size": 4,
+      "selection_strategy": "one per (slot, item) unique key for slot/item diversity",
+      "samples": [
+        {"input": "input_001.md", "pid": "1998_2회_23", "slot_grp": "전력_송배전D", "item": "송전 용량/거리", "dl": "전력 송전용량 -> 회로 4단자망 -> 회로 분포정수", "rationale": "D/Dynamic 송배전 대표"},
+        {"input": "input_007.md", "pid": "1999_3회_23", "slot_grp": "전력_보호고장S", "item": "지락·중성점 접지", "dl": "전력 중성점 접지 -> 회로 대칭분 해석", "rationale": "S/Fault non-차단기 multi-target hit (전기설비기술기준 + 회로이론)"},
+        {"input": "input_018.md", "pid": "2000_6회_27", "slot_grp": "전력_보호고장S", "item": "단락전류·임피던스", "dl": "전력 단락전류 -> 회로 옴의 법칙 -> 회로 임피던스 환산", "rationale": "차단기의 closest neighbor (회로 임피던스 환산 영역 공유) — 비교 유용"},
+        {"input": "input_015.md", "pid": "2000_4회_23", "slot_grp": "전력_송배전D", "item": "코로나 / 전선 도체", "dl": "전력 코로나/표피효과 -> 회로 분포정수 -> 회로 임피던스", "rationale": "D/Dynamic 송배전의 다른 영역 (코로나)"}
+      ],
+      "purpose": "regression 0 (mechanical) is locked; human spot-check whether non-breaker outputs remain stable in feel"
+    },
+    {
+      "group": "non_expansion_metadata_37_audit",
+      "population": 37,
+      "sample_size": 3,
+      "selection_strategy": "slot/item diversity within the limited 5 unique (slot, item) keys (전력_함정S 2 + 전력_설비고장 3)",
+      "samples": [
+        {"input": "input_005.md", "pid": "1998_4회_25", "slot_grp": "전력_함정S", "item": "부하율·수용률·부등률", "rationale": "전력_함정S 대표 (dl=None 정직)"},
+        {"input": "input_008.md", "pid": "1999_4회_81", "slot_grp": "전력_설비고장", "item": "가공전선 이격거리", "rationale": "전력_설비고장 대표 1"},
+        {"input": "input_045.md", "pid": "2004_1회_30", "slot_grp": "전력_설비고장", "item": "가공전선로 경간·이도", "rationale": "전력_설비고장 대표 2 (다른 item)"}
+      ],
+      "purpose": "Does dl-null + enriched metadata alone produce reasonable explanations, or does the absence of cross_subject_expansion noticeably hurt?"
+    }
+  ],
+  "total_samples": 12,
+  "file_path_mapping_rule": {
+    "input_md_baseline": "docs/prompt_engineering/explanation_generation_v0/v_next_inputs_d3/<input>.md",
+    "input_md_b": "docs/prompt_engineering/explanation_generation_v0/v_next_inputs_d3_b/<input>.md",
+    "output_json_baseline": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3/output_NNN.json (NNN = input number)",
+    "output_json_b": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_b/output_NNN.json (NNN = input number)"
+  },
+  "rubric": [
+    {"axis": "comprehension_ease", "question": "Is the explanation easier to understand for a candidate studying this question?", "direction": "higher is better"},
+    {"axis": "cross_subject_link_value", "question": "Does the 회로이론 link (when present) genuinely help connect concepts the learner already has?", "direction": "higher is better, but conditional on link presence"},
+    {"axis": "forced_link_risk", "question": "Does the cross-subject expansion feel forced/decorative rather than substantive?", "direction": "lower is better (negative axis)"},
+    {"axis": "distractor_specificity", "question": "Is the wrong-choice analysis more specific to the trap pattern vs generic phrasing?", "direction": "higher is better"},
+    {"axis": "phenomenon_trap_utility", "question": "Are core_extraction.phenomenon / trap_pattern / distractor_analysis.trap_type useful study cues?", "direction": "higher is better"},
+    {"axis": "metadata_overload_risk", "question": "Does the abundance of metadata make the explanation cluttered or harder to scan?", "direction": "lower is better (negative axis)"}
+  ],
+  "labels": {
+    "B_better": "B output is clearly more useful for the learner",
+    "same": "Difference negligible; mechanical change does not register as a quality shift",
+    "B_worse": "B output is actually less useful — cross_subject_expansion or metadata harms clarity",
+    "needs_human_review": "Automated rubric application yields ambiguous result — escalate to deeper human review"
+  },
+  "branching_conditions": [
+    {"condition": "breaker samples majority B_better", "next_state": "patch_semantic_value_supported", "decision": "B-only patch maintains semantic value; A1c not needed"},
+    {"condition": "breaker samples majority same", "next_state": "mechanical_only_no_semantic_gain", "decision": "mechanical recovery succeeded but semantic gain is weak — investigate generator utilization or P5 template"},
+    {"condition": "breaker samples majority B_worse", "next_state": "patch_reconsider", "decision": "cross-subject link may degrade clarity; review whether to revert dl patch or refine link rendering"},
+    {"condition": "non_breaker spot check clean", "next_state": "regression_human_clean", "decision": "81 regression 0 aligns with human spot check; no further action on non-breaker"},
+    {"condition": "non_breaker spot check finds B_worse", "next_state": "hidden_regression_found", "decision": "10-field semantic-field diff missed a quality regression; widen audit scope"},
+    {"condition": "non_expansion_metadata samples weak quality", "next_state": "metadata_quality_audit_candidate", "decision": "dl-null entries benefit insufficiently from enriched metadata alone; queue separate metadata-only audit"}
+  ],
+  "execution_steps_when_authorized": [
+    "Step 1: For each of 12 samples, side-by-side read baseline output_NNN.json (v_next_results_d3/) and B output_NNN.json (v_next_results_d3_b/) plus the corresponding input.md from each manifest version",
+    "Step 2: Apply 6-axis rubric per sample. Record per-axis 1-5 score or N/A",
+    "Step 3: Per sample, assign one of 4 labels based on rubric outcome",
+    "Step 4: Aggregate per group: majority label per group",
+    "Step 5: Map group results to branching conditions, derive next-state recommendation",
+    "Step 6: Report sample-level findings + group-level aggregation + recommended next gate"
+  ],
+  "must_not_do_in_design_phase": [
+    "Execute side-by-side reading or apply rubric — that is the execution gate",
+    "Modify generator / scripts / patch",
+    "Re-run synthesizer or audit",
+    "Add A1c keyword or fallback",
+    "Enter D-4 / catalog / gap / reuse",
+    "Commit, push, or write DEVLOG/Vault/MEMORY/decision JSONL"
+  ],
+  "final_status_options": {
+    "READY_FOR_P5_SAMPLING_EXECUTION_GATE": "Sample roster + rubric + labels + branching all in place; execution can begin on user authorization",
+    "NEEDS_P5_SAMPLING_DESIGN_FIX": "Design has gaps or ambiguous criteria; redesign needed before execution",
+    "BLOCKED_BY_MISSING_SAMPLE_MAPPING": "baseline/B file paths cannot be deterministically mapped for one or more selected samples"
+  },
+  "selected_final_status": "READY_FOR_P5_SAMPLING_EXECUTION_GATE",
+  "rationale_for_selection": "All 12 samples have deterministic NNN-based mapping to both baseline and B outputs. Rubric is concrete (6 axes), labels are discrete (4 categories), branching conditions enumerate 6 next-state pathways. Execution can begin on user-authorized P5 execution gate."
+}
