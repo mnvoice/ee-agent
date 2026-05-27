@@ -1,0 +1,265 @@
+{
+  "scope": "Policy change governance layer DESIGN — automation 전 manifest 변동 판정 rule layer 설계. 코드 / D-4 preview 실행 / policy 수정 / commit 0.",
+  "essential_question": "automation이 CLEAN/catalog/gap 숫자 변화 감지 시 정밀화/오류/회수/data debt/tool drift 구분 판정 방법?",
+  "claim_boundary": {
+    "automation_implementation": 0,
+    "d4_preview_execution": 0,
+    "policy_modification": 0,
+    "selector_modification": 0,
+    "input_creator_modification": 0,
+    "parser_validator_modification": 0,
+    "generation_execution": 0,
+    "audit_execution": 0,
+    "commit": 0,
+    "devlog_vault_memory_decision_jsonl": 0
+  },
+  "evidence_pointer": {
+    "split_implementation_report": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/item_split_implementation_report.md",
+    "manifest_shift_review": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/item_split_manifest_shift_review.md",
+    "split_design_adjustment": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/split_design_adjustment.md",
+    "hard_check_policy_design": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/hard_check_policy_design.md"
+  },
+  "1_why_governance_before_automation": {
+    "split_experiment_lesson": "split 실험에서 CLEAN 94 → 87 manifest shift 발생. input_creator fixed hard check가 false positive 차단. 정합 정교화 효과(broad keyword 제거 / item 정합화)는 측정 가능하나 자동화 도구가 정교화와 회귀를 구분 못 함.",
+    "without_governance_risks": [
+      "정합 정교화를 회귀로 판정 → false positive 차단",
+      "회귀를 정합 정교화로 판정 → false negative 통과",
+      "tool drift를 policy change로 오분류",
+      "subject drift 무관심 → 추적 누락",
+      "broad keyword 재도입을 감지 못함",
+      "data debt drop과 unexplained loss 구분 불가"
+    ],
+    "governance_layer_role": "automation이 변동 감지 시 사람이 판정 가능한 카테고리 체계를 사전에 정의. automation 출력 = 분류된 변동 라벨 + alert severity. 사람 review queue에 정합 분류된 변동만 표시."
+  },
+  "2_claude_web_v02_rule_review": {
+    "R6_60_percent_threshold": {
+      "verdict": "configurable default 격하",
+      "rationale": "60% 등 fixed threshold는 임의 결정 영역. subject별 모집단 크기 / 정책 정합성 / data debt 비율에 따라 변동. configurable로 둠.",
+      "default_proposal": "60% (단 user 설정 가능)"
+    },
+    "R9_new_occurrence_definition": {
+      "verdict": "4 sub-category 명시",
+      "sub_categories": [
+        "R9a: before=0 after>0 (전무 → 진입)",
+        "R9b: before>0 after=0 (소멸)",
+        "R9c: new item introduced (item 자체 신설)",
+        "R9d: new status entered (status enum 신설)"
+      ],
+      "rationale": "신규 발생 정의 모호성 제거. automation이 각 sub-category 별로 trigger 정의 가능."
+    },
+    "R10_R11_positive_movement": {
+      "verdict": "유지",
+      "rationale": "catalog / NEEDS_REVIEW / GAP → CLEAN 회수는 positive movement로 별도 판정. CLEAN 증가가 자동 suspect 아닌 영역."
+    },
+    "R12_tool_change_tracking": {
+      "verdict": "유지 + 강화",
+      "rationale": "policy change와 tool change는 분리 추적. 같은 run에 섞이면 hard_alert 또는 block."
+    },
+    "catalog_NEEDS_REVIEW_separation": {
+      "verdict": "별 status로 지원",
+      "rationale": "catalog = NEEDS_REVIEW와 GAP = unmatched/EXCLUDE_LOW는 의미 영역이 다름. classification taxonomy에서 분리 영역."
+    },
+    "entry_level_diff_required": {
+      "verdict": "필수",
+      "rationale": "변동량 0이어도 entry-level diff 측정 — same count 안 의미 변동 (item rename / kw change / status change) 추적."
+    }
+  },
+  "3_final_rule_set": [
+    "R1: 모든 policy change는 declaration 사전 제출 — automation이 declaration 없이 발견된 변동은 hard_alert",
+    "R2: CLEAN 감소는 기본 investigate — declaration의 expected_exit + cause 명시 시 soft_alert로 격하",
+    "R3: CLEAN 증가는 기본 suspect — positive_recovery (catalog/NEEDS_REVIEW/GAP → CLEAN) 명시 시 soft_info, 다른 영역에서 진입은 suspicious_gain hard_alert",
+    "R4: broad single-word keyword 재도입은 항상 hard_alert + block 후보",
+    "R5: 변동량 0이어도 entry-level diff 필수 — same-count drift 추적",
+    "R6: configurable threshold default 60% (subject별 override 가능)",
+    "R7: policy change vs tool change 분리 추적 — 같은 run 동시 발생 시 hard_alert",
+    "R8: subject change는 별 section으로 추적 — 추가/제거/rename/merge/split/count drift",
+    "R9: 신규 발생 4 sub-category — R9a 전무→진입 / R9b 소멸 / R9c new item / R9d new status",
+    "R10: positive movement (catalog/NEEDS_REVIEW/GAP → CLEAN) 별 라벨",
+    "R11: data debt drop intentional 명시 — drop 영역과 cause 분리",
+    "R12: tool change는 별 section + reviewer notes",
+    "R13: protected groups (expansion 57 / 차단기 13 등) 회귀 0 hard invariant",
+    "R14: alert severity 4 단계 (info / soft_alert / hard_alert / block) — threshold configurable",
+    "R15: human review queue는 hard_alert 이상만 진입 — soft_alert와 info는 audit log만"
+  ],
+  "4_policy_change_declaration_schema": {
+    "required_fields": {
+      "change_id": "고유 식별자 (예: SPLIT-S1S4-001)",
+      "subject": "전력공학 / 기기 / 설비 등",
+      "affected_slots": "변경 영향 받는 slot list",
+      "affected_items": "변경 영향 받는 item list (slot, item 키)",
+      "expected_clean_delta": "예: -7 (또는 range 예: -10 ~ +3)",
+      "expected_catalog_delta": "예: +9",
+      "expected_gap_delta": "예: -2",
+      "expected_positive_movement": "catalog/NEEDS_REVIEW/GAP → CLEAN 회수 예상 list",
+      "expected_exit": "CLEAN → 비CLEAN 예상 pid + cause (recoverable / partial / intentional / data_debt)",
+      "expected_new": "비CLEAN → CLEAN 예상 pid + 매칭 keyword",
+      "forbidden_changes": "broad keyword 재도입 / protected group 변경 / subject drift 등",
+      "protected_groups": "expansion 57 / 차단기 13 / sealed assets 등 회귀 0 영역",
+      "reviewer_notes": "human reviewer 자유 입력 영역"
+    },
+    "optional_fields": {
+      "tool_change_section": "tool 변경 영역 (별 section, R7)",
+      "subject_change_section": "subject 변경 영역 (별 section, R8)",
+      "configurable_thresholds": "subject별 threshold override"
+    }
+  },
+  "5_manifest_diff_classification_taxonomy": [
+    {"id": "T1", "transition": "CLEAN → GAP", "default_label": "investigate (cause 분류 필요)"},
+    {"id": "T2", "transition": "CLEAN → catalog (NEEDS_REVIEW)", "default_label": "investigate"},
+    {"id": "T3", "transition": "CLEAN → CLEAN item 변경 (라우팅)", "default_label": "expected_refinement 또는 mismatch_reroute"},
+    {"id": "T4", "transition": "catalog/NEEDS_REVIEW → CLEAN", "default_label": "positive_recovery"},
+    {"id": "T5", "transition": "GAP → CLEAN", "default_label": "positive_recovery (강한 회수)"},
+    {"id": "T6", "transition": "GAP → catalog", "default_label": "partial_recovery"},
+    {"id": "T7", "transition": "catalog → GAP", "default_label": "investigate (data debt 가능성)"},
+    {"id": "T8", "transition": "new CLEAN (전무 → CLEAN 진입)", "default_label": "positive_gain 또는 suspicious_gain"},
+    {"id": "T9", "transition": "CLEAN exit (CLEAN → 비CLEAN, T1+T2 통합)", "default_label": "recoverable_loss / intentional_drop / data_debt"},
+    {"id": "T10", "transition": "status unchanged but item changed", "default_label": "mismatch_reroute"},
+    {"id": "T11", "transition": "count unchanged but entry-level diff 발생", "default_label": "same_count_drift"},
+    {"id": "T12", "transition": "no transition (status + item + kw 모두 동일)", "default_label": "stable"}
+  ],
+  "6_movement_labels": [
+    {"label": "expected_refinement", "definition": "declaration에 명시된 정합 정교화 (T3 라우팅 변화)"},
+    {"label": "recoverable_loss", "definition": "CLEAN exit이나 keyword 보강으로 회복 가능 (T1/T2/T9)"},
+    {"label": "intentional_drop", "definition": "data debt 등 정책상 intentional 분리 (T1/T2/T9)"},
+    {"label": "positive_recovery", "definition": "catalog/NEEDS_REVIEW/GAP → CLEAN 회수 (T4/T5/T6)"},
+    {"label": "suspicious_gain", "definition": "전무 → CLEAN 진입인데 declaration 미명시 (T8 변형)"},
+    {"label": "broad_match_risk", "definition": "broad single-word keyword 재도입 (R4 hard_alert)"},
+    {"label": "data_debt", "definition": "OCR/풀이 부재/답안 부정합 등 questions.json 영역 (T1/T7/T9)"},
+    {"label": "tool_drift", "definition": "policy 변경 없이 tool change로 발생한 변동 (R7)"},
+    {"label": "subject_drift", "definition": "subject 영역 변경 (R8)"},
+    {"label": "needs_human_review", "definition": "자동 분류 불가능 — 사람 review queue 진입"}
+  ],
+  "7_alert_severity": {
+    "info": {
+      "definition": "stable / expected_refinement / positive_recovery / new CLEAN with declaration",
+      "action": "audit log 기록만"
+    },
+    "soft_alert": {
+      "definition": "recoverable_loss with declaration / intentional_drop with cause / data_debt with marker",
+      "action": "audit log 기록 + WARN 표시"
+    },
+    "hard_alert": {
+      "definition": "unexplained CLEAN loss / suspicious_gain / mismatch_reroute without declaration / tool_drift + policy 동시",
+      "action": "human review queue 진입 + WARN ERROR 표시"
+    },
+    "block": {
+      "definition": "broad_match_risk / protected_group 회귀 / sealed_baseline mode 위반 / unexplained delta > threshold",
+      "action": "automation 중단 + ERROR + human 명시 인가 필요"
+    }
+  },
+  "8_configurable_thresholds": {
+    "delta_percent_threshold": {"default": 0.60, "rationale": "절대값 변화량 / baseline 비율. 60% 초과 시 hard_alert default. subject별 override 가능."},
+    "unexplained_clean_loss_threshold": {"default": 0.05, "rationale": "baseline CLEAN의 5% 초과 unexplained loss = block default."},
+    "broad_keyword_word_length_threshold": {"default": 2, "rationale": "단일 단어 (length 1 token) keyword는 broad 후보. multi-word (length 2+) 안전 default."},
+    "positive_gain_threshold": {"default": 0.10, "rationale": "baseline 비CLEAN의 10% 초과 신규 CLEAN 진입 = suspicious_gain default."},
+    "all_thresholds_configurable": true,
+    "override_mechanism": "configurable_thresholds.json (subject별 + global default)"
+  },
+  "9_tool_change_section_design": {
+    "tracked_tool_changes": [
+      "stopword list 변경",
+      "score threshold 변경 (예: CLEAN cutoff 15 → 14)",
+      "parser library / version 변경",
+      "selector algorithm 변경 (예: priority 룰)",
+      "scoring rule 변경 (예: evidence_field score weight)",
+      "output path 변경"
+    ],
+    "tool_change_declaration_fields": [
+      "tool_change_id",
+      "change_type (stopword / threshold / parser / selector / scoring / output_path)",
+      "before_value / after_value",
+      "affected_subjects",
+      "estimated_manifest_impact",
+      "reviewer_notes"
+    ],
+    "policy_tool_separation_rule": "R7 — policy change와 tool change가 같은 run에 동시 발생 시 hard_alert 또는 block. 분리 run 권장.",
+    "default_action_on_mixed_run": "hard_alert (사용자 명시 인가 시 block 회피)"
+  },
+  "10_subject_change_section_design": {
+    "tracked_subject_changes": [
+      "subject_added (예: 새 과목 신설)",
+      "subject_removed (예: 폐기)",
+      "subject_renamed (예: '전력공학' → 'PowerEng')",
+      "subject_merge (예: 2개 → 1개)",
+      "subject_split (예: 1개 → 2개)",
+      "subject_count_drift (예상치 못한 subject 추가/제거)"
+    ],
+    "subject_change_declaration_fields": [
+      "subject_change_id",
+      "change_type (added / removed / renamed / merge / split / drift)",
+      "before_subject_list / after_subject_list",
+      "migration_mapping (rename / merge / split 시 pid 이동 매핑)",
+      "expected_manifest_impact (subject별 expected_clean_delta 영역 포함)",
+      "reviewer_notes"
+    ],
+    "subject_drift_default_severity": "hard_alert (declaration 없이 발견 시)"
+  },
+  "11_d4_automation_application": {
+    "scope": "subject별 (기기 260 / 설비 120 등) governance layer 적용 방식",
+    "required_per_subject": [
+      "subject별 expected_clean_range (예: 기기 245-275, 설비 110-130)",
+      "subject별 protected_groups (expansion 영역 / 핵심 item 영역)",
+      "subject별 manifest_diff_report (baseline vs new)",
+      "subject별 human_review_queue 정의",
+      "subject별 automation_stop_condition (block trigger 시)"
+    ],
+    "reusable_components": [
+      "policy_change_declaration schema (subject별 instance 생성)",
+      "manifest_diff_classification taxonomy (전 subject 공통)",
+      "movement labels (전 subject 공통)",
+      "alert severity 4 단계 (전 subject 공통)",
+      "configurable thresholds (subject별 override)"
+    ],
+    "d4_workflow_outline": [
+      "Step 1: subject 선택 + policy_change_declaration 제출",
+      "Step 2: D-3 selector dry-run → manifest diff 생성",
+      "Step 3: manifest_diff_classification 자동 분류",
+      "Step 4: alert severity 자동 측정",
+      "Step 5: block trigger 시 automation 중단 → human review",
+      "Step 6: 통과 시 input_creator (policy_revision mode) 실행",
+      "Step 7: post-revision audit + commit + push"
+    ],
+    "human_review_queue_entry_conditions": [
+      "hard_alert 이상 발생",
+      "unexplained_clean_loss > threshold",
+      "broad_match_risk 감지",
+      "tool_drift + policy 동시",
+      "subject_drift declaration 0",
+      "protected_group 회귀 측정"
+    ]
+  },
+  "12_user_decision_needed": [
+    {"item": "delta_percent_threshold default value", "current_proposal": 0.60, "rationale": "Claude 웹 v0.2의 60% 그대로 default로 두나 사용자 조정 영역"},
+    {"item": "unexplained_clean_loss_threshold default value", "current_proposal": 0.05, "rationale": "baseline의 5% 초과 unexplained loss = block default"},
+    {"item": "positive_gain_threshold default value", "current_proposal": 0.10, "rationale": "비CLEAN의 10% 초과 신규 CLEAN = suspicious_gain default"},
+    {"item": "human_review_queue 진입 trigger 범위", "current_proposal": "hard_alert 이상", "rationale": "soft_alert는 audit log만 — 사용자 명시로 진입 범위 조정 가능"},
+    {"item": "block trigger 시 자동 중단 vs WARN", "current_proposal": "자동 중단 + 명시 인가 필요", "rationale": "block은 강한 신호 — 사용자 명시 자동 중단 정책 결정"},
+    {"item": "policy_revision mode 진입 인가 영역", "current_proposal": "CLI flag + declaration 제출", "rationale": "사용자 명시 mode 진입 결정 (hard_check_policy_design secondary 영역)"}
+  ],
+  "13_next_implementation_gate_conditions": [
+    "사용자 명시 default threshold 값 확정",
+    "policy_change_declaration schema JSON 형식 정의 (영구 파일)",
+    "manifest_diff_classification rule implementation (read-only 측정 도구)",
+    "alert severity 측정 도구 implementation",
+    "subject별 configurable threshold 파일 신설",
+    "human review queue 구조 정의 (markdown 또는 별 파일)",
+    "tool_change_section / subject_change_section 별 declaration 영역 정의"
+  ],
+  "14_files_to_create_or_modify_in_implementation": [
+    {"file": "docs/.../governance/policy_change_declaration_schema.json (신규)", "scope": "schema 영역"},
+    {"file": "docs/.../governance/configurable_thresholds.json (신규)", "scope": "threshold default + subject override"},
+    {"file": "docs/.../governance/manifest_diff_classifier.py (신규, 선택)", "scope": "read-only 측정 도구"},
+    {"file": "scripts/v_next_d3_input_creator.py (수정 영역)", "scope": "hard_check_policy_design 정합 — mode-aware check + governance declaration 입력"},
+    {"file": "scripts/v_next_d3_parser_validator.py (수정 영역)", "scope": "94 hardcoded → mode-aware truthy"},
+    {"file": "human_review_queue/ (신규 디렉토리)", "scope": "hard_alert 이상 진입 queue"}
+  ],
+  "final_status_options": {
+    "READY_FOR_POLICY_GOVERNANCE_IMPLEMENTATION_GATE": "governance layer rule set + schema + taxonomy + labels + severity + threshold + tool/subject section + D-4 적용 명세 완료",
+    "NEEDS_POLICY_GOVERNANCE_DESIGN_FIX": "design 빈틈 있어 재설계",
+    "NEEDS_USER_DECISION_ON_THRESHOLDS": "default threshold 값 사용자 결정 필요",
+    "BLOCKED_BY_RULE_AMBIGUITY": "rule 모호하여 결정 불가"
+  },
+  "selected_final_status": "READY_FOR_POLICY_GOVERNANCE_IMPLEMENTATION_GATE",
+  "secondary_status": "NEEDS_USER_DECISION_ON_THRESHOLDS (default value 사용자 명시 영역)",
+  "rationale_for_selection": "15 rule set 명세 + 12 schema field + 12 taxonomy transitions + 10 movement labels + 4 alert severity + 4 configurable threshold default + tool/subject section design + D-4 7-step workflow + 6 user decision items + 7 next gate conditions. Claude 웹 v0.2 규칙 검토 완료 (R6 configurable default 격하 + R9 4 sub-category + R10/R11 유지 + R12 강화). NEEDS_USER_DECISION secondary — threshold 값 default proposal만 명시, 확정은 사용자 영역."
+}
