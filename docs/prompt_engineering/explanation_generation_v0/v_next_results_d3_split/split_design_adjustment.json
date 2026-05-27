@@ -1,0 +1,191 @@
+{
+  "scope": "Split design adjustment DESIGN — S1/S3/S4 keyword 보강 multi-word candidate 매칭 측정 + recoverable 회복 예측 + CLEAN 회복 시나리오. 실제 policy 수정 0.",
+  "essential_question": "S3/S4 keyword를 multi-word 방식으로 얼마나 보강하면 CLEAN 87 → 91-93 회복 가능한가? 보강이 다시 broad match 만들지 않는가?",
+  "user_message_truncation_note": "사용자 메시지 끝 'DEVLOG / Vault / MEMORY / decision' 이후 미발현. 본 채널은 design 정합 추정 — 산출물 경로 / 최종 상태 옵션 / 금지 영역 진행.",
+  "claim_boundary": {
+    "actual_policy_modification": 0,
+    "selector_modification": 0,
+    "input_creator_hard_check_modification": 0,
+    "input_regeneration": 0,
+    "generation_rerun": 0,
+    "audit_rerun": 0,
+    "catalog_gap_rescue_execution": 0,
+    "pre_preview_restoration": 0,
+    "d4": 0,
+    "commit": 0,
+    "devlog_vault_memory_decision_jsonl": 0
+  },
+  "evidence_pointer": {
+    "manifest_shift_review": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/item_split_manifest_shift_review.md",
+    "implementation_report": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/item_split_implementation_report.md",
+    "item_split_design": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_b/item_split_design.md",
+    "current_policy_state": "scripts/v_next_d3_pre_preview.py:237-296 (4 entries patch_applied)"
+  },
+  "recoverable_pid_keyword_matching_measurement": [
+    {
+      "pid": "2003_3회_81",
+      "actual_topic": "22.9kV 중성선 다중접지식 접지선 굵기",
+      "intended_split": "S4",
+      "current_fate": "catalog (item=차단기, kw=차단기)",
+      "boost_candidate_hits": ["지선 굵기 (S4)"],
+      "recoverable_via_keyword": "PARTIAL",
+      "block_factor": "selector slot priority — 차단기 slot이 S4 slot 먼저 매칭. keyword 추가만으로 효과 모호.",
+      "selector_modification_needed": true,
+      "final_decision": "키워드 보강 + selector priority 영역 별 게이트. 본 design 회복 대상 제외 (selector 수정 0)."
+    },
+    {
+      "pid": "2005_3회_81",
+      "actual_topic": "가공전선 지지물 시설기준 (옳지 않은 것)",
+      "intended_split": "S3",
+      "current_fate": "catalog (item=가공전선 이격거리, kw=이격거리, NEEDS_REVIEW)",
+      "boost_candidate_hits": ["가공전선로 지지물 (S3)", "지지물 기준 (S3)", "지지물 시설기준 (S3)"],
+      "recoverable_via_keyword": "YES",
+      "block_factor": null,
+      "final_decision": "S3 keyword 3개 (가공전선로 지지물 / 지지물 기준 / 지지물 시설기준) 추가 시 본 sample이 S3로 정합 매칭. 회복 확실."
+    },
+    {
+      "pid": "2006_1회_85",
+      "actual_topic": "154kV 가공전선 애자장치 시가지 (풀이 부재)",
+      "intended_split": "S3",
+      "current_fate": "catalog (item=가공전선 이격거리, kw=이격거리, NEEDS_REVIEW)",
+      "boost_candidate_hits": [],
+      "recoverable_via_keyword": "NO",
+      "block_factor": "OCR 깨짐 + 풀이 부재. 보강 candidate 모두 hit 0.",
+      "final_decision": "data debt 영역 — questions.json audit 후만 회복 가능. 본 design 회복 대상 제외."
+    },
+    {
+      "pid": "2006_2회_83",
+      "actual_topic": "시가지 저압 가공전선로 도로 따라 지표상 최저 높이",
+      "intended_split": "S1",
+      "current_fate": "catalog (item=가공전선 이격거리, kw=이격거리, NEEDS_REVIEW)",
+      "boost_candidate_hits": ["지표상 높이 (S1 추가)"],
+      "recoverable_via_keyword": "YES",
+      "block_factor": null,
+      "final_decision": "S1 keyword '지표상 높이' 추가 시 score +5+2 = +7 → CLEAN 진입 가능. 회복 확실."
+    },
+    {
+      "pid": "2007_1회_84",
+      "actual_topic": "지선 시설기준 (소선 3가닥)",
+      "intended_split": "S4",
+      "current_fate": "gap (no match)",
+      "boost_candidate_hits": ["도로 횡단 (S1 추가)", "가공전선로 지지물 (S3)"],
+      "recoverable_via_keyword": "RISKY",
+      "block_factor": "본 sample은 S4 D 영역이나 보강 candidate는 S1 또는 S3 영역으로 매칭. 의도 영역 mismatch 위험.",
+      "final_decision": "S4에 본 sample 매칭 가능 keyword 부재 — 본문 단어가 '지선의', '지선에' 형태로 multi-word 매칭 어려움. 회복 대상 보류 (data debt audit 또는 D split 별 게이트)."
+    }
+  ],
+  "partial_recoverable_pid_review": [
+    {
+      "pid": "2004_3회_92",
+      "fate": "gap (no match — 풀이 부재)",
+      "decision": "data debt 영역, keyword 보강 회복 불가. intentional drop으로 분류."
+    },
+    {
+      "pid": "2006_1회_85",
+      "fate": "catalog (data debt + S3 영역)",
+      "decision": "data debt 영역, keyword 보강 회복 불가. intentional drop으로 분류."
+    }
+  ],
+  "intentional_drop_pid_review": [
+    {"pid": "1999_4회_84", "decision": "data debt OCR/풀이 mismatch — 회복 대상 제외"},
+    {"pid": "2004_1회_91", "decision": "data debt OCR + 풀이 부재 — 회복 대상 제외"}
+  ],
+  "over_match_risk_measurement": {
+    "scope": "242 전력공학 sample 전체에 대해 보강 candidate substring matching 측정",
+    "broad_risk_threshold": "5건 초과 hit 시 broad 영역으로 분류",
+    "candidates": [
+      {"kw": "가공전선로 지지물", "hits_in_242": 3, "broad_risk": false},
+      {"kw": "지지물 기준", "hits_in_242": 1, "broad_risk": false},
+      {"kw": "발판 볼트 시설", "hits_in_242": 0, "broad_risk": false},
+      {"kw": "옳지 않은 것 지지물", "hits_in_242": 0, "broad_risk": false},
+      {"kw": "지지물 시설기준", "hits_in_242": 1, "broad_risk": false},
+      {"kw": "가공전선 지선", "hits_in_242": 0, "broad_risk": false},
+      {"kw": "지선 안전율", "hits_in_242": 0, "broad_risk": false},
+      {"kw": "지선 도로 횡단", "hits_in_242": 0, "broad_risk": false},
+      {"kw": "특고압 가공지선", "hits_in_242": 0, "broad_risk": false},
+      {"kw": "지선 도로", "hits_in_242": 0, "broad_risk": false},
+      {"kw": "지선 가공전선로", "hits_in_242": 0, "broad_risk": false},
+      {"kw": "지선 굵기", "hits_in_242": 1, "broad_risk": false},
+      {"kw": "지표상 높이", "hits_in_242": 3, "broad_risk": false},
+      {"kw": "도로 횡단", "hits_in_242": 1, "broad_risk": false}
+    ],
+    "summary": "전 candidate hits ≤ 3 — broad 위험 0. multi-word 정합 양호."
+  },
+  "final_keyword_boost_design": {
+    "S1_가공전선_이격거리": {
+      "current_keywords_7": ["이격거리", "이격 거리", "수평 이격", "수직 이격", "식물 이격", "안테나 이격", "약전류전선 이격"],
+      "add_candidates": ["지표상 높이", "도로 횡단"],
+      "rationale": "지표상 높이는 2006_2회_83 회복 / 도로 횡단은 2007_1회_84 매칭 가능 (단 의도 영역 mismatch 위험으로 미반영)",
+      "decision_add": ["지표상 높이"],
+      "decision_skip": ["도로 횡단 — S1 의도 영역 mismatch 위험"]
+    },
+    "S3_가공전선_지지물_시설": {
+      "current_keywords_10": ["지지물 시설", "지지물 분기", "발판 볼트", "동일 지지물", "시가지 가공전선로", "농사용 가공전선로", "지지물 종류", "지지물 시가지", "교차 시설", "애자장치 시설"],
+      "add_candidates": ["가공전선로 지지물", "지지물 기준", "지지물 시설기준"],
+      "rationale": "3 keyword 모두 2005_3회_81 본문에 hit. 전 242 중 3/1/1 hit (broad 위험 0).",
+      "decision_add": ["가공전선로 지지물", "지지물 기준", "지지물 시설기준"],
+      "decision_skip": []
+    },
+    "S4_가공전선_기타_설비기준": {
+      "current_keywords_11": ["가공지선", "지선 시설", "지선 소선", "접지선 굵기", "접지 시설", "통신선 시설", "통신선 옥내", "전선 굵기", "전선 단면적", "전선 지름", "경동선 지름"],
+      "add_candidates": ["지선 굵기"],
+      "rationale": "2003_3회_81 본문 hit이나 selector slot priority 차단기 slot이 먼저 매칭 — keyword 추가만으로 효과 모호. 단 의도 영역 정합으로 추가는 무해.",
+      "decision_add": ["지선 굵기"],
+      "decision_skip": ["가공전선 지선 / 지선 안전율 / 지선 도로 횡단 / 특고압 가공지선 / 지선 도로 / 지선 가공전선로 — 모두 hit 0"]
+    },
+    "S2_가공전선_안전율_풍압": {
+      "current_keywords_8": ["풍압 하중", "병종 풍압", "갑종 풍압", "안전율", "목주 안전율", "철탑 안전율", "지지물 강도", "인장강도 지지물"],
+      "decision": "보강 0 (3/3 정합 양호)"
+    }
+  },
+  "expected_clean_recovery_scenarios": {
+    "current_split_clean": 87,
+    "conservative": {
+      "value": 89,
+      "rationale": "2005_3회_81 (S3) + 2006_2회_83 (S1) 회복 — 보강 keyword 본문 확실 매칭",
+      "delta": "+2"
+    },
+    "expected": {
+      "value": 89,
+      "rationale": "동일 (2003_3회_81는 selector priority 영역, 2007_1회_84는 mismatch 위험으로 보수 산정)",
+      "delta": "+2"
+    },
+    "max": {
+      "value": 90,
+      "rationale": "+2003_3회_81 (S4 selector priority 개선 가정) — 단 사용자 명시 selector 수정 0이므로 실현 불가",
+      "delta": "+3 (이론)"
+    },
+    "intentional_drop_영구": ["1999_4회_84", "2004_1회_91", "2004_3회_92", "2006_1회_85"],
+    "data_debt_audit_후_가능": "+4 (94 도달 가능, 단 questions.json audit 별 영역)"
+  },
+  "hard_check_relaxation_reevaluation": {
+    "current_state": "input_creator.py:310-312 — CLEAN 94 강제",
+    "post_boost_expected_clean": "89 (또는 max 90)",
+    "still_below_94": true,
+    "necessity": "hard check 완화 필요 — 89 또는 90 수용 정책 별 게이트",
+    "options": [
+      "Option A: CLEAN >= 85 등 별 임계값 적용 (input_creator 수정 — 사용자 명시 0)",
+      "Option B: CLEAN 94 hard check를 warning으로 격하 + 실행 허용",
+      "Option C: data debt audit 후 questions.json 보강으로 94 회복"
+    ],
+    "본_채널_판단": "hard check 완화 정책 결정은 별 게이트. 본 design은 keyword 보강 design + CLEAN 회복 예측만."
+  },
+  "implementation_retry_procedure": {
+    "step1": "scripts/v_next_d3_pre_preview.py 보정 (S1 +1 / S3 +3 / S4 +1 keywords, 총 +5)",
+    "step1_estimated_lines": "약 5 line 추가",
+    "step2": "scripts/v_next_d3_selector.py 재실행 (dry-run) → CLEAN 측정 (예상 89-90)",
+    "step3": "Hard check 차단 영역 — input 재생성 위해 별 hard check 완화 정책 결정 필요",
+    "step4": "별 게이트: hard check 완화 design + 적용",
+    "step5": "input_creator 재실행 → input 재생성",
+    "step6": "synthesizer + post-split metadata audit 재실행",
+    "step7": "기존 misleading 개선 측정 + 회귀 검증"
+  },
+  "final_status_options": {
+    "ADJUSTMENT_DESIGN_READY": "보강 keyword design 명세 + recoverable 매칭 측정 + 회복 시나리오 명세 완료",
+    "NEEDS_DESIGN_FIX": "design 빈틈 있어 재설계",
+    "BLOCKED_BY_RECOVERABLE_INSUFFICIENT": "recoverable이 너무 적어 design 효과 미미"
+  },
+  "selected_final_status": "ADJUSTMENT_DESIGN_READY",
+  "secondary_status": "HARD_CHECK_DESIGN_NEEDED (post-boost CLEAN 89-90 수용 정책 별 게이트)",
+  "rationale_for_selection": "5 recoverable pid 중 2건 확실 회복 (2005_3회_81 S3 + 2006_2회_83 S1). 1건 selector priority 영역 (2003_3회_81). 1건 의도 mismatch 위험 (2007_1회_84). 1건 data debt (2006_1회_85). 보강 5 keyword 추가 (S1 +1 / S3 +3 / S4 +1) 시 CLEAN 87 → 89 회복 예상. 과매칭 위험 0 (242 중 hits ≤ 3). Hard check 차단 (89 < 94)은 별 게이트 정책 결정 영역."
+}
