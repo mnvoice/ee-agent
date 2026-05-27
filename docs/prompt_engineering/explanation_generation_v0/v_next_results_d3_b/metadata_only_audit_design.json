@@ -1,0 +1,114 @@
+{
+  "scope": "Metadata-only audit DESIGN — non_expansion_metadata 37건 절대 품질 평가의 sample/rubric/label/branching 구조 작성. 실제 audit execution 0.",
+  "essential_question": "D-3 non_expansion_metadata 37건은 dl=None이 정직한 영역. cross_subject_expansion 없이 essence / representative_trap / trap_type metadata 단독으로 설명 품질이 충분한가?",
+  "claim_boundary": {
+    "audit_execution": 0,
+    "37_total_quality_claim": 0,
+    "dl_should_exist_decision": 0,
+    "metadata_policy_revision": 0,
+    "p5_re_execution": 0,
+    "d4": 0,
+    "a1c": 0,
+    "catalog_gap_rescue": 0,
+    "commit": 0,
+    "devlog_vault_memory_decision_jsonl": 0
+  },
+  "evidence_pointer": {
+    "p5_execution_report": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_b/p5_sampling_execution_report.md",
+    "p5_execution_json": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_b/p5_sampling_execution_report.json",
+    "selection_manifest_b": "docs/prompt_engineering/explanation_generation_v0/v_next_inputs_d3_b/selection_manifest.json",
+    "synthesizer_summary_b": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_b/_synthesizer_summary.json"
+  },
+  "population_distribution": {
+    "total": 37,
+    "by_slot": {"전력_함정S": 4, "전력_설비고장": 33},
+    "by_slot_item": {
+      "전력_함정S | 부하율·수용률·부등률": 3,
+      "전력_함정S | 역률 개선": 1,
+      "전력_설비고장 | 가공전선 이격거리": 26,
+      "전력_설비고장 | 가공전선로 경간·이도": 4,
+      "전력_설비고장 | 절연내력 / 유도장해": 3
+    },
+    "unique_items": 5,
+    "imbalance_note": "가공전선 이격거리 26 / 37 = 70.3% — 모집단 비중 압도. sample 다양성 vs 모집단 정합 trade-off 처리 필요."
+  },
+  "sample_selection": {
+    "size": 7,
+    "strategy": "5 unique items 전 cover + 가공전선 이격거리(70% 모집단)는 3건 시기 분산 (1999 / 2005 / 2007)",
+    "samples": [
+      {"id": "M1", "input": "input_005.md", "pid": "1998_4회_25", "slot": "전력_함정S", "item": "부하율·수용률·부등률", "essence": "부하율/수용률/부등률을 어떻게 구분해 외우는가", "trap": "부하율 vs 수용률 vs 부등률 정의 혼동 함정", "rationale": "함정S 대표 / 정의 혼동 패턴 / P5 재사용"},
+      {"id": "M2", "input": "input_075.md", "pid": "2006_2회_26", "slot": "전력_함정S", "item": "역률 개선", "essence": "역률 개선 콘덴서 용량을 어떻게 계산하는가", "trap": "Qc 공식 sin / cos 혼동 함정", "rationale": "함정S 유일 (1건 item) / 계산형"},
+      {"id": "M3", "input": "input_008.md", "pid": "1999_4회_81", "slot": "전력_설비고장", "item": "가공전선 이격거리", "essence": "가공전선과 다른 시설간 안전 이격거리는 어떻게 정해지는가", "trap": "전선 종류별 이격거리 표 혼동 함정", "rationale": "이격거리 초기 (1999) / P5 재사용"},
+      {"id": "M4", "input": "input_069.md", "pid": "2005_3회_81", "slot": "전력_설비고장", "item": "가공전선 이격거리", "essence": "(동일)", "trap": "(동일)", "rationale": "이격거리 중기 (2005) / 동일 essence/trap 반복 시 metadata 효과 측정"},
+      {"id": "M5", "input": "input_086.md", "pid": "2007_1회_84", "slot": "전력_설비고장", "item": "가공전선 이격거리", "essence": "(동일)", "trap": "(동일)", "rationale": "이격거리 후기 (2007) / 시기 분산"},
+      {"id": "M6", "input": "input_045.md", "pid": "2004_1회_30", "slot": "전력_설비고장", "item": "가공전선로 경간·이도", "essence": "전선 장력·이도·경간이 어떻게 작용하는가", "trap": "경간 vs 이도 관계 혼동 함정", "rationale": "경간·이도 대표 / P5 재사용 / 계산 가능 영역"},
+      {"id": "M7", "input": "input_020.md", "pid": "2000_6회_85", "slot": "전력_설비고장", "item": "절연내력 / 유도장해", "essence": "절연내력 시험전압과 유도장해 경감이 어떻게 작용하는가", "trap": "절연내력 시험전압 배율 / 유도장해 경감대책 혼동 함정", "rationale": "절연내력 대표 / 2 분야 동시 (절연내력 + 유도장해)"}
+    ],
+    "coverage": {
+      "items_covered": 5,
+      "items_total": 5,
+      "all_items_covered": true,
+      "yearly_span": "1998 / 1999 / 2000 / 2004 / 2005 / 2006 / 2007",
+      "함정S_covered": 2,
+      "설비고장_covered": 5
+    }
+  },
+  "file_path_mapping_rule": {
+    "input_md": "docs/.../v_next_inputs_d3_b/<input>.md",
+    "output_json": "docs/.../v_next_results_d3_b/output_NNN.json (NNN = input number)",
+    "note": "metadata-only audit은 B output 단독 절대 품질 평가. baseline 비교는 P5에서 이미 완료 (all same — patch 무관 영역)."
+  },
+  "rubric": [
+    {"axis": "essence_captures_core", "question": "essence_question이 문제의 핵심을 잘 잡는가? 학습자가 essence만 보고 무엇을 외우거나 계산해야 하는지 파악 가능한가?", "direction": "higher is better"},
+    {"axis": "trap_alignment", "question": "representative_trap이 실제 오답 함정과 의미적으로 일치하는가? (output의 distractor_analysis 내용과 비교)", "direction": "higher is better"},
+    {"axis": "trap_type_distractor_utility", "question": "trap_type이 distractor 생성에 실질적 도움을 주는가? (282건 distractor 영역에서 trap_type 활용 측정)", "direction": "higher is better"},
+    {"axis": "dl_null_honesty", "question": "dl=None이 정직한가? — 즉 이 item이 정말로 cross-subject expansion 의미가 약한 정적 함정 영역인지, 아니면 사실은 dl 후보가 있는데 누락된 것인지", "direction": "higher is better (null이 정직할수록 5점)"},
+    {"axis": "expansion_absence_safety", "question": "expansion이 없는 것이 오히려 안전한가? — 억지 link로 학습자 혼란 유발 회피", "direction": "higher is better"},
+    {"axis": "metadata_overload_risk", "question": "essence + trap + trap_type metadata가 과부하/장식적인가?", "direction": "lower is better (negative)"}
+  ],
+  "labels": {
+    "metadata_helpful": "essence + trap + trap_type 등 metadata 단독으로 학습자에게 실질적 도움. dl=None이 정직, expansion 부재가 안전",
+    "metadata_neutral": "metadata가 표면적으로 존재하지만 학습 가치 약. 없어도 거의 같은 수준",
+    "metadata_misleading": "essence 또는 trap이 실제 문제와 어긋남, 혹은 trap_type이 distractor 영역과 불일치",
+    "needs_human_review": "rubric 자동 적용 결과 모호 — 깊은 사람 review 필요"
+  },
+  "additional_diagnostic_signals": [
+    {"signal": "dl_should_exist_candidate", "trigger": "axis 4 dl_null_honesty 점수 ≤ 2 (즉 사실은 dl 후보가 있다고 판단)", "action": "본 audit 후 별 policy review 후보로 분류 — catalog/gap rescue 또는 D-3 ITEM_POLICY 보정"},
+    {"signal": "metadata_only_value_strong", "trigger": "majority metadata_helpful + 5 axis 평균 ≥ 3.5", "action": "metadata-only 영역의 enrichment 가치 입증 — 추가 patch 0"},
+    {"signal": "majority_neutral", "trigger": "majority metadata_neutral + axis 5 expansion_absence_safety 평균 ≥ 3", "action": "metadata 자체는 무해, 단 적극적 가치 약 — 정책 유지 가능"},
+    {"signal": "misleading_present", "trigger": "1건 이상 metadata_misleading", "action": "metadata policy review 후보 — essence/trap 정의 재검토"}
+  ],
+  "branching_conditions": [
+    {"condition": "majority metadata_helpful", "next_state": "metadata_only_value_supported", "decision": "metadata-only 영역의 enrichment 가치 입증. 정책 유지 + A1c 불필요 유지."},
+    {"condition": "majority metadata_neutral", "next_state": "metadata_surface_only", "decision": "enrichment surface 있으나 품질 이득 약함. 정책 유지 default, 향후 patch 우선순위 낮음."},
+    {"condition": "metadata_misleading 1건 이상", "next_state": "metadata_policy_review_candidate", "decision": "essence/trap 정의 정합성 확인 별 게이트 진입."},
+    {"condition": "dl_should_exist 의심 발생 (axis 4 ≤ 2)", "next_state": "catalog_or_policy_review_candidate", "decision": "catalog/gap rescue 또는 D-3 ITEM_POLICY dl 후보 추가 review 영역."},
+    {"condition": "majority needs_human_review", "next_state": "deep_human_review_required", "decision": "automated rubric 한계 — 깊은 사람 검토 게이트로 escalation."}
+  ],
+  "execution_steps_when_authorized": [
+    "Step 1: 7 sample 각각 B output_NNN.json + input.md side-by-side read",
+    "Step 2: 6-axis rubric per sample 적용 (1-5 또는 N/A). axis 4 (dl_null_honesty) + axis 5 (expansion_absence_safety) 특히 신중 평가",
+    "Step 3: sample당 4 label 중 1개 할당 + 추가 diagnostic signal (dl_should_exist_candidate 여부) 표시",
+    "Step 4: 7 sample 집계 — majority label + 5 axis 평균 + misleading 발생 여부 + dl_should_exist 후보 명단",
+    "Step 5: 분기 조건 매핑 → 다음 게이트 추천",
+    "Step 6: sample-level + 집계 + 추천 다음 게이트 보고서 작성"
+  ],
+  "must_not_do_in_design_phase": [
+    "Sample 7건 side-by-side read 실행 (execution 게이트 영역)",
+    "Rubric 적용 / label 할당",
+    "Generator / scripts / patch 수정",
+    "Synthesizer / audit 재실행",
+    "P5 재실행",
+    "A1c keyword 추가",
+    "D-4 진입",
+    "catalog / gap rescue",
+    "commit",
+    "DEVLOG / Vault / MEMORY / decision JSONL 작성"
+  ],
+  "final_status_options": {
+    "READY_FOR_METADATA_ONLY_AUDIT_EXECUTION_GATE": "Sample 7 roster + rubric 6 axes + label 4종 + 분기 5 pathways + diagnostic signal 4종 모두 명세 완료, execution 진입 가능",
+    "NEEDS_METADATA_ONLY_AUDIT_DESIGN_FIX": "design에 빈틈 있어 재설계 필요"
+  },
+  "selected_final_status": "READY_FOR_METADATA_ONLY_AUDIT_EXECUTION_GATE",
+  "rationale_for_selection": "7 sample 전부 NNN 기반 deterministic 매핑 가능. 5 unique items 전 cover. 가공전선 이격거리 (모집단 70%) 3건 시기 분산. 함정S 2 + 설비고장 5 = 모집단 비중과 절충. rubric 6 axes 구체화. label 4종 정의. 분기 5 pathways 열거. diagnostic signal 4종 (dl_should_exist 후보 등) 추가. Execution 단계 6 step 명세."
+}

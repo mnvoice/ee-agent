@@ -1,0 +1,198 @@
+{
+  "scope": "Metadata-only audit execution — 7 samples, signal measurement (NOT a 37 totality claim).",
+  "essential_question": "non_expansion_metadata 37 (dl=None 정직 영역)에서 essence + representative_trap + trap_type metadata 단독으로 학습 품질에 도움이 되는가? 혹은 사실은 dl이 있어야 했던 문제를 dl=None으로 둔 것인가?",
+  "claim_boundary": {
+    "sample_signal_scope": "7 samples only",
+    "37_total_quality_claim": 0,
+    "dl_null_policy_total_success_claim": 0,
+    "catalog_gap_rescue_decision": 0,
+    "d4_necessity_claim": 0,
+    "actual_policy_revision": 0,
+    "actual_metadata_patch": 0,
+    "commit": 0,
+    "devlog_vault_memory_decision_jsonl": 0
+  },
+  "sample_results": [
+    {
+      "id": "M1",
+      "input": "input_005.md", "pid": "1998_4회_25",
+      "slot": "전력_함정S", "item": "부하율·수용률·부등률",
+      "actual_problem": "변전소 최대 전력 계산 (부등률 1.17 → 4598 kW). 계산 문제.",
+      "essence": "부하율/수용률/부등률을 어떻게 구분해 외우는가",
+      "trap": "부하율 vs 수용률 vs 부등률 정의 혼동 함정",
+      "key_observation": "essence는 '정의 외우기' 영역으로 안내, 본 문제는 계산. essence와 문제 영역 부분 mismatch. trap도 정의 혼동을 가리키지만 distractor는 수치 차이.",
+      "rubric": {
+        "essence_captures_core": 2,
+        "trap_alignment": 2,
+        "trap_type_distractor_utility": 2,
+        "dl_null_honesty": 3,
+        "expansion_absence_safety": 4,
+        "metadata_overload_risk": 2
+      },
+      "label": "metadata_misleading",
+      "diagnostic_signals": ["misleading_present"]
+    },
+    {
+      "id": "M2",
+      "input": "input_075.md", "pid": "2006_2회_26",
+      "slot": "전력_함정S", "item": "역률 개선",
+      "actual_problem": "콘덴서 설치 후 합성 역률 계산. essence는 '콘덴서 용량 계산'으로 본 문제 (합성 역률 계산)와 약간 어긋남. trap sin/cos 혼동은 본 풀이와 관련.",
+      "essence": "역률 개선 콘덴서 용량을 어떻게 계산하는가",
+      "trap": "Qc 공식 sin / cos 혼동 함정",
+      "key_observation": "데이터 부정합: input answer=2 (0.86)이지만 풀이 정답 (3) 0.89. trap_alignment 중간. essence는 부분 정합.",
+      "rubric": {
+        "essence_captures_core": 2.5,
+        "trap_alignment": 3,
+        "trap_type_distractor_utility": 2,
+        "dl_null_honesty": 3,
+        "expansion_absence_safety": 4,
+        "metadata_overload_risk": 2
+      },
+      "label": "metadata_neutral",
+      "diagnostic_signals": []
+    },
+    {
+      "id": "M3",
+      "input": "input_008.md", "pid": "1999_4회_81",
+      "slot": "전력_설비고장", "item": "가공전선 이격거리",
+      "actual_problem": "목주 풍압 하중 안전율 1.3. 이격거리가 아닌 안전율 문제.",
+      "essence": "가공전선과 다른 시설간 안전 이격거리는 어떻게 정해지는가",
+      "trap": "전선 종류별 이격거리 표 혼동 함정",
+      "key_observation": "matched_keyword '가공전선' 매칭이지만 essence/trap은 이격거리 영역. 본 문제는 안전율 영역. 영역 오부착.",
+      "rubric": {
+        "essence_captures_core": 1,
+        "trap_alignment": 1,
+        "trap_type_distractor_utility": 1,
+        "dl_null_honesty": 2,
+        "expansion_absence_safety": 3,
+        "metadata_overload_risk": 4
+      },
+      "label": "metadata_misleading",
+      "diagnostic_signals": ["misleading_present", "dl_should_exist_candidate"]
+    },
+    {
+      "id": "M4",
+      "input": "input_069.md", "pid": "2005_3회_81",
+      "slot": "전력_설비고장", "item": "가공전선 이격거리",
+      "actual_problem": "가공전선 지지물 시설기준 (옳지 않은 것). 이격거리가 아닌 지지물 시설기준.",
+      "essence": "가공전선과 다른 시설간 안전 이격거리는 어떻게 정해지는가",
+      "trap": "전선 종류별 이격거리 표 혼동 함정",
+      "key_observation": "답안 부정합 (input answer=1, 풀이는 (3)이 틀리다). essence/trap이 본 문제와 어긋남.",
+      "rubric": {
+        "essence_captures_core": 1,
+        "trap_alignment": 1,
+        "trap_type_distractor_utility": 1,
+        "dl_null_honesty": 2,
+        "expansion_absence_safety": 3,
+        "metadata_overload_risk": 4
+      },
+      "label": "metadata_misleading",
+      "diagnostic_signals": ["misleading_present", "dl_should_exist_candidate"]
+    },
+    {
+      "id": "M5",
+      "input": "input_086.md", "pid": "2007_1회_84",
+      "slot": "전력_설비고장", "item": "가공전선 이격거리",
+      "actual_problem": "지선(가공전선로 지지물) 시설기준. 이격거리가 아닌 지선 시설기준.",
+      "essence": "가공전선과 다른 시설간 안전 이격거리는 어떻게 정해지는가",
+      "trap": "전선 종류별 이격거리 표 혼동 함정",
+      "key_observation": "essence/trap이 지선 영역과 어긋남. M3/M4/M5는 모두 '가공전선 이격거리' item으로 매칭되었으나 실제는 안전율/지지물/지선 영역 — item-매칭 정합성 문제.",
+      "rubric": {
+        "essence_captures_core": 1,
+        "trap_alignment": 1,
+        "trap_type_distractor_utility": 1,
+        "dl_null_honesty": 2,
+        "expansion_absence_safety": 3,
+        "metadata_overload_risk": 4
+      },
+      "label": "metadata_misleading",
+      "diagnostic_signals": ["misleading_present", "dl_should_exist_candidate"]
+    },
+    {
+      "id": "M6",
+      "input": "input_045.md", "pid": "2004_1회_30",
+      "slot": "전력_설비고장", "item": "가공전선로 경간·이도",
+      "actual_problem": "이도(Dip) 설명 옳은 것. 이도 개념 정합. 단 choices [구분점수/리률로지/써지널라이저/구분개폐기]는 OCR 깨진 영역.",
+      "essence": "전선 장력·이도·경간이 어떻게 작용하는가",
+      "trap": "경간 vs 이도 관계 혼동 함정",
+      "key_observation": "essence 정합 (이도 정의/장력 관계). trap 부분 정합. 단 distractor 자체가 OCR debt 영역.",
+      "rubric": {
+        "essence_captures_core": 4,
+        "trap_alignment": 3,
+        "trap_type_distractor_utility": 2,
+        "dl_null_honesty": 4,
+        "expansion_absence_safety": 4,
+        "metadata_overload_risk": 2
+      },
+      "label": "metadata_helpful",
+      "diagnostic_signals": []
+    },
+    {
+      "id": "M7",
+      "input": "input_020.md", "pid": "2000_6회_85",
+      "slot": "전력_설비고장", "item": "절연내력 / 유도장해",
+      "actual_problem": "22.9kV 다중접지 절연내력 시험전압 배율 0.92. 절연내력 정합.",
+      "essence": "절연내력 시험전압과 유도장해 경감이 어떻게 작용하는가",
+      "trap": "절연내력 시험전압 배율 / 유도장해 경감대책 혼동 함정",
+      "key_observation": "essence 정합 (시험전압 배율 표). trap 정합. 본 문제는 유도장해가 아닌 절연내력 영역이라 essence 후반 (유도장해 경감)은 본 문제와 무관, 단 정직.",
+      "rubric": {
+        "essence_captures_core": 4,
+        "trap_alignment": 4,
+        "trap_type_distractor_utility": 3,
+        "dl_null_honesty": 4,
+        "expansion_absence_safety": 4,
+        "metadata_overload_risk": 2
+      },
+      "label": "metadata_helpful",
+      "diagnostic_signals": []
+    }
+  ],
+  "group_aggregate": {
+    "label_counts": {
+      "metadata_helpful": 2,
+      "metadata_neutral": 1,
+      "metadata_misleading": 4,
+      "needs_human_review": 0
+    },
+    "majority": "metadata_misleading",
+    "axis_means": {
+      "essence_captures_core": 2.21,
+      "trap_alignment": 2.14,
+      "trap_type_distractor_utility": 1.71,
+      "dl_null_honesty": 2.86,
+      "expansion_absence_safety": 3.57,
+      "metadata_overload_risk": 2.86
+    },
+    "misleading_count": 4,
+    "dl_should_exist_candidates": ["1999_4회_81 (M3 안전율 영역)", "2005_3회_81 (M4 지지물 시설기준)", "2007_1회_84 (M5 지선 시설기준)"]
+  },
+  "core_finding": {
+    "summary": "가공전선 이격거리 item 모집단 26건 (70.3%) 영역이 의심됨. Sample 3건 (M3/M4/M5) 전부 실제로는 이격거리가 아닌 안전율/지지물/지선 영역. matched_keyword '가공전선'이 너무 broad해서 의미 영역 오매칭.",
+    "implication": "단일 item 영역 자체의 정합성 문제. metadata policy revision뿐만 아니라 item-매칭 (selector matched_keyword 기준) 정합성 검토도 필요.",
+    "scope_constraint": "본 finding은 sample 3건 (가공전선 이격거리 26건 중) 기반이므로 26 전체 적용 claim 0. 단 3/3 패턴 발견은 정밀 audit 후보의 강한 신호."
+  },
+  "pathway_mapping": [
+    {"condition": "majority metadata_misleading (4/7)", "matched": true, "next_state": "metadata_policy_review_candidate", "decision": "essence/trap 정의 정합성 + matched_keyword broad 매칭 정합성 별 게이트 진입 후보"},
+    {"condition": "dl_should_exist 의심 발생 (M3/M4/M5 — axis 4 ≤ 2)", "matched": true, "next_state": "catalog_or_policy_review_candidate", "decision": "가공전선 이격거리 26건 영역 분리 audit 후보 — 실제 이격거리 vs 안전율/지지물/지선 분류"},
+    {"condition": "majority metadata_helpful", "matched": false, "next_state": "n/a", "decision": "n/a"},
+    {"condition": "majority metadata_neutral", "matched": false, "next_state": "n/a", "decision": "n/a"},
+    {"condition": "majority needs_human_review", "matched": false, "next_state": "n/a", "decision": "n/a"}
+  ],
+  "next_gate_recommendations": [
+    {"priority": 1, "name": "metadata_policy_review", "scope": "essence/trap 정의 영역과 selector matched_keyword broad 매칭의 정합성 검토 별 게이트", "actions_required": ["selector keyword 매칭 룰 read-only audit", "essence/trap policy 영역 vs 실제 문제 영역 매핑 표 작성"]},
+    {"priority": 2, "name": "item_matching_integrity_audit", "scope": "가공전선 이격거리 26건 영역 분리 audit — 실제 이격거리 vs 안전율/지지물/지선 분류", "actions_required": ["26 sample read-only 검토", "item 분리 후보 design"]},
+    {"priority": 3, "name": "questions_json_data_debt_audit", "scope": "답안 부정합 + OCR 깨짐 sample (M2 / M4 / M6) 영역 별 audit", "actions_required": ["7 sample 중 3건 데이터 부정합 발견 — 모집단 확대 audit 후보"]},
+    {"priority": 4, "name": "P5 결과 정착 commit + push", "scope": "본 보고서 + design 보고서 commit + push 별 게이트", "actions_required": ["사용자 명시 후 진입"]},
+    {"priority": 5, "name": "D-4 진입 (unpaired 148 audit)", "scope": "본 결과와 독립 별 영역", "actions_required": ["사용자 명시 후 진입"]}
+  ],
+  "final_status_options": {
+    "METADATA_ONLY_VALUE_SUPPORTED": "majority metadata_helpful — metadata-only 가치 입증",
+    "METADATA_SURFACE_ONLY": "majority metadata_neutral — enrichment surface 있으나 가치 약",
+    "METADATA_POLICY_REVIEW_CANDIDATE": "majority metadata_misleading — policy review 필요",
+    "CATALOG_OR_POLICY_REVIEW_CANDIDATE": "dl_should_exist 의심 + item-매칭 정합성 문제 — catalog 또는 policy review",
+    "METADATA_ONLY_NEEDS_HUMAN_REVIEW": "majority needs_human_review — automated rubric 한계"
+  },
+  "selected_final_status": "METADATA_POLICY_REVIEW_CANDIDATE",
+  "secondary_status": "CATALOG_OR_POLICY_REVIEW_CANDIDATE",
+  "rationale_for_selection": "Primary: majority metadata_misleading (4/7) — 4건이 essence/trap과 실제 문제 영역 어긋남. axis_means에서 essence_captures_core (2.21) / trap_alignment (2.14) / trap_type_distractor_utility (1.71) 모두 낮음. Secondary: M3/M4/M5 가공전선 이격거리 item이 실제는 안전율/지지물/지선 영역 — item-매칭 정합성 문제 동시 발현. expansion_absence_safety (3.57)만 평균 3 이상이라 'dl 없는 것이 안전' 부분은 정직."
+}
