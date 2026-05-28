@@ -1,0 +1,193 @@
+{
+  "summary": {
+    "total_checks": 12,
+    "passed": 11,
+    "failed": 0,
+    "warned": 0,
+    "report_only": 1,
+    "skipped": 0,
+    "exit_decision": "pass_with_report_only",
+    "errors_count": 0,
+    "report_only_items_count": 12,
+    "unresolved_policy_questions_count": 1
+  },
+  "errors": [],
+  "warnings": [],
+  "report_only": [
+    {
+      "check_id": "L7",
+      "rule_id": "R1",
+      "rule_index": 0,
+      "priority_group": "standard",
+      "severity": "INVESTIGATE",
+      "combination_observed": "standard+INVESTIGATE",
+      "policy_decision_status": "undefined",
+      "severity_grade": "report_only"
+    },
+    {
+      "check_id": "L7",
+      "rule_id": "R2",
+      "rule_index": 1,
+      "priority_group": "standard",
+      "severity": "INVESTIGATE",
+      "combination_observed": "standard+INVESTIGATE",
+      "policy_decision_status": "undefined",
+      "severity_grade": "report_only"
+    },
+    {
+      "check_id": "L7",
+      "rule_id": "R3",
+      "rule_index": 2,
+      "priority_group": "standard",
+      "severity": "SOFT_ALERT",
+      "combination_observed": "standard+SOFT_ALERT",
+      "policy_decision_status": "undefined",
+      "severity_grade": "report_only"
+    },
+    {
+      "check_id": "L7",
+      "rule_id": "R4",
+      "rule_index": 3,
+      "priority_group": "major",
+      "severity": "SUSPECT",
+      "combination_observed": "major+SUSPECT",
+      "policy_decision_status": "undefined",
+      "severity_grade": "report_only"
+    },
+    {
+      "check_id": "L7",
+      "rule_id": "R5",
+      "rule_index": 4,
+      "priority_group": "minor",
+      "severity": "INVESTIGATE",
+      "combination_observed": "minor+INVESTIGATE",
+      "policy_decision_status": "undefined",
+      "severity_grade": "report_only"
+    },
+    {
+      "check_id": "L7",
+      "rule_id": "R6",
+      "rule_index": 5,
+      "priority_group": "major",
+      "severity": "SUSPECT",
+      "combination_observed": "major+SUSPECT",
+      "policy_decision_status": "undefined",
+      "severity_grade": "report_only"
+    },
+    {
+      "check_id": "L7",
+      "rule_id": "R7",
+      "rule_index": 6,
+      "priority_group": "minor",
+      "severity": "SOFT_ALERT",
+      "combination_observed": "minor+SOFT_ALERT",
+      "policy_decision_status": "undefined",
+      "severity_grade": "report_only"
+    },
+    {
+      "check_id": "L7",
+      "rule_id": "R8",
+      "rule_index": 7,
+      "priority_group": "critical",
+      "severity": "HARD_ALERT",
+      "combination_observed": "critical+HARD_ALERT",
+      "policy_decision_status": "undefined",
+      "severity_grade": "report_only"
+    },
+    {
+      "check_id": "L7",
+      "rule_id": "R9",
+      "rule_index": 8,
+      "priority_group": "minor",
+      "severity": "INVESTIGATE",
+      "combination_observed": "minor+INVESTIGATE",
+      "policy_decision_status": "undefined",
+      "severity_grade": "report_only"
+    },
+    {
+      "check_id": "L7",
+      "rule_id": "R10",
+      "rule_index": 9,
+      "priority_group": "standard",
+      "severity": "IMPROVEMENT",
+      "combination_observed": "standard+IMPROVEMENT",
+      "policy_decision_status": "undefined",
+      "severity_grade": "report_only"
+    },
+    {
+      "check_id": "L7",
+      "rule_id": "R11",
+      "rule_index": 10,
+      "priority_group": "standard",
+      "severity": "IMPROVEMENT",
+      "combination_observed": "standard+IMPROVEMENT",
+      "policy_decision_status": "undefined",
+      "severity_grade": "report_only"
+    },
+    {
+      "check_id": "L7",
+      "rule_id": "R12",
+      "rule_index": 11,
+      "priority_group": "critical",
+      "severity": "INVESTIGATE",
+      "combination_observed": "critical+INVESTIGATE",
+      "policy_decision_status": "undefined",
+      "severity_grade": "report_only"
+    }
+  ],
+  "unresolved_policy_questions": [
+    {
+      "check_id": "L7",
+      "decision_needed": "Rule.priority_group / Verdict.severity combination policy is undefined for v0.1.",
+      "suggested_options": [
+        "allow-all: accept every combination",
+        "matrix-deny: define per priority_group an allowed severity set",
+        "per-domain: store the matrix in the profile"
+      ],
+      "context": "design schema_validator_design_v0.1.md section 3.7. v0.1 must not hard-fail."
+    }
+  ],
+  "skipped_checks": [],
+  "input_files": {
+    "schema": {
+      "path": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/rule_schema_v0.1_draft.schema.json",
+      "sha256": "74d02d6dce4cefe1491d7db109067f492b947fcaf5237976a5cc9ea9c3a93086",
+      "exists": true
+    },
+    "profile": {
+      "path": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/ee_agent_rule_profile_v0.2_draft.json",
+      "sha256": "6372d512a33ac900e1a9e18deb2579fafa34908943c372151ea053fabca3998a",
+      "exists": true
+    },
+    "rules": {
+      "path": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/policy_change_rules_v0.2_draft_instance.json",
+      "sha256": "a010c1a8bab0f4eeb45e759b02ba6aebd0d1f6a37a89e0c1d56bcdf144e356b4",
+      "exists": true
+    },
+    "change_report": {
+      "path": null,
+      "sha256": null,
+      "exists": false
+    }
+  },
+  "metadata": {
+    "validator_version": "0.1.0",
+    "schema_version_const": "0.1-draft",
+    "profile_version": "0.2-draft",
+    "change_report_skipped": true,
+    "check_outcomes": {
+      "schema_root_required": "pass",
+      "profile_root_required": "pass",
+      "version_alignment": "pass",
+      "threshold_status": "pass",
+      "L1": "pass",
+      "L2": "pass",
+      "L3": "pass",
+      "L4": "pass",
+      "L5": "pass",
+      "L6": "pass",
+      "L7": "report_only",
+      "L8": "pass"
+    }
+  }
+}
