@@ -1,0 +1,27 @@
+concept: Laplace transform
+static_boundary: 회로이론에서 미분방정식 기반 과도현상을 s-domain 대수식으로 바꾸는 도구
+formula_core:
+  - L{f'(t)} = sF(s) - f(0)
+  - Z_L = sL
+  - Z_C = 1/(sC)
+dynamic_destinations:
+  - control transfer function
+  - system stability
+  - transient response analysis
+word_roles:
+  transfer_function: 입력이 출력으로 바뀌는 규칙
+  pole: 시스템 자연응답이 사는 위치
+  zero: 응답 모양을 바꾸는 위치
+  final_value: 시간이 충분히 지난 뒤 도착값
+trigger_words:
+  - 전달함수
+  - 극점
+  - 안정도
+  - 과도응답
+  - 최종값
+memory_logic: 라플라스는 회로에서는 과도현상을 풀고, 제어에서는 pole과 transfer function으로 시스템의 성격을 말한다.
+risk: pole/zero 설명을 비유로만 외우고 실제 극점 위치 계산을 놓치면 안 됨.
+extension_risk:
+  level: LOW
+  condition: 선형 시불변 시스템과 표준 라플라스/전달함수 문맥에서는 안전함
+  caution: 비선형 시스템이나 초기조건 처리에서는 단순 전달함수 설명만으로 부족함

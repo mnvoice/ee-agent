@@ -1,0 +1,26 @@
+concept: RC transient
+static_boundary: 회로이론에서 커패시터 전압이 시간상수 RC에 따라 충전 또는 방전되는 1차 과도응답
+formula_core:
+  - tau = R C
+  - v_C(t) = V_final + (V_initial - V_final) e^(-t/tau)
+dynamic_destinations:
+  - timing circuits
+  - filters
+  - sensor smoothing
+word_roles:
+  time_constant: 변화 속도를 정하는 시간 척도
+  charging: 최종 전압을 향해 올라가는 과정
+  discharging: 저장된 전하가 빠져나가는 과정
+  initial_condition: t = 0 순간 커패시터가 기억하는 값
+trigger_words:
+  - RC
+  - 충전
+  - 방전
+  - 시정수
+  - 과도현상
+memory_logic: RC 과도는 커패시터가 전압을 갑자기 바꾸지 못해서 최종값으로 지수적으로 이동하는 이야기다.
+risk: 커패시터 전압은 순간적으로 변하지 않지만 커패시터 전류는 회로 조건에 따라 순간적으로 변할 수 있다.
+extension_risk:
+  level: LOW
+  condition: 선형 1차 RC 회로와 등가 저항이 명확한 문맥에서는 안전함
+  caution: 스위칭 순간의 등가 저항과 초기조건을 잘못 잡으면 전체 풀이가 틀림

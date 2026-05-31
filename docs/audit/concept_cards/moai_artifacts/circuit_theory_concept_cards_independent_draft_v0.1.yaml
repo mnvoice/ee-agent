@@ -1,0 +1,791 @@
+# circuit_theory_concept_cards_independent_draft_v0.1.yaml
+#
+# Status: INDEPENDENT_DRAFT (NOT compared to Codex reviewed-draft 30-card set)
+# Origin: MoAI Strategic Orchestrator, conversation 2026-05-30
+# Source basis: schema-only generation; no Codex card content was read.
+# Distinction:
+#   - This file is NOT the Codex pilot30 set.
+#   - This file is NOT circuit_theory_exam_concept_cards_v0.1 (accepted final).
+#   - This file is NOT circuit_theory_exam_concept_cards_v0.2_additional.
+#   - This file is NOT circuit_theory_dynamic_word_bridge_db_v0.1.
+#   - This file is a parallel independent draft generated under the
+#     "Codex reviewed-draft standard" schema, awaiting Codex/Human review.
+# Claim boundary:
+#   - corpus-wide grounding NOT verified
+#   - NOT final learning material
+#   - broad-scope items are NOT core circuit-theory concepts
+#   - semantic gain NOT proven
+# Mutation counters (vs accepted artifacts):
+#   source_data_mutation_count: 0
+#   question_data_mutation_count: 0
+#   answer_key_mutation_count: 0
+#   corpus_mutation_count: 0
+#   prior_artifact_mutation_count: 0
+# Forbidden grounding checks:
+#   answer_key_used_as_grounding: false
+#   generated_solution_used_as_grounding: false
+#   generated_explanation_used_as_grounding: false
+#   generated_rationale_used_as_grounding: false
+#   evidence_card_summary_treated_as_proof: false
+# Schema field order (preserved): concept, static_boundary, formula_core,
+#   dynamic_destinations, word_roles, trigger_words, memory_logic, risk,
+#   extension_risk{level, condition, caution}.
+
+- concept: 키르히호프 보존법칙 (KVL/KCL)
+  static_boundary: 집중 정수 회로 가정에서, 임의의 폐로 전압 합은 0(KVL), 임의의 노드 전류 합은 0(KCL). 소자의 물리적 크기가 신호 파장보다 훨씬 작은 영역에 한정. 분포 정수 효과·자기 결합 누설 무시.
+  formula_core:
+    - "sum_loop(V) = 0"
+    - "sum_node(I) = 0"
+  dynamic_destinations:
+    - 노드/메쉬 해석 출발점
+    - 두-단자 등가화 사전 단계
+    - 비선형 소자(다이오드) 동작점 풀이
+  word_roles:
+    폐회로: 전압 균형식의 시작 단위
+    마디: 전류 균형식의 시작 단위
+    부호 규약: 가정한 방향이 결과의 +/- 해석을 결정
+  trigger_words:
+    - 폐회로
+    - 마디
+    - 메쉬
+    - 회로방정식
+  memory_logic: 회로 어디서도 전압의 합과 전류의 합은 새지 않는다는 약속이 모든 회로식의 출발이다.
+  risk: 분포 정수 영역(고주파 전송선, 안테나)에서 KVL/KCL을 그대로 적용하면 진행파 지연 효과가 누락된다.
+  extension_risk:
+    level: LOW
+    condition: 집중 정수 가정 + 표시된 부호 규약 안에서
+    caution: 송전선 진행파·EM 결합이 본질인 문제에는 직접 적용 불가
+
+- concept: 노드해석과 메쉬해석
+  static_boundary: 선형 LTI 집중 회로에서 미지수를 노드 전압 또는 메쉬 전류로 잡아 1차 연립방정식으로 푸는 표준 절차. 종속 전원이 있으면 보조 방정식이 추가로 필요.
+  formula_core:
+    - "노드: G * V = I_source"
+    - "메쉬: R * I = V_source"
+  dynamic_destinations:
+    - SPICE류 시뮬레이션 기본 알고리즘
+    - 두-단자 등가화 직전 작업
+    - 대형 전력망 조류 계산의 변형 형태
+  word_roles:
+    기준 노드: 0V 정의로 해의 절대 기준 제공
+    슈퍼노드: 종속 전압원이 두 노드를 묶을 때 사용하는 결합 마디
+    슈퍼메쉬: 종속 전류원이 두 메쉬를 묶을 때 사용하는 결합 루프
+  trigger_words:
+    - 노드해석
+    - 메쉬해석
+    - 슈퍼노드
+    - 슈퍼메쉬
+  memory_logic: 노드 수가 적으면 노드법, 메쉬 수가 적으면 메쉬법이 식 수를 줄인다.
+  risk: 종속 전원을 보통 전원처럼 다루면 식 개수가 부족해 해가 부정형이 된다.
+  extension_risk:
+    level: LOW
+    condition: 선형 LTI 회로의 정상상태 또는 단순 과도 해석 안에서
+    caution: 강한 비선형 소자(트랜지스터 대신호)는 동작점 선형화 후에만 적용
+
+- concept: 전원 등가 변환 (전압원-전류원)
+  static_boundary: 실제 전압원 V_s + 직렬 R, 실제 전류원 I_s + 병렬 R 사이의 외부 단자 동치. 이상 전원(R=0 또는 R=무한)에는 적용 불가.
+  formula_core:
+    - "V_s = I_s * R"
+    - "R_thev = R_norton"
+  dynamic_destinations:
+    - 테브난/노턴 산출 단계
+    - 회로 단순화 전략
+    - 신호원 모델링(전압 구동 vs 전류 구동)
+  word_roles:
+    실제 전원: 유한한 내부 저항이 있어야 변환 성립
+    외부 단자: 동치 여부 판단 기준선
+    내부 손실: 변환 전후 일반적으로 같지 않음
+  trigger_words:
+    - 등가전원
+    - 실제전압원
+    - 실제전류원
+  memory_logic: 외부 V-I 특성만 보존되면 두 표현은 단자 입장에서 구별되지 않는다.
+  risk: 변환 전후 내부 저항의 손실은 보존되지 않는다. 외부 전력·전류 계산에만 사용해야 한다.
+  extension_risk:
+    level: LOW
+    condition: 단자에서 측정 가능한 외부 양만을 다룰 때
+    caution: 내부 발열·효율 문제에는 사용 금지
+
+- concept: 중첩의 원리 (Superposition)
+  static_boundary: 선형 회로에서 독립 전원 각각이 단독으로 만든 응답의 합이 전체 응답과 같다. 종속 전원은 항상 유지. 비선형 회로에는 직접 적용 불가.
+  formula_core:
+    - "y_total = sum_k y_k  (k번째 독립 전원만 활성)"
+  dynamic_destinations:
+    - 다전원 회로 분해 해석
+    - 신호 + 직류 바이어스 분리(소신호 해석)
+    - 잡음 기여도 분리
+  word_roles:
+    단독 활성: 한 전원만 켜고 나머지는 0
+    죽이기: 전압원→단락, 전류원→개방
+    합: 전압·전류는 더할 수 있지만 전력은 일반적으로 더할 수 없다
+  trigger_words:
+    - 중첩
+    - 분리응답
+    - 한전원씩
+  memory_logic: 선형 회로는 입력의 합에 대해 출력의 합으로 답한다.
+  risk: 부분 응답의 전력을 더해 총 전력으로 답하면 틀린다. 전력은 제곱항이라 비선형이며 동시 활성 상태로 다시 계산해야 한다.
+  extension_risk:
+    level: LOW
+    condition: 회로 전체가 선형 LTI일 때
+    caution: 다이오드·트랜지스터 대신호·자기 포화에는 적용 불가
+
+- concept: 테브난·노턴 등가
+  static_boundary: 두 단자 a-b에서 본 임의의 선형 양방향 회로는 (V_TH, R_TH) 직렬(테브난) 또는 (I_N, R_TH) 병렬(노턴)로 동치. 종속 전원만 있는 경우 R_TH는 시험 전원법으로 구해야 함.
+  formula_core:
+    - "V_TH = V_open_ab"
+    - "I_N  = I_short_ab"
+    - "R_TH = V_TH / I_N"
+  dynamic_destinations:
+    - 최대 전력 전달 조건 유도
+    - 임피던스 정합 설계
+    - 부하 변경 시 응답 재계산
+  word_roles:
+    단자: 등가화의 시야 범위
+    부하: 등가 회로 외부에 붙는 가변 요소
+    시험 전원: 종속 전원만 있을 때 R_TH 산출 도구
+  trigger_words:
+    - 등가회로
+    - 개방전압
+    - 단락전류
+    - 테브난
+    - 노턴
+  memory_logic: 부하 입장에서 회로는 단 두 수(V_TH, R_TH)로 충분히 보인다.
+  risk: 종속 전원이 있는데 독립 전원만 끄고 저항 계산식으로 R_TH를 구하면 결과가 틀린다. 시험 전원 V/I 비로 구해야 한다.
+  extension_risk:
+    level: LOW
+    condition: 선형 LTI 회로의 임의 두 단자에서
+    caution: AC 정상상태에서는 R_TH가 복소 임피던스 Z_TH로 일반화되어 주파수 의존성이 동반됨
+
+- concept: 최대 전력 전달 정리
+  static_boundary: 신호원 (V_TH, R_TH 또는 Z_TH)에 대해, 부하에 전달되는 평균전력이 최대가 되는 조건. DC에서 R_L = R_TH, AC에서 Z_L = Z_TH의 켤레.
+  formula_core:
+    - "DC: R_L = R_TH, P_max = V_TH^2 / (4 R_TH)"
+    - "AC: Z_L = conj(Z_TH)"
+  dynamic_destinations:
+    - 안테나·RF 정합
+    - 오디오 라인 출력 정합
+    - 계측 입력 임피던스 결정
+  word_roles:
+    정합: 부하가 신호원과 균형을 맞춘 상태
+    반사: 부정합 시 신호 일부가 되돌아옴
+    효율: 정합 시 항상 50%로 고정
+  trigger_words:
+    - 최대전력
+    - 임피던스정합
+    - 정합조건
+  memory_logic: 부하가 신호원과 같아질 때 신호는 가장 많이 들어가지만, 같은 양이 신호원 내부에서 열로 버려진다.
+  risk: 최대 전력 전달과 최대 효율을 같다고 외우면 안 된다. 정합 시 효율은 50%일 뿐이다.
+  extension_risk:
+    level: MEDIUM
+    condition: 신호 회로·통신 회로처럼 전력 전달이 우선인 응용 안에서
+    caution: 전력 계통의 발전기-부하 운용은 효율 우선이라 정합 정리를 그대로 운용 기준으로 쓰면 안 됨
+
+- concept: 페이저와 복소 임피던스
+  static_boundary: 단일 주파수 정현파 정상상태(SSS)에서 v(t) = V_m cos(omega t + theta)를 복소수 V = V_m * exp(j theta)로 변환. 임피던스 Z = V / I는 R + jX. 가정 - 단일 주파수, 정상상태, LTI 소자.
+  formula_core:
+    - "Z_R = R, Z_L = j*omega*L, Z_C = 1 / (j*omega*C)"
+    - "V = I * Z"
+  dynamic_destinations:
+    - AC 회로 해석 전반
+    - 필터 응답 계산
+    - 복소 전력 표현
+  word_roles:
+    페이저: 시간 미분/적분을 곱셈으로 바꾸는 도구
+    실효값(RMS): 페이저 크기의 1/sqrt(2)
+    위상각: 시간 시프트를 각도로 표현
+  trigger_words:
+    - 정상상태
+    - 임피던스
+    - 페이저
+    - 위상각
+  memory_logic: 정현파에서 시간 미분은 j*omega 곱셈이 되어 미분방정식이 대수식으로 바뀐다.
+  risk: 페이저는 정현파 정상상태에서만 의미가 있다. 과도구간·비정현파에는 직접 적용 불가.
+  extension_risk:
+    level: LOW
+    condition: 단일 주파수 정현파 정상상태 + LTI 소자
+    caution: 비선형 소자 회로, 비정현파 입력, 과도 응답에는 사용 금지
+
+- concept: RLC 직렬 공진
+  static_boundary: R-L-C 직렬에서 omega*L과 1/(omega*C)가 상쇄되어 Z = R(최소)이 되는 조건. omega_0 = 1/sqrt(L*C). 가정 - 선형 LTI, 정현파 정상상태.
+  formula_core:
+    - "omega_0 = 1 / sqrt(L*C)"
+    - "Z(omega_0) = R"
+    - "I_max = V / R"
+  dynamic_destinations:
+    - 직렬 공진형 RF 동조회로
+    - 직렬 LC 트랩 필터
+    - 전력 계통의 직렬 공진 위험 분석
+  word_roles:
+    공진점: 임피던스 위상이 0이 되는 주파수
+    대역폭: 응답이 -3dB까지 유지되는 주파수 폭
+    품질계수: 공진의 날카로움을 나타내는 무차원 수
+  trigger_words:
+    - 공진
+    - 직렬공진
+    - 최소임피던스
+  memory_logic: 직렬 공진은 R만 남는 주파수에서 전류가 가장 커진다.
+  risk: 공진 시 L과 C 양단 전압이 입력의 Q배가 되어 절연 파괴 위험이 있다. "공진=좋다"라고 외우면 안 된다.
+  extension_risk:
+    level: LOW
+    condition: 표준 RLC 직렬, 단일 주파수, 선형 영역
+    caution: 비선형 자성체 포화·코로나·부분 방전이 본질인 영역은 별도 모델 필요
+
+- concept: RLC 병렬 공진(반공진)
+  static_boundary: R-L-C 병렬에서 서셉턴스가 상쇄되어 어드미턴스 최소, 임피던스 최대가 되는 조건. 직렬 공진의 쌍대(dual). omega_0 ~= 1/sqrt(L*C) (손실 작은 가정).
+  formula_core:
+    - "omega_0 = 1 / sqrt(L*C)   (이상)"
+    - "Z(omega_0) = R (최대)"
+  dynamic_destinations:
+    - 병렬 LC 동조회로
+    - 노치(차단) 필터
+    - 전력 계통의 고조파 차단 회로
+  word_roles:
+    반공진: 직렬 공진과 반대 거동(임피던스 최대)
+    탱크회로: 병렬 LC 진동기
+    대역차단: 특정 주파수만 막는 동작
+  trigger_words:
+    - 반공진
+    - 병렬공진
+    - 최대임피던스
+    - 탱크회로
+  memory_logic: 병렬 공진에서는 임피던스가 최대가 되어 그 주파수 전류가 가장 적게 흐른다.
+  risk: 실제 인덕터 직렬 저항 때문에 omega_0는 1/sqrt(L*C)에서 약간 이동하고 Q와 임피던스 최대값이 유한해진다.
+  extension_risk:
+    level: LOW
+    condition: 표준 RLC 병렬, 손실 작은 영역
+    caution: 손실 큰 인덕터·비선형 코어·결합 회로에는 단순식 적용 금지
+
+- concept: 품질계수 Q와 대역폭 BW
+  static_boundary: 공진회로에서 Q = omega_0 * (저장에너지)/(소비전력). -3dB 대역폭과 BW = omega_0/Q. 직렬 Q = omega_0*L/R, 병렬 Q = R/(omega_0*L). 가정 - 정현파 정상상태, 공진점 인근 선형.
+  formula_core:
+    - "Q = omega_0 / BW"
+    - "직렬 Q = omega_0*L/R, 병렬 Q = R/(omega_0*L)"
+  dynamic_destinations:
+    - 필터 선택도
+    - 발진기 위상 잡음
+    - 2차계 제어 응답의 감쇠비 zeta ~ 1/(2Q)
+  word_roles:
+    선택도: Q가 클수록 좁은 대역만 통과
+    손실: Q가 작아지면 대역이 넓어진다
+    공진 첨예도: Q는 공진곡선의 뾰족함
+  trigger_words:
+    - 품질계수
+    - 대역폭
+    - 마이너스3dB
+    - 선택도
+  memory_logic: Q는 공진이 얼마나 좁고 날카로운지를 한 수로 압축한 값이다.
+  risk: Q가 항상 좋다고 외우면 안 된다. 필터 선택도엔 유리하지만 2차계 제어 응답에서는 큰 Q가 ringing/overshoot을 키운다.
+  extension_risk:
+    level: MEDIUM
+    condition: 단일 공진점 부근, 시변 없음, 입력이 좁은 대역
+    caution: 광대역·다중 공진·시변 부하·비선형 손실 영역에서는 단일 Q로 거동 요약 불가
+
+- concept: 교류 전력 (유효·무효·피상·복소)
+  static_boundary: 정현파 정상상태에서 P = V*I*cos(theta), Q = V*I*sin(theta), S = V*I, 복소 S = P + jQ = V * conj(I). theta는 전압-전류 위상차, V·I는 실효값.
+  formula_core:
+    - "P = V_rms * I_rms * cos(theta)"
+    - "Q = V_rms * I_rms * sin(theta)"
+    - "S = P + jQ"
+  dynamic_destinations:
+    - 역률 개선 콘덴서 산정
+    - 무효 전력 보상 설계
+    - 전력 계량(W vs Var vs VA)
+  word_roles:
+    유효: 실제 일하는 전력(W)
+    무효: 한 주기 평균으로는 0이지만 설비를 점유하는 전력(Var)
+    피상: 설비 용량의 기준(VA)
+    역률: cos(theta), 유효/피상 비
+  trigger_words:
+    - 유효전력
+    - 무효전력
+    - 피상전력
+    - 역률
+    - cos세타
+  memory_logic: 한 주기 평균으로 남는 게 유효, 한 주기 평균으로 사라지는 게 무효다.
+  risk: 비정현파·고조파 부하에 cos(theta)만으로 역률을 정의하면 왜형 역률을 누락하게 된다.
+  extension_risk:
+    level: LOW
+    condition: 정현파·정상상태·단일 주파수·표시 부호 규약
+    caution: 고조파 부하·비정현 전류에서는 변위역률과 왜형역률을 따로 분리해야 함
+
+- concept: 역률 개선 (콘덴서 보상)
+  static_boundary: 유도성 부하의 cos(theta_1) 지연 상태에서 병렬 콘덴서로 Q를 일부 상쇄해 cos(theta_2)로 개선. P는 불변, Q·S·선전류 감소. 가정 - 단일 주파수 정현파 정상상태.
+  formula_core:
+    - "Q_C = P * (tan(theta_1) - tan(theta_2))"
+    - "C = Q_C / (omega * V^2)"
+  dynamic_destinations:
+    - 수용가 역률 개선 설비
+    - 송배전 손실 저감
+    - 변압기 부담 감소
+  word_roles:
+    지상: 전류가 전압보다 늦은 상태(유도성)
+    진상: 전류가 전압보다 빠른 상태(용량성)
+    과보상: 콘덴서를 너무 많이 달아 진상으로 넘어간 상태
+  trigger_words:
+    - 역률개선
+    - 콘덴서용량
+    - kVar보상
+  memory_logic: 콘덴서는 인덕터의 무효 전력을 자기 안에서 돌려받아 전원이 안 보낸 셈으로 만들어 준다.
+  risk: 과보상 시 단자 전압 상승·계전기 오동작이 발생할 수 있다. 콘덴서 용량을 과하게 잡으면 안 된다.
+  extension_risk:
+    level: LOW
+    condition: 정현파·균형 부하·단일 주파수 보상
+    caution: 고조파가 큰 부하에서 콘덴서만 달면 공진으로 고조파가 증폭될 위험(직렬 리액터 필요)
+
+- concept: 3상 평형 회로의 선·상 관계
+  static_boundary: 3상 정현파 평형 조건에서 Y결선은 V_line = sqrt(3) * V_phase, I_line = I_phase. Δ결선은 V_line = V_phase, I_line = sqrt(3) * I_phase. 가정 - 평형·정현파·정상상태·단일 주파수.
+  formula_core:
+    - "Y: V_L = sqrt(3) * V_p,   I_L = I_p"
+    - "Δ: V_L = V_p,             I_L = sqrt(3) * I_p"
+  dynamic_destinations:
+    - 변압기·발전기 결선 선택
+    - 모터 단자 전압 해석
+    - 전력 시스템 계산
+  word_roles:
+    선: 단자와 단자 사이
+    상: 각 부하 한 개에 걸리는 양
+    결선: Y/Δ가 sqrt(3) 자리를 바꾼다
+  trigger_words:
+    - 3상평형
+    - Y결선
+    - Δ결선
+    - 선전압
+    - 상전압
+  memory_logic: 평형 3상에서 sqrt(3)은 Y의 전압 쪽 또는 Δ의 전류 쪽 한 군데에만 붙는다.
+  risk: Y와 Δ에서 sqrt(3) 자리를 헷갈리면 1.732 배 또는 1/1.732 배 오차가 일관되게 발생한다.
+  extension_risk:
+    level: LOW
+    condition: 평형·정현파·정상상태
+    caution: 불평형·중성선 전류·영상 성분 문제에는 직접 적용 불가, 대칭 좌표법 필요
+
+- concept: 3상 평형 전력
+  static_boundary: 평형 3상에서 총 유효·무효·피상 전력. 결선에 무관하게 선전압·선전류로 표현. 가정 - 평형·정현파·정상상태·단일 주파수.
+  formula_core:
+    - "P = sqrt(3) * V_L * I_L * cos(theta)"
+    - "Q = sqrt(3) * V_L * I_L * sin(theta)"
+    - "S = sqrt(3) * V_L * I_L"
+  dynamic_destinations:
+    - 변압기·발전기 용량 산정
+    - 산업 부하 전력 계측
+    - 전력 손실 계산
+  word_roles:
+    선간: 변압기·차단기 정격 기준 단위
+    상간: 단상 환산 시 기준
+    위상각: 부하의 cos(theta) (단상 정의와 동일)
+  trigger_words:
+    - 3상전력
+    - 선간전압
+    - sqrt3VLIL
+  memory_logic: 평형 3상은 단상 3개를 합친 결과지만 sqrt(3)*V_L*I_L 한 식으로 압축된다.
+  risk: V_L*I_L에 sqrt(3)을 빼고 쓰면 결선을 Δ로 잘못 잡거나 단상으로 잘못 계산한 답이 된다.
+  extension_risk:
+    level: LOW
+    condition: 평형·정현파
+    caution: 불평형·고조파에서는 결선별로 다시 풀어야 함
+
+- concept: 대칭 좌표법 (영상·정상·역상)
+  static_boundary: 임의의 불평형 3상 페이저 (V_a, V_b, V_c)를 영상(V_0), 정상(V_1), 역상(V_2) 세 평형 성분으로 분해. a = exp(j*120도). 가정 - 단일 주파수, 정현파 정상상태, 선형 LTI.
+  formula_core:
+    - "V_0 = (V_a + V_b + V_c) / 3"
+    - "V_1 = (V_a + a*V_b + a^2*V_c) / 3"
+    - "V_2 = (V_a + a^2*V_b + a*V_c) / 3"
+  dynamic_destinations:
+    - 1선 지락·2선 단락 등 고장 해석
+    - 보호 계전기 정정
+    - 발전기 역상분 가열 평가
+  word_roles:
+    정상분: 정상 회전 방향(평형 시 유일하게 존재)
+    역상분: 반대 회전 방향(과열·진동 유발)
+    영상분: 동위상 성분(중성선·접지 경로로 흐름)
+  trigger_words:
+    - 대칭좌표법
+    - 영상분
+    - 정상분
+    - 역상분
+    - 1선지락
+  memory_logic: 불평형 한 세트는 평형 세 세트(영상+정상+역상)의 합으로 늘 다시 쓸 수 있다.
+  risk: 고장 종류마다 결합식이 다르다. 1선 지락에 3상 단락 식을 그대로 쓰면 크기가 몇 배까지 달라진다.
+  extension_risk:
+    level: MEDIUM
+    condition: 단일 주파수의 선형 3상 시스템 한정
+    caution: 회로이론에서는 정의·기본 분해까지 다루고, 본격 고장 계산은 전력공학·계통보호 영역이라 broad-scope corpus-gap 가능성 있음
+
+- concept: 1차 RC/RL 과도응답
+  static_boundary: 직류 스텝에 대한 1차 회로의 지수 응답. y(t) = y(inf) + (y(0+) - y(inf)) * exp(-t/tau). 시정수 tau = RC 또는 L/R. 가정 - 선형 LTI, t=0 정의, 초기 조건 사용.
+  formula_core:
+    - "tau_RC = R*C, tau_RL = L/R"
+    - "y(t) = y_inf + (y_0plus - y_inf) * exp(-t/tau)"
+  dynamic_destinations:
+    - 콘덴서 충방전 회로
+    - 릴레이 코일 동작 지연
+    - 디지털 회로의 RC 지연
+  word_roles:
+    초기값: 스위칭 직후 (t=0+)
+    최종값: 시간이 충분히 지난 후 (t=무한)
+    시정수: 응답이 63.2%까지 가는 데 걸리는 시간
+  trigger_words:
+    - 시정수
+    - RC회로
+    - RL회로
+    - 충방전
+  memory_logic: 한 시정수 동안 응답은 시작-끝 차이의 약 63%를 메운다.
+  risk: y(0+)와 y(0-)를 같다고 두면 안 된다. 인덕터 전류·콘덴서 전압만 연속이고, 다른 양은 불연속일 수 있다.
+  extension_risk:
+    level: LOW
+    condition: 선형 LTI, 단일 에너지 저장 소자, 정의된 초기 조건
+    caution: 비선형 부하·다이오드 비대칭·자기 포화에는 단일 지수 근사 불가
+
+- concept: 2차 RLC 과도응답
+  static_boundary: RLC 회로가 스텝 입력에 대해 보이는 응답은 감쇠비 zeta에 따라 과제동(zeta>1), 임계(zeta=1), 부족제동(zeta<1)로 나뉜다. 직렬 zeta = (R/2)*sqrt(C/L), 자연주파수 omega_n = 1/sqrt(L*C).
+  formula_core:
+    - "omega_n = 1 / sqrt(L*C)"
+    - "직렬 zeta = (R/2) * sqrt(C/L)"
+    - "부족제동 omega_d = omega_n * sqrt(1 - zeta^2)"
+  dynamic_destinations:
+    - 회로 ringing 분석
+    - 모터·기계계의 2차 모델
+    - 제어계 응답 평가
+  word_roles:
+    자연주파수: 감쇠가 없을 때의 진동 속도
+    감쇠비: 응답 형태를 정하는 한 수
+    ringing: 부족제동에서 보이는 감쇠 진동
+  trigger_words:
+    - 감쇠비
+    - 자연주파수
+    - overshoot
+    - 임계제동
+  memory_logic: 같은 LC라도 R이 크면 둔하게(과제동), 작으면 출렁이게(부족제동) 응답한다.
+  risk: zeta ≈ 1/(2Q) 관계는 가벼운 손실 가정에서만 성립. 큰 손실에서는 직접 정의로 돌아가야 한다.
+  extension_risk:
+    level: MEDIUM
+    condition: 선형 LTI 2차 시스템, 입력이 스텝 또는 임펄스
+    caution: 다중 모드 분포·비선형 마찰·시변 파라미터는 단순 zeta-omega_n 모델로 표현 불가
+
+- concept: 라플라스 변환과 회로 소자
+  static_boundary: 시간 영역 회로 방정식을 s 영역 대수식으로 변환. 초기 조건을 함께 옮긴다. R→R, L→s*L (+ 초기 전류 항), C→1/(s*C) (+ 초기 전압 항). 가정 - 선형 LTI, t=0 정의 가능.
+  formula_core:
+    - "v_L(s) = s*L*I(s) - L*i(0-)"
+    - "v_C(s) = I(s)/(s*C) + v_C(0-)/s"
+  dynamic_destinations:
+    - 임의 입력(스텝·임펄스·일반 함수)의 응답
+    - 전달함수 H(s) 유도
+    - 시스템 안정성·극·영점 분석
+  word_roles:
+    s: j*omega를 일반화한 복소 주파수
+    초기 조건: 시간 영역과 s 영역을 잇는 통로
+    부분분수: 역변환을 위한 분해 도구
+  trigger_words:
+    - 라플라스
+    - 전달함수
+    - 부분분수
+    - 초기조건
+  memory_logic: 라플라스 변환은 미분방정식을 대수식으로 바꾸되, 초기 조건을 잃지 않게 챙겨 들고 간다.
+  risk: 초기 조건 항을 빼고 단순 치환만 하면 t=0 직전 에너지가 무시되어 답이 틀린다.
+  extension_risk:
+    level: LOW
+    condition: 선형 LTI, 인과적, 합리적 변환 영역
+    caution: 비선형·시변·변환적분 비수렴 신호에는 적용 불가
+
+- concept: 초기값·최종값 정리
+  static_boundary: 라플라스 영역 F(s)에서 t=0+ 값과 t=무한 값을 s 극한으로 구하는 정리. 최종값 정리는 모든 극이 LHP에 있거나 s=0의 단순극만 있을 때 성립.
+  formula_core:
+    - "초기값 f(0+) = lim_{s->inf} s*F(s)"
+    - "최종값 f(inf) = lim_{s->0} s*F(s)  (성립 조건 필요)"
+  dynamic_destinations:
+    - 과도 응답 양 끝값 빠른 확인
+    - 정상상태 오차 평가
+    - 제어계 스텝 응답 확인
+  word_roles:
+    s_to_inf: 초기 순간 조회
+    s_to_0: 정상상태 조회
+    성립 조건: RHP 극·jw 극(원점 제외)이 없어야 최종값 정리 적용 가능
+  trigger_words:
+    - 초기값정리
+    - 최종값정리
+    - 정상상태오차
+  memory_logic: s가 무한으로 가면 t=0+가 보이고, s가 0으로 가면 t=무한이 보인다.
+  risk: 발산하거나 진동하는 시스템에 최종값 정리를 적용해 "0", "유한"이라고 답하면 틀린다.
+  extension_risk:
+    level: MEDIUM
+    condition: 안정 시스템(모든 극이 LHP) 또는 s=0의 단순극만 허용
+    caution: 진동·발산 응답·RHP 극 시스템에는 사용 금지
+
+- concept: 전달함수 H(s)와 극·영점
+  static_boundary: H(s) = Y(s)/X(s) (영 초기 조건). 분모 0의 해가 극, 분자 0의 해가 영점. 가정 - 선형 LTI, 영 초기 조건, ROC 정의.
+  formula_core:
+    - "H(s) = Y(s) / X(s)   (IC=0)"
+    - "안정 조건 - 모든 극이 좌반평면(LHP)"
+  dynamic_destinations:
+    - 주파수 응답 H(j*omega)
+    - 시간 응답 분류
+    - 제어 보상기 설계
+  word_roles:
+    극: 시스템이 본질적으로 진동·감쇠하는 모드의 위치
+    영점: 입력 중 특정 주파수를 줄이는 위치
+    ROC: H(s)가 의미를 갖는 s의 범위
+  trigger_words:
+    - 전달함수
+    - 극
+    - 영점
+    - 안정도
+  memory_logic: 극은 시스템이 스스로 흔드는 모드 위치, 영점은 입력 중 무시되는 주파수 위치다.
+  risk: 모든 극이 LHP라고 곧 응답이 빠르거나 좋다는 뜻은 아니다. 응답 속도·overshoot은 극의 위치와 영점의 영향을 함께 봐야 한다.
+  extension_risk:
+    level: MEDIUM
+    condition: 선형 LTI 시스템 한정
+    caution: 비선형·시변·신호 종속 시스템에는 H(s) 자체가 잘 정의되지 않음
+
+- concept: 필터 분류와 -3dB 차단주파수
+  static_boundary: H(j*omega) 크기 모양에 따라 LPF·HPF·BPF·BSF로 분류. 차단주파수는 통상 통과대역 대비 -3dB(1/sqrt(2) ≈ 0.707) 떨어지는 주파수. 가정 - 정현파 정상상태, LTI.
+  formula_core:
+    - "1차 LPF H = 1 / (1 + j*omega/omega_c),  omega_c = 1/(R*C)"
+    - "BPF 중심 omega_0 = sqrt(omega_L * omega_H)"
+  dynamic_destinations:
+    - 신호 잡음 제거
+    - 통신 채널 선택
+    - 안티 에일리어싱
+  word_roles:
+    통과: "|H|가 1 부근인 대역"
+    차단: "|H|가 감소하는 영역"
+    슬로프: 차단 후 dB/dec 감소율
+  trigger_words:
+    - 필터
+    - LPF
+    - HPF
+    - BPF
+    - 차단주파수
+    - 0.707
+  memory_logic: -3dB는 출력 전력이 절반 되는 지점이고, 진폭으로는 약 0.707이다.
+  risk: 1차 차단주파수와 2차 공진주파수를 혼동하기 쉽다. 1차에는 Q가 없고, 2차/공진에는 Q가 있다.
+  extension_risk:
+    level: LOW
+    condition: LTI 수동·능동 필터 기본 분류 안에서
+    caution: 디지털 필터(특히 비선형 처리)에는 -3dB 기준이 그대로 적용되지 않음
+
+- concept: 보드 선도(Bode plot) 기초
+  static_boundary: H(j*omega) 크기를 20*log10|H| (dB), 위상을 도(deg)로 omega의 로그 축에 표시. 각 극·영점은 ±20 dB/dec 점근 기여. 가정 - 선형 LTI, 정현파 정상상태.
+  formula_core:
+    - "단일 실극 1/(1+j*omega/omega_c) - -20 dB/dec, 위상 0 to -90도"
+    - "단일 영점 (1+j*omega/omega_z) - +20 dB/dec, 위상 0 to +90도"
+  dynamic_destinations:
+    - 시스템 주파수 응답 가시화
+    - 제어계 위상여유·이득여유 분석
+    - 통신 채널 응답 표현
+  word_roles:
+    슬로프: 극·영점 개수와 종류로 결정
+    꺾임점: 점근선이 부러지는 주파수(corner)
+    위상 누적: 극은 -, 영점은 + 방향
+  trigger_words:
+    - 보드선도
+    - 점근선
+    - dB/dec
+    - 코너주파수
+  memory_logic: 보드 선도는 H(j*omega)를 로그 축에서 점근선의 덧셈으로 단순화해 본다.
+  risk: 점근선만 보고 공진 첨두를 놓치기 쉽다. zeta가 작은 2차계는 omega_n 부근에서 점근선보다 크게 솟아오른다.
+  extension_risk:
+    level: MEDIUM
+    condition: 선형 LTI 시스템의 정현파 정상상태 응답
+    caution: 회로이론 시험 범위는 기본 형태까지. 제어공학의 위상여유·게인여유 정정 문제는 broad-scope corpus-gap 가능
+
+- concept: 2-port 네트워크 파라미터 (Z, Y, h, ABCD)
+  static_boundary: 두 쌍 단자(입력·출력)를 가진 선형 양방향 회로를 행렬로 표현. Z·Y는 임피던스·어드미턴스 행렬, h는 혼합형, ABCD는 종속(transmission)형. 가정 - 선형 LTI, 단일 주파수 또는 H(s).
+  formula_core:
+    - "Z V = Z * I,  Y I = Y * V"
+    - "ABCD [V1; I1] = [A B; C D] * [V2; I2]"
+  dynamic_destinations:
+    - 캐스케이드 회로(ABCD 행렬 곱)
+    - 변압기·송전선 등가
+    - 증폭기 단간 결합
+  word_roles:
+    Z11_Z22: 자체 임피던스
+    Z12_Z21: 결합(상호) 임피던스
+    ABCD: 다단 연결에서 곱셈 가능
+  trigger_words:
+    - 2단자망
+    - ABCD
+    - Z파라미터
+    - Y파라미터
+  memory_logic: 2-port는 외부 단자에서 본 입·출력 관계만 4성분으로 압축한다.
+  risk: ABCD는 I2 부호 규약에 민감하다. 규약 정의 없이 곱하면 부호가 어긋난다.
+  extension_risk:
+    level: LOW
+    condition: 선형 LTI 양방향 회로 + 정의된 단자 부호 규약
+    caution: 비양방향 소자(정류기·자이레이터), 강한 비선형 단에는 단일 파라미터 표현 불가
+
+- concept: 영상 임피던스 / 특성 임피던스
+  static_boundary: 2-port 네트워크에서 입력 측에서 본 임피던스가 출력 측 부하 임피던스 Z_O2와 같고, 출력 측에서 본 임피던스가 입력 측 부하 Z_O1과 같을 때의 Z_O1, Z_O2. 무손실 송전선의 특성 임피던스 Z_0 = sqrt(L/C)와 개념적 친척.
+  formula_core:
+    - "Z_O1 = sqrt(Z_1_oc * Z_1_sc)"
+    - "Z_O2 = sqrt(Z_2_oc * Z_2_sc)"
+    - "무손실 선로 Z_0 = sqrt(L/C)"
+  dynamic_destinations:
+    - 필터 종단 정합
+    - 송전선 입력 임피던스
+    - 임피던스 변환 설계
+  word_roles:
+    영상 정합: 양쪽 단자에서 동시에 정합되는 상태
+    개방·단락 임피던스: 영상 임피던스 산출의 기본 측정값
+    특성 임피던스: 진행파 관점의 입출력 임피던스
+  trigger_words:
+    - 영상임피던스
+    - 특성임피던스
+    - Z_0
+    - 정합
+  memory_logic: 영상 임피던스는 회로 양쪽이 서로의 거울처럼 정합되는 임피던스다.
+  risk: 영상 정합은 최대 전력 정합(Z_L = conj(Z_TH))과 다르다. 영상 정합은 양 단자에서 동시 정합을 요구한다.
+  extension_risk:
+    level: MEDIUM
+    condition: 대칭 또는 잘 정의된 2-port + 선형 LTI
+    caution: 비대칭·복잡한 다단 회로에서는 일반화 시 정합 조건이 깨질 수 있음
+
+- concept: 가역성 정리 (Reciprocity)
+  static_boundary: 종속 전원·비양방향 소자가 없는 선형 양방향 회로에서, A에 입력을 넣고 B에서 받은 응답과 B에 같은 입력을 넣고 A에서 받은 응답이 같다. Z, Y 행렬 대칭성(Z12 = Z21)으로 표현.
+  formula_core:
+    - "Z_12 = Z_21   (양방향 선형 회로)"
+  dynamic_destinations:
+    - 안테나 송수신 등가
+    - 측정 회로 단순화
+    - 양방향 필터 설계 검증
+  word_roles:
+    양방향: 신호가 어느 쪽으로 흘러도 동일
+    대칭 행렬: 가역성의 수학적 표현
+    종속 전원: 가역성을 깨뜨리는 대표 요소
+  trigger_words:
+    - 가역성
+    - 상반정리
+    - Z12=Z21
+    - 양방향회로
+  memory_logic: 입구와 출구를 바꿔도 응답이 같다면 그 회로는 가역적이다.
+  risk: 종속 전원·다이오드·트랜지스터·정류기·자이레이터가 들어가면 가역성이 깨진다. "모든 회로는 가역적"이라고 일반화하면 틀린다.
+  extension_risk:
+    level: LOW
+    condition: 선형 양방향 수동 회로 한정
+    caution: 비양방향 능동 소자가 포함되면 즉시 무효
+
+- concept: 푸리에 급수와 고조파
+  static_boundary: 주기 T인 비정현 주기파를 기본 주파수 omega_1 = 2*pi/T와 그 정수배 정현파의 합으로 표현. 가정 - 주기성, 디리클레 조건. 선형 LTI 가정 시 응답은 각 고조파 응답의 합.
+  formula_core:
+    - "f(t) = a_0 + sum_n[a_n*cos(n*omega_1*t) + b_n*sin(n*omega_1*t)]"
+    - "고조파 차수 n = 1, 2, 3, ..."
+  dynamic_destinations:
+    - 비정현 전원의 회로 응답
+    - 고조파 손실·소음 분석
+    - 통신 신호 스펙트럼 표현
+  word_roles:
+    기본파: 1차 고조파 (omega_1)
+    고조파: 2차 이상의 정수배 성분
+    직류 성분: a_0, 평균값
+  trigger_words:
+    - 푸리에급수
+    - 고조파
+    - 기본파
+    - 비정현파
+  memory_logic: 어떤 주기 신호도 정현파들의 합으로 다시 쓸 수 있다는 약속이다.
+  risk: 비대칭 파형의 짝·홀수 고조파 유무를 외운 규칙으로 단정하면 일부 파형에서 틀린다. 대칭성을 정확히 확인해야 한다.
+  extension_risk:
+    level: LOW
+    condition: 주기성 + 선형 LTI 응답 분리 가능
+    caution: 비선형 부하는 응답 자체가 새 고조파를 만들기 때문에 단순 합산 불가
+
+- concept: 비정현파 전력과 왜형 역률
+  static_boundary: 비정현 전류·전압 환경에서 P = sum_n V_n*I_n*cos(theta_n) (같은 차수만 유효 전력 기여). V_rms, I_rms는 각 고조파 RMS의 제곱합 제곱근. PF = 변위역률 곱하기 왜형역률.
+  formula_core:
+    - "V_rms = sqrt(sum_n V_n_rms^2)"
+    - "I_rms = sqrt(sum_n I_n_rms^2)"
+    - "PF = P / S = 변위역률 * 왜형역률"
+  dynamic_destinations:
+    - 고조파 부하 평가
+    - 콘덴서 과부하 위험 평가
+    - 측정 장비 RMS·평균치 차이 해석
+  word_roles:
+    변위역률: 기본파에서의 cos(theta_1)
+    왜형역률: 기본파 전류 RMS / 전체 전류 RMS
+    THD: 고조파 RMS 합 / 기본파 RMS
+  trigger_words:
+    - 비정현파전력
+    - 왜형역률
+    - THD
+    - 고조파
+  memory_logic: 비정현 회로에서는 같은 차수 정현파끼리만 평균 전력을 만든다.
+  risk: 일반 PF = cos(theta)로만 외우면 고조파 부하에서 실제 PF가 cos(theta_1)보다 훨씬 낮다는 사실을 놓친다.
+  extension_risk:
+    level: MEDIUM
+    condition: 주기적 비정현파 + 선형 부하 분해 가정
+    caution: 비선형·시변 부하는 새 고조파를 만들기 때문에 동일 차수만 곱셈하는 규칙이 깨질 수 있음
+
+- concept: 라우스-후르비츠 안정 판별 (broad-scope)
+  static_boundary: 특성방정식 A(s) = 0의 모든 근이 LHP에 있는지를 라우스 어레이 1열 부호 변화 횟수로 판별. 가정 - 선형 LTI 단일 입력 단일 출력, A(s)는 실계수 다항식.
+  formula_core:
+    - "s^n + a_(n-1)*s^(n-1) + ... + a_0 의 라우스 어레이 1열 부호 변화 = RHP 근 수"
+    - "안정 - 1열 부호 변화 0회"
+  dynamic_destinations:
+    - 제어계 안정도 판정
+    - 보상기 이득 한계 결정
+    - 발진기 발진 조건 분석
+  word_roles:
+    특성방정식: 시스템 자체 거동을 결정하는 방정식
+    부호 변화 수: RHP 근(불안정 모드) 수
+    특수 케이스: 1열에 0이 나오는 경우의 보정(epsilon 치환 등)
+  trigger_words:
+    - 라우스
+    - 후르비츠
+    - 안정도
+    - 특성방정식
+  memory_logic: 분모 다항식만으로 근을 직접 풀지 않고도 시스템이 안정한지 알 수 있는 표가 라우스다.
+  risk: 1열에 0이 나오면 단순 부호 비교로 결론지면 안 된다. epsilon 치환 또는 보조 다항식 보정이 필요하다.
+  extension_risk:
+    level: MEDIUM
+    condition: 선형 LTI, 실계수 특성방정식
+    caution: 비선형·시변·시간지연(exp(-s*T)) 시스템에는 직접 적용 불가. 회로이론 입장에서는 broad exam-scope corpus-gap 가능
+
+- concept: 상태공간 표현 (broad-scope)
+  static_boundary: 시스템을 dot(x) = A*x + B*u, y = C*x + D*u로 표현. 회로에서는 콘덴서 전압·인덕터 전류를 상태변수로 잡는 것이 표준. 가정 - 선형 LTI(또는 동작점 근방).
+  formula_core:
+    - "dot(x) = A*x + B*u"
+    - "y = C*x + D*u"
+    - "H(s) = C * (s*I - A)^(-1) * B + D"
+  dynamic_destinations:
+    - MIMO 시스템 해석
+    - 디지털 제어계 설계
+    - 관측기·상태피드백 보상기
+  word_roles:
+    상태변수: 시스템 에너지 저장 요소와 직결
+    A행렬: 자유 응답을 결정(고유값 = 극)
+    BCD: 입력·출력 결합
+  trigger_words:
+    - 상태공간
+    - 상태변수
+    - A행렬
+    - 고유값
+  memory_logic: 미분방정식 묶음을 행렬·벡터 한 줄로 압축한 표현이 상태공간이다.
+  risk: 같은 시스템도 상태변수를 어떻게 잡느냐에 따라 A, B, C가 달라지므로, 두 표현의 동일성은 입출력 동치(H(s) 같음)로 비교해야 한다.
+  extension_risk:
+    level: MEDIUM
+    condition: 선형 LTI, 잘 정의된 상태변수 묶음
+    caution: 회로이론 입장에서 broad-scope. 본격 응용은 제어공학 영역이라 corpus-gap 가능
+
+- concept: z-변환 (broad-scope, 디지털)
+  static_boundary: 이산 신호 x[n]의 z-변환 X(z) = sum_(n>=0) x[n]*z^(-n). 라플라스 변환의 이산 버전. 가정 - 인과적·LTI·잘 정의된 ROC. 회로이론 시험 범위에서는 정의·기본 성질 수준.
+  formula_core:
+    - "X(z) = sum_(n=0..inf) x[n] * z^(-n)"
+    - "Z{x[n-1]} = z^(-1) * X(z)   (영 초기 조건)"
+  dynamic_destinations:
+    - 디지털 필터 설계
+    - 이산 시스템 안정도(|z| 1 미만)
+    - 표본화 시스템의 z-평면 to s-평면 매핑
+  word_roles:
+    z: 한 표본 지연을 곱셈으로 표현
+    ROC: 변환이 수렴하는 z 영역
+    단위원: 디지털 정현파 정상상태에 해당
+  trigger_words:
+    - z변환
+    - 이산시스템
+    - 단위원
+    - 디지털필터
+  memory_logic: 시간 지연을 곱셈으로 바꿔 차분방정식을 대수식으로 만든다.
+  risk: 안정 영역이 LHP가 아니라 z-평면 단위원 내부라는 점을 혼동하면 안정도 판정이 정반대로 나온다.
+  extension_risk:
+    level: MEDIUM
+    condition: 이산 LTI 시스템 한정
+    caution: 회로이론 corpus 안에 본문이 적은 broad-scope. 디지털 신호 처리·디지털 제어 영역의 깊이는 별도 학습 필요(corpus-gap 가능)
+
+# end of independent draft (30 cards)

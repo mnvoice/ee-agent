@@ -1,0 +1,27 @@
+concept: impedance
+static_boundary: 회로이론에서 AC 정상상태에서 전압과 전류의 비를 복소수로 나타낸 값
+formula_core:
+  - Z_R = R
+  - Z_L = j omega L
+  - Z_C = 1/(j omega C)
+dynamic_destinations:
+  - frequency response
+  - filter design
+  - impedance matching
+word_roles:
+  real_part: 에너지를 소모하는 저항 성분
+  imaginary_part: 에너지를 저장하고 되돌리는 리액턴스 성분
+  inductive: 전류가 전압보다 늦는 성격
+  capacitive: 전류가 전압보다 앞서는 성격
+trigger_words:
+  - 임피던스
+  - 리액턴스
+  - 유도성
+  - 용량성
+  - 주파수
+memory_logic: 임피던스는 AC에서 저항 개념을 확장해 크기뿐 아니라 위상까지 함께 말하는 값이다.
+risk: 임피던스는 주파수에 따라 달라질 수 있으므로 한 주파수의 값을 모든 상황에 고정하면 안 된다.
+extension_risk:
+  level: LOW
+  condition: 선형 시간불변 회로의 정현파 정상상태에서는 안전함
+  caution: 비선형 소자나 과도상태에서는 단순 복소 임피던스 하나로 충분하지 않을 수 있음

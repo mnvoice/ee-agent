@@ -1,0 +1,27 @@
+concept: three-phase power
+static_boundary: 회로이론에서 세 상 전압과 전류가 함께 공급하는 AC 전력을 계산하는 방법
+formula_core:
+  - P = sqrt(3) V_L I_L cos(phi)
+  - S = sqrt(3) V_L I_L
+  - Q = sqrt(3) V_L I_L sin(phi)
+dynamic_destinations:
+  - power system transmission
+  - motor supply
+  - industrial load calculation
+word_roles:
+  line_voltage: 선과 선 사이 전압
+  phase_voltage: 한 상에 걸리는 전압
+  line_current: 선로를 흐르는 전류
+  balanced_load: 세 상이 같은 크기와 위상 간격을 갖는 부하
+trigger_words:
+  - 3상
+  - 선간전압
+  - 상전압
+  - 선전류
+  - 루트3
+memory_logic: 3상 전력식의 sqrt(3)는 선간값과 상값의 기하 관계가 전력 계산에 들어온 흔적이다.
+risk: 선간전압과 상전압, 선전류와 상전류를 혼동하면 sqrt(3)을 곱할지 나눌지 틀린다.
+extension_risk:
+  level: LOW
+  condition: 평형 3상 정현파 정상상태에서는 안전함
+  caution: 불평형이나 고조파가 있으면 상별 계산 또는 대칭좌표법이 필요할 수 있음

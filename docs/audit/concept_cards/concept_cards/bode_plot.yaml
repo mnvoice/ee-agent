@@ -1,0 +1,26 @@
+concept: Bode plot
+static_boundary: 회로이론 broad exam-scope에서 선형 시간불변 시스템의 주파수별 크기와 위상 변화를 로그축으로 표현하는 그래프
+formula_core:
+  - gain_dB = 20 log10 |H(j omega)|
+  - phase = angle H(j omega)
+dynamic_destinations:
+  - filter response
+  - control stability margins
+  - amplifier bandwidth
+word_roles:
+  magnitude_plot: 주파수별 증폭 또는 감쇠 정도
+  phase_plot: 주파수별 지연 또는 앞섬
+  corner_frequency: 기울기가 바뀌는 기준 주파수
+  bandwidth: 유효하게 통과시키는 주파수 범위
+trigger_words:
+  - 보드선도
+  - 이득
+  - 위상
+  - 차단주파수
+  - 대역폭
+memory_logic: 보드선도는 회로가 주파수별로 얼마나 통과시키고 얼마나 늦추는지를 두 장의 그래프로 보여준다.
+risk: dB 기울기 규칙만 외우고 실제 전달함수의 극점, 영점, 적용 가능한 LTI 조건을 놓치면 해석이 껍데기만 남는다.
+extension_risk:
+  level: MEDIUM
+  condition: 선형 시간불변 시스템의 주파수응답 문맥에서는 안전함
+  caution: 비선형 시스템, 시간변화 시스템, 강한 포화 동작에는 표준 보드선도 해석이 직접 적용되지 않을 수 있음

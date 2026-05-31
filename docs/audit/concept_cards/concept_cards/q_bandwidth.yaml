@@ -1,0 +1,29 @@
+concept: quality factor and bandwidth
+static_boundary: 회로이론에서 2차 RLC 공진 회로의 응답이 얼마나 좁고 날카로운지를 Q와 -3dB 대역폭 BW로 나타내는 표현
+formula_core:
+  - Q = omega0 / BW
+  - "BW = omega2 - omega1"
+  - "series RLC resonance only: Q = omega0 L / R"
+  - "parallel RLC resonance only: Q = R / (omega0 L)"
+  - "standard 2nd-order LTI resonance only: zeta ≈ 1/(2Q)"
+dynamic_destinations:
+  - filter selectivity design
+  - resonator and oscillator quality
+  - control damping interpretation
+word_roles:
+  selectivity: Q가 클수록 좁은 주파수 대역만 골라내는 성질
+  sharpness: 공진 곡선이 얼마나 뾰족한지
+  bandwidth: 응답이 기준 이하로 떨어지기 전까지 허용되는 주파수 폭
+  damping_relation: 표준 2차 LTI 공진에서만 Q와 감쇠비가 연결되는 조건부 관계
+trigger_words:
+  - 품질계수
+  - Q값
+  - 대역폭
+  - -3dB
+  - 선택도
+memory_logic: Q는 공진이 얼마나 날카로운지를 말하고, BW는 그 날카로움이 실제 주파수 폭으로 얼마나 좁게 나타나는지를 말한다.
+risk: Q가 크면 항상 좋다고 외우면 안 되며, 필터 선택도에는 유리하지만 제어 응답에서는 overshoot와 ringing을 키울 수 있다.
+extension_risk:
+  level: MEDIUM
+  condition: 단일 2차 RLC 공진의 협대역 정상상태 안에서는 안전함
+  caution: 광대역 시스템, 다중 공진, 비선형 손실, 시변 부하, 임의 고차 제어 시스템은 단일 Q 값으로 거동을 요약할 수 없음

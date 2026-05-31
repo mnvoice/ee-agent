@@ -1,0 +1,28 @@
+concept: second-order response
+static_boundary: 회로이론에서 표준 RLC 회로가 감쇠비와 자연주파수에 따라 진동 또는 비진동으로 응답하는 2차 과도응답
+formula_core:
+  - omega0 = 1/sqrt(L C)
+  - "series RLC only: alpha = R / (2 L)"
+  - zeta = alpha / omega0
+  - "series RLC only: zeta = (R/2) sqrt(C/L)"
+dynamic_destinations:
+  - control damping analysis
+  - resonance behavior
+  - overshoot and ringing
+word_roles:
+  damping: 진동이 줄어드는 정도
+  natural_frequency: 회로가 스스로 반응하려는 주파수
+  overshoot: 최종값을 넘어서는 응답
+  ringing: 감쇠하며 남는 진동
+trigger_words:
+  - 2차회로
+  - 감쇠
+  - 과감쇠
+  - 부족감쇠
+  - 진동
+memory_logic: 2차 응답은 에너지가 L과 C 사이를 오가고 R이 그 움직임을 얼마나 빨리 죽이는지를 보는 것이다.
+risk: 자연주파수, 공진 주파수, 감쇠된 진동 주파수를 같은 것으로 외우면 조건별 식을 혼동한다.
+extension_risk:
+  level: MEDIUM
+  condition: 표준 2차 선형 시스템과 RLC 과도응답 연결에서는 안전함
+  caution: 제어계 2차 근사는 실제 고차 시스템의 지배 극점 근사일 때만 일부 행동을 설명할 수 있음

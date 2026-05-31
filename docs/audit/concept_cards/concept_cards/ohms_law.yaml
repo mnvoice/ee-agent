@@ -1,0 +1,27 @@
+concept: Ohm's law
+static_boundary: 회로이론에서 저항 양단 전압과 전류가 비례한다는 선형 저항 관계
+formula_core:
+  - V = I R
+  - I = V / R
+  - R = V / I
+dynamic_destinations:
+  - load modeling
+  - sensor circuits
+  - power dissipation
+word_roles:
+  resistance: 전류 흐름을 제한하는 비례 계수
+  voltage: 전하를 밀어 주는 전위차
+  current: 실제로 흐르는 전하의 양
+  linearity: 비례 관계가 유지되는 성질
+trigger_words:
+  - 저항
+  - 전압강하
+  - 전류
+  - 선형
+  - 비례
+memory_logic: 옴의 법칙은 전압, 전류, 저항 중 두 개를 알면 나머지를 찾는 가장 작은 회로 언어다.
+risk: 모든 소자가 항상 V = IR을 따르는 것은 아니며 다이오드, 포화, 온도 변화에서는 선형성이 깨질 수 있다.
+extension_risk:
+  level: LOW
+  condition: 선형 저항과 작은 신호 등가 저항 문맥에서는 안전함
+  caution: 비선형 소자 전체 동작을 단순 저항처럼 해석하면 안 됨

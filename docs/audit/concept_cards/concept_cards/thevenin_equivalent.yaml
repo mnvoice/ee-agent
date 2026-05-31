@@ -1,0 +1,28 @@
+concept: Thevenin equivalent
+static_boundary: 회로이론에서 선형 2단자 회로를 특정 단자에서 Vth와 Rth의 직렬 등가로 바꾸는 방법
+formula_core:
+  - Vth = open-circuit voltage
+  - Rth = equivalent resistance seen from terminals
+  - I_load = Vth / (Rth + R_load)
+dynamic_destinations:
+  - source-load interface
+  - electronics input/output impedance
+  - impedance matching
+word_roles:
+  equivalent: 특정 단자에서 보면 같다는 뜻
+  source_impedance: 전원이 가진 내부 성격
+  loading_effect: 부하가 앞단 회로를 끌어내리는 현상
+  interface: 두 시스템이 만나는 자리
+  test_source_method: 종속전원만 남는 경우 단자에 시험 전원을 넣어 Rth를 구하는 절차
+trigger_words:
+  - 등가회로
+  - 개방전압
+  - 단락전류
+  - 부하
+  - 출력임피던스
+memory_logic: 테브난은 회로를 줄이는 공식이 아니라, 다음 회로가 앞 회로를 어떻게 보게 되는지 설명하는 인터페이스 언어다.
+risk: 종속전원이 포함된 회로에서 독립전원만 0으로 두고 저항을 단순 합성하면 Rth가 틀릴 수 있으며, 종속전원만 남는 경우에는 시험 전원으로 Rth = V_test / I_test를 구해야 한다. 비선형 회로와 주파수 의존 회로에서는 동작점 또는 주파수 조건을 정해야 한다.
+extension_risk:
+  level: MEDIUM
+  condition: 선형 회로, 특정 동작점, 또는 특정 주파수의 small-signal 등가로 제한하면 안전함
+  caution: 모든 시스템 인터페이스를 테브난 하나로 설명하거나 내부 물리 구조까지 같다고 말하면 과장될 수 있음
