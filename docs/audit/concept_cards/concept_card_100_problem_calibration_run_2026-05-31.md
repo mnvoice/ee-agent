@@ -76,13 +76,29 @@ Use the same schema for the full 100-row classification, with these execution ru
 - Inspect `text` and `choices` before mapping a card.
 - If tag and text disagree, set `source_condition: tag_text_mismatch` and require human review.
 - If text is only metadata or choices are blank, set `coverage_status: not_applicable` unless enough concept text remains.
+- If text only points to another year/session/problem, treat it as a publisher cross-reference placeholder before treating it as OCR damage. These rows may be excluded from card evidence without counting as concept-card failure.
 - If a figure is required, set `source_condition: figure_missing` and avoid treating the row as final card-quality proof.
 - If an expansion-pilot card is the best fit, keep `coverage_status: partial`, set `card_fit_issue: pilot_only_fit` where appropriate, and do not count it as baseline coverage.
 - Keep pressure flags as evidence only.
 
 No new score field or percentage field is needed.
 
-## 7. Next Allowed Step
+## 7. Human Clarification On Cross-Reference Rows
+
+Human supervisor clarification after this calibration run:
+
+```text
+Some source rows are scanned from printed exam books where the publisher avoids repeating an identical problem and instead writes that the same problem appeared in another year/session. In that case, the row can be dropped from the validation evidence set; it is not necessarily OCR damage and should not be counted as a concept-card failure.
+```
+
+Interpretation for the full 100-row classification:
+
+- Rows like `1998_4회_67` and `1998_6회_66` may represent publisher cross-reference placeholders.
+- If no actual problem body is present, classify them as `not_applicable` for concept-card evidence.
+- Record the reason as source/publication structure, not card coverage failure.
+- Do not spend card-review effort trying to force a mapping from tag alone.
+
+## 8. Next Allowed Step
 
 ```yaml
 next_step: prepare_full_100_row_classification_table_using_calibrated_rules
@@ -93,7 +109,7 @@ pr_state_change_authorized: false
 
 The next step may classify the frozen 100 rows using this calibrated workflow. That still does not authorize any YAML patch, card promotion, PR ready-for-review transition, or merge.
 
-## 8. Claim Boundary
+## 9. Claim Boundary
 
 This calibration run does not claim:
 
