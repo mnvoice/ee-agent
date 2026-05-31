@@ -68,15 +68,89 @@ Strict reading:
 
 | disposition | rows |
 |---|---|
-| Can enter human patch gate after source check | `2001_3회_71`, `2003_3회_75`, `2004_1회_79` |
+| Can enter human patch gate after source check | `2003_3회_75` |
 | Must be figure/data cleanup before patch gate | `2003_1회_66`, `2000_4회_61`, `2002_3회_63` |
-| Better as optional note, not immediate patch | `1998_4회_65`, `1999_6회_62`, `1999_6회_66`, `2000_4회_67`, `2001_1회_70`, `2003_1회_67` |
+| Better as optional note, not immediate patch | `1998_4회_65`, `1999_6회_62`, `1999_6회_66`, `2000_4회_67`, `2001_1회_70`, `2001_3회_71`, `2003_1회_67` |
 | Better held for control/signal planning | `2000_4회_66`, `2002_3회_70` |
-| Data cleanup before concept evidence | `1998_6회_70`, `2001_1회_69`, `2001_3회_72`, `2002_3회_69`, `2003_1회_70`, `2004_1회_78` |
+| Data cleanup before concept evidence | `1998_6회_70`, `2001_1회_69`, `2001_3회_72`, `2002_3회_69`, `2003_1회_70`, `2004_1회_78`, `2004_1회_79` |
 
 This split is intentionally conservative. It prevents the 6 `patch_candidate` rows from being read as six authorized card patches.
 
-## 7. Claim Boundary
+## 7. Human Decision Reflected
+
+2026-06-01 KST HTML review에서 감독관은 Codex의 진행 의견을 승인하되, 즉시 검토 3건에 대해 다음과 같이 처리 방침을 확정했다.
+
+이 결정은 YAML mutation authorization이 아니다. 시험 합격 목적의 지식 정리와 concept-card governance 기록을 분리하기 위한 human gate decision이다.
+
+| problem_id | human decision | exam-purpose reading | system disposition |
+|---|---|---|---|
+| `2001_3회_71` | 한 문제만으로 `rlc_resonance` global patch를 하기는 어렵다. | 제3고조파 RLC 직렬 공진주파수는 `f = 1 / (6π√LC)`로 정리할 수 있다. 시험용으로는 유용한 특정 공식/관계다. | YAML patch 보류. `rlc_resonance` / `harmonics` 사이의 optional note 후보로만 유지한다. |
+| `2003_3회_75` | 4단자망 영상임피던스 formula convention note 초안으로 채택 가능하다. | `Z_01 = Z_02` 조건은 `A = D`로 검증 가능하다. 태그는 `대칭분 해석`이 아니라 4단자망/영상임피던스다. | `two_port_network` convention note 초안으로 기록한다. 이 결정은 태그 오류를 card failure로 세지 않는다는 의미도 포함한다. |
+| `2004_1회_79` | concept-card 실패가 아니라 본문/보기/정답 data mismatch로 본다. | 주어진 `A = D = 5/3` 대칭 4단자망에서 `cosh(theta) = A`, 따라서 `theta = cosh^-1(5/3) = ln(3)`이다. | 데이터 정합성 복구 backlog. 현재 복소수 보기(`55.3 - j7.5` 등)와 recorded answer는 card evidence로 사용하지 않는다. |
+
+### 7.1 Two-Port Image-Impedance Convention Draft
+
+`2003_3회_75` 검토에 따라 다음 수식 세트를 `two_port_network` convention note의 초안으로 둔다.
+
+기본 4단자 행렬:
+
+```text
+[ V1 ]   [ A  B ] [ V2 ]
+[ I1 ] = [ C  D ] [ I2 ]
+```
+
+가역 조건:
+
+```text
+AD - BC = 1
+```
+
+영상 임피던스:
+
+```text
+Z_01 = sqrt(AB / CD)
+Z_02 = sqrt(BD / AC)
+```
+
+대칭 조건:
+
+```text
+Z_01 = Z_02  =>  A = D
+A = D 일 때, Z_01 = Z_02 = Z_0 = sqrt(B / C)
+```
+
+구동점 임피던스 관계:
+
+```text
+Z_1f = A / C  # 2차측 개방 시 1차측 임피던스
+Z_1s = B / D  # 2차측 단락 시 1차측 임피던스
+Z_01 = sqrt(Z_1f * Z_1s) = sqrt((A/C) * (B/D)) = sqrt(AB / CD)
+```
+
+이 convention draft는 source-damaged rows를 patch authorization으로 바꾸지 않는다. 다만 `2003_3회_75`의 정답 후보 `A = D`와 tag mismatch 판단에는 사용할 수 있다.
+
+### 7.2 Data-Mismatch Finding For `2004_1회_79`
+
+`2004_1회_79`는 현 상태에서 card evidence가 아니다.
+
+정상적인 수학 풀이:
+
+```text
+A = 5/3, B = 800, C = 1/450, D = 5/3
+A = D 이므로 대칭 4단자망
+cosh(theta) = A = 5/3
+theta = cosh^-1(5/3)
+      = ln(A + sqrt(A^2 - 1))
+      = ln(5/3 + sqrt(25/9 - 9/9))
+      = ln(5/3 + 4/3)
+      = ln(3)
+```
+
+따라서 실제 수학적 정답은 `ln(3)` 또는 약 `1.0986`이어야 한다.
+
+사용자 검토에 따르면 원본 기출 보기 형태는 `ln 2`, `ln 3`, `ln 4`, `ln 5` 계열로 보아야 한다. 현재 시스템의 복소수 보기와 recorded answer는 본문과 맞지 않는 choice/formula mismatch로 기록한다.
+
+## 8. Claim Boundary
 
 This precheck does not claim:
 
@@ -96,18 +170,25 @@ It only says:
 The broad-scope pressure signals are real, but several require source repair or human formula review before they can become card changes.
 ```
 
-## 8. Human Gate Required Before YAML Mutation
+## 9. Human Gate Required Before YAML Mutation
 
 Before any YAML mutation, a human supervisor must decide:
 
 1. Whether `2001_3회_71` is enough to add a harmonic-resonance note, or whether it stays optional.
 2. Whether `2003_1회_66` has a verified antiresonance topology and a reconciled answer.
 3. Whether `2000_4회_61` and `2002_3회_63` can be repaired from the source figure/options.
-4. Whether `2003_3회_75` and `2004_1회_79` should become a bounded `two_port_network` note or a separate future image-impedance/transfer-constant card.
+4. Whether `2003_3회_75` should become a bounded `two_port_network` note or a separate future image-impedance/transfer-constant card.
 5. Whether Bode/stability rows are split between circuit frequency response and control/signal stability.
 6. Whether non-sinusoidal power deserves a mini-track rather than scattered optional notes.
+7. Whether `2004_1회_79` source/options can be restored from original exam material before any future card evidence use.
 
-## 9. Recommended Next Step
+Post-HTML-review update:
+
+- `2001_3회_71` has been decided as optional note only, not global patch.
+- `2003_3회_75` has a human-approved `two_port_network` convention-note draft, but still no YAML mutation authorization.
+- `2004_1회_79` has been moved to data cleanup / source reconciliation, not card patch.
+
+## 10. Recommended Next Step
 
 Prepare a source-check packet for the three damaged high-pressure rows:
 
@@ -115,9 +196,10 @@ Prepare a source-check packet for the three damaged high-pressure rows:
 - `2000_4회_61`
 - `2002_3회_63`
 
-Then prepare a human-review packet for the two cleaner two-port convention rows:
+Then prepare a human-review packet for the cleaner two-port convention row:
 
 - `2003_3회_75`
-- `2004_1회_79`
 
-No YAML mutation should occur until those gate decisions are recorded.
+Track `2004_1회_79` separately as data cleanup / source reconciliation.
+
+No YAML mutation should occur until a later gate explicitly authorizes it.
