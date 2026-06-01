@@ -174,3 +174,41 @@ This memo does not authorize:
 - answer-key mutation;
 - concept-card creation;
 - concept-card promotion.
+
+## Git Mirror Continuation
+
+Selected Markdown review artifacts were mirrored to PR #1's head branch through the GitHub connector.
+
+Branch:
+
+```text
+codex/concept-card-governance-import-2026-05-31
+```
+
+Mirrored paths:
+
+```text
+docs/audit/concept_cards/electromagnetics_static_dynamic_bridge/electromagnetics_v0_2_storage_and_candidate_governance_2026-06-01.md
+docs/audit/concept_cards/electromagnetics_static_dynamic_bridge/electromagnetics_static_dynamic_bridge_v0_2_candidate_manifest_2026-06-01.md
+docs/audit/concept_cards/electromagnetics_static_dynamic_bridge/electromagnetics_static_dynamic_bridge_v0_2_exam_memory_lines_2026-06-01.md
+```
+
+Git commit SHAs observed from the connector:
+
+```text
+fe0be82258529547c8c709f8f0c4701c07d08d3a
+f366174d026e63f33d8b89f31e64fb5861e1dcbd
+c3e354ea50a3caef8fa562aa0415d487d967336f
+```
+
+HTML review artifacts remain in the local canonical archive for direct browser viewing.
+
+This mirror pass still does not authorize:
+
+- PR merge;
+- PR ready-for-review transition;
+- YAML mutation;
+- source-data mutation;
+- answer-key mutation;
+- concept-card creation;
+- concept-card promotion.
