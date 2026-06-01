@@ -1,0 +1,27 @@
+concept: initial value and final value theorems
+static_boundary: 회로이론에서 라플라스 변환 F(s)의 극한으로 시간 영역의 t = 0+ 값과 정상상태 최종값을 직접 확인하는 정리
+formula_core:
+  - "initial value: f(0+) = lim_{s -> infinity} sF(s)"
+  - "final value: f(infinity) = lim_{s -> 0} sF(s)"
+  - "final value theorem requires: all poles of sF(s) lie in LHP, with at most a simple pole at s = 0"
+dynamic_destinations:
+  - quick steady-state value check
+  - control system step-response endpoint estimation
+  - transient response sanity check
+word_roles:
+  s_large: s가 무한대로 갈 때 시간 영역의 t = 0+ 순간을 보는 통로
+  s_zero: s가 0으로 갈 때 시간이 충분히 지난 정상상태를 보는 통로
+  applicability_condition: 최종값 정리가 성립하기 위한 극의 위치 조건
+  steady_state_endpoint: 충분히 시간이 지난 뒤 응답이 도착하는 값
+trigger_words:
+  - 초기값정리
+  - 최종값정리
+  - 정상상태오차
+  - 라플라스극한
+  - 극점조건
+memory_logic: s가 무한대로 가면 시작 직후를 보고, s가 0으로 가면 안정하게 도착한 끝값을 본다.
+risk: 최종값 정리는 안정 조건이 맞을 때만 의미가 있으며, 우반평면 극, jw축 비원점 극, 지속 진동, 발산 응답에 적용하면 유한한 답처럼 보여도 실제 최종값이 없다.
+extension_risk:
+  level: MEDIUM
+  condition: 선형 시불변 시스템이고, 초기값 정리는 t = 0에서 impulse 성분이 없으며, 최종값 정리는 sF(s)의 극이 모두 좌반평면이거나 s = 0의 단순극만 허용되는 경우에 안전함
+  caution: 우반평면 극, jw축 비원점 극, 비선형 시스템, 시변 시스템, ROC 조건 미확인, t = 0의 impulse 성분이 있는 상태에서는 정리를 기계적으로 적용하면 안 됨

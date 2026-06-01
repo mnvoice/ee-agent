@@ -1,0 +1,26 @@
+concept: Fourier series
+static_boundary: 회로이론 broad exam-scope에서 주기 신호를 기본파와 고조파 성분의 합으로 표현하는 방법
+formula_core:
+  - x(t) = a0 + sum an cos(n omega0 t) + bn sin(n omega0 t)
+  - f_n = n f0
+dynamic_destinations:
+  - harmonic analysis
+  - signal decomposition
+  - power quality waveform analysis
+word_roles:
+  fundamental: 반복 파형의 기본 주파수 성분
+  harmonic: 기본파의 정수배 주파수 성분
+  spectrum: 어떤 주파수 성분들이 있는지 보는 목록
+  periodicity: 같은 모양이 반복되는 성질
+trigger_words:
+  - 푸리에급수
+  - 기본파
+  - 고조파
+  - 주기파
+  - 스펙트럼
+memory_logic: 푸리에급수는 복잡한 주기파를 여러 정현파 성분이 겹친 것으로 다시 읽는 방법이다.
+risk: 비주기 신호나 과도현상을 주기 정상상태처럼 다루면 푸리에급수 적용 범위를 넘으며, 회로 core grounding으로 과장하면 안 된다.
+extension_risk:
+  level: MEDIUM
+  condition: 주기 신호와 고조파 분석 문맥에서는 안전함
+  caution: 회로이론 core 계산보다 신호해석 쪽 broad-scope 확장이므로 corpus grounding을 확인해야 함

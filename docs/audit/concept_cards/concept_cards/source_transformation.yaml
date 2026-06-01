@@ -1,0 +1,27 @@
+concept: source transformation
+static_boundary: 회로이론에서 전압원-직렬저항과 전류원-병렬저항을 같은 단자 특성으로 바꾸는 방법
+formula_core:
+  - Vs = Is * R
+  - Is = Vs / R
+  - R_series = R_parallel
+dynamic_destinations:
+  - Thevenin Norton conversion
+  - circuit simplification
+  - source-load interface modeling
+word_roles:
+  terminal_behavior: 외부에서 본 전압과 전류 관계
+  Norton: 전류원과 병렬저항 등가
+  Thevenin: 전압원과 직렬저항 등가
+  equivalent_source: 단자에서 같은 효과를 내는 전원
+trigger_words:
+  - 전원변환
+  - 테브난
+  - 노턴
+  - 등가전원
+  - 단자특성
+memory_logic: 전원변환은 전원의 모양을 바꾸는 일이 아니라 외부 단자에서 보이는 I-V 관계를 유지하는 일이다.
+risk: 이상 전압원만 있거나 이상 전류원만 있는 경우에는 변환에 필요한 저항이 없어서 바로 적용할 수 없다.
+extension_risk:
+  level: LOW
+  condition: 선형 저항성 전원 등가와 특정 주파수 임피던스 등가에서는 안전함
+  caution: 내부 구조가 아니라 단자 특성만 같다는 점을 잊으면 물리 해석을 과장하게 됨

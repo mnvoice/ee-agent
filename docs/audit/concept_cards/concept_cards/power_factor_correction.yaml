@@ -1,0 +1,28 @@
+concept: power factor correction
+static_boundary: 회로이론에서 정현파 정상상태의 유도성 부하에 커패시터를 병렬 보상해 무효전력을 줄이고 역률을 개선하는 절차
+formula_core:
+  - "Q_C = P (tan(phi1) - tan(phi2))"
+  - "single-phase or per-phase basis: C = Q_C / (omega V^2)"
+  - "P is unchanged; S and line current decrease after compensation"
+dynamic_destinations:
+  - utility consumer power factor compensation
+  - transmission and distribution loss reduction
+  - transformer loading relief
+word_roles:
+  lagging: 유도성 부하에서 전류가 전압보다 늦는 상태
+  leading: 보상이 과해 전류가 전압보다 앞서는 진상 상태
+  overcompensation: 콘덴서 용량이 과해 진상 영역으로 넘어간 상태
+  series_reactor: 고조파 환경에서 콘덴서와 직렬로 넣어 공진 위험을 줄이는 인덕터
+trigger_words:
+  - 역률개선
+  - 콘덴서보상
+  - 진상
+  - 지상
+  - 과보상
+  - kVar보상
+memory_logic: 역률 개선은 부하가 요구하던 무효전력 일부를 콘덴서가 근처에서 주고받게 해서 전원이 부담하는 피상전력을 줄이는 절차다.
+risk: 콘덴서 용량을 과하게 잡으면 진상으로 넘어가 전압 상승이나 보호기기 오동작이 생길 수 있고, 고조파 부하에서는 계통 인덕턴스와 콘덴서가 공진해 고조파를 키울 수 있다.
+extension_risk:
+  level: MEDIUM
+  condition: 정현파 정상상태, 단일 주파수, 균형 부하, 전압 기준과 Y/Delta 접속 기준을 명시한 표준 콘덴서 보상 범위 안에서는 안전함
+  caution: 비정현파 환경, 고조파 부하, 콘덴서 직렬 공진, 자동 콘덴서 군 동작, 전압 상승, 3상 접속별 용량 환산 문제는 별도 전력품질 검토가 필요함

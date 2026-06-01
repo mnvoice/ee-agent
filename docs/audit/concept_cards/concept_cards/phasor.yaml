@@ -1,0 +1,27 @@
+concept: phasor
+static_boundary: 회로이론에서 정상상태 정현파를 크기와 위상으로 표현해 미분방정식을 대수식으로 바꾸는 표현
+formula_core:
+  - v(t) = Vm cos(omega t + phi)
+  - V = Vm∠phi
+  - d/dt maps to j omega
+dynamic_destinations:
+  - AC circuit analysis
+  - impedance modeling
+  - power factor analysis
+word_roles:
+  magnitude: 정현파의 크기
+  phase: 기준파보다 앞서거나 늦는 정도
+  reference: 위상을 비교하는 기준
+  steady_state: 과도현상이 사라진 뒤 남는 정현파 상태
+trigger_words:
+  - 페이저
+  - 위상
+  - 정상상태
+  - 정현파
+  - jomega
+memory_logic: 페이저는 시간에 따라 흔들리는 정현파를 회전하는 화살표의 한 장면으로 고정해 계산하게 해준다.
+risk: 페이저는 같은 주파수의 정상상태 정현파끼리 쓰는 표현이므로 서로 다른 주파수 성분을 하나로 합치면 안 된다.
+extension_risk:
+  level: LOW
+  condition: 단일 주파수 정상상태 AC 해석에서는 안전함
+  caution: 과도응답이나 비정현파 전체를 페이저 하나로 표현하면 정보가 사라짐

@@ -1,0 +1,26 @@
+concept: nodal analysis
+static_boundary: 회로이론에서 노드 전압을 미지수로 두고 KCL로 회로 방정식을 세우는 방법
+formula_core:
+  - sum branch currents from node = 0
+  - I = (Vnode - Vadjacent) / R
+dynamic_destinations:
+  - circuit simulation matrix solving
+  - op-amp circuit analysis
+  - network equation setup
+word_roles:
+  reference_node: 전압 기준이 되는 접지 노드
+  node_voltage: 기준점에 대한 노드의 전위
+  conductance: 노드 방정식에서 전류 계수를 만드는 값
+  supernode: 전압원이 낀 노드 묶음
+trigger_words:
+  - 노드전압
+  - 접지
+  - KCL
+  - 컨덕턴스
+  - 슈퍼노드
+memory_logic: 노달 해석은 회로의 각 지점이 기준점보다 얼마나 높은지를 묻고 KCL로 답을 맞춘다.
+risk: 전압원이 두 비기준 노드 사이에 있으면 단순 KCL이 아니라 supernode 처리가 필요하다.
+extension_risk:
+  level: LOW
+  condition: lumped linear circuit의 방정식 설정에서는 안전함
+  caution: 종속전원과 이상 전압원이 많으면 보조 방정식을 빠뜨리기 쉬움

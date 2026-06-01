@@ -1,0 +1,82 @@
+{
+  "created_at_kst": "2026-05-30",
+  "repo": "/Users/jeong-ujin_1/Developer/ee-agent",
+  "branch": "feat/phase-b-migration",
+  "verdict": "DRIFT_BUT_RECOVERABLE",
+  "handoff_expected_head_short": "caf62dc",
+  "actual_head": "d23bfad5bfd947e339507940b4f6a3206c3d539a",
+  "actual_head_short": "d23bfad",
+  "actual_head_subject": "docs: dynamic binding spec v0.1 보존",
+  "remote_sync_observed": true,
+  "staged_files": [],
+  "tracked_modified_files": [
+    "output/study_materials/전기기기_개념정리.md"
+  ],
+  "stale_instruction": {
+    "instruction": "hard_check_policy_design.md/json 2개 commit",
+    "actual_status": "already tracked and clean",
+    "committed_in": "0f355ed",
+    "resolution": "do not repeat this gate"
+  },
+  "completed_commits_since_caf62dc": [
+    {"short": "0f355ed", "subject": "hard check policy 설계 기록"},
+    {"short": "ee2e515", "subject": "rule schema draft 설계 기록"},
+    {"short": "a2f1240", "subject": "schema validator 설계 기록"},
+    {"short": "a1e7d80", "subject": "schema validator 구현 결정 기록"},
+    {"short": "202b7a4", "subject": "schema validator 구현"},
+    {"short": "157baae", "subject": "schema validator 기준 실행 기록"},
+    {"short": "411912a", "subject": "policy change rules migration 기록"},
+    {"short": "9e73be4", "subject": "L7 policy decision 기록"},
+    {"short": "b91121c", "subject": "profile catalog boost 설계 기록"},
+    {"short": "0799544", "subject": "ee-agent rule profile v0.2 draft 기록"},
+    {"short": "bfcdd67", "subject": "policy change rules instance v0.2 draft 기록"},
+    {"short": "9c7b6ae", "subject": "schema validator v0.2 run 기록"},
+    {"short": "d7c0c18", "subject": "L7 policy decision v0.2 기록"},
+    {"short": "8803d48", "subject": "threshold confirmation decision 기록"},
+    {"short": "b80ef3f", "subject": "development turning point 기록"},
+    {"short": "154ef99", "subject": "profile naming revision 기록"},
+    {"short": "b6939d0", "subject": "docs: policy change rules v0.2 acceptance review 보존"},
+    {"short": "d23bfad", "subject": "docs: dynamic binding spec v0.1 보존"}
+  ],
+  "current_open_gate_candidate": {
+    "name": "Profile Naming Revision v0.2 Drift Gate review/commit decision",
+    "file": "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/profile_naming_revision_v0.2.md",
+    "git_status": "untracked",
+    "recommended_next_action": "review before staging",
+    "spot_check_status": "core anchors match; not a full review pass",
+    "spot_checked_anchors": [
+      "ee_agent_rule_profile_v0.2_draft.json L33-L47",
+      "ee_agent_rule_profile_v0.2_draft.json L417-L424",
+      "policy_change_rules_v0.2_draft_instance.json L269-L284",
+      "policy_change_rules_v0.2_draft_instance.json L393-L408",
+      "policy_change_rules_v0.2_draft_instance.json L301/L340/L506",
+      "profile_naming_revision_v0.1.md L247-L252",
+      "dynamic_binding_spec_v0.1.md L165-L171"
+    ]
+  },
+  "do_not_stage": [
+    "output/study_materials/전기기기_개념정리.md",
+    "scripts/*",
+    "data/*",
+    "app/data/*",
+    "bulk untracked files"
+  ],
+  "safe_staging_if_review_passes": [
+    "docs/prompt_engineering/explanation_generation_v0/v_next_results_d3_split/profile_naming_revision_v0.2.md"
+  ],
+  "claims_allowed_now": [
+    "hard_check_policy_design.md/json already committed in 0f355ed",
+    "actual HEAD is d23bfad and appears synced with origin",
+    "profile_naming_revision_v0.2.md is untracked and is the nearest open gate candidate",
+    "handoff based on caf62dc is stale"
+  ],
+  "claims_forbidden_now": [
+    "profile_naming_revision_v0.2.md has passed review",
+    "profile_naming_revision_v0.2.md must be committed without review",
+    "R9 token rename has been applied",
+    "domain_agnostic/category drift has been enforced",
+    "thresholds are confirmed",
+    "L7 enforcement has been introduced",
+    "governance implementation or D-4 automation can start immediately"
+  ]
+}

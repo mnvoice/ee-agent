@@ -1,0 +1,29 @@
+concept: symmetrical components
+static_boundary: 회로이론에서 불평형 3상을 영상분, 정상분, 역상분으로 분해하는 방법
+formula_core:
+  - I0 = (Ia + Ib + Ic) / 3
+  - "I1 = (Ia + a Ib + a^2 Ic) / 3"
+  - "I2 = (Ia + a^2 Ib + a Ic) / 3"
+  - a = 1∠120°
+dynamic_destinations:
+  - power system fault analysis
+  - protection relay
+  - grounding analysis
+word_roles:
+  positive_sequence: 정상 회전 성분
+  negative_sequence: 반대 회전 성분
+  zero_sequence: 세 상이 같이 움직이는 성분
+  fault_path: 고장전류가 흐르는 경로
+trigger_words:
+  - 영상분
+  - 정상분
+  - 역상분
+  - 지락
+  - 불평형
+  - 고장전류
+memory_logic: 대칭좌표법은 불평형을 계산하는 공식이 아니라, 고장전류가 어떤 성분과 경로로 흐르는지 보여주는 지도다.
+risk: zero sequence는 항상 흐르는 것이 아니라 귀로, 접지, 변압기 결선 조건에 따라 달라진다.
+extension_risk:
+  level: MEDIUM
+  condition: 전력계통 고장해석과 대칭좌표법의 표준 연결에서는 안전하되, 회로이론 core에서 전력공학 경계로 넘어가는 확장임
+  caution: 실제 zero-sequence 경로와 고장 종류별 sequence network 결합은 접지/중성선/변압기 결선 조건을 반드시 봐야 함

@@ -1,0 +1,26 @@
+concept: Kirchhoff laws
+static_boundary: 회로이론에서 노드 전류 보존과 폐루프 전압 합 조건을 세우는 기본 법칙
+formula_core:
+  - sum currents at node = 0
+  - sum voltages around loop = 0
+dynamic_destinations:
+  - nodal analysis
+  - mesh analysis
+  - circuit simulation
+word_roles:
+  node: 전류가 모이고 나뉘는 접점
+  loop: 전압 변화를 한 바퀴 추적하는 경로
+  conservation: 들어온 양과 나간 양이 맞아야 하는 조건
+  reference_direction: 부호를 정하기 위한 약속
+trigger_words:
+  - KCL
+  - KVL
+  - 노드
+  - 폐회로
+  - 부호
+memory_logic: 키르히호프 법칙은 회로를 외우는 법이 아니라 전류와 전압의 장부를 맞추는 법이다.
+risk: 기준 방향과 극성을 임의로 정해도 되지만 중간에 바꾸면 부호 오류가 생긴다.
+extension_risk:
+  level: LOW
+  condition: lumped circuit approximation이 성립하는 저주파 회로에서는 안전함
+  caution: 고주파 분포정수 회로나 강한 전자기파 영역에서는 단순 lumped KVL 해석이 부족할 수 있음

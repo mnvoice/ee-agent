@@ -1,0 +1,26 @@
+concept: RLC resonance
+static_boundary: 회로이론에서 L과 C 리액턴스가 상쇄되는 조건
+formula_core:
+  - omega0 = 1/sqrt(LC)
+  - Q = omega0 / BW
+dynamic_destinations:
+  - filters
+  - communication tuning
+  - power quality harmonic resonance
+word_roles:
+  resonance: 특정 주파수에 강하게 반응
+  bandwidth: 허용하는 주파수의 폭
+  Q: 선택의 날카로움 또는 감쇠의 작음
+  selectivity: 원하는 주파수를 골라내는 능력
+trigger_words:
+  - 공진
+  - 대역폭
+  - -3dB
+  - 선택도
+  - 고조파
+memory_logic: 공진은 주파수를 찾고, Q는 그 주파수 반응이 얼마나 날카롭고 오래 남는지 말한다.
+risk: Q를 무조건 좋은 것으로 외우면 안 됨. 필터에서는 좋지만 제어 응답에서는 ringing/overshoot 위험이 된다.
+extension_risk:
+  level: LOW
+  condition: RLC 공진, 필터, Q, bandwidth의 표준 연결 안에서는 안전함
+  caution: Q를 모든 시스템에서 무조건 좋은 값으로 해석하면 안 됨

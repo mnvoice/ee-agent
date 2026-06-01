@@ -1,0 +1,26 @@
+concept: mesh analysis
+static_boundary: 회로이론에서 평면회로의 메쉬 전류를 미지수로 두고 KVL로 방정식을 세우는 방법
+formula_core:
+  - sum voltage drops around mesh = 0
+  - V_R = R * I_mesh
+dynamic_destinations:
+  - planar circuit solving
+  - loop current modeling
+  - coupled loop intuition
+word_roles:
+  mesh: 내부에 다른 loop가 없는 작은 폐경로
+  mesh_current: 계산을 위해 가정한 loop 전류
+  shared_resistor: 두 메쉬 전류 차이가 흐르는 저항
+  supermesh: 전류원이 끼어 합쳐서 다루는 메쉬
+trigger_words:
+  - 메쉬전류
+  - KVL
+  - 루프
+  - 공통저항
+  - 슈퍼메쉬
+memory_logic: 메쉬 해석은 회로를 여러 바퀴의 전류 흐름으로 보고 각 바퀴의 전압 장부를 맞추는 방법이다.
+risk: 비평면회로나 전류원이 포함된 경로에서는 메쉬 설정이 바로 되지 않을 수 있다.
+extension_risk:
+  level: LOW
+  condition: 평면 선형 회로의 loop 방정식 설정에서는 안전함
+  caution: 회로가 복잡하면 노달 해석이 더 자연스러운 경우가 많음

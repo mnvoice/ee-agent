@@ -1,0 +1,27 @@
+concept: s-domain circuit analysis
+static_boundary: 회로이론에서 R, L, C를 s-domain 임피던스로 바꾸어 과도응답과 입력응답을 대수적으로 해석하는 방법
+formula_core:
+  - Z_R = R
+  - Z_L = sL
+  - Z_C = 1/(sC)
+dynamic_destinations:
+  - transfer function derivation
+  - initial condition analysis
+  - control system modeling
+word_roles:
+  s_domain: 시간 미분을 복소 변수 s로 옮긴 해석 공간
+  initial_condition: 에너지 저장소자가 이미 가지고 있던 상태
+  transfer_function: 입력과 출력의 s-domain 비율
+  natural_response: 외부 입력 없이 회로가 스스로 보이는 응답
+trigger_words:
+  - s영역
+  - 라플라스
+  - 전달함수
+  - 초기조건
+  - 과도응답
+memory_logic: s-domain 회로해석은 미분방정식 회로를 임피던스 회로처럼 바꾸어 과도와 주파수 성격을 함께 보게 한다.
+risk: 초기조건을 독립 전원 등가로 반영해야 하는 문제에서 단순 임피던스 치환만 하면 응답이 빠진다.
+extension_risk:
+  level: LOW
+  condition: 선형 시간불변 RLC 회로와 표준 라플라스 해석에서는 안전함
+  caution: 비선형 스위칭이나 시간변화 소자는 구간별 모델링 없이 단일 s-domain 회로로 처리하기 어려움

@@ -1,0 +1,29 @@
+concept: balanced three-phase system
+static_boundary: 회로이론에서 세 상의 크기가 같고 위상차가 120도인 3상 정상상태
+formula_core:
+  - Va + Vb + Vc = 0
+  - phase angle spacing = 120°
+  - neutral current = 0
+  - "Y connection (balanced only): V_L = sqrt(3) V_phase, I_L = I_phase"
+  - "Delta connection (balanced only): V_L = V_phase, I_L = sqrt(3) I_phase"
+dynamic_destinations:
+  - three-phase power calculation
+  - motor rotating field
+  - transmission efficiency
+word_roles:
+  balanced: 세 상이 같은 크기와 일정한 위상 간격을 갖는 상태
+  neutral: 세 상 전류의 합이 흐를 수 있는 귀로
+  phase_sequence: 상이 회전하는 순서
+  rotating_field: 3상 전류가 만드는 회전 자기장
+trigger_words:
+  - 평형
+  - 120도
+  - 중성선전류
+  - 상순
+  - 3상
+memory_logic: 평형 3상은 세 상이 서로 120도씩 밀려 있어 합은 안정되고 전달 전력은 매끄러워지는 구조다.
+risk: 평형 조건이 깨지면 중성선 전류와 상별 전압강하가 생겨 단순 3상 공식이 맞지 않을 수 있다.
+extension_risk:
+  level: LOW
+  condition: 세 상 크기와 위상 간격이 같은 표준 평형 문제에서는 안전하며, Y/Delta 선·상 관계도 같은 평형 조건에서만 성립함
+  caution: 불평형 부하나 결상 상태를 평형 공식으로 처리하면 위험함

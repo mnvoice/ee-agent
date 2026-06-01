@@ -1,0 +1,26 @@
+concept: current divider
+static_boundary: 회로이론에서 병렬 임피던스가 전체 전류를 어드미턴스 비율대로 나누는 관계
+formula_core:
+  - I1 = Itotal * Y1 / (Y1 + Y2)
+  - I1 = Itotal * R2 / (R1 + R2)
+dynamic_destinations:
+  - parallel load sharing
+  - shunt measurement
+  - protection current paths
+word_roles:
+  shunt: 전류를 우회시키는 병렬 경로
+  admittance: 전류가 흐르기 쉬운 정도
+  branch_current: 특정 병렬 가지를 흐르는 전류
+  sharing: 여러 경로가 전류를 나누는 현상
+trigger_words:
+  - 분류
+  - 병렬저항
+  - 가지전류
+  - 션트
+  - 어드미턴스
+memory_logic: 분류는 전류가 작은 저항 쪽으로 더 많이 흐른다는 직관을 식으로 고정한 것이다.
+risk: 두 저항 병렬 공식에서 자기 저항이 아니라 상대 저항이 분자에 오는 이유를 놓치면 식을 뒤집기 쉽다.
+extension_risk:
+  level: LOW
+  condition: 병렬 경로가 명확하고 각 임피던스를 알고 있을 때 안전함
+  caution: 주파수 의존 임피던스나 보호계전 경로에서는 단순 저항 분류만으로 부족할 수 있음

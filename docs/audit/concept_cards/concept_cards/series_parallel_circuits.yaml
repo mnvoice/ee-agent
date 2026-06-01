@@ -1,0 +1,27 @@
+concept: series and parallel circuits
+static_boundary: 회로이론에서 소자 연결 방식에 따라 전류 또는 전압 공유 규칙이 달라지는 구조
+formula_core:
+  - R_series = R1 + R2 + ...
+  - 1/R_parallel = 1/R1 + 1/R2 + ...
+  - C_parallel = C1 + C2 + ...
+dynamic_destinations:
+  - equivalent circuit reduction
+  - loading analysis
+  - component tolerance design
+word_roles:
+  series: 같은 전류가 흐르는 연결
+  parallel: 같은 전압이 걸리는 연결
+  equivalent: 외부 단자에서 같은 효과를 내는 값
+  branch: 전류가 갈라지는 경로
+trigger_words:
+  - 직렬
+  - 병렬
+  - 등가저항
+  - 같은 전류
+  - 같은 전압
+memory_logic: 직렬은 전류를 공유하고 병렬은 전압을 공유한다는 한 문장이 등가 계산의 출발점이다.
+risk: 회로 모양만 보고 직렬·병렬을 판단하면 안 되며 중간 노드가 연결되어 있는지 확인해야 한다.
+extension_risk:
+  level: LOW
+  condition: 이상 소자와 명확한 단자 연결에서는 안전함
+  caution: 브리지 회로나 종속전원이 끼면 단순 합성으로 줄일 수 없는 경우가 있음

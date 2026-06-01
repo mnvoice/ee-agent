@@ -1,0 +1,26 @@
+concept: voltage divider
+static_boundary: 회로이론에서 직렬 임피던스가 전체 전압을 비율대로 나누는 관계
+formula_core:
+  - Vout = Vin * Z2 / (Z1 + Z2)
+  - V_R = V_total * R / R_total
+dynamic_destinations:
+  - sensor scaling
+  - bias circuits
+  - attenuator design
+word_roles:
+  divider: 전체 전압을 일부로 나누는 구조
+  load: 분압 결과를 끌어가는 다음 회로
+  ratio: 출력이 입력의 몇 배인지 정하는 비율
+  attenuation: 신호 크기를 줄이는 동작
+trigger_words:
+  - 분압
+  - 직렬저항
+  - 출력전압
+  - 부하효과
+  - 감쇠기
+memory_logic: 분압은 전압을 만드는 공식이 아니라 직렬 경로에서 전압 몫을 계산하는 비율 언어다.
+risk: 출력에 부하가 연결되면 아래쪽 임피던스가 바뀌어 원래 분압비가 무너질 수 있다.
+extension_risk:
+  level: LOW
+  condition: 부하 임피던스가 충분히 크거나 회로에 포함해 계산하면 안전함
+  caution: ideal no-load 분압식을 실제 센서 인터페이스에 그대로 쓰면 오차가 생김

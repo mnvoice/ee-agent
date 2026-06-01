@@ -1,0 +1,27 @@
+concept: maximum power transfer
+static_boundary: 회로이론에서 선형 전원 등가 회로의 부하 전력이 최대가 되는 부하 조건
+formula_core:
+  - R_load = R_th
+  - Z_load = conjugate(Z_th)
+  - P_max = V_th^2 / (4 R_th)
+dynamic_destinations:
+  - impedance matching
+  - RF interface
+  - source-load design tradeoff
+word_roles:
+  matching: 부하와 전원 내부 성격을 맞추는 것
+  load_power: 부하가 실제로 소비하는 전력
+  source_resistance: 전원 내부에서 손실되는 저항
+  conjugate_match: 교류에서 리액턴스를 상쇄하는 정합
+trigger_words:
+  - 최대전력
+  - 부하저항
+  - 정합
+  - 내부저항
+  - 켤레복소수
+memory_logic: 최대전력전달은 효율을 최대로 하는 법이 아니라 부하가 가장 많이 받아 가게 하는 조건이다.
+risk: 최대 전력 조건은 부하 전력 최대 조건이지 효율 최대 조건이 아니며, 전원 내부 저항 손실이 커질 수 있다.
+extension_risk:
+  level: MEDIUM
+  condition: 선형 등가 전원과 특정 주파수의 임피던스 정합 문제에서는 안전함
+  caution: 전력계통 효율 설계나 고전력 송전 설계를 항상 이 조건으로 한다고 말하면 위험함

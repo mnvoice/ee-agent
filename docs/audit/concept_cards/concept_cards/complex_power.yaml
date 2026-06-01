@@ -1,0 +1,27 @@
+concept: complex power
+static_boundary: 회로이론에서 정현파 정상상태의 RMS phasor 기준으로 유효전력, 무효전력, 피상전력을 함께 표현하는 방법
+formula_core:
+  - S = P + j Q
+  - "S = V_rms I_rms*"
+  - "|S| = V_rms I_rms"
+dynamic_destinations:
+  - power factor correction
+  - power system load analysis
+  - reactive power compensation
+word_roles:
+  active_power: 실제 일을 하거나 열로 소비되는 전력
+  reactive_power: 전원과 부하 사이를 왕복하는 전력
+  apparent_power: 설비가 감당해야 하는 전압 전류 용량
+  conjugate: 전압과 전류 위상차를 전력 부호에 반영하는 처리
+trigger_words:
+  - 복소전력
+  - 유효전력
+  - 무효전력
+  - 피상전력
+  - 역률
+memory_logic: 복소전력은 실제로 쓰는 전력과 왔다 갔다 하는 전력을 한 평면에 올려 설비 부담을 보게 해준다.
+risk: Q의 부호와 유도성·용량성 해석은 기준 convention과 phasor 기준에 따라 혼동될 수 있으므로 문제의 정의를 확인해야 한다.
+extension_risk:
+  level: LOW
+  condition: 정현파 정상상태와 RMS phasor 기준 전력 해석에서는 안전함
+  caution: 비정현파 전력에서는 고조파와 왜곡전력 때문에 단순 P-Q-S 삼각형이 부족할 수 있음

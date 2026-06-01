@@ -1,0 +1,27 @@
+concept: power factor
+static_boundary: 회로이론에서 정현파 정상상태 기준 피상전력 중 유효전력으로 쓰이는 비율을 나타내는 값
+formula_core:
+  - pf = P / |S|
+  - pf = cos(phi)
+  - P = V I cos(phi)
+dynamic_destinations:
+  - capacitor compensation
+  - utility billing
+  - motor load analysis
+word_roles:
+  lagging: 유도성 부하에서 전류가 늦는 상태
+  leading: 용량성 부하에서 전류가 앞서는 상태
+  correction: 무효전력 흐름을 줄이는 보상
+  displacement: 기본파 전압과 전류의 위상 차이
+trigger_words:
+  - 역률
+  - 지상
+  - 진상
+  - 보상
+  - 무효전력
+memory_logic: 역률은 전압과 전류가 만든 전체 부담 중 실제 일로 바뀌는 비율을 말한다.
+risk: 비정현파에서는 단순 cos(phi)가 displacement power factor만 설명할 수 있어 전체 true power factor와 달라질 수 있다.
+extension_risk:
+  level: MEDIUM
+  condition: 정현파 정상상태와 기본파 위상차 중심 문제에서는 안전함
+  caution: 고조파가 큰 부하에서는 displacement power factor와 true power factor를 구분해야 함

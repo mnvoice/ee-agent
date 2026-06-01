@@ -1,0 +1,26 @@
+concept: RL transient
+static_boundary: 회로이론에서 인덕터 전류가 시간상수 L/R에 따라 증가 또는 감소하는 1차 과도응답
+formula_core:
+  - tau = L / R
+  - i_L(t) = I_final + (I_initial - I_final) e^(-t/tau)
+dynamic_destinations:
+  - relay coils
+  - motor winding response
+  - switching surge suppression
+word_roles:
+  inductor_current: 인덕터가 갑자기 바꾸지 못하는 상태량
+  time_constant: 전류 변화 속도를 정하는 시간 척도
+  back_emf: 전류 변화에 반대해 생기는 전압
+  stored_energy: 자기장에 저장된 에너지
+trigger_words:
+  - RL
+  - 인덕터
+  - 시정수
+  - 전류연속
+  - 역기전력
+memory_logic: RL 과도는 인덕터가 전류 변화를 싫어해서 최종 전류로 지수적으로 따라가는 이야기다.
+risk: 인덕터 전류는 순간적으로 변하지 않지만 인덕터 전압은 스위칭 순간 크게 튈 수 있다.
+extension_risk:
+  level: LOW
+  condition: 선형 1차 RL 회로와 등가 저항이 명확한 문맥에서는 안전함
+  caution: 코일 개방 시 과전압과 보호소자 효과를 단순 정상상태 식으로 무시하면 안 됨
