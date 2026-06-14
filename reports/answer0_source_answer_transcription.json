@@ -1,0 +1,292 @@
+{
+  "track": "answer=0 (missing-answer) official-source vision transcription",
+  "design_ref": "docs/audit/old_question_answer_source_verification_track.md",
+  "decision_ref": "DR-T35-Q2A-ANSWER-SOT-001",
+  "read_only": true,
+  "app_data_mutated": false,
+  "scope": "122 questions with stored answer==0 and a valid q_no (of 154 answer==0 total; 32 had q_no==null and are excluded as a separate data-integrity issue). All have a source PDF.",
+  "method": "Same proven pipeline as pilot-30: render 회차 solution pages, locate q_no, 8x marker crop, vision-read [답] N. 4 parallel Opus subagents split by 회차. Lead spot-checked 4 marker crops (1998_4회_5=④, 2000_6회_67=①, 2006_2회_67=②, 2014_1회_73=③) — all matched.",
+  "key_structural_finding": "Most answer==0 old questions are NOT inline-solved in the 과년도 book; they appear only as CROSS-REFERENCE pointer boxes ('문제 N → YYYY년도 X회 문제 M') with NO printed [답] marker. The official answer for those lives in the REFERENCED exam's book. Only inline-solved entries carry a marker. So answer==0 strongly correlates with 'duplicate/cross-ref or deleted entry in source book'.",
+  "summary": {
+    "total_processed": 122,
+    "readable_marker_transcribed": 22,
+    "cross_reference_only_no_marker": "~98",
+    "absent_or_deleted": [
+      "2000_6회_97",
+      "1999_6회_98",
+      "1998_6회_94",
+      "1998_6회_96"
+    ],
+    "special_markers_found": 0,
+    "confidence": "all 22 transcribed = high except 2014_1회_73 = medium (watermark)"
+  },
+  "transcribed_official_answers": [
+    {
+      "key": "1998_4회_5",
+      "source_answer": 4,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_1998_4회_5.png",
+      "note": "E=λ/(2√3πε0); [답]④. lead-spotchecked."
+    },
+    {
+      "key": "1998_6회_64",
+      "source_answer": 1,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_1998_6회_64.png",
+      "note": "신호흐름선도 Mason G=abc/(1-bd); [답]①."
+    },
+    {
+      "key": "1999_4회_48",
+      "source_answer": 1,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_1999_4회_48.png",
+      "note": "히스테리시스손 V1I0=(f/μ)πBm²Vc; [답]①."
+    },
+    {
+      "key": "1999_6회_8",
+      "source_answer": 3,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_1999_6회_8.png",
+      "note": "W∝V² 포물선; [답]③."
+    },
+    {
+      "key": "1999_6회_61",
+      "source_answer": 2,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_1999_6회_61.png",
+      "note": "[답]②."
+    },
+    {
+      "key": "1999_6회_70",
+      "source_answer": 3,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_1999_6회_70.png",
+      "note": "시퀀스 제어; [답]③."
+    },
+    {
+      "key": "2000_6회_5",
+      "source_answer": 3,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_2000_6회_5.png",
+      "note": "반발력 1A 반대방향; [답]③."
+    },
+    {
+      "key": "2000_6회_7",
+      "source_answer": 4,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_2000_6회_7.png",
+      "note": "선전하 E∝1/r; [답]④."
+    },
+    {
+      "key": "2000_6회_22",
+      "source_answer": 1,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_2000_6회_22.png",
+      "note": "랭킨사이클 순서; [답]①."
+    },
+    {
+      "key": "2000_6회_24",
+      "source_answer": 4,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_2000_6회_24.png",
+      "note": "수소냉각 옳지않은것; [답]④."
+    },
+    {
+      "key": "2000_6회_26",
+      "source_answer": 3,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_2000_6회_26.png",
+      "note": "Is=√(Y/Z)coth√ZY·Vs; [답]③."
+    },
+    {
+      "key": "2000_6회_66",
+      "source_answer": 3,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_2000_6회_66.png",
+      "note": "e^-at z변환 z/(z-e^-aT); [답]③."
+    },
+    {
+      "key": "2000_6회_67",
+      "source_answer": 1,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_2000_6회_67.png",
+      "note": "단위계단 출력파형; [답]①. lead-spotchecked."
+    },
+    {
+      "key": "2006_1회_23",
+      "source_answer": 3,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_2006_1회_23.png",
+      "note": "과전류차단기 시설 곳 아닌것; [답]③."
+    },
+    {
+      "key": "2006_2회_23",
+      "source_answer": 2,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_2006_2회_23.png",
+      "note": "T-s 선도 열사이클; [답]②."
+    },
+    {
+      "key": "2006_2회_66",
+      "source_answer": 1,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_2006_2회_66.png",
+      "note": "R-L 회로 블록선도; [답]①."
+    },
+    {
+      "key": "2006_2회_67",
+      "source_answer": 2,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_2006_2회_67.png",
+      "note": "z변환 시프트; [답]② (14x 확인). lead-spotchecked."
+    },
+    {
+      "key": "2008_2회_26",
+      "source_answer": 3,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_2008_2회_26.png",
+      "note": "동기조상기; [답]③."
+    },
+    {
+      "key": "2008_3회_21",
+      "source_answer": 3,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_2008_3회_21.png",
+      "note": "모선 방식 구분; [답]③."
+    },
+    {
+      "key": "2011_2회_73",
+      "source_answer": 2,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_2011_2회_73.png",
+      "note": "C=2W/V²=200μF; [답]② (저배율서 ④트랩, 9x확인)."
+    },
+    {
+      "key": "2011_2회_84",
+      "source_answer": 3,
+      "confidence": "high",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_2011_2회_84.png",
+      "note": "저압 옥측전선로 잘못된것; [답]③."
+    },
+    {
+      "key": "2014_1회_73",
+      "source_answer": 3,
+      "confidence": "medium",
+      "evidence_crop": "app/reports/answer0_answer_crops/_m_2014_1회_73.png",
+      "note": "감쇠비; [답]③ (워터마크 겹침). lead-spotchecked."
+    }
+  ],
+  "cross_reference_index_note": "The following answer==0 items are cross-reference pointer boxes in the 과년도 book (no marker). Redirect targets are subagent-reported (NOT lead-verified). To fill them, follow the pointer to the target exam and transcribe that exam's [답] marker.",
+  "cross_reference_index": {
+    "2000_6회_32": "2015_1_33",
+    "2000_6회_33": "2010_2_25",
+    "2000_6회_34": "2014_2_21",
+    "2000_6회_35": "2010_1_22",
+    "2000_6회_36": "2010_2_32",
+    "2000_6회_37": "2016_1_29",
+    "2000_6회_38": "2006_3_28",
+    "2000_6회_46": "2015_1_55",
+    "2000_6회_47": "2013_1_50",
+    "2000_6회_49": "2000_4_42",
+    "2000_6회_51": "2012_3_45",
+    "2000_6회_52": "2012_1_44",
+    "2000_6회_54": "2010_3_50",
+    "2000_6회_59": "2010_2_51",
+    "2000_6회_69": "2016_1_74",
+    "2000_6회_70": "2015_2_75",
+    "2000_6회_86": "2016_3_87",
+    "2000_6회_89": "2014_1_94",
+    "2000_6회_93": "2011_1_97",
+    "1999_4회_9": "2009_2_11",
+    "1999_4회_10": "2012_1_9",
+    "1999_4회_15": "2016_3_18",
+    "1999_4회_25": "2014_3_24",
+    "1999_4회_26": "2015_2_38",
+    "1999_4회_32": "2012_3_31",
+    "1999_4회_34": "2004_2_21",
+    "1999_4회_37": "2013_6_25",
+    "1999_4회_65": "2016_3_70",
+    "1999_4회_66": "2002_1_65",
+    "1999_4회_67": "2002_1_72",
+    "1999_4회_68": "2012_1_75",
+    "1999_4회_69": "2003_2_75",
+    "1999_4회_71": "2002_1_70",
+    "1999_4회_73": "2008_1_66",
+    "1999_4회_74": "2004_3_69",
+    "1999_4회_75": "2013_3_77",
+    "2006_2회_31": "2008_3_21",
+    "2006_2회_34": "2009_2_30",
+    "2006_2회_49": "2016_2_50",
+    "2006_2회_50": "2009_1_48",
+    "2006_2회_52": "2009_1_51",
+    "2006_2회_72": "2016_2_68",
+    "2006_2회_77": "2008_2_67",
+    "2006_2회_79": "2008_2_69",
+    "2006_2회_93": "2011_3_96",
+    "1999_6회_9": "?",
+    "1999_6회_10": "?",
+    "1999_6회_11": "?",
+    "1999_6회_12": "?",
+    "1999_6회_13": "?",
+    "1999_6회_15": "?",
+    "1999_6회_17": "?",
+    "1999_6회_26": "?",
+    "1999_6회_29": "?",
+    "1999_6회_32": "?",
+    "1999_6회_51": "?",
+    "1999_6회_54": "?",
+    "1999_6회_84": "?",
+    "1999_6회_86": "?",
+    "2006_1회_16": "2011_1_18",
+    "2006_1회_38": "2011_3_35",
+    "2006_1회_40": "2008_3_30",
+    "2006_1회_71": "2011_1_76",
+    "2008_2회_58": "2013_1_55",
+    "2008_2회_60": "2012_2_48",
+    "2008_3회_15": "2012_3_17",
+    "2008_3회_77": "2008_1_73",
+    "1998_4회_14": "2007_1_8",
+    "1998_4회_26": "2010_1_33",
+    "1998_4회_28": "1995_2_35?",
+    "1998_4회_30": "2002_3_24",
+    "1998_4회_32": "2006_2_13",
+    "1998_4회_39": "2011_3_33",
+    "1998_4회_43": "2014_3_45",
+    "1998_4회_44": "2002_2_47",
+    "1998_4회_47": "2012_2_48",
+    "1998_4회_51": "1998_2_41",
+    "1998_4회_53": "2003_2_47",
+    "1998_4회_55": "2012_2_52",
+    "1998_4회_58": "2002_2_47",
+    "1998_4회_59": "2006_2_41",
+    "1998_4회_67": "2013_2_76",
+    "1998_4회_78": "2012_1_70",
+    "1998_6회_11": "2011_2_2",
+    "1998_6회_12": "2015_1_5",
+    "1998_6회_13": "2012_2_17",
+    "1998_6회_14": "2015_2_11",
+    "1998_6회_15": "2016_3_1",
+    "1998_6회_16": "2012_3_15",
+    "1998_6회_41": "2009_3_49",
+    "1998_6회_43": "2005_1_41",
+    "1998_6회_57": "2002_1_42",
+    "1998_6회_59": "2010_3_52",
+    "1998_6회_66": "2013_1_80",
+    "1998_6회_68": "2016_1_74",
+    "1998_6회_72": "1999_4_64"
+  },
+  "cheap_fill_assessment": {
+    "verdict": "NOT_VIABLE_as_answer_fill",
+    "measured": "app/data/questions.v2.json (2026-06-08)",
+    "finding": "All 82 resolvable cross-ref answer=0 items are EMPTY STUB records (choices all blank; text = OCR-mangled redirect pointer; answer=0). They are not questions missing only an answer — they are content-less duplicate-pointer stubs. Filling T.answer onto them yields answer-only ghosts with no stem/choices.",
+    "link_validation_ocr_normalized": {
+      "target_resolvable": 82,
+      "X_text_redirect_confirms_subagent_target": 30,
+      "mismatch": 6,
+      "X_text_too_OCR_damaged_to_parse": 46,
+      "all_empty_stub": 82
+    },
+    "correct_next_operation": "A data-model decision: (a) DEDUP — remove the stub pointers (their canonical question exists at the target), or (b) RECONSTRUCT — copy full stem+choices+answer from the confirmed target into X. Both mutate app/data and need supervisor approval. Answer-only fill is rejected.",
+    "note_self_correction": "An initial link-validation regex falsely reported 4/5 mismatch; it failed on OCR variants (년->변, 회->희) and row-bleed in stub text. OCR-normalized re-check gives 30 confirmed / 6 mismatch / 46 unparseable. (CONSTITUTION 사례8-(바): the validator baseline was the error, not the data.)"
+  }
+}

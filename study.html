@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>필기 학습 - 전기기사</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/study.css">
+</head>
+<body>
+
+<!-- Loading -->
+<div id="loading" class="loading">
+  <span id="loading-text">로딩 중...</span>
+</div>
+
+<!-- App -->
+<div id="app" style="display:none; flex-direction:column; height:100vh;">
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <button id="btn-back" class="back-btn" aria-label="뒤로가기">&#x25C0; 목록</button>
+    <span id="q-info" class="q-info"></span>
+    <button id="btn-damaged-toggle" class="solution-btn" aria-label="손상 문제 토글">손상 제외</button>
+    <button id="solution-toggle-btn" class="solution-btn">해설</button>
+  </div>
+
+  <!-- Split Container -->
+  <div class="split-container">
+
+    <!-- Question Panel (top) -->
+    <div id="question-panel" class="question-panel"></div>
+
+    <!-- Scribble Note (Apple Pencil → text) -->
+    <div class="scribble-bar">
+      <button id="btn-scribble-toggle" class="scribble-toggle">메모 ▼</button>
+      <div id="scribble-area" class="scribble-area" style="display:none">
+        <textarea id="scribble-input" class="scribble-input" placeholder="Apple Pencil로 여기에 필기하면 텍스트로 변환됩니다" rows="3"></textarea>
+      </div>
+    </div>
+
+    <!-- Resize Handle -->
+    <div id="resize-handle" class="resize-handle" aria-label="패널 크기 조절"></div>
+
+    <!-- Canvas Panel (bottom) -->
+    <div class="canvas-panel show-grid">
+      <canvas id="draw-canvas"></canvas>
+    </div>
+
+  </div>
+
+  <!-- Tool Bar -->
+  <div class="tool-bar">
+    <button class="tool-btn pen-black active" data-tool="black" aria-label="검정 펜">&#x270F;&#xFE0F;</button>
+    <button class="tool-btn pen-red" data-tool="red" aria-label="빨강 펜">&#x1F534;</button>
+    <button class="tool-btn pen-yellow" data-tool="yellow" aria-label="형광펜">&#x1F7E1;</button>
+    <button class="tool-btn" data-tool="eraser" aria-label="지우개">&#x1FAE7;</button>
+    <button id="btn-clear" aria-label="전체 지우기">&#x1F5D1;</button>
+    <button id="btn-grid" aria-label="격자 토글">&#x25A6;</button>
+    <button id="btn-fullscreen" aria-label="전체화면">&#x26F6;</button>
+    <button class="back-to-split" aria-label="분할 복귀">&#x21A9;</button>
+    <span class="spacer"></span>
+    <div class="nav-group">
+      <button id="btn-prev" aria-label="이전 문제">&#x25C0;</button>
+      <button id="btn-next" aria-label="다음 문제">&#x25B6;</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="window.dispatchEvent(new Event('katex-ready'))"></script>
+<script type="module" src="js/study.js"></script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="전기기사">
+  <meta name="theme-color" content="#161b22">
+  <meta name="description" content="전기기사 기출문제 학습 PWA - Apple Pencil 필기 지원">
+  <title>전기기사 학습</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Apple Touch Icons (placeholder - create actual icons for production) -->
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <!-- KaTeX CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+        crossorigin="anonymous">
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===========================
+     Loading Screen
+     =========================== -->
+<div id="loading-screen" role="status" aria-live="polite" aria-label="앱 로딩 중">
+  <h1>전기기사 학습</h1>
+  <div class="progress-bar-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar-fill" id="progress-fill"></div>
+  </div>
+  <div class="loading-text">초기화 중...</div>
+</div>
+
+<!-- ===========================
+     Main App
+     =========================== -->
+<div id="app" role="application" aria-label="전기기사 학습">
+
+  <!-- Header -->
+  <header class="app-header" role="banner">
+    <h1>⚡ 전기기사</h1>
+  </header>
+
+  <!-- Content Area -->
+  <main class="app-content" id="app-content" role="main">
+
+    <!-- ALL: Home View -->
+    <div id="view-all" class="view active" role="region" aria-label="전체 문제"></div>
+
+    <!-- SUBJECT: Subject View -->
+    <div id="view-subject" class="view" role="region" aria-label="과목별"></div>
+
+    <!-- TAG: Year/Tag View -->
+    <div id="view-tag" class="view" role="region" aria-label="연도별 태그별"></div>
+
+    <!-- WRONG: Wrong Answers View -->
+    <div id="view-wrong" class="view" role="region" aria-label="오답노트"></div>
+
+    <!-- SETTINGS: Settings View -->
+    <div id="view-settings" class="view" role="region" aria-label="설정"></div>
+
+    <!-- QUESTION: Question View -->
+    <div id="view-question" class="view" role="region" aria-label="문제 풀기">
+      <div id="question-container"></div>
+    </div>
+
+  </main>
+
+  <!-- Question Navigation Bar (shown only in question view) -->
+  <nav id="q-nav-bar" class="q-nav-bar" style="display:none" role="navigation" aria-label="문제 탐색">
+    <button id="nav-prev" class="nav-btn" aria-label="이전 문제">◀ 이전</button>
+    <button id="pencil-btn" class="nav-btn pencil-btn" aria-label="필기 모드 켜기" aria-pressed="false">✏️ 필기</button>
+    <div id="nav-counter" class="nav-counter" aria-live="polite" aria-label="현재 문제 위치">1 / 1</div>
+    <button id="nav-next" class="nav-btn" aria-label="다음 문제">다음 ▶</button>
+  </nav>
+
+  <!-- Bottom Tab Bar -->
+  <nav class="tab-bar" role="tablist" aria-label="메인 탭">
+    <button class="tab-btn active" data-tab="all" role="tab" aria-selected="true" aria-controls="view-all">
+      <span class="tab-icon" aria-hidden="true">📚</span>
+      <span>전체</span>
+    </button>
+    <button class="tab-btn" data-tab="subject" role="tab" aria-selected="false" aria-controls="view-subject">
+      <span class="tab-icon" aria-hidden="true">📖</span>
+      <span>과목별</span>
+    </button>
+    <button class="tab-btn" data-tab="tag" role="tab" aria-selected="false" aria-controls="view-tag">
+      <span class="tab-icon" aria-hidden="true">🔍</span>
+      <span>태그별</span>
+    </button>
+    <button class="tab-btn" data-tab="wrong" role="tab" aria-selected="false" aria-controls="view-wrong">
+      <span class="tab-icon" aria-hidden="true">✗</span>
+      <span>오답노트</span>
+    </button>
+    <button class="tab-btn" data-tab="settings" role="tab" aria-selected="false" aria-controls="view-settings">
+      <span class="tab-icon" aria-hidden="true">⚙️</span>
+      <span>설정</span>
+    </button>
+  </nav>
+
+</div>
+
+<!-- ===========================
+     Pen Toolbar (Floating)
+     =========================== -->
+<div id="pen-toolbar" class="pen-toolbar" role="toolbar" aria-label="필기 도구">
+  <button class="pen-tool-btn black" data-tool="black" aria-label="검정 펜" title="검정 펜">●</button>
+  <button class="pen-tool-btn red" data-tool="red" aria-label="빨강 펜" title="빨강 펜">●</button>
+  <button class="pen-tool-btn yellow" data-tool="yellow" aria-label="형광펜" title="형광펜">■</button>
+  <div class="pen-toolbar-divider" role="separator"></div>
+  <button class="pen-tool-btn eraser" data-tool="eraser" aria-label="지우개" title="지우개">⊘</button>
+  <button class="pen-tool-btn clear-all" id="clear-annotation-btn" aria-label="모두 지우기">전체 삭제</button>
+  <div class="pen-toolbar-divider" role="separator"></div>
+  <button class="pen-tool-btn close-pen" id="close-pen-btn" aria-label="필기 모드 닫기" title="닫기">✕</button>
+</div>
+
+<!-- ===========================
+     Annotation Canvas
+     =========================== -->
+<canvas id="annotation-canvas" aria-hidden="true"></canvas>
+
+<!-- ===========================
+     KaTeX Scripts
+     =========================== -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+        crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+        crossorigin="anonymous"
+        onload="document.dispatchEvent(new Event('katex-ready'))"></script>
+
+<!-- ===========================
+     App Script (ES Modules)
+     =========================== -->
+<script>
+// Global error handler - show errors on screen
+window.onerror = function(msg, src, line, col, err) {
+  var d = document.createElement('div');
+  d.style.cssText = 'position:fixed;top:0;left:0;right:0;padding:16px;background:#f85149;color:white;z-index:99999;font-size:14px;white-space:pre-wrap';
+  d.textContent = 'ERROR: ' + msg + '\n' + (src||'').split('/').pop() + ':' + line;
+  document.body.appendChild(d);
+};
+window.addEventListener('unhandledrejection', function(e) {
+  var d = document.createElement('div');
+  d.style.cssText = 'position:fixed;top:0;left:0;right:0;padding:16px;background:#f0883e;color:white;z-index:99999;font-size:14px;white-space:pre-wrap';
+  d.textContent = 'PROMISE ERROR: ' + (e.reason ? (e.reason.message || e.reason) : 'unknown');
+  document.body.appendChild(d);
+});
+</script>
+<script src="js/bundle.js"></script>
+
+<script>
+  // Handle KaTeX ready event
+  document.addEventListener('katex-ready', function() {
+    window.dispatchEvent(new Event('katex-ready'));
+  });
+
+  // Fix progress bar fill animation
+  (function() {
+    const orig = document.querySelector.bind(document);
+    // Override the loading progress display
+    const observer = new MutationObserver(() => {
+      const fill = document.querySelector('.progress-bar-fill');
+      if (fill) {
+        // Connect the width to the app's progress reporting
+        fill.id = 'progress-fill';
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  })();
+</script>
+
+</body>
+</html>

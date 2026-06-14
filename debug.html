@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<title>전기기사 학습 (Debug)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="css/style.css">
+<style>#debug-log{position:fixed;top:0;left:0;right:0;background:#1a1a2e;color:#0f0;font-family:monospace;font-size:12px;padding:8px;z-index:99999;max-height:200px;overflow:auto;white-space:pre-wrap}</style>
+</head>
+<body>
+<div id="debug-log">Debug mode...</div>
+
+<div id="loading-screen" role="status">
+  <h1>전기기사 학습</h1>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill"></div></div>
+  <div class="loading-text">초기화 중...</div>
+</div>
+
+<div id="app" role="application">
+  <header class="app-header"><h1>⚡ 전기기사</h1></header>
+  <main class="app-content" id="app-content">
+    <div id="view-all" class="view active"></div>
+    <div id="view-subject" class="view"></div>
+    <div id="view-tag" class="view"></div>
+    <div id="view-wrong" class="view"></div>
+    <div id="view-settings" class="view"></div>
+    <div id="view-question" class="view"><div id="question-container"></div></div>
+  </main>
+  <nav id="q-nav-bar" class="q-nav-bar" style="display:none">
+    <button id="nav-prev" class="nav-btn">◀ 이전</button>
+    <button id="pencil-btn" class="nav-btn pencil-btn">✏️ 필기</button>
+    <div id="nav-counter" class="nav-counter">1 / 1</div>
+    <button id="nav-next" class="nav-btn">다음 ▶</button>
+  </nav>
+  <nav class="tab-bar">
+    <button class="tab-btn active" data-tab="all"><span class="tab-icon">📚</span><span>전체</span></button>
+    <button class="tab-btn" data-tab="subject"><span class="tab-icon">📖</span><span>과목별</span></button>
+    <button class="tab-btn" data-tab="tag"><span class="tab-icon">🔍</span><span>태그별</span></button>
+    <button class="tab-btn" data-tab="wrong"><span class="tab-icon">✗</span><span>오답노트</span></button>
+    <button class="tab-btn" data-tab="settings"><span class="tab-icon">⚙️</span><span>설정</span></button>
+  </nav>
+</div>
+
+<div id="pen-toolbar" class="pen-toolbar">
+  <button class="pen-tool-btn black" data-tool="black">●</button>
+  <button class="pen-tool-btn red" data-tool="red">●</button>
+  <button class="pen-tool-btn yellow" data-tool="yellow">■</button>
+  <div class="pen-toolbar-divider"></div>
+  <button class="pen-tool-btn eraser" data-tool="eraser">⊘</button>
+  <button class="pen-tool-btn clear-all" id="clear-annotation-btn">전체 삭제</button>
+  <div class="pen-toolbar-divider"></div>
+  <button class="pen-tool-btn close-pen" id="close-pen-btn">✕</button>
+</div>
+
+<canvas id="annotation-canvas"></canvas>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+<script>
+// Debug logger
+const dlog = document.getElementById('debug-log');
+function log(msg) {
+  console.log(msg);
+  dlog.textContent += '\n' + msg;
+  dlog.scrollTop = dlog.scrollHeight;
+}
+
+window.onerror = (msg, src, line) => log('ERROR: ' + msg + ' @' + (src||'').split('/').pop() + ':' + line);
+window.addEventListener('unhandledrejection', e => log('PROMISE ERROR: ' + (e.reason?.message || e.reason)));
+
+(async function() {
+  try {
+    log('1. Starting init...');
+
+    // Load data
+    log('2. Fetching questions.json...');
+    const res = await fetch('./data/questions.json');
+    log('3. HTTP ' + res.status);
+    const questions = await res.json();
+    log('4. Loaded ' + questions.length + ' questions');
+
+    // Attach IDs
+    questions.forEach(q => { q._id = q.year + '_' + q.session + '_' + q.q_no; });
+
+    // Get subjects
+    const subjectSet = new Set(questions.map(q => q.subject).filter(Boolean));
+    const subjects = Array.from(subjectSet).sort();
+    log('5. Subjects: ' + subjects.join(', '));
+
+    // Count by subject
+    const counts = {};
+    questions.forEach(q => { counts[q.subject] = (counts[q.subject] || 0) + 1; });
+    const total = questions.length;
+    log('6. Total: ' + total);
+
+    // Hide loading, show app
+    document.getElementById('loading-screen').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    log('7. App visible');
+
+    // Render all view
+    const view = document.getElementById('view-all');
+    const subjectColors = {
+      '전기자기학': '#58a6ff', '전기기기': '#3fb950', '전력공학': '#f0883e',
+      '회로이론': '#bc8cff', '전기설비기술기준': '#e3b341', '제어공학': '#79c0ff'
+    };
+
+    let html = '<div class="section-header"><h2>전체 문제</h2><span class="counter-badge">' + total.toLocaleString() + '문제</span></div>';
+    html += '<div class="grid-list">';
+    subjects.forEach(s => {
+      const c = subjectColors[s] || '#8b949e';
+      html += '<div class="grid-card" data-subject="' + s + '" style="cursor:pointer"><div class="card-title" style="color:' + c + '">' + s + '</div><div class="card-count">' + (counts[s]||0).toLocaleString() + '문제</div></div>';
+    });
+    html += '</div>';
+    view.innerHTML = html;
+    log('8. View rendered with ' + subjects.length + ' subjects');
+
+    // Tab click events
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => log('Tab clicked: ' + btn.dataset.tab));
+    });
+
+    // Subject card click - show questions
+    view.querySelectorAll('.grid-card[data-subject]').forEach(card => {
+      card.addEventListener('click', () => {
+        const subj = card.dataset.subject;
+        const filtered = questions.filter(q => q.subject === subj);
+        log('Subject: ' + subj + ' (' + filtered.length + ' questions)');
+        // Show first question
+        if (filtered.length > 0) showQ(filtered[0]);
+      });
+    });
+
+    function showQ(q) {
+      const container = document.getElementById('view-all');
+      let h = '<div style="padding:16px">';
+      h += '<button onclick="location.reload()" style="margin-bottom:12px;padding:6px 12px;background:var(--border);color:var(--text);border:none;border-radius:6px;cursor:pointer">← 돌아가기</button>';
+      h += '<div class="q-meta" style="margin-bottom:12px">';
+      h += '<span class="q-badge subject" style="color:' + (subjectColors[q.subject]||'#8b949e') + '">' + q.subject + '</span>';
+      h += '<span class="q-badge tag">' + (q.tag||'') + '</span>';
+      h += '<span class="q-badge year-session">' + q.year + '년 ' + q.session + ' Q' + q.q_no + '</span>';
+      h += '</div>';
+      h += '<div class="q-text" style="font-size:1rem;line-height:1.7;margin-bottom:16px">' + (q.text||'') + '</div>';
+      if (q.figure_svg) h += '<div style="margin:12px 0;background:white;border-radius:8px;padding:8px">' + q.figure_svg + '</div>';
+      h += '<ul style="list-style:none;padding:0">';
+      (q.choices||[]).forEach((c, i) => {
+        const isAnswer = (i+1) === q.answer;
+        h += '<li style="padding:12px;margin:6px 0;background:var(--card);border:1px solid ' + (isAnswer ? 'var(--green)' : 'var(--border)') + ';border-radius:8px;' + (isAnswer ? 'color:var(--green)' : '') + '">' + c + (isAnswer ? ' ✓' : '') + '</li>';
+      });
+      h += '</ul>';
+      if (q.steps) {
+        h += '<div style="margin-top:16px;padding:16px;background:var(--card);border-radius:8px">';
+        ['인식','변환','계산'].forEach(key => {
+          if (q.steps[key]) {
+            h += '<div style="margin-bottom:12px"><strong style="color:var(--blue)">[' + key + ']</strong><div style="margin-top:4px;line-height:1.7">' + q.steps[key] + '</div></div>';
+          }
+        });
+        h += '</div>';
+      }
+      h += '</div>';
+      container.innerHTML = h;
+
+      // Render KaTeX if available
+      if (window.renderMathInElement) {
+        try {
+          renderMathInElement(container, {
+            delimiters: [
+              {left: '\\\\[', right: '\\\\]', display: true},
+              {left: '\\\\(', right: '\\\\)', display: false},
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false}
+            ],
+            throwOnError: false
+          });
+        } catch(e) { log('KaTeX error: ' + e.message); }
+      }
+    }
+
+    log('9. DONE - all ready!');
+
+    // Hide debug log after 3 seconds
+    setTimeout(() => { dlog.style.display = 'none'; }, 3000);
+
+  } catch(e) {
+    log('FATAL: ' + e.message + '\n' + e.stack);
+  }
+})();
+</script>
+</body>
+</html>
