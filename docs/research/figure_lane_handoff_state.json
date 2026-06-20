@@ -1,0 +1,98 @@
+{
+  "schema": "figure_lane_handoff_state_v1",
+  "updated_at": "2026-06-20",
+  "branch": "feat/answer-trust-labels",
+
+  "what_is_figure_lane": "전기기사 학습앱(app/)의 풀이 그림(solution_svg, 1900건)이 문제와 왜곡 없이 맞는지를 판정하는 시스템. LLM 합의나 사람 전수 라벨이 아니라, 검증된 결정적 코드 규칙 + codex 독립 삼각 대조로 근거를 세우고, 학습앱에 reject 경고 배지를 적용했다.",
+
+  "purpose_of_this_state_file": "산문 핸드오프(.md)는 모순/오류를 담을 수 있고 다음 세션에 잘못 계승됐다(아래 handoff_prose_errors_caught 참고). 이 JSON은 figure lane의 단일 진실(상태 파일)이며, 동반 스크립트 figure_lane_handoff.py 의 불변식 가드가 이 파일과 실제 repo가 일치하는지 검증한다. Claude든 codex든 figure_lane_handoff.py 를 실행하면 figure lane 을 온전히 계승한다.",
+
+  "decision_rule": {
+    "principle": "닫히는 것(사실)만 코드로 닫고, 닫히지 않는 것(의미)은 review/hold 로 명시한다. keep 은 보수적으로 적게 낸다.",
+    "lenses": "semantic_fidelity(같은 개념이면 pass, 다른 개념 붙으면 fail), learning_value. 근거(evidence_ref)는 코드가 problem_text/figure_labels 에서 grep 으로 실재 검증(거짓 근거는 hold 로 차단).",
+    "flags": {
+      "keep": "명백히 문제와 맞음(보수적). 앱 무표시.",
+      "review": "닫히지 않는 의미 영역(보류). 현재 앱 무표시.",
+      "reject": "명백 불일치 후보(자동). 앱에서 풀이 그림 위에 노란 경고 배지."
+    },
+    "source": "docs/research/figure_lane_judgment_closure_v0_5_ko.md, docs/research/figure_lane_evidence_ledger_spec_v0_1_ko.md"
+  },
+
+  "consensus": {
+    "note": "이 섹션은 figure lane 의 HARD 합의다. 산문 핸드오프가 이 합의를 모순되게 담아 계승에 실패했으므로(통찰=금지 vs 다음단계=확대), 코드 계승의 핵심으로 여기 박는다.",
+    "golden_set_role": "사람 골든셋은 판정을 대신하지 않고 자동 판정의 일치율을 감시하는 기준(monitoring baseline)이다.",
+    "forbidden": "골든셋을 사용자가 일괄 검수해 '진짜 kappa'를 맞추거나 순도 100%를 추구하는 것 = 검증 나선 재시작 = 무한 루프 재발. 금지.",
+    "forbidden_canonical_sha16": "fd2ad65fd75a9ade",
+    "forbidden_canonical_note": "forbidden 문장을 공백 정규화(' '.join(split))한 sha256 앞16. 가드가 재계산해 일치 검증. forbidden 을 정당히 바꾸려면 이 sha 도 같이 갱신해야 한다(canonical 고정 앵커).",
+    "lazy_only": "공부하다 의심/오류를 만나면 그것만 lazy 교정한다. 일괄 선행검증 금지.",
+    "rationale": "순도 100%는 불필요(목적은 학습). 명백 오류만 걸러도 충분. 100% 추구는 새 오류를 만드는 뺑뺑이.",
+    "source": [
+      "docs/research/figure_lane_judgment_closure_v0_5_ko.md:47 (사람 라벨은 판정을 대신하지 않고 감시 기준)",
+      "docs/research/figure_lane_SESSION_HANDOFF_2026-06-20.md:35 (순도 100%는 불필요 ... 뺑뺑이)",
+      "memory: verification-spiral-done-condition (일괄 선행검증 금지, 나선 재시작)"
+    ]
+  },
+
+  "artifacts": [
+    {"path": "docs/research/figure_lane_judge.py", "role": "판정기(이식·결정적). semantic_status/auto_decide/cohen_kappa 핵심 함수 제공.", "sha256_16": "3f366bdda0b1021b"},
+    {"path": "docs/research/figure_lane_judge_questions.py", "role": "questions.json 대상 판정기. judge.py 로직 재사용.", "sha256_16": "c817184b25a1d710"},
+    {"path": "docs/research/figure_lane_blind_runner.py", "role": "codex 블라인드 배치 러너 v2(durable, 원자적 쓰기, 누적정지 게이트).", "sha256_16": "05a6c8afb3af2db7"},
+    {"path": "docs/research/figure_lane_triangulate.py", "role": "세 판정자 삼각 대조(결정적, result_sha).", "sha256_16": "3791eb28ee814518"},
+    {"path": "docs/research/figure_flags_v0_1.json", "role": "1900건 판정 상세본(list: row, qid, subject, tag, figure_flag).", "sha256_16": "f1759852ecfefa22"},
+    {"path": "app/data/figure_flags.json", "role": "1900건 판정 앱용 축약본(dict: qid->flag). 앱이 실제로 읽는 배지 소스.", "sha256_16": "8dfca45abd501622"},
+    {"path": "docs/research/figure_lane_human_golden_v0_5.json", "role": "사람 골든셋 30건(감시 기준). 판정 대상 아님.", "sha256_16": "0d0852deeca9455d"}
+  ],
+
+  "flag_distribution": {
+    "source": "app/data/figure_flags.json",
+    "total": 1900,
+    "keep": 1515,
+    "review": 249,
+    "reject": 136
+  },
+
+  "golden_set": {
+    "source": "docs/research/figure_lane_human_golden_v0_5.json",
+    "count": 30,
+    "distribution": {"keep_candidate": 11, "reject": 11, "review_before_promotion": 4, "hold_for_source_crop": 4},
+    "role": "감시 기준 — 자동 판정과의 kappa 측정용. 표본 확대·일괄 검수는 consensus.forbidden 에 따라 금지."
+  },
+
+  "app_application": {
+    "file": "app/index.html",
+    "note": "실제 앱 로직은 index.html 인라인 script. main.js/bundle.js 는 미사용.",
+    "load_grep": "fetch('./data/figure_flags.json')",
+    "map_grep": "fm[q._id]",
+    "map_note": "q_no=null 행은 figure join 격리 guard 적용(삼항). 매핑 시그니처는 fm[q._id].",
+    "badge_grep": "q.figure_flag === 'reject'",
+    "behavior": "reject 면 풀이 그림 위에 노란 경고 배지(숨김 아님 — false reject 대비). keep/review 무표시.",
+    "cache_warning": "PWA service worker(ee-study-v7) 캐시. 검증 시 unregister 필요."
+  },
+
+  "codex_connection": {
+    "cli": "npx --yes @openai/codex exec <PROMPT> -s read-only -c model_reasoning_effort=\"high\" --json",
+    "alias_warning": "alias `codex` 는 무관한 npm 패키지이니 쓰지 말 것. 반드시 `npx --yes @openai/codex`.",
+    "runner": "docs/research/figure_lane_blind_runner.py — codex 에게 코드로 판정을 시키는 배치 러너. PROMPT_HEAD 에 렌즈·근거·스키마 규약 내장.",
+    "how_to_resume": "blind_runner 는 durable: 같은 명령 재실행으로 중단 지점부터 이어진다. state/ledger 양쪽에서 done 복원."
+  },
+
+  "invariants_checked_by_code": [
+    "artifacts 의 각 파일이 실재하고 sha256 앞16자리가 일치(드리프트 감지).",
+    "app/data/figure_flags.json 분포가 flag_distribution 과 일치.",
+    "app/index.html 에 load_grep/map_grep/badge_grep 가 실재(적용 드리프트 감지).",
+    "consensus 에 golden_set_role/forbidden/lazy_only 가 모두 존재(골든셋 모순 재발 차단)."
+  ],
+
+  "open_items": [
+    {"item": "review 249건 약한 표시 추가 여부", "type": "UX 결정+구현", "lane_safe": true},
+    {"item": "도메인 사전 확장(수식 false reject, 동의어 한계)", "type": "정확도 개선", "lane_safe": true, "caution": "순도 추구로 흐르면 consensus.forbidden 위반"},
+    {"item": "데이터 위생: 본문 깨진 문제, q_type 빈값", "type": "별도 트랙", "lane_safe": true},
+    {"item": "사람 골든셋 표본 확대 → 진짜 kappa", "type": "금지", "lane_safe": false, "reason": "consensus.forbidden — 검증 나선 재시작. 핸드오프 산문 49행이 이걸 다음단계로 잘못 적었다."}
+  ],
+
+  "handoff_prose_errors_caught": [
+    "figure_lane_SESSION_HANDOFF_2026-06-20.md:26 — flags 파일명을 'figure_lane_flags_v0_1.json' 으로 적었으나 실제는 'figure_flags_v0_1.json'(figure_lane_ 접두사 없음).",
+    "figure_lane_SESSION_HANDOFF_2026-06-20.md:49 — 골든셋을 '20건'으로 적었으나 실제 figure_lane_human_golden_v0_5.json 은 30건.",
+    "figure_lane_SESSION_HANDOFF_2026-06-20.md:35 vs :49 — 통찰(순도 추구 금지)과 다음단계(골든셋 확대)가 모순. 이 모순이 다음 세션의 골든셋 검수 재제안을 유발했다."
+  ]
+}

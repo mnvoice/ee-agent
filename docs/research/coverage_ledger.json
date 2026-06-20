@@ -1,0 +1,72 @@
+{
+  "schema": "coverage_ledger_v1",
+  "total": 5331,
+  "inputs": {
+    "questions_sha16": "5e5bebf96ddb2176",
+    "answer_trust_sha16": "35d39c3fc9463872",
+    "figure_flags_sha16": "8dfca45abd501622"
+  },
+  "answer_levels": {
+    "verified": 535,
+    "self_consistent": 1734,
+    "unverified": 2114,
+    "suspect": 50,
+    "damaged": 898
+  },
+  "figure_states": {
+    "keep": 1513,
+    "review": 248,
+    "reject": 136,
+    "none": 3434
+  },
+  "lanes": {
+    "trust_closed": 2269,
+    "answer_open": 2114,
+    "answer_flagged": 50,
+    "excluded": 898
+  },
+  "crosstab": {
+    "verified": {
+      "keep": 178,
+      "review": 6,
+      "reject": 21,
+      "none": 330
+    },
+    "self_consistent": {
+      "keep": 610,
+      "review": 75,
+      "reject": 43,
+      "none": 1006
+    },
+    "unverified": {
+      "keep": 512,
+      "review": 97,
+      "reject": 57,
+      "none": 1448
+    },
+    "suspect": {
+      "keep": 18,
+      "review": 6,
+      "reject": 1,
+      "none": 25
+    },
+    "damaged": {
+      "keep": 195,
+      "review": 64,
+      "reject": 14,
+      "none": 625
+    }
+  },
+  "derived": {
+    "learnable_excl_damaged": 4433,
+    "figure_present": 1897,
+    "figure_reject_on_unverified_or_suspect": 58,
+    "identity_broken_rows": 27
+  },
+  "figure_orphans": [
+    "2002_1회_None",
+    "2005_2회_None",
+    "2007_2회_None"
+  ],
+  "note": "검증 실행 아님 — 현재 상태 측정. figure_orphans 는 qid 가 깨져(None) 어떤 문제와도 join 안 되는 figure_flags 키 — 데이터 위생 결함으로 노출."
+}
